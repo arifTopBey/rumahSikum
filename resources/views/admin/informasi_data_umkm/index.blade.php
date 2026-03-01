@@ -4,7 +4,7 @@
     <div class="">
         <div class="container mt-4">
             <div class="row px-3">
-                <div style="background: #183252" class="col-md-12 rounded-2  py-3 px-5">
+                <div style="background: #A020F0" class="col-md-12 rounded-2  py-3 px-5">
                     <div class="">
                         <h3 class="text-white">Selamat Datang di Sistem Informasi Data Tunggal UMKM(SIDT-UMKM)</h3>
                         <p style="color: #cc9125" class="fs-5 fw-semibold">Sebaran Data UMKM (Agregat)</p>
@@ -35,9 +35,9 @@
                                             </div>
                                             <div class="">
                                                 <p style="color: #183252" class="fw-semibold">Total UMKM</p>
-                                                <p style="color: #183252" class="fw-bold fs-2">4789</p>
+                                                <p style="color: #183252" class="fw-bold fs-2">{{ number_format($totalUmkm, 0, ',', '.') }}</p>
                                                 <p class="text-light text-dark">Unit Usaha</p>
-                                                <p class="text-muted">31 Desember 2025</p>
+                                                <p class="text-muted">{{ \Carbon\Carbon::now()->translatedFormat('d F Y') }}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -45,17 +45,17 @@
                                     <div class="col-md-12">
                                         <div class="row">
                                             <div class="col-md-4 px-5">
-                                                <div class="border rounded-2 py-3 px-3 shadow-lg">
+                                                <div style="min-height: 330px;" class="border rounded-2 py-3 px-3 shadow-lg">
                                                     <div
                                                         class="d-flex mb-3 px-3 py-2 bg-warning bg-opacity-10 border border-warning rounded-2">
                                                         <p class="text-warning my-auto">Usaha Mikro</p>
                                                     </div>
                                                     <div>
                                                         <p class="text-muted">Unit usaha yang hasil penjualan tahunannya sampai
-                                                            dengan paling banyak 2.000.000.000(dua miliar rupiah)</p>
-                                                    </div>
-                                                    <div>
-                                                        <p class="fw-semibold">277.999</p>
+                                                            dengan paling banyak Rp 2.000.000.000(dua miliar rupiah)</p>
+                                                        </div>
+                                                        <div>
+                                                            <p class="fw-semibold">{{ number_format($totalMicro, 0, ',', '.') }}</p>
                                                         <p class="text-muted">Unit Usaha</p>
                                                     </div>
                                                 </div>
@@ -67,11 +67,10 @@
                                                         <p class="text-dark fw-bold my-auto">Usaha Kecil</p>
                                                     </div>
                                                     <div>
-                                                        <p class="text-muted">Unit usaha yang hasil penjualan tahunannya sampai
-                                                            dengan paling banyak 2.000.000.000(dua miliar rupiah)</p>
+                                                        <p class="text-muted">Unit usaha yang hasil penjualan tahunannya lebih dari Rp 2.000.000.000 (dua miliar rupiah) sampai paling banyak Rp 15.000.000.000 (lima belas miliar rupiah)</p>
                                                     </div>
                                                     <div>
-                                                        <p class="fw-semibold">277.999</p>
+                                                        <p class="fw-semibold">{{ number_format($totalUsahaKecil, 0, ',', '.') }}</p>
                                                         <p class="text-muted">Unit Usaha</p>
                                                     </div>
                                                 </div>
@@ -83,11 +82,10 @@
                                                         <p class="text-danger my-auto">Usaha Menengah</p>
                                                     </div>
                                                     <div>
-                                                        <p class="text-muted">Unit usaha yang hasil penjualan tahunannya sampai
-                                                            dengan paling banyak 2.000.000.000(dua miliar rupiah)</p>
+                                                        <p class="text-muted">Unit usaha yang hasil penjualan tahunannya lebih dari Rp 15.000.000.000 (lima belas miliar rupiah) sampai paling banyak Rp 50.000.000.000 (lima puluh miliar rupiah)</p>
                                                     </div>
                                                     <div>
-                                                        <p class="fw-semibold">277.999</p>
+                                                        <p class="fw-semibold">{{ number_format($totalUsahaMenengah, 0, ',', '.') }}</p>
                                                         <p class="text-muted">Unit Usaha</p>
                                                     </div>
                                                 </div>
@@ -129,8 +127,8 @@
                             {{-- berdasarkan desil --}}
                             <div id="content-desil" class="p-6 bg-white shadow-sm rounded-lg tab-pane d-none py-3">
                                 <h3 class="font-bold text-gray-800 px-3">D. Sebaran Pengusaha Berdasarkan Peringkat Desil pada DTSEN</h3>
-                                <p class="text-xs text-gray-500 mb-6 px-3">Peringkat desil pada Data Tunggal Sosial Ekonomi (DTSEN)
-                                    dibagi menjadi 10 tingkat...</p>
+                                <p class="text-xs text-muted mb-6 px-3">Peringkat desil pada Data Tunggal Sosial Ekonomi (DTSEN)
+                                    dibagi menjadi 10 tingkat. Desil merupakan indikator untuk mengelompokan rumah tangga berdasarkan tingkat kesejahteraan dari yang terendah (desil 1) hingga desil tertinggi desil(10). Pemerintah menggunakan peringkat desil tersebut untuk menyalurkan bantuan sosial agar tepat sasaran, dimana desil yang paling rendah menjadi prioritas untuk mendapatkan bantuan</p>
 
                                 <div class="row mb-5">
                                     <div class="col-md-10 mx-auto">
@@ -141,7 +139,7 @@
                                             </div>
                                             <div class="">
                                                 <p style="color: #183252" class="fw-semibold">Total</p>
-                                                <p style="color: #183252" class="fw-bold fs-2">4789</p>
+                                                <p style="color: #183252" class="fw-bold fs-2">48.789</p>
                                                 <p class="text-light text-muted">Pengusaha UMKM yang memiliki informasi desil</p>
                                             </div>
                                         </div>
@@ -152,7 +150,7 @@
                                                  <div class="row px-5 border rounded-2 shadow-lg ">
                                                     <div class="col-md-10 ">
                                                         <p style="color: #183252" class="">Potensi Penerimaan Manfaat Kartu Usaha Produktif (Desil 5-10) </p>
-                                                        <p style="color: #183252" class="fw-bold fs-5">99.999</p>
+                                                        <p style="color: #183252" class="fw-bold fs-5">29.878</p>
                                                         <p style="color: #183252" class="">Pengusaha UMKM</p>
                                                         <div class="d-flex gap-1">
                                                             <div class="d-flex gap-2">
@@ -160,7 +158,7 @@
                                                                     <i style="color: #183252" class="bi bi-person-standing fs-4"></i>
                                                                 </div>
                                                                 <div class="">
-                                                                    <p class="fw-semibold text-primary ">4778777</p>
+                                                                    <p class="fw-semibold text-primary ">15.897</p>
                                                                 </div>
                                                             </div>
                                                             <div class="d-flex">
@@ -168,7 +166,7 @@
                                                                     <i class="bi bi-person-standing-dress fs-4 text-danger"></i>
                                                                 </div>
                                                                 <div class="">
-                                                                    <p class="fw-semibold text-primary">4778777</p>
+                                                                    <p class="fw-semibold text-primary">14.197</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -182,7 +180,7 @@
                                                  <div class="row px-5 border rounded-2 shadow-lg ">
                                                     <div class="col-md-10 ">
                                                         <p style="color: #183252" class="">Potensi Penerimaan Manfaat Kartu Usaha Produktif (Desil 5-10) </p>
-                                                        <p style="color: #183252" class="fw-bold fs-5">99.999</p>
+                                                        <p style="color: #183252" class="fw-bold fs-5">29.878</p>
                                                         <p style="color: #183252" class="">Pengusaha UMKM</p>
                                                         <div class="d-flex gap-1">
                                                             <div class="d-flex gap-2">
@@ -190,7 +188,7 @@
                                                                     <i style="color: #183252" class="bi bi-person-standing fs-4"></i>
                                                                 </div>
                                                                 <div class="">
-                                                                    <p class="fw-semibold text-primary ">4778777</p>
+                                                                    <p class="fw-semibold text-primary ">12.817</p>
                                                                 </div>
                                                             </div>
                                                             <div class="d-flex">
@@ -198,7 +196,7 @@
                                                                     <i class="bi bi-person-standing-dress fs-4 text-danger"></i>
                                                                 </div>
                                                                 <div class="">
-                                                                    <p class="fw-semibold text-primary">4778777</p>
+                                                                    <p class="fw-semibold text-primary">16.197</p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -219,15 +217,14 @@
                                 </div>
                             </div>
 
-
                             {{-- berdasarkan KBLI --}}
                             <div id="content-kbli" class=" rounded-lg mt-6 tab-pane d-none">
-                                <div class="p-6 bg-white shadow-sm">
+                                <div class="p-6 bg-white shadow-sm px-3 py-2">
                                     <h3 class="font-bold text-gray-800">E. Sebaran Usaha berdasarkan KBLI 2020 di KAB. TANGERANG,
                                         BANTEN
                                     </h3>
                                     <p class="text-xs text-gray-500 mb-4">Menyajikan jumlah data usaha berdasarkan Klasifikasi Baku
-                                        Lapangan Usaha Indonesia (KBLI) 2020.</p>
+                                        Lapangan Usaha Indonesia (KBLI) 2020. Untuk menentukan kategori bidang usaha yang akan dikembangkan di indonesia, Pemerintah melalui Badan Pusat Statistik (BPS) Menyusun KBLI 2020. Pada Basis Data Tunggal UMKM saat ini terdapat 17 dari 21 kategori dari KBLI 2020, yaitu kecuali Kategori A, O, T, Dan U</p>
 
                                     <div style="height: 400px; position: relative;">
                                         <div id="highlight-box"
@@ -566,6 +563,7 @@
                             </div>
                             {{-- end content --}}
 
+                            <!-- indikator usaha lainnya -->
                             <div id="content-usaha-lainnya" class="row mt-4  tab-pane d-none">
 
                                 <div class="col-md-12 ">
@@ -621,7 +619,7 @@
                                                     <canvas id="genderChart"></canvas>
                                                     <div class="position-absolute top-50 start-50 translate-middle text-center">
                                                         <span class="text-muted small">Total</span><br>
-                                                        <span class="fw-bold h5">242.315</span>
+                                                        <span class="fw-bold h5">{{ number_format($totalJenisKelamin, 0, ',', '.') }}</span>
                                                     </div>
                                                 </div>
 
@@ -629,17 +627,17 @@
                                                     <div class="d-flex align-items-center mb-1">
                                                         <span class="badge rounded-circle me-2"
                                                             style="background-color: #d4a017; width: 12px; height: 12px;">&nbsp;</span>
-                                                        Laki-Laki - 56.0%
+                                                        Laki-Laki - {{ $persenLaki }}%
                                                     </div>
                                                     <div class="d-flex align-items-center mb-1">
                                                         <span class="badge rounded-circle me-2"
                                                             style="background-color: #2b4c7e; width: 12px; height: 12px;">&nbsp;</span>
-                                                        Perempuan - 44.0%
+                                                        Perempuan - {{ $persenPerempuan }}%
                                                     </div>
                                                     <div class="d-flex align-items-center">
                                                         <span class="badge rounded-circle me-2"
                                                             style="background-color: #ff0000; width: 12px; height: 12px;">&nbsp;</span>
-                                                        Tidak Diketahui - 0.00083%
+                                                        Tidak Diketahui - {{ $persenTidak }}%
                                                     </div>
                                                 </div>
                                             </div>
@@ -678,7 +676,8 @@
                                 </div>
 
 
-                        </div>
+                            </div>
+                            <!-- indikator usaha lainnya -->
 
 
                     </div>

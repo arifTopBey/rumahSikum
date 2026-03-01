@@ -40,8 +40,8 @@
             <div class="col-lg-12">
                 <div class="table-responsive">
                 <table class="table table-bordered table-striped table-hover align-middle">
-                    <thead style="background: " class="text-center text-white">
-                        <tr style="" class="bg-primary">
+                    <thead class="text-center text-white">
+                        <tr class="bg-primary">
                             <th style="background-color: #00997a; color: white;">No</th>
                             <th style="background-color: #00997a; color: white;">NIK</th>
                             <th style="background-color: #00997a; color: white;">Nomor Badan Hukum</th>

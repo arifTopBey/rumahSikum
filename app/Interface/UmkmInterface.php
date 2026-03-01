@@ -14,4 +14,6 @@ interface UmkmInterface {
     public function getKeuangan();
 
     public function mapToDatabase(array $allData);
+
+    // public function getUmkmData($limit = 10, $page = 1);
 }

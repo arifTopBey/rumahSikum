@@ -39,7 +39,7 @@
                             @foreach ($data as $umkm )
                             {{-- @dd($umkm) --}}
                                 <tr>
-                                    <td class="text-center"><a href="{{ route('admin.umkm.detail', $umkm['id_badan_usaha']) }}" class="fs-3 text-dark text-decoration-none">:</a></td>
+                                    <td class="text-center"><a href="" class="fs-3 text-dark text-decoration-none">:</a></td>
                                     <td class="">{{ $loop->iteration }}</td>
                                     <td class="text-center">{{ $umkm[106] ?? $umkm['106'] ?? '-' }}</td>
                                     <td class="text-center">

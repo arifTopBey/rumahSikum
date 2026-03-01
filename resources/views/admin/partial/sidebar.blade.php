@@ -6,7 +6,7 @@
             <ul class="navbar-nav">
 
                 <li>
-                    <p class="fs-5 fw-semibold">Kementrian UMKM</p>
+                    <p class="fs-5 fw-semibold">DINAS KOPERASI DAN USAHA MIKRO KABUPATEN TANGERANG</p>
                 </li>
 
             </ul>
@@ -17,7 +17,7 @@
     <!--end::Header-->
 
     <!--begin::Sidebar-->
-    <aside style="background: whitesmoke;" class="app-sidebar shadow py-3" data-bs-theme="dark">
+    <aside style="background: linear-gradient(to bottom, #A020F0, #7D13E8);" class="app-sidebar shadow py-3" data-bs-theme="dark">
         <!--begin::Sidebar Brand-->
         <div class="sidebar-brand ">
             <!--begin::Brand Link-->
@@ -28,8 +28,8 @@
                 <!--end::Brand Image-->
                 <!--begin::Brand Text-->
                 <div class="ms-2 py-3">
-                    <span class="brand-text fw-bold fs-7 text-primary">KEMENTRIAN UMKM</span>
-                    <p class="fs-7 text-center fw-light text-primary">REPUBLIK INDONESIA</p>
+                    <span class="brand-text fw-bold fs-8 text-white">DINAS KOPERASI DAN USAHA MIKRO</span>
+                    <p class="fs-7 text-center fw-light text-white">KABUPATEN TANGERANG</p>
                 </div>
                 <!--end::Brand Text-->
             </a>
@@ -54,8 +54,8 @@
                     aria-label="Main navigation" data-accordion="false" id="navigation">
                     <li class="nav-item {{ Request::is('dashboard') ? 'menu-open' : '' }}">
                         <a href="#" class="nav-link {{ Request::is('dashboard') ? 'active bg-black' : '' }}">
-                            <i class="bi bi-house text-dark"></i>
-                            <p class="text-dark">
+                            <i class="bi bi-house text-white"></i>
+                            <p class="text-white">
                                 Infomasi Data UMKM
                                 <i class="nav-arrow bi bi-chevron-right"></i>
                             </p>
@@ -63,43 +63,43 @@
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="{{ route('admin.sebaran.data.umkm') }}" class="nav-link">
-                                    <i class="bi bi-dot text-dark"></i>
-                                    <p class="text-dark">Sebaran Data UMKM (Agregat)</p>
+                                    <i class="bi bi-dot text-white"></i>
+                                    <p class="text-white">Sebaran Data UMKM (Agregat)</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="" class="nav-link">
-                                    <i class="bi bi-dot text-dark"></i>
-                                    <p class="text-dark">Detail Data UMKM (BNBA)</p>
+                                    <i class="bi bi-dot text-white"></i>
+                                    <p class="text-white">Detail Data UMKM (BNBA)</p>
                                 </a>
                             </li>
                         </ul>
                     </li>
                     <li class="nav-item {{ Request::is('pembinaan*') ? 'menu-open' : '' }}">
                         <a href="#" class="nav-link {{ Request::is('pembinaan') ? 'active bg-black' : '' }}">
-                            <i class="bi bi-table text-dark"></i>
-                            <p class="text-dark">
+                            <i class="bi bi-table text-white"></i>
+                            <p class="text-white">
                                 Tabel Tabulasi UMKM
                                 <i class="nav-arrow bi bi-chevron-right"></i>
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="{{ route('admin.ukmkm.list') }}" class="nav-link {{ Request::is('pembinaan') ? 'active' : '' }}">
+                                <a href="" class="nav-link {{ Request::is('pembinaan') ? 'active' : '' }}">
                                     <i class="nav-icon bi bi-circle"></i>
-                                    <p class="text-dark">Daftar UMKM</p>
+                                    <p class="text-white">Daftar UMKM</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('admin.koperasi') }}" class="nav-link {{ Request::is('pembinaan') ? 'active' : '' }}">
+                                <a href="" class="nav-link {{ Request::is('pembinaan') ? 'active' : '' }}">
                                     <i class="nav-icon bi bi-circle"></i>
-                                    <p class="text-dark">Koperasi</p>
+                                    <p class="text-white">Koperasi</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('admin.sertifikat') }}" class="nav-link">
+                                <a href="" class="nav-link">
                                     <i class="nav-icon bi bi-circle"></i>
-                                    <p class="text-dark">sertifikat</p>
+                                    <p class="text-white">sertifikat</p>
                                 </a>
                             </li>
                         </ul>
@@ -107,15 +107,15 @@
 
                     <li class="nav-item">
                         <a href="#" class="nav-link">
-                            <i class="bi bi-box-arrow-right text-dark"></i>
-                            <p class="fs-8 text-dark">
+                            <i class="bi bi-box-arrow-right text-white"></i>
+                            <p class="fs-8 text-white">
                                 Logout
                                 <i class="nav-arrow bi bi-chevron-right"></i>
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                 <form action="" method="post">
+                                 <form action="{{ route('logout') }}" method="post">
                                     @csrf
                                     {{-- <i class="nav-icon bi bi-box-arrow-in-right"></i> --}}
 

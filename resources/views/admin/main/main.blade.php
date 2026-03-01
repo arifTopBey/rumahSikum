@@ -88,20 +88,14 @@
         @yield('content')
         <!--end::App Main-->
 
-        <!--begin::Footer-->
-        <footer class="app-footer">
-            <!--begin::To the end-->
-            <div class="float-end d-none d-sm-inline">Kementrian UMKM</div>
-            <!--end::To the end-->
-            <!--begin::Copyright-->
-            <strong>
-                Copyright &copy; 2026&nbsp;
-                <a href="https://adminlte.io" class="text-decoration-none">Kementrian UMKM</a>.
+        <footer class="app-footer text-center py-3 ">
+        
+            <strong class="text-center py-3">
+                Copyright Dinas Koperasi Dan Usaha Mikro Kabupaten Tangerang &copy; 2026&nbsp;
+                <!-- <a href="https://adminlte.io" class="text-decoration-none">Kementrian UMKM</a>. -->
             </strong>
             All rights reserved.
-            <!--end::Copyright-->
         </footer>
-        <!--end::Footer-->
     </div>
     <!--end::App Wrapper-->
 
@@ -125,19 +119,29 @@
     <script>
         // 1. Daftarkan plugin secara global
         Chart.register(ChartDataLabels);
+        const totalData = @json($identitasUsaha->count());
+        const canvas = document.getElementById('businessChart');
 
-        const ctx = document.getElementById('businessChart').getContext('2d');
+        canvas.height = totalData * 8; // ⬅ ini kuncinya
+
+        const ctx = canvas.getContext('2d');
 
         const businessChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['PASAR KEMIS', 'RAJEG', 'CIKUPA', 'TIGARAKSA', 'TELUKNAGA', 'BALARAJA', 'PANOGAN',
-                    'PAKUHAJI', 'SEPATAN', 'CURUG'
-                ],
+                // labels: ['PASAR KEMIS', 'RAJEG', 'CIKUPA', 'TIGARAKSA', 'TELUKNAGA', 'BALARAJA', 'PANOGAN',
+                //     'PAKUHAJI', 'SEPATAN', 'CURUG'
+                // ],
+                labels: @json($identitasUsaha->pluck('kecamatan')).map(item => {
+                            return item.replace(/^[0-9.]+\s*/, '');
+                        }),
                 datasets: [{
-                    data: [19967, 18213, 16390, 15390, 14390, 13390, 12390, 11390, 11290, 11190],
-                    backgroundColor: '#4a6d8c',
-                    barThickness: 25,
+                    // data: [19967, 18213, 16390, 15390, 14390, 13390, 12390, 11390, 11290, 11190],
+                    data: @json($identitasUsaha->pluck('total')),
+                    backgroundColor: '#7D13E8',
+                    barThickness: 18, 
+                    categoryPercentage: 0.5, 
+                    barPercentage: 0.7       
                 }]
             },
             options: {
@@ -187,8 +191,6 @@
         });
     </script>
     {{-- batas usaha berdasarkan wilayah --}}
-
-
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -460,11 +462,13 @@
             Chart.register(ChartDataLabels);
         }
 
+        const kbliLabels = @json($kbliChartData->pluck('kategori_kbli'));
+        // console.log(kbliLabels);
+        const kbliValues = @json($kbliChartData->pluck('total'));
+
         const ctxKbli = document.getElementById('kbliChart').getContext('2d');
 
         // Data dari gambar
-        const kbliLabels = ['G', 'I', 'S', 'C', 'H', 'E', 'J', 'N', 'F', 'L', 'P', 'Q', 'D'];
-        const kbliValues = [117191, 72802, 16075, 15121, 6038, 4783, 2821, 2125, 1819, 1591, 1304, 1123, 972];
 
         // Logika pewarnaan: 5 teratas Hijau, sisanya Biru
         const backgroundColors = kbliValues.map((value, index) =>
@@ -540,13 +544,15 @@
         }
 
         // --- 1. CHART KEPEMILIKAN NIB (PIE) ---
+        const punyaNIB = @json($punyaNIB);
+        const tidakPunyaNIB = @json($tidakPunyaNIB);
         const ctxNib = document.getElementById('nibChart').getContext('2d');
         new Chart(ctxNib, {
             type: 'pie',
             data: {
                 labels: ['Punya', 'Tidak'],
                 datasets: [{
-                    data: [5338, 240000], // Sesuaikan dengan data asli Anda
+                    data: [punyaNIB, tidakPunyaNIB], // Sesuaikan dengan data asli Anda
                     backgroundColor: ['#d4a017', '#2b4c7e'], // Warna kuning & biru tua
                     borderWidth: 0
                 }]
@@ -660,13 +666,16 @@
         };
 
         // --- 1. CHART JENIS KELAMIN ---
+        const lakiLaki = @json((int) $jenisKelamin->laki_laki);
+        const perempuan = @json((int) $jenisKelamin->perempuan);
+        const tidakDiketahui = @json((int) $jenisKelamin->tidak_diketahui);
         const ctxGender = document.getElementById('genderChart').getContext('2d');
         new Chart(ctxGender, {
             type: 'doughnut',
             data: {
                 labels: ['Laki-Laki', 'Perempuan', 'Tidak Diketahui'],
                 datasets: [{
-                    data: [135696, 106618, 1], // Data simulasi berdasarkan persentase foto
+                    data: [lakiLaki, perempuan, tidakDiketahui],
                     backgroundColor: ['#d4a017', '#2b4c7e', '#ff0000'],
                     borderWidth: 0
                 }]
