@@ -27,10 +27,12 @@ Route::middleware(['guest'])->group(function () {
 
 
 Route::middleware(['auth'])->group(function () {
-    
+
     Route::get('/sebaran-data-umkm', [DataUMKMController::class, 'index'])->name('admin.sebaran.data.umkm');  
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/list-umkm', [UmkmController::class, 'index'])->name('admin.ukmkm.list');
+    Route::get('/list-umkm/detail/{id_badan_usaha}', [UmkmController::class, 'show'])->name('admin.umkm.detail');
+
 
 });
 

@@ -25,6 +25,14 @@ class UmkmController extends Controller
         return view('admin.umkm.index', compact('data'));
     }
 
+    public function show($id_badan_usaha)
+    {
+        // $data = IdentitasUsaha::with(['usahaKarakteristik', 'laporanKeuangan', 'tenagaKerja', 'tanggalPendataan'])->findOrFail($id_badan_usaha);
+        $data = IdentitasUsaha::where('id_badan_usaha', $id_badan_usaha)->with(['laporanKeuangan'])->first();
+
+        return view('admin.umkm.show', compact('data'));
+    }
+
     // public function sebaranDataUmkm()
     // {
     //     $result = $this->umkmInterface->getUmkmData(10, 1);

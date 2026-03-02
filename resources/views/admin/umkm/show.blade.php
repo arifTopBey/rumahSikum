@@ -17,16 +17,28 @@
                     class="col-md-10 mx-auto shadow-lg border py-2 rounded-2 d-flex justify-content-between">
                     <div class="d-flex flex-column justify-content-center">
 
-                        <div class="d-flex mb-3 px-3 py-2 bg-warning bg-opacity-10 border border-warning rounded-2">
-                            <p class="text-warning my-auto">Usaha Mikro</p>
-                        </div>
-                        @php
-                            $phone = $data->{'109e'} ?? $data->{'309b'} ?? '';
-                            $maskedPhone = substr($phone, 0, 4) . str_repeat('*', strlen($phone) - 4);
-                        @endphp
+                         @if( $data->laporanKeuangan->omzet_usaha <= 2000000)
+                            <div
+                                class="d-flex mb-3 px-3 py-2 bg-warning bg-opacity-10 border border-warning rounded-2">
+                                <p class="text-warning my-auto">Usaha Mikro</p>
+                            </div>
+
+
+                        @elseif( $data->laporanKeuangan->omzet_usaha > 2000000 && $data->laporanKeuangan->omzet_usaha <= 15000000)
+                            <div class="d-flex mb-3 px-3 py-2 bg-primary bg-opacity-10 border border-primary rounded-2">
+                                <p class="text-primary my-auto">Usaha Kecil</p>
+                            </div>
+
+                        @else
+                            <div
+                                class="d-flex mb-3 px-3 py-2 bg-danger bg-opacity-10 border border-danger rounded-2">
+                                <p class="text-danger my-auto">Usaha Menengah</p>
+                            </div>
+                        @endif
+                       
                         <div class="">
-                            <h5>{{ $data->{'301'} }}</h5>
-                            <p>{{ $data->{'301'} }} {{ $maskedPhone }}</p>
+                            <h5>{{ $data->nama_lengkap_usaha }}</h5>
+                            <p>{{ $data->nama_lengkap_usaha }} {{ $data->telepon }}</p>
                             <p>Sumber Data web</p>
                         </div>
 
@@ -87,7 +99,7 @@
                             <p class="text-muted">Omset Usaha</p>
                         </div>
                         <div class="col-md-9">
-                            <p class="fw-bold">Rp {{ number_format((float)($data->{'1102a'} ?? 0), 0, ',', '.') }}</p>
+                            <p class="fw-bold">Rp {{ number_format((float)($data->laporanKeuangan->omzet_usaha ?? 0), 0, ',', '.') }}</p>
                         </div>
 
                     </div>
@@ -190,26 +202,26 @@
                             <p class="text-muted">Provinsi</p>
                         </div>
                         <div class="col-md-9">
-                            <p class="fw-bold">{{ preg_replace('/^[0-9.]+\s+/', '', $data->{'308a'} ?? '') }}</p>
+                            <p class="fw-bold">{{ preg_replace('/^[0-9.]+\s+/', '', $data->provinsi ?? '') }}</p>
                         </div>
                         <div class="col-md-3">
                             <p class="text-muted">Kabupaten</p>
                         </div>
                         <div class="col-md-9">
-                            <p class="fw-bold">{{ preg_replace('/^[0-9.]+\s+/', '', $data->{'308b'} ?? '') }}</p>
+                            <p class="fw-bold">{{ preg_replace('/^[0-9.]+\s+/', '', $data->kabupaten ?? '') }}</p>
                         </div>
                         <div class="col-md-3">
                             <p class="text-muted">Kelurahan</p>
                         </div>
                         <div class="col-md-9">
                             {{-- 308d --}}
-                            <p class="fw-bold">{{ preg_replace('/^[0-9.]+\s+/', '', $data->{'308d'} ?? '') }}</p>
+                            <p class="fw-bold">{{ preg_replace('/^[0-9.]+\s+/', '', $data->kelurahan ?? '') }}</p>
                         </div>
                         <div class="col-md-3">
                             <p class="text-muted">Alamat Lengkap</p>
                         </div>
                         <div class="col-md-9">
-                            <p class="fw-bold">{{ preg_replace('/^[0-9.]+\s+/', '', $data->{'109a'} ?? '') }}</p>
+                            <p class="fw-bold">{{ preg_replace('/^[0-9.]+\s+/', '', $data->alamat_lengkap?? '') }}</p>
                         </div>
                         <div class="col-md-3">
                             <p class="text-muted">Geotaging</p>
