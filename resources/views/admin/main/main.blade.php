@@ -296,30 +296,19 @@
             Chart.register(ChartDataLabels);
         }
 
+        const clusterLabelsData = @json($cluster->pluck('kluster'));
+        const clusterCountsData = @json($cluster->pluck('total'));
         const ctxCluster = document.getElementById('clusterChart').getContext('2d');
 
-        // Data dari gambar kedua
-        const clusterLabels = [
-            'PARIWISATA',
-            'KULINER',
-            'HANDICRAFT',
-            'PERTAMBANGAN, ENERGI & ENERGI TERBARUKAN',
-            'MBG(MAKAN BERGIZI GRATIS)',
-            'PERUMAHAN RAKYAT',
-            'KESEHATAN DAN KECANTIKAN',
-            'INDUSTRI OLAHRAGA',
-            'SEKTOR SUPPLY CHAIN OTOMOTIF'
-        ];
-        const clusterValues = [89543, 57564, 2764, 909, 906, 691, 372, 18, 4];
 
         const clusterChart = new Chart(ctxCluster, {
             type: 'bar',
             data: {
-                labels: clusterLabels,
+                labels: clusterLabelsData,
                 datasets: [{
-                    data: clusterValues,
-                    backgroundColor: '#4a6d8c',
-                    borderRadius: 5, // Membuat ujung bar sedikit membulat
+                    data: clusterCountsData,
+                    backgroundColor: '#7D13E8',
+                    borderRadius: 5, 
                     barThickness: 15,
                 }]
             },
@@ -586,16 +575,34 @@
         });
 
         // --- 2. CHART METODE PEMASARAN (VERTICAL BAR) ---
+        const pemasaranLabels = [
+                'Toko Sendiri',
+                'Titip Jual',
+                'Reseller',
+                'Distributor',
+                'Marketplace',
+                'Media Sosial',
+                'Lainnya'
+            ];
+
+    const pemasaranValues = [
+            {{ (int) $pemasaran->toko_sendiri }},
+            {{ (int) $pemasaran->titip_jual }},
+            {{ (int) $pemasaran->reseller }},
+            {{ (int) $pemasaran->distributor }},
+            {{ (int) $pemasaran->marketplace }},
+            {{ (int) $pemasaran->media_sosial }},
+            {{ (int) $pemasaran->lainnya }}
+        ];
+
         const ctxPemasaran = document.getElementById('pemasaranChart').getContext('2d');
         new Chart(ctxPemasaran, {
             type: 'bar',
             data: {
-                labels: ['Non Digital (Pasar)', 'Digital (E-Commerce)', 'Lainnya', 'Perantara', 'Vendor Prov',
-                    'Vendor Pusat'
-                ],
+                labels: pemasaranLabels,
                 datasets: [{
-                    data: [160166, 23039, 6883, 2118, 8, 4],
-                    backgroundColor: '#4a6d8c',
+                    data: pemasaranValues,
+                    backgroundColor: '#7D13E8',
                     borderRadius: 5,
                     barThickness: 40
                 }]
@@ -603,6 +610,11 @@
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                layout: {
+                    padding: {
+                        top: 30   // kasih ruang di atas
+                    }
+                },
                 plugins: {
                     legend: {
                         display: false
@@ -684,13 +696,20 @@
         });
 
         // --- 2. CHART TENAGA KERJA ---
+        const laborData = [
+                    {{ $tenagaKerja->dibayar ?? 0 }},
+                    {{ $tenagaKerja->tidak_dibayar ?? 0 }}
+            ];
+
+        const totalLabor = {{ $totalTenagaKerja ?? 0 }};
+
         const ctxLabor = document.getElementById('laborChart').getContext('2d');
         new Chart(ctxLabor, {
             type: 'doughnut',
             data: {
                 labels: ['Dibayar', 'Tidak Dibayar'],
                 datasets: [{
-                    data: [104412, 243628], // Data simulasi (30% vs 70%)
+                    data: laborData, 
                     backgroundColor: ['#d4a017', '#2b4c7e'],
                     borderWidth: 0
                 }]

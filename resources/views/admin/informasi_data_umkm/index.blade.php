@@ -597,12 +597,12 @@
                                         </div>
 
                                         <div class="col-md-8">
-                                            <div class="card h-100 border-0 shadow-sm p-3">
+                                            <div class="card border-0 shadow-sm p-3">
                                                 <h6 class="fw-bold">Metode Pemasaran Usaha</h6>
                                                 <p class="text-muted small">Data agregasi UMKM berdasarkan metode pemasarannya.</p>
 
-                                                <div style="height: 300px;">
-                                                    <canvas id="pemasaranChart"></canvas>
+                                                <div style="height: 330px;">
+                                                    <canvas id="pemasaranChart" ></canvas>
                                                 </div>
                                             </div>
                                         </div>
@@ -653,20 +653,30 @@
                                                     <canvas id="laborChart"></canvas>
                                                     <div class="position-absolute top-50 start-50 translate-middle text-center">
                                                         <span class="text-muted small">Total</span><br>
-                                                        <span class="fw-bold h5">348.040</span>
+                                                        <span class="fw-bold h5">{{ number_format($totalTenagaKerja, 0, ',', '.') }}</span>
                                                     </div>
                                                 </div>
 
                                                 <div class="mt-3 small">
+                                                    @php
+                                                        $persenDibayar = $totalTenagaKerja > 0
+                                                            ? ($tenagaKerja->dibayar / $totalTenagaKerja) * 100
+                                                            : 0;
+
+                                                        $persenTidakDibayar = $totalTenagaKerja > 0
+                                                            ? ($tenagaKerja->tidak_dibayar / $totalTenagaKerja) * 100
+                                                            : 0;
+                                                    @endphp
+
                                                     <div class="d-flex align-items-center mb-1">
                                                         <span class="badge rounded-circle me-2"
                                                             style="background-color: #d4a017; width: 12px; height: 12px;">&nbsp;</span>
-                                                        Dibayar - 30.0%
+                                                        Dibayar - {{ number_format($persenDibayar, 1) }}%
                                                     </div>
                                                     <div class="d-flex align-items-center">
                                                         <span class="badge rounded-circle me-2"
                                                             style="background-color: #2b4c7e; width: 12px; height: 12px;">&nbsp;</span>
-                                                        Tidak Dibayar - 70.0%
+                                                        Tidak Dibayar - {{ number_format($persenTidakDibayar, 1) }}%
                                                     </div>
                                                 </div>
                                             </div>

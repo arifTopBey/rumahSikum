@@ -11,41 +11,60 @@ use Illuminate\Support\Facades\DB;
 class DataUMKMController extends Controller
 {
 
-    Protected $umkmRepo;
+    protected $umkmRepo;
 
     public function __construct(UmkmInterface $umkmRepo)
     {
         $this->umkmRepo = $umkmRepo;
     }
-    public function index(){
+    public function index()
+    {
 
         // $data = $this->umkmRepo->getKeuangan();
 
         $data = $this->umkmRepo->getData(10, 1, 1);
-        $totalUmkm = $data['meta']['total_data'] ?? 0; 
+        $totalUmkm = $data['meta']['total_data'] ?? 0;
 
         //=============== point b indentisas berdasarkan wilayah =======================
         $identitasUsaha = IdentitasUsaha::select(
             'kecamatan',
             DB::raw('COUNT(*) as total')
         )
-        ->groupBy('kecamatan')
-        ->orderByDesc('total')
-        ->get();
-        
+            ->groupBy('kecamatan')
+            ->orderByDesc('total')
+            ->get();
+
         $totalMicro = LaporanKeuangan::where('omzet_usaha', '<=', 2000000)->count();
         $totalUsahaKecil = LaporanKeuangan::whereBetween('omzet_usaha', [2000000, 15000000])->count();
         $totalUsahaMenengah = LaporanKeuangan::whereBetween('omzet_usaha', [15000000, 50000000])->count();
         // ================= batas point b identisas berdasarkan wilayah =====================
 
+        // =============== point c karakteristik usaha berdasarkan kbli =======================
+        $cluster = DB::table('usaha_karakteristik')
+            ->selectRaw("
+                CASE 
+                    WHEN LEFT(kode_kbli,2) IN ('10','56') THEN 'Kuliner'
+                    WHEN LEFT(kode_kbli,2) IN ('46','47') THEN 'Perdagangan'
+                    WHEN LEFT(kode_kbli,2) IN ('20','23','25') THEN 'Industri'
+                    WHEN LEFT(kode_kbli,2) IN ('77','95') THEN 'Jasa'
+                    WHEN LEFT(kode_kbli,2) IN ('01') THEN 'Pertanian'
+                    ELSE 'Lainnya'
+                END as kluster,
+                COUNT(*) as total
+            ")
+            ->whereNotNull('kode_kbli')
+            ->groupBy('kluster')
+            ->orderByDesc('total')
+            ->get();
+        // ============== batas point c karakteristik usaha berdasarkan kbli ==================
 
         //=========== data kbli ================ 
         $kbliChartData = DB::table('usaha_karakteristik')
-        ->selectRaw('LEFT(kode_kbli,1) as kategori_kbli, COUNT(*) as total')
-        ->whereNotNull('kode_kbli')
-        ->groupBy(DB::raw('LEFT(kode_kbli,1)'))
-        ->orderByDesc('total')
-        ->get();
+            ->selectRaw('LEFT(kode_kbli,1) as kategori_kbli, COUNT(*) as total')
+            ->whereNotNull('kode_kbli')
+            ->groupBy(DB::raw('LEFT(kode_kbli,1)'))
+            ->orderByDesc('total')
+            ->get();
         // =========== batas data kbli =============
 
         // ========= data usaha lainnya ===========
@@ -55,13 +74,13 @@ class DataUMKMController extends Controller
             ->count();
 
         $tidakPunyaNIB = DB::table('usaha_karakteristik')
-            ->where(function($q){
+            ->where(function ($q) {
                 $q->whereNull('nomor_induk_berusaha')
-                // ->orWhere('nomor_induk_berusaha', '')
+                    // ->orWhere('nomor_induk_berusaha', '')
                 ;
             })->count();
 
-            $jenisKelamin = DB::table('identitas_pengusaha')
+        $jenisKelamin = DB::table('identitas_pengusaha')
             ->selectRaw("
                 SUM(CASE WHEN status_pengusaha = 1 THEN 1 ELSE 0 END) as laki_laki,
                 SUM(CASE WHEN status_pengusaha = 2 THEN 1 ELSE 0 END) as perempuan,
@@ -69,29 +88,76 @@ class DataUMKMController extends Controller
                     WHEN status_pengusaha NOT IN (1,2) OR status_pengusaha IS NULL 
                     THEN 1 ELSE 0 END
                 ) as tidak_diketahui")->first();
-            $totalJenisKelamin = 
-                $jenisKelamin->laki_laki +
-                $jenisKelamin->perempuan +
-                $jenisKelamin->tidak_diketahui;
+        $totalJenisKelamin =
+            $jenisKelamin->laki_laki +
+            $jenisKelamin->perempuan +
+            $jenisKelamin->tidak_diketahui;
 
-            $persenLaki = $totalJenisKelamin > 0 
-                ? round(($jenisKelamin->laki_laki / $totalJenisKelamin) * 100, 1) 
-                : 0;
+        $persenLaki = $totalJenisKelamin > 0
+            ? round(($jenisKelamin->laki_laki / $totalJenisKelamin) * 100, 1)
+            : 0;
 
-            $persenPerempuan = $totalJenisKelamin > 0 
-                ? round(($jenisKelamin->perempuan / $totalJenisKelamin) * 100, 1) 
-                : 0;
+        $persenPerempuan = $totalJenisKelamin > 0
+            ? round(($jenisKelamin->perempuan / $totalJenisKelamin) * 100, 1)
+            : 0;
 
-            $persenTidak = $totalJenisKelamin > 0 
-                ? round(($jenisKelamin->tidak_diketahui / $totalJenisKelamin) * 100, 2) 
-                : 0;
+        $persenTidak = $totalJenisKelamin > 0
+            ? round(($jenisKelamin->tidak_diketahui / $totalJenisKelamin) * 100, 2)
+            : 0;
+
+        // tenaga kerja
+       $tenagaKerja = DB::table('tenagaKerja')
+            ->selectRaw("
+                SUM(
+                    CASE 
+                        WHEN total_pembayaran_upah > 0 
+                        THEN total_tenaga_kerja 
+                        ELSE 0 
+                    END
+                ) as dibayar,
+
+                SUM(
+                    CASE 
+                        WHEN total_pembayaran_upah IS NULL 
+                            OR total_pembayaran_upah = 0
+                        THEN total_tenaga_kerja 
+                        ELSE 0 
+                    END
+                ) as tidak_dibayar
+            ")
+        ->first();
+
+        $totalTenagaKerja =
+            ($tenagaKerja->dibayar ?? 0) +
+            ($tenagaKerja->tidak_dibayar ?? 0);
+
+
+        // pemasaran dan produksi
+        $pemasaran = DB::table('usaha_produksi_pemasaran')
+            ->selectRaw("
+                SUM(pemasaran_toko_sendiri) as toko_sendiri,
+                SUM(pemasaran_titip_jual) as titip_jual,
+                SUM(pemasaran_reseller) as reseller,
+                SUM(pemasaran_distributor) as distributor,
+                SUM(pemasaran_marketplace) as marketplace,
+                SUM(pemasaran_media_sosial) as media_sosial,
+                SUM(pemasaran_lainnya) as lainnya
+            ")
+            ->first();
         // ========= batas data usaha lainnya ===========
 
-        return view('admin.informasi_data_umkm.index',
-         compact('data', 'totalUmkm', 'identitasUsaha', 'totalMicro', 'totalUsahaKecil', 'totalUsahaMenengah', 'kbliChartData', 'punyaNIB', 'tidakPunyaNIB','totalJenisKelamin', 'jenisKelamin','persenLaki', 'persenPerempuan', 'persenTidak'));
+        return view(
+            'admin.informasi_data_umkm.index',
+            compact(
+                'data', 'totalUmkm', 'identitasUsaha', 'totalMicro', 'cluster',
+                'totalUsahaKecil', 'totalUsahaMenengah', 'kbliChartData', 'punyaNIB', 'tidakPunyaNIB', 
+                'totalJenisKelamin', 'jenisKelamin', 'persenLaki', 'persenPerempuan', 'persenTidak',
+                'tenagaKerja', 'totalTenagaKerja', 'pemasaran')
+        );
     }
 
-    public function list_umkm(){
+    public function list_umkm()
+    {
 
         $data = $this->umkmRepo->getData(10, 1, 1);
         $data = $data['data'];

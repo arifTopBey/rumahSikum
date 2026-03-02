@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TenagaKerja extends Model
 {
-    protected $table = 'tenagakerja'; // Gunakan block 1 sebagai tabel dasar
+    protected $table = 'tenagakerja'; 
     protected $primaryKey = 'id_data_badan_usaha';
     public $incrementing = false;
     protected $keyType = 'int';
