@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Interface\AuthInterface;
+use App\Interface\UmkmDataInterface;
+use App\Repository\UmkmDataRepositoryInterface;
 use App\Interface\UmkmInterface;
 use App\Repository\AuthRepositoryInterface;
 use App\Repository\UmkmRepositoryInterface;
@@ -17,6 +19,7 @@ class RepositoryServiceProvider extends ServiceProvider
     {
         $this->app->bind(UmkmInterface::class, UmkmRepositoryInterface::class);
         $this->app->bind(AuthInterface::class, AuthRepositoryInterface::class);
+        $this->app->bind(UmkmDataInterface::class, UmkmDataRepositoryInterface::class);
     }
 
     /**

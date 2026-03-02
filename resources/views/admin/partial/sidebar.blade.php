@@ -85,7 +85,7 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="" class="nav-link {{ Request::is('pembinaan') ? 'active' : '' }}">
+                                <a href="{{route('admin.ukmkm.list')}}" class="nav-link {{ Request::is('pembinaan') ? 'active' : '' }}">
                                     <i class="nav-icon bi bi-circle"></i>
                                     <p class="text-white">Daftar UMKM</p>
                                 </a>

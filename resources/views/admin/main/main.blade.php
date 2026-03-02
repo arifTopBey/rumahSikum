@@ -115,6 +115,107 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
     {{-- chart cdn --}}
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const sidebarWrapper = document.querySelector(".sidebar-wrapper");
+            if (sidebarWrapper && typeof OverlayScrollbarsGlobal?.OverlayScrollbars !== "undefined") {
+                OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
+                    scrollbars: {
+                        theme: "os-theme-light",
+                        autoHide: "leave",
+                        clickScroll: true,
+                    },
+                });
+            }
+        });
+
+        // row per pages
+        //     document.getElementById('rowPerPage').addEventListener('change', function() {
+        //     const rowPerPage = this.value;
+        //     const url = new URL(window.location.href);
+
+        //     // Update atau tambah parameter row_per_page
+        //     url.searchParams.set('row_per_page', rowPerPage);
+
+        //     // Reset ke halaman 1 setiap kali jumlah baris berubah agar tidak error
+        //     url.searchParams.set('page', 1);
+
+        //     // Pindah ke URL baru
+        //     window.location.href = url.href;
+        // });
+    </script>
+
+     <!--end::Script-->
+
+    {{-- delete cdn --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {{-- <script>
+        function confirmDelete(id, name) {
+            Swal.fire({
+                title: 'Hapus Data?',
+                text: "Data " + name + " akan dihapus permanen",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Ya, Hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Jika user klik 'Ya', submit form-nya
+                    document.getElementById('delete-form-' + id).submit();
+                }
+            })
+        }
+
+        </script>
+        @if (session('success'))
+            <script>
+                Swal.fire({
+                    title: 'Berhasil!',
+                    text: "{{ session('success') }}",
+                    icon: 'success',
+                    timer: 4000, // Hilang otomatis dalam 3 detik
+                    showConfirmButton: false
+                });
+            </script>
+        @endif --}}
+
+    <script>
+        function bukaTab(evt, tabName) {
+            // 1. Sembunyikan semua konten
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-pane");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.add("d-none");
+                tabcontent[i].classList.remove("active");
+            }
+
+            // 2. Hilangkan class 'active' dan styling kuning dari semua tombol navigasi
+            tablinks = document.getElementsByClassName("nav-link");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+                // Hapus background kuning dari parent <ol> jika perlu
+                tablinks[i].parentElement.classList.remove("bg-secondary", "bg-opacity-10", "border-start", "border-4",
+                    "border-warning");
+            }
+
+            // 3. Tampilkan konten yang dipilih
+            document.getElementById(tabName).classList.remove("d-none");
+            document.getElementById(tabName).classList.add("active");
+
+            // 4. Tambahkan class active ke tombol yang diklik
+            evt.currentTarget.classList.add("active");
+
+            // 5. Opsional: Tambahkan border kuning ke parent <ol> yang sedang aktif
+            evt.currentTarget.parentElement.classList.add("bg-secondary", "bg-opacity-10", "border-start", "border-4",
+                "border-warning");
+        }
+    </script>
+
+    @if (Request::is('sebaran-data-umkm'))
+       
+        
     {{-- usaha berdasarkan wilayah --}}
     <script>
         // 1. Daftarkan plugin secara global
@@ -192,102 +293,6 @@
     </script>
     {{-- batas usaha berdasarkan wilayah --}}
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const sidebarWrapper = document.querySelector(".sidebar-wrapper");
-            if (sidebarWrapper && typeof OverlayScrollbarsGlobal?.OverlayScrollbars !== "undefined") {
-                OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
-                    scrollbars: {
-                        theme: "os-theme-light",
-                        autoHide: "leave",
-                        clickScroll: true,
-                    },
-                });
-            }
-        });
-
-        // row per pages
-        //     document.getElementById('rowPerPage').addEventListener('change', function() {
-        //     const rowPerPage = this.value;
-        //     const url = new URL(window.location.href);
-
-        //     // Update atau tambah parameter row_per_page
-        //     url.searchParams.set('row_per_page', rowPerPage);
-
-        //     // Reset ke halaman 1 setiap kali jumlah baris berubah agar tidak error
-        //     url.searchParams.set('page', 1);
-
-        //     // Pindah ke URL baru
-        //     window.location.href = url.href;
-        // });
-    </script>
-    <!--end::Script-->
-
-    {{-- delete cdn --}}
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    {{-- <script>
-        function confirmDelete(id, name) {
-            Swal.fire({
-                title: 'Hapus Data?',
-                text: "Data " + name + " akan dihapus permanen",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Ya, Hapus!',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Jika user klik 'Ya', submit form-nya
-                    document.getElementById('delete-form-' + id).submit();
-                }
-            })
-        }
-
-        </script>
-        @if (session('success'))
-            <script>
-                Swal.fire({
-                    title: 'Berhasil!',
-                    text: "{{ session('success') }}",
-                    icon: 'success',
-                    timer: 4000, // Hilang otomatis dalam 3 detik
-                    showConfirmButton: false
-                });
-            </script>
-        @endif --}}
-
-    <script>
-        function bukaTab(evt, tabName) {
-            // 1. Sembunyikan semua konten
-            var i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tab-pane");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].classList.add("d-none");
-                tabcontent[i].classList.remove("active");
-            }
-
-            // 2. Hilangkan class 'active' dan styling kuning dari semua tombol navigasi
-            tablinks = document.getElementsByClassName("nav-link");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].classList.remove("active");
-                // Hapus background kuning dari parent <ol> jika perlu
-                tablinks[i].parentElement.classList.remove("bg-secondary", "bg-opacity-10", "border-start", "border-4",
-                    "border-warning");
-            }
-
-            // 3. Tampilkan konten yang dipilih
-            document.getElementById(tabName).classList.remove("d-none");
-            document.getElementById(tabName).classList.add("active");
-
-            // 4. Tambahkan class active ke tombol yang diklik
-            evt.currentTarget.classList.add("active");
-
-            // 5. Opsional: Tambahkan border kuning ke parent <ol> yang sedang aktif
-            evt.currentTarget.parentElement.classList.add("bg-secondary", "bg-opacity-10", "border-start", "border-4",
-                "border-warning");
-        }
-    </script>
 
     {{-- usaha berdasarkan culuster --}}
     <script>
@@ -718,6 +723,8 @@
         });
     </script>
     {{-- batas usaha lainnya --}}
+    @endif
+
 </body>
 <!--end::Body-->
 

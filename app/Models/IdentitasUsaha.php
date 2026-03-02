@@ -25,6 +25,19 @@ class IdentitasUsaha extends Model
         return $this->hasOne(TenagaKerja::class, 'id_data_badan_usaha', 'id_badan_usaha');
     }
 
+    public function laporanKeuangan()
+    {
+        return $this->hasOne(LaporanKeuangan::class, 'id_badan_usaha', 'id_badan_usaha');
+    }
+
+    public function scopeSearch($query, array $filters){
+        $query->when($filters['search'] ?? false, function($query, $search){
+            return  $query->where('nama_lengkap_usaha', 'like', '%' . $search . '%')
+                ->orWhere('alamat_lengkap', 'like' , '%' . $search .'%')
+                ->orWhere('telpon', 'like' , '%' . $search .'%');
+        });
+    }
+
     
 
 }
