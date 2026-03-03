@@ -237,6 +237,14 @@
 
                 let skala = this.dataset.skala;
 
+                let titleMap = {
+                    mikro: "Data Usaha Mikro",
+                    kecil: "Data Usaha Kecil",
+                    menengah: "Data Usaha Menengah"
+                };
+
+                document.getElementById('skalaTitle').innerText = titleMap[skala];
+
                 loadTable(`/filter-skala?skala=${skala}`);
             });
         });
@@ -306,6 +314,8 @@
 
                         const index = elements[0].index;
                         const kecamatan = this.data.labels[index];
+                        document.getElementById('detailTitle').innerText =
+                        "Data UMKM Kecamatan " + kecamatan;
 
                         loadWilayah(`/filter-wilayah?kecamatan=${encodeURIComponent(kecamatan)}`);
                     }
@@ -640,6 +650,9 @@
                         const index = elements[0].index;
                         const label = this.data.labels[index];
 
+                        document.getElementById('detailTitle').innerText =
+                        "Data UMKM - NIB " + label;
+
                         loadNIB(`/filter-nib?status=${label}`);
                     }
                 },
@@ -764,7 +777,8 @@
                 if (elements.length > 0) {
                     const index = elements[0].index;
                     const label = this.data.labels[index];
-
+                     document.getElementById('detailTitle').innerText =
+                    "Data Pengusaha - " + label;
                     loadGender(`/filter-gender?gender=${label}`);
                     }
             },
@@ -825,6 +839,8 @@
                     if (elements.length > 0) {
                         const index = elements[0].index;
                         const label = this.data.labels[index];
+                        document.getElementById('detailTitle').innerText =
+                        "Data Tenaga Kerja - " + label;
 
                         loadLabor(`/filter-tenaga-kerja?status=${label}`);
                     }

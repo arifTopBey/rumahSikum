@@ -72,6 +72,9 @@
         </div>
         <div class="row">
             <div class="col-md-12">
+                
+                <h4 id="skalaTitle" class="fw-bold text-primary mb-3 mt-5"></h4>
+
                 <div id="tableContainer" class="mt-4">
 
                 </div>

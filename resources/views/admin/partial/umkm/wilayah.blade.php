@@ -9,6 +9,8 @@
 <canvas id="businessChart"></canvas>
 <div class="row">
     <div class="col-md-12">
+        <h4 id="detailTitle" class="fw-bold text-primary mb-3 mt-5"></h4>
+
         <div id="tableContainerWilayah" class="mt-4">
 
         </div>
