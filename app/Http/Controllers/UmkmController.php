@@ -28,7 +28,7 @@ class UmkmController extends Controller
     public function show($id_badan_usaha)
     {
         // $data = IdentitasUsaha::with(['usahaKarakteristik', 'laporanKeuangan', 'tenagaKerja', 'tanggalPendataan'])->findOrFail($id_badan_usaha);
-        $data = IdentitasUsaha::where('id_badan_usaha', $id_badan_usaha)->with(['laporanKeuangan'])->first();
+        $data = IdentitasUsaha::where('id_badan_usaha', $id_badan_usaha)->with(['laporanKeuangan','usahaProduksiPemasaran'])->first();
 
         return view('admin.umkm.show', compact('data'));
     }

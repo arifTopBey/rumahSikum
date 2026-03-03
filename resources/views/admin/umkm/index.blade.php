@@ -72,9 +72,9 @@
                         </tr>
             @endforeach
             </tbody>
-            </table>
-        </div>
-    </div>
+                    </table>
+                </div>
+            </div>
 
     <div class="d-flex justify-content-end mt-3">
         <div>

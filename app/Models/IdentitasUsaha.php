@@ -20,6 +20,15 @@ class IdentitasUsaha extends Model
         return $this->hasOne(TanggalPendataan::class, 'id_data_badan_usaha', 'id_badan_usaha');
     }
 
+    public function usahaPerizinan(){
+        return $this->hasOne(UsahaPerizinan::class, 'id_badan_usaha', 'id_badan_usaha');
+    }
+
+    public function usahaProduksiPemasaran()
+    {
+        return $this->hasOne(ProduksiDanPemasaran::class, 'id_badan_usaha', 'id_badan_usaha');
+    }
+
     public function tenagaKerja()
     {
         return $this->hasOne(TenagaKerja::class, 'id_data_badan_usaha', 'id_badan_usaha');
@@ -28,6 +37,10 @@ class IdentitasUsaha extends Model
     public function laporanKeuangan()
     {
         return $this->hasOne(LaporanKeuangan::class, 'id_badan_usaha', 'id_badan_usaha');
+    }
+    public function usahaKarakteristik()
+    {
+        return $this->hasOne(UsahaKarakteristik::class, 'id_badan_usaha', 'id_badan_usaha');
     }
 
     public function scopeSearch($query, array $filters){

@@ -75,13 +75,13 @@
                             <p class="text-muted">Produk Utama</p>
                         </div>
                         <div class="col-md-9">
-                            <p class="fw-bold">{{ $data->{'106'} }}</p>
+                            <p class="fw-bold">{{ $data->usahaKarakteristik->produk_utama ?? '-' }}</p>
                         </div>
                         <div class="col-md-3" >
                             <p class="text-muted">Produk Usaha</p>
                         </div>
                         <div class="col-md-9">
-                            <p class="fw-bold">{{ $data->{'201'} }}</p>
+                            <p class="fw-bold">{{ $data->usahaKarakteristik->kegiatan_utama ?? '-' }}</p>
                         </div>
                     </div>
                 </div>
@@ -170,25 +170,25 @@
                             <p class="text-muted">Metode Pemasaran</p>
                         </div>
                         <div class="col-md-9 d-flex gap-2">
-                            @if($data->{'707a'} === 1)
+                            @if($data->usahaProduksiPemasaran->pemasaran_toko_sendiri === 1 && $data->usahaProduksiPemasaran->pemasaran_toko_sendiri != null)
                                 <p class="fw-bold badge rounded-pill text-bg-secondary">Digital (E-Commerce)*</p>
                             @endif
-                            @if($data->{'707b'} === 1)
+                            @if($data->usahaProduksiPemasaran->pemasaran_titip_jual === 1 && $data->usahaProduksiPemasaran->pemasaran_titip_jual != null)
                                 <p class="fw-bold badge rounded-pill text-bg-secondary">Non Digital (Pasar)*</p>
                             @endif
-                            @if($data->{'707c'} === 1)
+                            @if($data->usahaProduksiPemasaran->pemasaran_reseller === 1 && $data->usahaProduksiPemasaran->pemasaran_reseller != null)
                                 <p class="fw-bold badge rounded-pill text-bg-secondary">Perantara* </p>
                             @endif
-                            @if($data->{'707d'} === 1)
+                            @if($data->usahaProduksiPemasaran->pemasaran_distributor === 1 && $data->usahaProduksiPemasaran->pemasaran_distributor != null)
                                 <p class="fw-bold badge rounded-pill text-bg-secondary">Vendor Pemerintah Pusat*</p>
                             @endif
-                            @if($data->{'707e'} === 1)
+                            @if($data->usahaProduksiPemasaran->pemasaran_marketplace === 1 && $data->usahaProduksiPemasaran->pemasaran_marketplace != null)
                                 <p class="fw-bold badge rounded-pill text-bg-secondary">Vendor Pemerintah Provinsi*</p>
                             @endif
-                            @if($data->{'707f'} === 1)
+                            @if($data->usahaProduksiPemasaran->pemasaran_media_sosial === 1 && $data->usahaProduksiPemasaran->pemasaran_media_sosial != null)
                                 <p class="fw-bold badge rounded-pill text-bg-secondary">Vendor Pemerintah Kabupaten/Kota*</p>
                             @endif
-                            @if($data->{'707g'} === 1)
+                            @if($data->usahaProduksiPemasaran->pemasaran_lainnya === 1 && $data->usahaProduksiPemasaran->pemasaran_lainnya != null)
                                 <p class="fw-bold badge rounded-pill text-bg-secondary">Lainnya*</p>
                             @endif
                         </div>

@@ -16,4 +16,14 @@ class LaporanKeuangan extends Model
     {
         return $this->belongsTo(IdentitasUsaha::class, 'id_badan_usaha', 'id_badan_usaha');
     }
+
+    public function usahaKarakteristik()
+    {
+        return $this->hasOne(UsahaKarakteristik::class, 'id_badan_usaha', 'id_badan_usaha');
+    }
+
+    public function identitasPengusaha()
+    {
+        return $this->hasOne(IdentitasPengusaha::class, 'id_badan_usaha', 'id_badan_usaha');
+    }
 }

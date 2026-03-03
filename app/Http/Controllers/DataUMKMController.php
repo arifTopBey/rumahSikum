@@ -161,8 +161,6 @@ class DataUMKMController extends Controller
 
         $data = $this->umkmRepo->getData(10, 1, 1);
         $data = $data['data'];
-
-
         return view('admin.umkm.index', compact('data'));
     }
 
@@ -174,4 +172,115 @@ class DataUMKMController extends Controller
 
     //     return view('admin.umkm.show', compact('data'));
     // }
+
+
+// ============== filter grafik =========================
+   public function filterSkala(Request $request)
+{
+    $query = LaporanKeuangan::query();
+
+    if ($request->skala == 'mikro') {
+        $query->where('omzet_usaha', '<=', 2000000);
+    }
+
+    if ($request->skala == 'kecil') {
+        $query->whereBetween('omzet_usaha', [2000001, 15000000]);
+    }
+
+    if ($request->skala == 'menengah') {
+        $query->whereBetween('omzet_usaha', [15000001, 50000000]);
+    }
+
+    $data = $query->paginate(10)->withQueryString();;
+
+    return view('admin.informasi_data_umkm.skala.index', compact('data'));
+}
+
+public function filterWilayah(Request $request)
+{
+    $query = LaporanKeuangan::with('identitasUsaha');
+
+    if ($request->kecamatan) {
+        $query->whereHas('identitasUsaha', function ($q) use ($request) {
+            $q->where('kecamatan', 'like', '%' . $request->kecamatan . '%');
+        });
+    }
+
+    $data = $query->paginate(10)->withQueryString();
+
+    return view('admin.informasi_data_umkm.wilayah.index', compact('data'));
+}
+
+public function filterNIB(Request $request)
+{
+    $query = LaporanKeuangan::with('usahaKarakteristik', 'identitasUsaha');
+
+    if ($request->status == 'Punya') {
+        $query->whereHas('usahaKarakteristik', function ($q) {
+            $q->whereNotNull('nomor_induk_berusaha')
+              ->where('nomor_induk_berusaha', '!=', '');
+        });
+    }
+
+    if ($request->status == 'Tidak') {
+        $query->whereHas('usahaKarakteristik', function ($q) {
+            $q->whereNull('nomor_induk_berusaha');
+        });
+    }
+
+    $data = $query->paginate(10)->withQueryString();
+
+    return view('admin.informasi_data_umkm.lainnya.index', compact('data'));
+}
+
+public function filterGender(Request $request)
+{
+    $query = LaporanKeuangan::with('identitasPengusaha', 'identitasUsaha');
+
+    if ($request->gender == 'Laki-Laki') {
+        $query->whereHas('identitasPengusaha', function ($q) {
+            $q->where('status_pengusaha', 1);
+        });
+    }
+
+    if ($request->gender == 'Perempuan') {
+        $query->whereHas('identitasPengusaha', function ($q) {
+            $q->where('status_pengusaha', 2);
+        });
+    }
+
+    if ($request->gender == 'Tidak Diketahui') {
+        $query->whereHas('identitasPengusaha', function ($q) {
+            $q->whereNotIn('status_pengusaha', [1,2])
+              ->orWhereNull('status_pengusaha');
+        });
+    }
+
+    $data = $query->paginate(10)->withQueryString();
+
+    return view('admin.informasi_data_umkm.lainnya.gender', compact('data'));
+}
+
+public function filterTenagaKerja(Request $request)
+{
+    $query = LaporanKeuangan::with('identitasUsaha', 'identitasPengusaha')
+        ->join('tenagaKerja', 'usaha_laporan_keuangan.id_badan_usaha', '=', 'tenagaKerja.id_data_badan_usaha');
+
+    if ($request->status == 'Dibayar') {
+        $query->where('tenagaKerja.total_pembayaran_upah', '>', 0);
+    }
+
+    if ($request->status == 'Tidak Dibayar') {
+        $query->where(function ($q) {
+            $q->whereNull('tenagaKerja.total_pembayaran_upah')
+              ->orWhere('tenagaKerja.total_pembayaran_upah', 0);
+        });
+    }
+
+    $data = $query->select('usaha_laporan_keuangan.*')
+                  ->paginate(10)
+                  ->withQueryString();
+
+    return view('admin.informasi_data_umkm.lainnya.tenagaKerja', compact('data'));
+}
 }

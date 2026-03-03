@@ -13,6 +13,7 @@
     <!--end::Accessibility Meta Tags-->
     <!--begin::Primary Meta Tags-->
     <meta name="title" content="Monev Dashboard" />
+
     <meta name="author" content="ColorlibHQ" />
     <meta name="description"
         content="AdminLTE is a Free Bootstrap 5 Admin Dashboard, 30 example pages using Vanilla JS. Fully accessible with WCAG 2.1 AA compliance." />
@@ -23,7 +24,7 @@
     <!-- Skip links will be dynamically added by accessibility.js -->
     <meta name="supported-color-schemes" content="light dark" />
     <link rel="preload" href="{{ asset('css/adminlte.css') }}" />
-
+    <link rel="icon" type="image/x-icon" href="{{ asset('image/icon.png') }}">
     <!--end::Accessibility Features-->
     <!--begin::Fonts-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css"
@@ -213,8 +214,53 @@
         }
     </script>
 
-    @if (Request::is('sebaran-data-umkm'))
-       
+    @if (Request::is('sebaran-data-umkm') || Request::is('filter-skala'))
+    
+   <script>
+        // document.querySelectorAll('.skala-card').forEach(card => {
+        //     card.addEventListener('click', function () {
+
+        //         let skala = this.dataset.skala;
+
+        //         fetch(`/filter-skala?skala=${skala}`)
+        //             .then(response => response.text())
+        //             .then(html => {
+        //                 document.getElementById('tableContainer').innerHTML = html;
+        //             });
+
+        //     });
+        // });
+
+        // Klik card skala
+        document.querySelectorAll('.skala-card').forEach(card => {
+            card.addEventListener('click', function () {
+
+                let skala = this.dataset.skala;
+
+                loadTable(`/filter-skala?skala=${skala}`);
+            });
+        });
+
+        // Function reusable untuk load table
+        function loadTable(url) {
+            fetch(url)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('tableContainer').innerHTML = html;
+                });
+        }
+
+        // Handle pagination click (WAJIB TAMBAH INI)
+        document.addEventListener('click', function (e) {
+        if (e.target.closest('#tableContainer .pagination a')) {
+            e.preventDefault();
+
+            let url = e.target.closest('a').getAttribute('href');
+
+            loadTable(url);
+        }
+    });
+    </script>
         
     {{-- usaha berdasarkan wilayah --}}
     <script>
@@ -249,11 +295,22 @@
                 indexAxis: 'y',
                 responsive: true,
                 // Tambahkan padding di sisi kanan agar angka tidak terpotong
+                
                 layout: {
                     padding: {
                         right: 50
                     }
                 },
+                 onClick: function (evt, elements) {
+                    if (elements.length > 0) {
+
+                        const index = elements[0].index;
+                        const kecamatan = this.data.labels[index];
+
+                        loadWilayah(`/filter-wilayah?kecamatan=${encodeURIComponent(kecamatan)}`);
+                    }
+                },
+                
                 plugins: {
                     legend: {
                         display: false
@@ -292,7 +349,31 @@
         });
     </script>
     {{-- batas usaha berdasarkan wilayah --}}
+    <script>
+        function loadWilayah(url) {
+            fetch(url)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('tableContainerWilayah').innerHTML = html;
+                });
+            }
 
+        document.addEventListener('click', function (e) {
+            if (e.target.closest('#tableContainerWilayah .pagination a')) {
+                e.preventDefault();
+
+                let url = e.target.closest('a').getAttribute('href');
+
+                fetch(url)
+                    .then(response => response.text())
+                    .then(html => {
+                        document.getElementById('tableContainerWilayah').innerHTML = html;
+                    });
+            }
+        });
+
+
+    </script>
 
     {{-- usaha berdasarkan culuster --}}
     <script>
@@ -554,6 +635,14 @@
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                onClick: function(evt, elements) {
+                    if (elements.length > 0) {
+                        const index = elements[0].index;
+                        const label = this.data.labels[index];
+
+                        loadNIB(`/filter-nib?status=${label}`);
+                    }
+                },
                 plugins: {
                     legend: {
                         position: 'bottom',
@@ -671,14 +760,22 @@
         const donutOptions = {
             responsive: true,
             maintainAspectRatio: false,
-            cutout: '70%', // Membuat lubang di tengah (Donut)
+            onClick: function(evt, elements) {
+                if (elements.length > 0) {
+                    const index = elements[0].index;
+                    const label = this.data.labels[index];
+
+                    loadGender(`/filter-gender?gender=${label}`);
+                    }
+            },
+            cutout: '70%', 
             plugins: {
                 legend: {
                     display: false
-                }, // Kita pakai legend kustom di HTML
+                }, 
                 datalabels: {
                     display: false
-                } // Matikan label di dalam chart agar bersih
+                } 
             }
         };
 
@@ -687,6 +784,7 @@
         const perempuan = @json((int) $jenisKelamin->perempuan);
         const tidakDiketahui = @json((int) $jenisKelamin->tidak_diketahui);
         const ctxGender = document.getElementById('genderChart').getContext('2d');
+
         new Chart(ctxGender, {
             type: 'doughnut',
             data: {
@@ -699,6 +797,7 @@
             },
             options: donutOptions
         });
+
 
         // --- 2. CHART TENAGA KERJA ---
         const laborData = [
@@ -719,11 +818,74 @@
                     borderWidth: 0
                 }]
             },
-            options: donutOptions
+            options: {
+                responsive : true,
+                maintainAspectRatio: false,
+                onClick: function(evt, elements) {
+                    if (elements.length > 0) {
+                        const index = elements[0].index;
+                        const label = this.data.labels[index];
+
+                        loadLabor(`/filter-tenaga-kerja?status=${label}`);
+                    }
+                },
+                cutout: '70%', 
+                plugins: {
+                        legend: {
+                            display: false
+                        }, 
+                        datalabels: {
+                            display: false
+                        } 
+                    }
+            },
         });
     </script>
+
+    <script>
+        function loadNIB(url) {
+            fetch(url)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('tableContainer6').innerHTML = html;
+                });
+        }
+
+        function loadGender(url) {
+            fetch(url)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('tableContainer6').innerHTML = html;
+                });
+            }
+        
+        function loadLabor(url) {
+            fetch(url)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('tableContainer6').innerHTML = html;
+                });
+            }
+
+        document.addEventListener('click', function (e) {
+            if (e.target.closest('#tableContainer6 .pagination a')) {
+                e.preventDefault();
+
+                let url = e.target.closest('a').getAttribute('href');
+
+                fetch(url)
+                    .then(response => response.text())
+                    .then(html => {
+                        document.getElementById('tableContainer6').innerHTML = html;
+                    });
+            }
+    });
+    </script>
+
+
     {{-- batas usaha lainnya --}}
     @endif
+
 
 </body>
 <!--end::Body-->

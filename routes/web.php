@@ -8,9 +8,7 @@ use App\Http\Controllers\DataUMKMController;
 use App\Http\Controllers\UmkmController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return redirect()->route('login');
-});
+
 
 
 // route login dengan auth dari api sidt
@@ -20,6 +18,9 @@ Route::get('/', function () {
 // });
 
 Route::middleware(['guest'])->group(function () {
+    Route::get('/', function () {
+    return redirect()->route('login');
+});
     Route::get('/login', [AuthController::class, 'index'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.store');
 });
@@ -32,7 +33,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/list-umkm', [UmkmController::class, 'index'])->name('admin.ukmkm.list');
     Route::get('/list-umkm/detail/{id_badan_usaha}', [UmkmController::class, 'show'])->name('admin.umkm.detail');
-
+    
+    Route::get('/filter-skala', [DataUMKMController::class, 'filterSkala'])->name('admin.filter.skala');
+    Route::get('/filter-wilayah', [DataUMKMController::class, 'filterWilayah'])->name('admin.filter.wilayah');
+    Route::get('/filter-nib', [DataUMKMController::class, 'filterNIB'])->name('admin.filter.nib');
+    Route::get('/filter-gender', [DataUMKMController::class, 'filterGender'])->name('admin.filter.gender');
+    Route::get('/filter-tenaga-kerja', [DataUMKMController::class, 'filterTenagaKerja'])->name('admin.filter.tenaga.kerja');
 
 });
 
