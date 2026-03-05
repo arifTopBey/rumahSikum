@@ -251,8 +251,8 @@
             </div>
             <hr class="my-5 opacity-10">
             <div class="d-flex justify-content-between small">
-                <p class="mb-0">&copy; 2024 Rumah Sikum. All Rights Reserved.</p>
-                <p class="mb-0">Crafted with ❤️ for Tangerang</p>
+                <p class="mb-0">&copy; 2026 Rumah Sikum. All Rights Reserved.</p>
+                <!-- <p class="mb-0">Crafted with ❤️ for Tangerang</p> -->
             </div>
         </div>
     </footer>
