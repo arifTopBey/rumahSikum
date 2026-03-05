@@ -114,13 +114,19 @@
             </div>
         </div>
     </div>
-     <div class="row">
-            <div class="col-md-12">
-                <h4 id="detailTitle" class="fw-bold text-primary mb-3 mt-5"></h4>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="d-flex justify-content-between py-2 ">
+                <h4 id="detailTitle88" class="fw-bold text-primary mb-3 mt-5"></h4>
+                <a style="max-height: 40px;" id="btnExportNib" href="#"
+                    class="btn btn-success d-none px-2 mt-5">
+                    Export Excel
+                </a>
+            </div>
 
-                <div id="tableContainer6" class="mt-4">
+            <div id="tableContainer6" class="mt-4">
 
-                </div>
             </div>
         </div>
+    </div>
 </div>

@@ -17,4 +17,8 @@ class UsahaKarakteristik extends Model
     {
         return $this->belongsTo(IdentitasUsaha::class, 'id_badan_usaha', 'id_badan_usaha');
     }
+
+    public function keuangan(){
+        return $this->belongsTo(LaporanKeuangan::class, 'ida_badan_usaha', 'id_badan_usaha');
+    }
 }

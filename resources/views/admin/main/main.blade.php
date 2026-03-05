@@ -243,7 +243,11 @@
                     menengah: "Data Usaha Menengah"
                 };
 
-                document.getElementById('skalaTitle').innerText = titleMap[skala];
+                document.getElementById('exportBtn').classList.remove('d-none')
+                document.getElementById('exportBtn').href =
+                    `/export-skala/${skala}`;
+
+                document.getElementById('skalaTitle9').innerText = titleMap[skala];
 
                 loadTable(`/filter-skala?skala=${skala}`);
             });
@@ -254,7 +258,7 @@
             fetch(url)
                 .then(response => response.text())
                 .then(html => {
-                    document.getElementById('tableContainer').innerHTML = html;
+                    document.getElementById('tableContainer9').innerHTML = html;
                 });
         }
 
@@ -314,8 +318,14 @@
 
                         const index = elements[0].index;
                         const kecamatan = this.data.labels[index];
-                        document.getElementById('detailTitle').innerText =
+
+                        document.getElementById('skalaTitle2').innerText =
                         "Data UMKM Kecamatan " + kecamatan;
+                        const btn = document.getElementById('btnExportWilayah');
+                        btn.classList.remove('d-none');
+
+                        // ubah link export
+                        btn.href = `/export-wilayah/${kecamatan}`;
 
                         loadWilayah(`/filter-wilayah?kecamatan=${encodeURIComponent(kecamatan)}`);
                     }
@@ -374,6 +384,7 @@
 
                 let url = e.target.closest('a').getAttribute('href');
 
+
                 fetch(url)
                     .then(response => response.text())
                     .then(html => {
@@ -417,6 +428,23 @@
                         right: 60
                     } // Ruang ekstra untuk angka ribuan di kanan
                 },
+
+                 onClick: function(evt, elements) {
+
+                    if(elements.length === 0) return;
+
+                    const index = elements[0].index;
+                    const cluster = this.data.labels[index];
+
+                    document.getElementById('clusterTitle').innerText =
+                        "Data Usaha Cluster " + cluster;
+
+                    document.getElementById('btnExportNib').classList.remove('d-none');
+                    document.getElementById('btnExportNib').href =
+                        `/export-cluster/${cluster}`;
+
+                    loadTableCluster(`/filter-cluster?cluster=${cluster}`);
+                },
                 plugins: {
                     legend: {
                         display: false
@@ -432,6 +460,7 @@
                         formatter: (value) => value.toLocaleString('id-ID') // Format titik (contoh: 89.543)
                     }
                 },
+               
                 scales: {
                     x: {
                         beginAtZero: true,
@@ -458,6 +487,31 @@
             }
         });
     </script>
+        
+    <script>
+        function loadTableCluster(url) {
+            fetch(url)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('tableCluster').innerHTML = html;
+                });
+        }
+
+        document.addEventListener('click', function (e) {
+            if (e.target.closest('#tableCluster .pagination a')) {
+                e.preventDefault();
+
+                let url = e.target.closest('a').getAttribute('href');
+
+
+                fetch(url)
+                    .then(response => response.text())
+                    .then(html => {
+                        document.getElementById('tableCluster').innerHTML = html;
+                    });
+            }
+        });
+    </script>
     {{-- usaha berdasarkan culuster --}}
 
     {{-- pengusaha berdasarkan desil --}}
@@ -470,18 +524,18 @@
         const ctxDesil = document.getElementById('desilChart').getContext('2d');
 
         // Data sesuai gambar kedua
-        const desilLabels = [
-            'DESIL 8', 'DESIL 9', 'DESIL 3', 'DESIL 6', 'DESIL 5',
-            'DESIL 4', 'DESIL 7', 'DESIL 10', 'DESIL 2', 'DESIL 1'
-        ];
-        const desilValues = [24711, 24185, 23629, 22741, 22575, 22540, 21898, 21156, 20148, 17509];
+        // const desilLabels = [
+        //     'Desil 1','Desil 2','Desil 3','Desil 4','Desil 5',
+        //     'Desil 6','Desil 7','Desil 8','Desil 9','Desil 10'
+        // ];
+        // const desilValues = [24711, 24185, 23629, 22741, 22575, 22540, 21898, 21156, 20148, 17509];
 
         const desilChart = new Chart(ctxDesil, {
             type: 'bar',
             data: {
-                labels: desilLabels,
+                labels: @json($labelsDesils),
                 datasets: [{
-                    data: desilValues,
+                    data: @json($valuesDesils),
                     backgroundColor: '#4a6d8c', // Warna biru seragam
                     barThickness: 12, // Batang lebih ramping sesuai gambar
                     borderRadius: 2
@@ -649,11 +703,16 @@
                     if (elements.length > 0) {
                         const index = elements[0].index;
                         const label = this.data.labels[index];
-
-                        document.getElementById('detailTitle').innerText =
+                         document.getElementById('detailTitle88').innerText =
                         "Data UMKM - NIB " + label;
 
+                         const btn = document.getElementById('btnExportNib');
+
+                        btn.classList.remove('d-none');
+
+                        btn.href = `/export-nib/${encodeURIComponent(label)}`;
                         loadNIB(`/filter-nib?status=${label}`);
+                        
                     }
                 },
                 plugins: {
@@ -777,9 +836,15 @@
                 if (elements.length > 0) {
                     const index = elements[0].index;
                     const label = this.data.labels[index];
-                     document.getElementById('detailTitle').innerText =
+                        document.getElementById('detailTitle88').innerText =
                     "Data Pengusaha - " + label;
-                    loadGender(`/filter-gender?gender=${label}`);
+                    // Tampilkan tombol
+                    const btn = document.getElementById('btnExportNib');
+                    btn.classList.remove('d-none');
+
+                    // Set link export sesuai yang diklik
+                    btn.href = `/export-gender/${label}`;
+                    loadGender(`/filter-gender?gender=${label}` );
                     }
             },
             cutout: '70%', 
@@ -839,9 +904,14 @@
                     if (elements.length > 0) {
                         const index = elements[0].index;
                         const label = this.data.labels[index];
-                        document.getElementById('detailTitle').innerText =
+                        document.getElementById('detailTitle88').innerText =
                         "Data Tenaga Kerja - " + label;
+                        const btn = document.getElementById('btnExportNib');
+                        btn.classList.remove('d-none');
 
+                        // Set link export sesuai yang diklik
+                        btn.href = `/export-gender/${label}`;
+                        
                         loadLabor(`/filter-tenaga-kerja?status=${label}`);
                     }
                 },
@@ -860,6 +930,9 @@
 
     <script>
         function loadNIB(url) {
+
+            
+
             fetch(url)
                 .then(response => response.text())
                 .then(html => {
@@ -868,6 +941,8 @@
         }
 
         function loadGender(url) {
+            
+                 
             fetch(url)
                 .then(response => response.text())
                 .then(html => {

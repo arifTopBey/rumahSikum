@@ -18,7 +18,7 @@
             <tbody>
                 @foreach ($data as $umkm)
                     <tr>
-                        <td class="text-center"><a href="" class="fs-3 text-dark text-decoration-none">:</a></td>
+                        <td class="text-center"><a href="{{ route('admin.umkm.detail', $umkm->id_badan_usaha) }}" class="fs-3 text-dark text-decoration-none">:</a></td>
                         <td class="">{{ $loop->iteration }}</td>
                         <td class="">{{ $umkm->identitasUsaha->nama_lengkap_usaha }}</td>
 

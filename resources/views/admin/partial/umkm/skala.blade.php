@@ -22,7 +22,7 @@
 
     <div class="col-md-12 ">
         <div class="row">
-            <div class="col-md-4 px-5 skala-card cursor-pointer" data-skala="mikro">
+            <div style="cursor: pointer;" class="col-md-4 px-5 skala-card cursor-pointer" data-skala="mikro">
                 <div style="min-height: 330px;" class="border rounded-2 py-3 px-3 shadow-lg">
                     <div
                         class="d-flex mb-3 px-3 py-2 bg-warning bg-opacity-10 border border-warning rounded-2">
@@ -38,7 +38,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 px-5 skala-card" data-skala="kecil">
+            <div style="cursor: pointer;" class="col-md-4 px-5 skala-card" data-skala="kecil">
                 <div class="border rounded-2 py-3 px-3 shadow-lg">
                     <div
                         class="d-flex px-3 mb-3 py-2 bg-info bg-opacity-10 border border-info rounded-2">
@@ -53,7 +53,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 px-5 skala-card" data-skala="menengah">
+            <div style="cursor: pointer;" class="col-md-4 px-5 skala-card" data-skala="menengah">
                 <div class="border rounded-2 py-3 px-3 shadow-lg">
                     <div
                         class="d-flex mb-3 px-3 py-2 bg-danger bg-opacity-10 border border-danger rounded-2">
@@ -72,10 +72,15 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                
-                <h4 id="skalaTitle" class="fw-bold text-primary mb-3 mt-5"></h4>
+                <div class="d-flex justify-content-between py-2 ">
+                    <h4 id="skalaTitle9" class="fw-bold text-primary mb-3 mt-5"></h4>
+                    <a style="max-height: 40px;;" id="exportBtn" href="#"
+                        class="btn btn-success d-none px-2 mt-5">
+                        Export Excel
+                    </a>
+                </div>
 
-                <div id="tableContainer" class="mt-4">
+                <div id="tableContainer9" class="mt-4">
 
                 </div>
             </div>

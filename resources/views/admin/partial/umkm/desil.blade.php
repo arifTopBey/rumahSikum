@@ -11,7 +11,7 @@
             </div>
             <div class="">
                 <p style="color: #183252" class="fw-semibold">Total</p>
-                <p style="color: #183252" class="fw-bold fs-2">48.789</p>
+                <p style="color: #183252" class="fw-bold fs-2">{{ number_format($totalDesil14 + $totalDesil510) }}</p>
                 <p class="text-light text-muted">Pengusaha UMKM yang memiliki informasi desil</p>
             </div>
         </div>
@@ -19,10 +19,10 @@
     <div class="col-md-12">
         <div class="row">
             <div class="col-md-6 px-5">
-                <div class="row px-5 border rounded-2 shadow-lg ">
+                <div class="row px-5 border rounded-2 py-2 shadow-lg ">
                     <div class="col-md-10 ">
-                        <p style="color: #183252" class="">Potensi Penerimaan Manfaat Kartu Usaha Produktif (Desil 5-10) </p>
-                        <p style="color: #183252" class="fw-bold fs-5">29.878</p>
+                        <p style="color: #183252" class="">Potensi Penerimaan Manfaat Kartu Usaha Afirmatif (Desil 1-4) </p>
+                        <p style="color: #183252" class="fw-bold fs-5">{{ number_format($totalDesil14) }}</p>
                         <p style="color: #183252" class="">Pengusaha UMKM</p>
                         <div class="d-flex gap-1">
                             <div class="d-flex gap-2">
@@ -30,7 +30,7 @@
                                     <i style="color: #183252" class="bi bi-person-standing fs-4"></i>
                                 </div>
                                 <div class="">
-                                    <p class="fw-semibold text-primary ">15.897</p>
+                                    <p class="fw-semibold text-primary ">{{ number_format($laki14) }}</p>
                                 </div>
                             </div>
                             <div class="d-flex">
@@ -38,7 +38,7 @@
                                     <i class="bi bi-person-standing-dress fs-4 text-danger"></i>
                                 </div>
                                 <div class="">
-                                    <p class="fw-semibold text-primary">14.197</p>
+                                    <p class="fw-semibold text-primary">{{ number_format($perempuan14) }}</p>
                                 </div>
                             </div>
                         </div>
@@ -49,10 +49,10 @@
                 </div>
             </div>
             <div class="col-md-6 px-5">
-                <div class="row px-5 border rounded-2 shadow-lg ">
+                <div class="row px-5 border rounded-2 py-2 shadow-lg ">
                     <div class="col-md-10 ">
                         <p style="color: #183252" class="">Potensi Penerimaan Manfaat Kartu Usaha Produktif (Desil 5-10) </p>
-                        <p style="color: #183252" class="fw-bold fs-5">29.878</p>
+                        <p style="color: #183252" class="fw-bold fs-5">{{ number_format($totalDesil510) }}</p>
                         <p style="color: #183252" class="">Pengusaha UMKM</p>
                         <div class="d-flex gap-1">
                             <div class="d-flex gap-2">
@@ -60,7 +60,7 @@
                                     <i style="color: #183252" class="bi bi-person-standing fs-4"></i>
                                 </div>
                                 <div class="">
-                                    <p class="fw-semibold text-primary ">12.817</p>
+                                    <p class="fw-semibold text-primary ">{{ number_format($laki510) }}</p>
                                 </div>
                             </div>
                             <div class="d-flex">
@@ -68,7 +68,7 @@
                                     <i class="bi bi-person-standing-dress fs-4 text-danger"></i>
                                 </div>
                                 <div class="">
-                                    <p class="fw-semibold text-primary">16.197</p>
+                                    <p class="fw-semibold text-primary">{{ number_format($perempuan510) }}</p>
                                 </div>
                             </div>
                         </div>

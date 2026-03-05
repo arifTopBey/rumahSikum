@@ -17,10 +17,11 @@
             </thead>
             <tbody>
                 @foreach ($data as $umkm)
+
                     <tr>
-                        <td class="text-center"><a href="" class="fs-3 text-dark text-decoration-none">:</a></td>
+                        <td class="text-center"><a href="{{ route('admin.umkm.detail', $umkm->id_badan_usaha) }}" class="fs-3 text-dark text-decoration-none">:</a></td>
                         <td class="">{{ $loop->iteration }}</td>
-                        <td class="">{{ $umkm->identitasUsaha->nama_lengkap_usaha }}</td>
+                        <td class="">{{ $umkm->nama_lengkap_usaha }}</td>
 
                         <td class="text-center">
                             @if ($umkm->omzet_usaha <= 2000000)
@@ -42,11 +43,11 @@
                         </td>
 
                         <td class="text-center">
-                            {{ preg_replace('/^[0-9.]+\s+/', '', $umkm->identitasUsaha->provinsi ?? '') }}</td>
+                            {{ preg_replace('/^[0-9.]+\s+/', '', $umkm->provinsi ?? '') }}</td>
                         <td class="text-center">
-                            {{ preg_replace('/^[0-9.]+\s+/', '', $umkm->identitasUsaha->kabupaten ?? '') }}</td>
+                            {{ preg_replace('/^[0-9.]+\s+/', '', $umkm->kabupaten ?? '') }}</td>
                         <td class="text-center">
-                            {{ preg_replace('/^[0-9.]+\s+/', '', $umkm->identitasUsaha->kecamatan ?? '') }}</td>
+                            {{ preg_replace('/^[0-9.]+\s+/', '', $umkm->kecamatan ?? '') }}</td>
                     </tr>
                 @endforeach
             </tbody>

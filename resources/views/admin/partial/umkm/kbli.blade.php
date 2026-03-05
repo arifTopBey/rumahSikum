@@ -27,84 +27,87 @@
 </div>
 
 {{-- card dropdown --}}
-<div class="row py-3 px-3 mt-3 bg-white shadows-sm rounded-2">
-    <div class="col-md-10 mt-3">
-        <h3>PERDAGANGAN BESAR DAN ECERAN, REPARASI DAN PERAWATAN MOBIL DAN SEPEDA MOTOR</h3>
 
-    </div>
-    <div class="col-md-2">
-        <div class="d-flex">
-            <div class="">
-                <p>117.189</p>
-            </div>
-            <div class="">
-                <p>Unit Usaha </p>
-            </div>
-            <div class="">
-                <i>v</i>
-            </div>
-        </div>
-    </div>
-
-    {{-- ini content dropdown --}}
-    <div class="col-12 px-2 mt-5">
-        <p class="text-muted">Kategori ini mencakup kegiatan ekonomi lapangan usaha yang berkaitan
-            dengan perdagangan besar dan eceran berbagai jenis barang, serta jasa reparasi dan
-            perawatan kendaraan bermotor</p>
-    </div>
-
-    <div class="col-md-12">
-        <div class="row">
-            <div class="col-md-4 px-5">
-                <div class=" rounded-2 py-3 px-3 ">
-                    <div
-                        class="d-flex mb-3 px-3 py-2 bg-warning bg-opacity-10 border border-warning rounded-2">
-                        <p class="text-warning my-auto">Usaha Mikro</p>
-                    </div>
-
-                    <div class="d-flex gap-2 justify-content-center">
-                        <p class="fw-semibold">277.999</p>
-                        <p class="text-muted">Unit Usaha</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 px-5">
-                <div class=" rounded-2 py-3 px-3 ">
-                    <div
-                        class="d-flex px-3 mb-3 py-2 bg-info bg-opacity-10 border border-info rounded-2">
-                        <p class="text-dark fw-bold my-auto">Usaha Kecil</p>
-                    </div>
-
-                    <div class="d-flex gap-2 justify-content-center">
-                        <p class="fw-semibold">277.999</p>
-                        <p class="text-muted">Unit Usaha</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 px-5">
-                <div class=" rounded-2 py-3 px-3 ">
-                    <div
-                        class="d-flex mb-3 px-3 py-2 bg-danger bg-opacity-10 border border-danger rounded-2">
-                        <p class="text-danger my-auto">Usaha Menengah</p>
-                    </div>
-
-                    <div class="d-flex gap-2 justify-content-center">
-                        <p class="fw-semibold">277.999</p>
-                        <p class="text-muted">Unit Usaha</p>
-                    </div>
-                </div>
-            </div>
+@foreach ($dataCardKbli as $item )
+    <div class="row py-3 px-3 mt-3 bg-white shadows-sm rounded-2">
+        <div class="col-md-10 mt-3">
+            <h3>{{ $item['kategori'] }}</h3>
 
         </div>
-    </div>
+        <div class="col-md-2">
+            <div class="d-flex">
+                <div class="">
+                    <p class="fw-bold">{{ $item['total'] }} </p>
+                </div>
+                <div class="">
+                    <p class="ms-2"> Unit Usaha </p>
+                </div>
+                <!-- <div class="">
+                    <i>v</i>
+                </div> -->
+            </div>
+        </div>
 
-    <div class="col-12 mt-3 d-flex justify-content-center">
-        <a href=""
-            class="px-3 d-block fw-bold py-2 border border-secondary rounded-2 text-decoration-none text-primary">Lihat
-            Selengkapnya...... </a>
+        {{-- ini content dropdown --}}
+        <div class="col-12 px-2 mt-5">
+            <p class="text-muted">{{ $item['deskripsi'] }}</p>
+        </div>
+
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-4 px-5">
+                    <div class=" rounded-2 py-3 px-3 ">
+                        <div
+                            class="d-flex mb-3 px-3 py-2 bg-warning bg-opacity-10 border border-warning rounded-2">
+                            <p class="text-warning my-auto">Usaha Mikro</p>
+                        </div>
+
+                        <div class="d-flex gap-2 justify-content-center">
+                            <p class="fw-semibold">{{ $item['mikro'] }}</p>
+                            <p class="text-muted"> Unit Usaha</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 px-5">
+                    <div class=" rounded-2 py-3 px-3 ">
+                        <div
+                            class="d-flex px-3 mb-3 py-2 bg-info bg-opacity-10 border border-info rounded-2">
+                            <p class="text-dark fw-bold my-auto">Usaha Kecil</p>
+                        </div>
+
+                        <div class="d-flex gap-2 justify-content-center">
+                            <p class="fw-semibold">{{ $item['kecil'] }}</p>
+                            <p class="text-muted">Unit Usaha</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 px-5">
+                    <div class=" rounded-2 py-3 px-3 ">
+                        <div
+                            class="d-flex mb-3 px-3 py-2 bg-danger bg-opacity-10 border border-danger rounded-2">
+                            <p class="text-danger my-auto">Usaha Menengah</p>
+                        </div>
+
+                        <div class="d-flex gap-2 justify-content-center">
+                            <p class="fw-semibold">{{ $item['menengah'] }}</p>
+                            <p class="text-muted">Unit Usaha</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-12 mt-3 d-flex justify-content-center">
+            <a href=""
+                class="px-3 d-block fw-bold py-2 border border-secondary rounded-2 text-decoration-none text-primary">Lihat
+                Selengkapnya...... </a>
+        </div>
     </div>
-</div>
-<div class="row py-3 px-3 mt-3 bg-white shadows-sm rounded-2">
+    
+@endforeach
+
+<!-- <div class="row py-3 px-3 mt-3 bg-white shadows-sm rounded-2">
     <div class="col-md-10 mt-3">
         <h3>PENYEDIAAN AKOMODASI DAN PENYEDIAAN MAKAN DAN MINUM</h3>
 
@@ -337,5 +340,5 @@
             class="px-3 d-block fw-bold py-2 border border-secondary rounded-2 text-decoration-none text-primary">Lihat
             Selengkapnya...... </a>
     </div>
-</div>
+</div> -->
 {{-- batas card dropdown --}}
