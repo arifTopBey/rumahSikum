@@ -17,7 +17,8 @@ class DataUMKMController extends Controller
     {
         $this->umkmRepo = $umkmRepo;
     }
-    public function index()
+
+    public function indexCopy()
     {
 
         // $data = $this->umkmRepo->getKeuangan();
@@ -347,6 +348,41 @@ class DataUMKMController extends Controller
             )
         );
     }
+    public function index()
+    {
+
+        // $data = $this->umkmRepo->getKeuangan();
+
+        $data = $this->umkmRepo->getData(10, 1, 1);
+        $totalUmkm = $data['meta']['total_data'] ?? 0;
+
+        //=============== point b indentisas berdasarkan wilayah =======================
+        $identitasUsaha = IdentitasUsaha::select(
+            'kecamatan',
+            DB::raw('COUNT(*) as total')
+        )
+            ->groupBy('kecamatan')
+            ->orderByDesc('total')
+            ->get();
+
+        $totalMicro = LaporanKeuangan::where('omzet_usaha', '<=', 2000000)->count();
+        $totalUsahaKecil = LaporanKeuangan::whereBetween('omzet_usaha', [2000000, 15000000])->count();
+        $totalUsahaMenengah = LaporanKeuangan::whereBetween('omzet_usaha', [15000000, 50000000])->count();
+        // ================= batas point b identisas berdasarkan wilayah =====================
+
+       
+
+        return view(
+            'admin.informasi_data_umkm.index',
+            compact(
+                'data',
+                'totalUmkm',
+                'totalUsahaKecil',
+                'totalMicro',
+                'totalUsahaMenengah'
+            )
+        );
+    }
 
     public function list_umkm()
     {
@@ -576,5 +612,9 @@ class DataUMKMController extends Controller
         $data = $query->paginate(10)->withQueryString();
 
         return view('admin.informasi_data_umkm.cluster.index', compact('data'));
+    }
+
+    public function dataKbriKategori($kategori){
+        
     }
 }

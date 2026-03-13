@@ -19,15 +19,13 @@
         content="AdminLTE is a Free Bootstrap 5 Admin Dashboard, 30 example pages using Vanilla JS. Fully accessible with WCAG 2.1 AA compliance." />
     <meta name="keywords"
         content="bootstrap 5, bootstrap, bootstrap 5 admin dashboard, bootstrap 5 dashboard, bootstrap 5 charts, bootstrap 5 calendar, bootstrap 5 datepicker, bootstrap 5 tables, bootstrap 5 datatable, vanilla js datatable, colorlibhq, colorlibhq dashboard, colorlibhq admin dashboard, accessible admin panel, WCAG compliant" />
-    <!--end::Primary Meta Tags-->
-    <!--begin::Accessibility Features-->
-    <!-- Skip links will be dynamically added by accessibility.js -->
+   
     <meta name="supported-color-schemes" content="light dark" />
     <link rel="preload" href="{{ asset('css/adminlte.css') }}" />
     <link rel="icon" type="image/x-icon" href="{{ asset('image/icon.png') }}">
     <!--end::Accessibility Features-->
     <!--begin::Fonts-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css"
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css?...&display=swap"
         integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q=" crossorigin="anonymous" media="print"
         onload="this.media='all'" />
     <!--end::Fonts-->
@@ -45,12 +43,15 @@
     <!-- apexcharts -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css"
         integrity="sha256-4MX+61mt9NVvvuPjUWdUdyfZfxSB1/Rf9WtqRHgG5S0=" crossorigin="anonymous" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
     {{-- leaft cdn --}}
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
     <style>
+         /* CSS KRITIKAL: Agar teks langsung muncul meskipun font belum siap */
+        body { font-family: sans-serif; } 
+        /* Pastikan elemen LCP p.text-muted tidak disembunyikan JS di awal */
+        .text-muted { display: block !important; }
         /* maps */
         #map {
             height: 400px;
@@ -74,6 +75,8 @@
         input[type="date"] {
             position: relative;
         }
+
+       
     </style>
 </head>
 
@@ -216,160 +219,159 @@
 
     @if (Request::is('sebaran-data-umkm') || Request::is('filter-skala'))
     
-   <script>
-        // document.querySelectorAll('.skala-card').forEach(card => {
-        //     card.addEventListener('click', function () {
-
-        //         let skala = this.dataset.skala;
-
-        //         fetch(`/filter-skala?skala=${skala}`)
-        //             .then(response => response.text())
-        //             .then(html => {
-        //                 document.getElementById('tableContainer').innerHTML = html;
-        //             });
-
-        //     });
-        // });
-
-        // Klik card skala
-        document.querySelectorAll('.skala-card').forEach(card => {
-            card.addEventListener('click', function () {
-
-                let skala = this.dataset.skala;
-
-                let titleMap = {
-                    mikro: "Data Usaha Mikro",
-                    kecil: "Data Usaha Kecil",
-                    menengah: "Data Usaha Menengah"
-                };
-
-                document.getElementById('exportBtn').classList.remove('d-none')
-                document.getElementById('exportBtn').href =
-                    `/export-skala/${skala}`;
-
-                document.getElementById('skalaTitle9').innerText = titleMap[skala];
-
-                loadTable(`/filter-skala?skala=${skala}`);
-            });
-        });
-
-        // Function reusable untuk load table
-        function loadTable(url) {
-            fetch(url)
-                .then(response => response.text())
-                .then(html => {
-                    document.getElementById('tableContainer9').innerHTML = html;
-                });
-        }
-
-        // Handle pagination click (WAJIB TAMBAH INI)
-        document.addEventListener('click', function (e) {
-        if (e.target.closest('#tableContainer .pagination a')) {
-            e.preventDefault();
-
-            let url = e.target.closest('a').getAttribute('href');
-
-            loadTable(url);
-        }
-    });
-    </script>
-        
-    {{-- usaha berdasarkan wilayah --}}
     <script>
-        // 1. Daftarkan plugin secara global
-        Chart.register(ChartDataLabels);
-        const totalData = @json($identitasUsaha->count());
-        const canvas = document.getElementById('businessChart');
+            // document.querySelectorAll('.skala-card').forEach(card => {
+            //     card.addEventListener('click', function () {
 
-        canvas.height = totalData * 8; // ⬅ ini kuncinya
+            //         let skala = this.dataset.skala;
 
-        const ctx = canvas.getContext('2d');
+            //         fetch(`/filter-skala?skala=${skala}`)
+            //             .then(response => response.text())
+            //             .then(html => {
+            //                 document.getElementById('tableContainer').innerHTML = html;
+            //             });
 
-        const businessChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                // labels: ['PASAR KEMIS', 'RAJEG', 'CIKUPA', 'TIGARAKSA', 'TELUKNAGA', 'BALARAJA', 'PANOGAN',
-                //     'PAKUHAJI', 'SEPATAN', 'CURUG'
-                // ],
-                labels: @json($identitasUsaha->pluck('kecamatan')).map(item => {
-                            return item.replace(/^[0-9.]+\s*/, '');
-                        }),
-                datasets: [{
-                    // data: [19967, 18213, 16390, 15390, 14390, 13390, 12390, 11390, 11290, 11190],
-                    data: @json($identitasUsaha->pluck('total')),
-                    backgroundColor: '#7D13E8',
-                    barThickness: 18, 
-                    categoryPercentage: 0.5, 
-                    barPercentage: 0.7       
-                }]
-            },
-            options: {
-                indexAxis: 'y',
-                responsive: true,
-                // Tambahkan padding di sisi kanan agar angka tidak terpotong
-                
-                layout: {
-                    padding: {
-                        right: 50
-                    }
-                },
-                 onClick: function (evt, elements) {
-                    if (elements.length > 0) {
+            //     });
+            // });
 
-                        const index = elements[0].index;
-                        const kecamatan = this.data.labels[index];
+            // Klik card skala
+            document.querySelectorAll('.skala-card').forEach(card => {
+                card.addEventListener('click', function () {
 
-                        document.getElementById('skalaTitle2').innerText =
-                        "Data UMKM Kecamatan " + kecamatan;
-                        const btn = document.getElementById('btnExportWilayah');
-                        btn.classList.remove('d-none');
+                    let skala = this.dataset.skala;
 
-                        // ubah link export
-                        btn.href = `/export-wilayah/${kecamatan}`;
+                    let titleMap = {
+                        mikro: "Data Usaha Mikro",
+                        kecil: "Data Usaha Kecil",
+                        menengah: "Data Usaha Menengah"
+                    };
 
-                        loadWilayah(`/filter-wilayah?kecamatan=${encodeURIComponent(kecamatan)}`);
-                    }
-                },
-                
-                plugins: {
-                    legend: {
-                        display: false
-                    },
-                    // 2. Konfigurasi Label Angka
-                    datalabels: {
-                        anchor: 'end', // Posisi di ujung batang
-                        align: 'end', // Muncul setelah batang berakhir
-                        color: '#333',
-                        font: {
-                            weight: 'bold'
-                        },
-                        formatter: function(value) {
-                            // Format angka menjadi ribuan dengan titik (19.967)
-                            return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        display: false
-                    }, // Sembunyikan garis bawah agar bersih
-                    y: {
-                        grid: {
-                            display: false
-                        },
-                        ticks: {
-                            font: {
-                                weight: 'bold',
-                                size: 11
-                            }
-                        }
-                    }
-                }
+                    document.getElementById('exportBtn').classList.remove('d-none')
+                    document.getElementById('exportBtn').href =
+                        `/export-skala/${skala}`;
+
+                    document.getElementById('skalaTitle9').innerText = titleMap[skala];
+
+                    loadTable(`/filter-skala?skala=${skala}`);
+                });
+            });
+
+            // Function reusable untuk load table
+            function loadTable(url) {
+                fetch(url)
+                    .then(response => response.text())
+                    .then(html => {
+                        document.getElementById('tableContainer9').innerHTML = html;
+                    });
+            }
+
+            // Handle pagination click (WAJIB TAMBAH INI)
+            document.addEventListener('click', function (e) {
+            if (e.target.closest('#tableContainer .pagination a')) {
+                e.preventDefault();
+
+                let url = e.target.closest('a').getAttribute('href');
+
+                loadTable(url);
             }
         });
     </script>
-    {{-- batas usaha berdasarkan wilayah --}}
-    <script>
+    
+    @elseif (Request::is('usaha-berdasarkan-wilayah'))
+        {{-- usaha berdasarkan wilayah --}}
+       <script>
+           // 1. Daftarkan plugin secara global
+           Chart.register(ChartDataLabels);
+           const totalData = @json($identitasUsaha->count());
+           const canvas = document.getElementById('businessChart');
+   
+           canvas.height = totalData * 8; // ⬅ ini kuncinya
+   
+           const ctx = canvas.getContext('2d');
+   
+           const businessChart = new Chart(ctx, {
+               type: 'bar',
+               data: {
+                   // labels: ['PASAR KEMIS', 'RAJEG', 'CIKUPA', 'TIGARAKSA', 'TELUKNAGA', 'BALARAJA', 'PANOGAN',
+                   //     'PAKUHAJI', 'SEPATAN', 'CURUG'
+                   // ],
+                   labels: @json($identitasUsaha->pluck('kecamatan')).map(item => {
+                               return item.replace(/^[0-9.]+\s*/, '');
+                           }),
+                   datasets: [{
+                       // data: [19967, 18213, 16390, 15390, 14390, 13390, 12390, 11390, 11290, 11190],
+                       data: @json($identitasUsaha->pluck('total')),
+                       backgroundColor: '#7D13E8',
+                       barThickness: 18, 
+                       categoryPercentage: 0.5, 
+                       barPercentage: 0.7       
+                   }]
+               },
+               options: {
+                   indexAxis: 'y',
+                   responsive: true,
+                   // Tambahkan padding di sisi kanan agar angka tidak terpotong
+                   
+                   layout: {
+                       padding: {
+                           right: 50
+                       }
+                   },
+                    onClick: function (evt, elements) {
+                       if (elements.length > 0) {
+   
+                           const index = elements[0].index;
+                           const kecamatan = this.data.labels[index];
+   
+                           document.getElementById('skalaTitle2').innerText =
+                           "Data UMKM Kecamatan " + kecamatan;
+                           const btn = document.getElementById('btnExportWilayah');
+                           btn.classList.remove('d-none');
+   
+                           // ubah link export
+                           btn.href = `/export-wilayah/${kecamatan}`;
+   
+                           loadWilayah(`/filter-wilayah?kecamatan=${encodeURIComponent(kecamatan)}`);
+                       }
+                   },
+                   
+                   plugins: {
+                       legend: {
+                           display: false
+                       },
+                       // 2. Konfigurasi Label Angka
+                       datalabels: {
+                           anchor: 'end', // Posisi di ujung batang
+                           align: 'end', // Muncul setelah batang berakhir
+                           color: '#333',
+                           font: {
+                               weight: 'bold'
+                           },
+                           formatter: function(value) {
+                               // Format angka menjadi ribuan dengan titik (19.967)
+                               return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                           }
+                       }
+                   },
+                   scales: {
+                       x: {
+                           display: false
+                       }, // Sembunyikan garis bawah agar bersih
+                       y: {
+                           grid: {
+                               display: false
+                           },
+                           ticks: {
+                               font: {
+                                   weight: 'bold',
+                                   size: 11
+                               }
+                           }
+                       }
+                   }
+               }
+           });
+
         function loadWilayah(url) {
             fetch(url)
                 .then(response => response.text())
@@ -392,208 +394,211 @@
                     });
             }
         });
+       </script>
+       {{-- batas usaha berdasarkan wilayah --}}
+
+    @elseif(Request::is('usaha-berdasarkan-cluster-prioritas'))
+
+    <!-- usaha berdasarkan cluster -->
+        <script>
+            // Pastikan plugin sudah terdaftar (hanya perlu sekali di satu halaman)
+            if (typeof ChartDataLabels !== 'undefined') {
+                Chart.register(ChartDataLabels);
+            }
+
+            const clusterLabelsData = @json($cluster->pluck('kluster'));
+            const clusterCountsData = @json($cluster->pluck('total'));
+            const ctxCluster = document.getElementById('clusterChart').getContext('2d');
 
 
-    </script>
-
-    {{-- usaha berdasarkan culuster --}}
-    <script>
-        // Pastikan plugin sudah terdaftar (hanya perlu sekali di satu halaman)
-        if (typeof ChartDataLabels !== 'undefined') {
-            Chart.register(ChartDataLabels);
-        }
-
-        const clusterLabelsData = @json($cluster->pluck('kluster'));
-        const clusterCountsData = @json($cluster->pluck('total'));
-        const ctxCluster = document.getElementById('clusterChart').getContext('2d');
-
-
-        const clusterChart = new Chart(ctxCluster, {
-            type: 'bar',
-            data: {
-                labels: clusterLabelsData,
-                datasets: [{
-                    data: clusterCountsData,
-                    backgroundColor: '#7D13E8',
-                    borderRadius: 5, 
-                    barThickness: 15,
-                }]
-            },
-            options: {
-                indexAxis: 'y',
-                responsive: true,
-                maintainAspectRatio: false,
-                layout: {
-                    padding: {
-                        right: 60
-                    } // Ruang ekstra untuk angka ribuan di kanan
+            const clusterChart = new Chart(ctxCluster, {
+                type: 'bar',
+                data: {
+                    labels: clusterLabelsData,
+                    datasets: [{
+                        data: clusterCountsData,
+                        backgroundColor: '#7D13E8',
+                        borderRadius: 5, 
+                        barThickness: 15,
+                    }]
                 },
-
-                 onClick: function(evt, elements) {
-
-                    if(elements.length === 0) return;
-
-                    const index = elements[0].index;
-                    const cluster = this.data.labels[index];
-
-                    document.getElementById('clusterTitle').innerText =
-                        "Data Usaha Cluster " + cluster;
-
-                    document.getElementById('btnExportNib').classList.remove('d-none');
-                    document.getElementById('btnExportNib').href =
-                        `/export-cluster/${cluster}`;
-
-                    loadTableCluster(`/filter-cluster?cluster=${cluster}`);
-                },
-                plugins: {
-                    legend: {
-                        display: false
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    layout: {
+                        padding: {
+                            right: 60
+                        } // Ruang ekstra untuk angka ribuan di kanan
                     },
-                    datalabels: {
-                        anchor: 'end',
-                        align: 'end',
-                        color: '#000',
-                        font: {
-                            weight: 'bold',
-                            size: 12
-                        },
-                        formatter: (value) => value.toLocaleString('id-ID') // Format titik (contoh: 89.543)
-                    }
-                },
-               
-                scales: {
-                    x: {
-                        beginAtZero: true,
-                        grid: {
-                            color: '#f0f0f0'
-                        },
-                        ticks: {
-                            size: 10
-                        }
+
+                    onClick: function(evt, elements) {
+
+                        if(elements.length === 0) return;
+
+                        const index = elements[0].index;
+                        const cluster = this.data.labels[index];
+
+                        document.getElementById('clusterTitle').innerText =
+                            "Data Usaha Cluster " + cluster;
+
+                        document.getElementById('btnExportNib').classList.remove('d-none');
+                        document.getElementById('btnExportNib').href =
+                            `/export-cluster/${cluster}`;
+
+                        loadTableCluster(`/filter-cluster?cluster=${cluster}`);
                     },
-                    y: {
-                        grid: {
+                    plugins: {
+                        legend: {
                             display: false
                         },
-                        ticks: {
+                        datalabels: {
+                            anchor: 'end',
+                            align: 'end',
+                            color: '#000',
                             font: {
-                                size: 10,
-                                weight: '500'
+                                weight: 'bold',
+                                size: 12
                             },
-                            color: '#333'
+                            formatter: (value) => value.toLocaleString('id-ID') // Format titik (contoh: 89.543)
+                        }
+                    },
+                
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            grid: {
+                                color: '#f0f0f0'
+                            },
+                            ticks: {
+                                size: 10
+                            }
+                        },
+                        y: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                font: {
+                                    size: 10,
+                                    weight: '500'
+                                },
+                                color: '#333'
+                            }
                         }
                     }
                 }
-            }
-        });
-    </script>
-        
-    <script>
-        function loadTableCluster(url) {
-            fetch(url)
-                .then(response => response.text())
-                .then(html => {
-                    document.getElementById('tableCluster').innerHTML = html;
-                });
-        }
-
-        document.addEventListener('click', function (e) {
-            if (e.target.closest('#tableCluster .pagination a')) {
-                e.preventDefault();
-
-                let url = e.target.closest('a').getAttribute('href');
-
-
+            });
+        </script>
+        <script>
+            function loadTableCluster(url) {
                 fetch(url)
                     .then(response => response.text())
                     .then(html => {
                         document.getElementById('tableCluster').innerHTML = html;
                     });
             }
-        });
-    </script>
-    {{-- usaha berdasarkan culuster --}}
 
-    {{-- pengusaha berdasarkan desil --}}
-    <script>
-        // Pastikan Plugin Datalabels terdaftar jika belum
-        if (typeof ChartDataLabels !== 'undefined') {
-            Chart.register(ChartDataLabels);
-        }
+            document.addEventListener('click', function (e) {
+                if (e.target.closest('#tableCluster .pagination a')) {
+                    e.preventDefault();
 
-        const ctxDesil = document.getElementById('desilChart').getContext('2d');
+                    let url = e.target.closest('a').getAttribute('href');
 
-        // Data sesuai gambar kedua
-        // const desilLabels = [
-        //     'Desil 1','Desil 2','Desil 3','Desil 4','Desil 5',
-        //     'Desil 6','Desil 7','Desil 8','Desil 9','Desil 10'
-        // ];
-        // const desilValues = [24711, 24185, 23629, 22741, 22575, 22540, 21898, 21156, 20148, 17509];
 
-        const desilChart = new Chart(ctxDesil, {
-            type: 'bar',
-            data: {
-                labels: @json($labelsDesils),
-                datasets: [{
-                    data: @json($valuesDesils),
-                    backgroundColor: '#4a6d8c', // Warna biru seragam
-                    barThickness: 12, // Batang lebih ramping sesuai gambar
-                    borderRadius: 2
-                }]
-            },
-            options: {
-                indexAxis: 'y',
-                responsive: true,
-                maintainAspectRatio: false,
-                layout: {
-                    padding: {
-                        right: 50,
-                        left: 10
-                    }
+                    fetch(url)
+                        .then(response => response.text())
+                        .then(html => {
+                            document.getElementById('tableCluster').innerHTML = html;
+                        });
+                }
+            });
+        </script>
+     @elseif(Request::is('usaha-berdasarkan-desil'))
+
+    <!-- usaha berdasarkan cluster -->
+        {{-- pengusaha berdasarkan desil --}}
+        <script>
+            // Pastikan Plugin Datalabels terdaftar jika belum
+            if (typeof ChartDataLabels !== 'undefined') {
+                Chart.register(ChartDataLabels);
+            }
+
+            const ctxDesil = document.getElementById('desilChart').getContext('2d');
+
+            // Data sesuai gambar kedua
+            // const desilLabels = [
+            //     'Desil 1','Desil 2','Desil 3','Desil 4','Desil 5',
+            //     'Desil 6','Desil 7','Desil 8','Desil 9','Desil 10'
+            // ];
+            // const desilValues = [24711, 24185, 23629, 22741, 22575, 22540, 21898, 21156, 20148, 17509];
+
+            const desilChart = new Chart(ctxDesil, {
+                type: 'bar',
+                data: {
+                    labels: @json($labelsDesils),
+                    datasets: [{
+                        data: @json($valuesDesils),
+                        backgroundColor: '#4a6d8c', // Warna biru seragam
+                        barThickness: 12, // Batang lebih ramping sesuai gambar
+                        borderRadius: 2
+                    }]
                 },
-                plugins: {
-                    legend: {
-                        display: false
-                    },
-                    datalabels: {
-                        anchor: 'end',
-                        align: 'end',
-                        color: '#000',
-                        font: {
-                            weight: 'bold',
-                            size: 11
-                        },
-                        formatter: (value) => value.toLocaleString('id-ID')
-                    }
-                },
-                scales: {
-                    x: {
-                        beginAtZero: true,
-                        grid: {
-                            color: '#f0f0f0'
-                        },
-                        ticks: {
-                            size: 10
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    layout: {
+                        padding: {
+                            right: 50,
+                            left: 10
                         }
                     },
-                    y: {
-                        grid: {
+                    plugins: {
+                        legend: {
                             display: false
                         },
-                        ticks: {
+                        datalabels: {
+                            anchor: 'end',
+                            align: 'end',
+                            color: '#000',
                             font: {
-                                size: 10,
-                                weight: '600'
+                                weight: 'bold',
+                                size: 11
                             },
-                            color: '#444'
+                            formatter: (value) => value.toLocaleString('id-ID')
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            grid: {
+                                color: '#f0f0f0'
+                            },
+                            ticks: {
+                                size: 10
+                            }
+                        },
+                        y: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                font: {
+                                    size: 10,
+                                    weight: '600'
+                                },
+                                color: '#444'
+                            }
                         }
                     }
                 }
-            }
-        });
-    </script>
-    {{-- batas pengusaha berdasarkan desil --}}
+            });
+        </script>
+        {{-- batas pengusaha berdasarkan desil --}}
 
+    @elseif(Request::is('usaha-berdasarkan-kbli'))
+    
     {{-- script kbli --}}
     <script>
         // Pastikan Plugin Datalabels terdaftar
@@ -674,6 +679,12 @@
         });
     </script>
     {{-- batas script kbli --}}
+
+    @else
+   
+
+   
+
 
     {{-- usaha lainnya --}}
     <script>
@@ -972,7 +983,6 @@
             }
     });
     </script>
-
 
     {{-- batas usaha lainnya --}}
     @endif

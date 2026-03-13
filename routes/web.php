@@ -8,11 +8,16 @@ use App\Http\Controllers\FrontendController;
 // use App\Http\Controllers\DataUMKMController;
 // use App\Http\Controllers\KoperasiController;
 // use App\Http\Controllers\SertifikatController;
+use App\Http\Controllers\IndikatorUsahaLainnyaController;
 use App\Http\Controllers\UmkmController;
+use App\Http\Controllers\UsahaBerdasarkanPrioritasController;
 use Illuminate\Support\Facades\Route;
 // use App\Exports\UmkmSkalaExport;
 // use App\Exports\UmkmWilayahExport;
 use App\Http\Controllers\UMKMEksportController;
+use App\Http\Controllers\UsahaBerdasarkanDesilController;
+use App\Http\Controllers\UsahaBerdasarkanKbliController;
+use App\Http\Controllers\UsahaWilayahController;
 use Maatwebsite\Excel\Facades\Excel;
 
 
@@ -36,6 +41,12 @@ Route::middleware(['guest'])->group(function () {
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/sebaran-data-umkm', [DataUMKMController::class, 'index'])->name('admin.sebaran.data.umkm');
+    Route::get('/usaha-berdasarkan-wilayah', [UsahaWilayahController::class, 'index'])->name('admin.wilayah');
+    Route::get('/usaha-berdasarkan-cluster-prioritas', [UsahaBerdasarkanPrioritasController::class, 'index'])->name('admin.cluster.prioritas');
+    Route::get('/usaha-berdasarkan-desil', [UsahaBerdasarkanDesilController::class, 'index'])->name('admin.usaha.desil');
+    Route::get('/usaha-berdasarkan-kbli', [UsahaBerdasarkanKbliController::class, 'index'])->name('admin.usaha.kbli');
+    Route::get('/indikator-usaha-lainnya', [IndikatorUsahaLainnyaController::class, 'index'])->name('admin.usaha.lainnya');
+
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/list-umkm', [UmkmController::class, 'index'])->name('admin.ukmkm.list');
     Route::get('/list-umkm/detail/{id_badan_usaha}', [UmkmController::class, 'show'])->name('admin.umkm.detail');
@@ -47,7 +58,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/filter-tenaga-kerja', [DataUMKMController::class, 'filterTenagaKerja'])->name('admin.filter.tenaga.kerja');
     Route::get('/filter-cluster', [DataUMKMController::class, 'getClusterData'])->name('admin.cluster.data');
 
-   
+   Route::get('/sebaran-data-umkm/kbli/{kategori}', [DataUMKMController::class, 'dataKbriKategori']);
 
     Route::get('/export-skala/{skala}', [UMKMEksportController::class, 'exportBySkala'])->name('admin.export.skala');
     // Route::get('/export-wilayah/{kecamatan}', [UMKMEksportController::class, 'exportByWilayah'])->name('admin.export.wilayah');
