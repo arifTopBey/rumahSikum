@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   app:
-    image: 10.25.255.133:5000/kesra-scholarship:${IMAGE_TAG}
+    image: 10.25.255.133:5000/rumah-sikum:${IMAGE_TAG}
     ports:
       - target: 8080 # Container port
         published: 8114 # Host port exposed on the nodes
@@ -28,13 +28,13 @@ services:
         # Enable Service discovery for Traefik
         - "traefik.enable=true"
         # Define the service and port
-        - "traefik.http.services.kesra-scholarship.loadbalancer.server.port=80"
+        - "traefik.http.services.rumah-sikum.loadbalancer.server.port=80"
         # Define the router rule
-        - "traefik.http.routers.kesra-scholarship.rule=Host(`swarm.localhost`) && PathPrefix(`/kesra-scholarship`)"
+        - "traefik.http.routers.rumah-sikum.rule=Host(`swarm.localhost`) && PathPrefix(`/rumah-sikum`)"
         # Link router to service
-        - "traefik.http.routers.kesra-scholarship.service=kesra-scholarship"
-        # Expose kesra-scholarship on the HTTPS entrypoint
-        - "traefik.http.routers.kesra-scholarship.entrypoints=websecure"
+        - "traefik.http.routers.rumah-sikum.service=rumah-sikum"
+        # Expose rumah-sikum on the HTTPS entrypoint
+        - "traefik.http.routers.rumah-sikum.entrypoints=websecure"
         # Note: No path manipulation middleware - Next.js handles the basePath internally
     networks:
       - traefik_proxy_network

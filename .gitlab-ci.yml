@@ -6,9 +6,9 @@ services:
 
 variables:
   DOCKER_DRIVER: overlay2
-  CACHE_IMAGE: "${DOCKER_REGISTRY_ADDR}/kesra-scholarship"
+  CACHE_IMAGE: "${DOCKER_REGISTRY_ADDR}/rumah-sikum"
   DOCKER_BUILDKIT: 1
-  CONTAINER_NAME: kesra-scholarship
+  CONTAINER_NAME: rumah-sikum
 
 before_script:
   - eval $(ssh-agent -s)
