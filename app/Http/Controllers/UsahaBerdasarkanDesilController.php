@@ -10,70 +10,116 @@ class UsahaBerdasarkanDesilController extends Controller
     public function index(){
 
         // ============== point d berdasarkan desil ============================
-        $data = DB::table('usaha_laporan_keuangan')
-            ->whereNotNull('omzet_usaha')
-            ->orderBy('omzet_usaha')
-            ->pluck('omzet_usaha');
+        // $data = DB::table('usaha_laporan_keuangan')
+        //     ->whereNotNull('omzet_usaha')
+        //     ->orderBy('omzet_usaha')
+        //     ->pluck('omzet_usaha');
 
-        $total = $data->count();
-        $perDesil = floor($total / 10);
+        // $total = $data->count();
+        // $perDesil = floor($total / 10);
 
 
-        $desil = [];
+        // $desil = [];
 
-        for ($i = 1; $i <= 10; $i++) {
+        // for ($i = 1; $i <= 10; $i++) {
 
-            $start = ($i - 1) * $perDesil;
+        //     $start = ($i - 1) * $perDesil;
 
-            if ($i == 10) {
-                $slice = $data->slice($start);
-            } else {
-                $slice = $data->slice($start, $perDesil);
-            }
+        //     if ($i == 10) {
+        //         $slice = $data->slice($start);
+        //     } else {
+        //         $slice = $data->slice($start, $perDesil);
+        //     }
 
-            $desil[] = [
-                'desil' => "Desil $i",
-                'min' => $slice->min(),
-                'max' => $slice->max(),
-                'jumlah' => $slice->count()
-            ];
-        }
+        //     $desil[] = [
+        //         'desil' => "Desil $i",
+        //         'min' => $slice->min(),
+        //         'max' => $slice->max(),
+        //         'jumlah' => $slice->count()
+        //     ];
+        // }
 
-        $labelsDesils = collect($desil)->pluck('desil');
-        $valuesDesils = collect($desil)->pluck('jumlah');
+        // $labelsDesils = collect($desil)->pluck('desil');
+        // $valuesDesils = collect($desil)->pluck('jumlah');
 
-        $desil14 = collect($desil)->slice(0, 4);
-        $desil510 = collect($desil)->slice(4, 6);
+        // $desil14 = collect($desil)->slice(0, 4);
+        // $desil510 = collect($desil)->slice(4, 6);
 
-        $totalDesil14 = $desil14->sum('jumlah');
-        $totalDesil510 = $desil510->sum('jumlah');
+        // $totalDesil14 = $desil14->sum('jumlah');
+        // $totalDesil510 = $desil510->sum('jumlah');
 
-        $laki14 = DB::table('usaha_laporan_keuangan')
-            ->join('identitas_pengusaha', 'identitas_pengusaha.id_badan_usaha', '=', 'usaha_laporan_keuangan.id_badan_usaha')
-            ->whereNotNull('omzet_usaha')
-            ->where('identitas_pengusaha.status_pengusaha', 1)
-            ->limit($totalDesil14)
-            ->count();
+        // $laki14 = DB::table('usaha_laporan_keuangan')
+        //     ->join('identitas_pengusaha', 'identitas_pengusaha.id_badan_usaha', '=', 'usaha_laporan_keuangan.id_badan_usaha')
+        //     ->whereNotNull('omzet_usaha')
+        //     ->where('identitas_pengusaha.status_pengusaha', 1)
+        //     ->limit($totalDesil14)
+        //     ->count();
 
-        $perempuan14 = DB::table('usaha_laporan_keuangan')
-            ->join('identitas_pengusaha', 'identitas_pengusaha.id_badan_usaha', '=', 'usaha_laporan_keuangan.id_badan_usaha')
-            ->whereNotNull('omzet_usaha')
-            ->where('identitas_pengusaha.status_pengusaha', 2)
-            ->limit($totalDesil14)
-            ->count();
+        // $perempuan14 = DB::table('usaha_laporan_keuangan')
+        //     ->join('identitas_pengusaha', 'identitas_pengusaha.id_badan_usaha', '=', 'usaha_laporan_keuangan.id_badan_usaha')
+        //     ->whereNotNull('omzet_usaha')
+        //     ->where('identitas_pengusaha.status_pengusaha', 2)
+        //     ->limit($totalDesil14)
+        //     ->count();
 
-        $data510 = DB::table('usaha_laporan_keuangan')
-            ->join('identitas_pengusaha', 'identitas_pengusaha.id_badan_usaha', '=', 'usaha_laporan_keuangan.id_badan_usaha')
-            ->whereNotNull('omzet_usaha')
-            ->orderBy('omzet_usaha')
-            ->offset($totalDesil14)
-            ->limit($totalDesil510)
-            ->get();
+        // $data510 = DB::table('usaha_laporan_keuangan')
+        //     ->join('identitas_pengusaha', 'identitas_pengusaha.id_badan_usaha', '=', 'usaha_laporan_keuangan.id_badan_usaha')
+        //     ->whereNotNull('omzet_usaha')
+        //     ->orderBy('omzet_usaha')
+        //     ->offset($totalDesil14)
+        //     ->limit($totalDesil510)
+        //     ->get();
 
-        $laki510 = $data510->where('status_pengusaha', 1)->count();
-        $perempuan510 = $data510->where('status_pengusaha', 2)->count();
-        // ============== batas menggunakan desil ==============================
+        // $laki510 = $data510->where('status_pengusaha', 1)->count();
+        // $perempuan510 = $data510->where('status_pengusaha', 2)->count();
+        // // ============== batas menggunakan desil ==============================
 
-        return view('admin.informasi_data_umkm.partial.desil', compact('labelsDesils', 'valuesDesils', 'perempuan14', 'laki14', 'perempuan510','laki510', 'totalDesil14', 'totalDesil510'));
+        // return view('admin.informasi_data_umkm.partial.desil', compact('labelsDesils', 'valuesDesils', 'perempuan14', 'laki14', 'perempuan510','laki510', 'totalDesil14', 'totalDesil510'));
+
+       $total = DB::table('usaha_laporan_keuangan')->whereNotNull('omzet_usaha')->count();
+    $perDesil = floor($total / 10);
+
+    // Label & Values untuk Chart
+    $labelsDesils = [];
+    $valuesDesils = [];
+    for ($i = 1; $i <= 10; $i++) {
+        $labelsDesils[] = "Desil $i";
+        $valuesDesils[] = ($i == 10) ? ($total - ($perDesil * 9)) : $perDesil;
+    }
+
+    $totalDesil14 = $perDesil * 4;
+    $totalDesil510 = $total - $totalDesil14;
+
+    // --- BAGIAN HITUNG JENIS KELAMIN ---
+    
+    // Ambil hanya kolom status_pengusaha untuk Desil 1-4
+    $data14 = DB::table('usaha_laporan_keuangan')
+        ->join('identitas_pengusaha', 'identitas_pengusaha.id_badan_usaha', '=', 'usaha_laporan_keuangan.id_badan_usaha')
+        ->whereNotNull('omzet_usaha')
+        ->orderBy('omzet_usaha', 'asc')
+        ->limit($totalDesil14)
+        ->select('identitas_pengusaha.status_pengusaha') // Hanya ambil 1 kolom kecil
+        ->get();
+
+    $laki14 = $data14->where('status_pengusaha', 1)->count();
+    $perempuan14 = $data14->where('status_pengusaha', 2)->count();
+
+    // Ambil hanya kolom status_pengusaha untuk Desil 5-10
+    $data510 = DB::table('usaha_laporan_keuangan')
+        ->join('identitas_pengusaha', 'identitas_pengusaha.id_badan_usaha', '=', 'usaha_laporan_keuangan.id_badan_usaha')
+        ->whereNotNull('omzet_usaha')
+        ->orderBy('omzet_usaha', 'asc')
+        ->offset($totalDesil14)
+        ->limit($totalDesil510)
+        ->select('identitas_pengusaha.status_pengusaha') // Hanya ambil 1 kolom kecil
+        ->get();
+
+    $laki510 = $data510->where('status_pengusaha', 1)->count();
+    $perempuan510 = $data510->where('status_pengusaha', 2)->count();
+
+    return view('admin.informasi_data_umkm.partial.desil', compact(
+        'labelsDesils', 'valuesDesils', 'perempuan14', 'laki14', 
+        'perempuan510','laki510', 'totalDesil14', 'totalDesil510'
+    ));
     }
 }

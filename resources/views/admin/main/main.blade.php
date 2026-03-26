@@ -514,9 +514,9 @@
                 }
             });
         </script>
+     <!-- usaha berdasarkan cluster -->
      @elseif(Request::is('usaha-berdasarkan-desil'))
 
-    <!-- usaha berdasarkan cluster -->
         {{-- pengusaha berdasarkan desil --}}
         <script>
             // Pastikan Plugin Datalabels terdaftar jika belum
