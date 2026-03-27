@@ -1,0 +1,92 @@
+:root {
+            --primary-color: #0d6efd;
+            --soft-bg: #f8fafc;
+        }
+
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--soft-bg); }
+
+        /* Sidebar Style */
+        .filter-sidebar {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            height: fit-content;
+            position: sticky;
+            top: 90px;
+            border: 1px solid #edf2f7;
+        }
+
+        /* Search & Sort Bar */
+        .market-toolbar {
+            background: white;
+            padding: 15px 25px;
+            border-radius: 15px;
+            border: 1px solid #edf2f7;
+            margin-bottom: 30px;
+        }
+
+        /* Modern Product Card */
+        .product-card {
+            background: white;
+            border: none;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+        }
+        .product-img-wrapper {
+            position: relative;
+            padding: 10px;
+        }
+        .product-img {
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+        .wishlist-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            color: #ff4757;
+        }
+
+        /* Badge Custom */
+        .badge-location {
+            background: #f1f5f9;
+            color: #64748b;
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+
+        /* Price Tag */
+        .price-text {
+            color: var(--primary-color);
+            font-weight: 800;
+            font-size: 1.1rem;
+        }
+
+        /* Pagination */
+        .page-link {
+            border: none;
+            margin: 0 5px;
+            border-radius: 8px;
+            color: #64748b;
+        }
+        .page-item.active .page-link {
+            background-color: var(--primary-color);
+            box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+        }

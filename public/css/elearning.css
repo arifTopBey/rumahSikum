@@ -1,0 +1,64 @@
+:root {
+            --primary-color: #0d6efd;
+            --secondary-bg: #f1f5f9;
+        }
+
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; }
+
+        /* Welcome Section */
+        .learning-header {
+            background: linear-gradient(135deg, #0d6efd 0%, #00d2ff 100%);
+            padding: 100px 0 60px;
+            color: white;
+            border-radius: 0 0 50px 50px;
+        }
+
+        /* Search Bar Floating */
+        .search-wrapper {
+            margin-top: -30px;
+            z-index: 10;
+        }
+        .search-input {
+            border: none;
+            border-radius: 20px;
+            padding: 20px 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* Course Card */
+        .course-card {
+            border: none;
+            border-radius: 24px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        .course-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+        }
+        .course-img { height: 180px; object-fit: cover; }
+        
+        /* Category Pill */
+        .category-pill {
+            background: #e2e8f0;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #475569;
+            cursor: pointer;
+            transition: 0.3s;
+            display: inline-block;
+            white-space: nowrap;
+        }
+        .category-pill.active { background: var(--primary-color); color: white; }
+
+        /* Instructor Avatar */
+        .instructor-img {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .progress { height: 8px; border-radius: 10px; }
