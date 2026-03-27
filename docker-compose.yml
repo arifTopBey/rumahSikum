@@ -5,7 +5,7 @@ services:
     image: 10.25.255.133:5000/rumah-sikum:${IMAGE_TAG}
     ports:
       - target: 8080 # Container port
-        published: 8114 # Host port exposed on the nodes
+        published: 8113 # Host port exposed on the nodes
         protocol: tcp
         mode: host
     deploy:
