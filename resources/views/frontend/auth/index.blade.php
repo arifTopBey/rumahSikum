@@ -94,7 +94,8 @@
                             <!-- untuk mengelola UMKM dan Koperasi -->
                             <p class="opacity-75">Silakan masuk ke dashboard administrasi Rumah Sikum  Kabupaten Tangerang.</p>
                             <div class="mt-4 border-top pt-4 border-white border-opacity-25">
-                                <small class="opacity-50">Dinas Koperasi dan Usaha Mikro</small>
+                                <small class="opacity-50 mb-2">Dinas Koperasi dan Usaha Mikro</small><br>
+                                <small class="opacity-50 mt-5">Belum Punya Akun? <a href="{{ route('frontend.register') }}" class="text-decoration-none ">Daftar</a></small>
                             </div>
                         </div>
 

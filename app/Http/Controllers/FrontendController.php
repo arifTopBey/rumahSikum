@@ -26,8 +26,23 @@ class FrontendController extends Controller
         return view('frontend.ecommerce.index');
     }
 
+    public function eCommerceDetail(){
+
+        return view('frontend.ecommerce.detailProduk');
+    }
+    public function cartList(){
+
+        return view('frontend.ecommerce.cartList');
+    }
+
     public function koperasi(){
         
         return view('frontend.koperasi.index');
     }
+
+    public function tambahUmkm(){
+        return view('frontend.daftarUMKM.index');
+    }
+
+
 }

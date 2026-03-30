@@ -18,9 +18,18 @@
     @if (Request::is('koperasi'))
         <link rel="stylesheet" href="{{ asset('css/koperasi.css') }}">  
     @endif
+        
+    @if (Request::is('tambah-umkm'))
+        <link rel="stylesheet" href="{{ asset('css/formUmkm.css') }}">     
+    @endif
+
+    @if (Request::is('register'))
+        <link rel="stylesheet" href="{{ asset('css/register.css') }}">
+    @endif
 
     <script src="https://unpkg.com/lucide@latest"></script>
 
+    
     <style>
         :root {
             --primary-color: #0d6efd;
@@ -87,6 +96,7 @@
         .footer-link { color: #94a3b8; text-decoration: none; transition: 0.3s; }
         .footer-link:hover { color: white; padding-left: 5px; }
     </style>
+
 </head>
 <body>
 

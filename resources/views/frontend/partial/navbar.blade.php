@@ -14,8 +14,10 @@
                     <li class="nav-item"><a class="nav-link px-3" href="{{ route('frontend.e-learning') }}">E-Learning</a></li>
                 </ul>
                 <div class="d-flex gap-2">
+                    <a href="{{ route('frontend.cart.list') }}" class="btn btn-outline-primary btn-sm rounded-circle"><i
+                                            data-lucide="shopping-cart" size="16"></i></a>
                     <a href="{{ route('login') }}" class="btn btn-light rounded-pill px-4">Login</a>
-                    <a href="#" class="btn btn-primary rounded-pill px-4 shadow">Gabung UMKM</a>
+                    <a href="{{ route('frontend.tambah.umkm') }}" class="btn btn-primary rounded-pill px-4 shadow">Gabung UMKM</a>
                 </div>
             </div>
         </div>
