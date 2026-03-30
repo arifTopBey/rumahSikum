@@ -1,0 +1,90 @@
+:root {
+            --primary-color: #0d6efd;
+            --step-bg: #e2e8f0;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: #f8fafc; 
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .reg-header {
+            background: white;
+            padding: 40px 0;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 50px;
+        }
+
+        /* Stepper Style */
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-bottom: 40px;
+        }
+        .step-indicator::before {
+            content: "";
+            position: absolute;
+            top: 50%; left: 0; right: 0;
+            height: 2px;
+            background: var(--step-bg);
+            z-index: 1;
+            transform: translateY(-50%);
+        }
+        .step {
+            width: 40px; height: 40px;
+            background: white;
+            border: 2px solid var(--step-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            font-weight: bold;
+            color: #64748b;
+            transition: 0.3s;
+        }
+        .step.active {
+            border-color: var(--primary-color);
+            background: var(--primary-color);
+            color: white;
+        }
+        .step.completed {
+            background: #10b981;
+            border-color: #10b981;
+            color: white;
+        }
+
+        /* Card Form */
+        .form-container {
+            background: white;
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.03);
+            border: 1px solid #f1f5f9;
+        }
+
+        .form-label { font-weight: 600; font-size: 0.9rem; color: #475569; }
+        .form-control, .form-select {
+            border-radius: 12px;
+            padding: 12px 15px;
+            border: 1px solid #e2e8f0;
+            background: #fcfdfe;
+        }
+        .form-control:focus {
+            box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.1);
+            border-color: var(--primary-color);
+        }
+
+        .upload-box {
+            border: 2px dashed #cbd5e1;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .upload-box:hover { background: #f1f5f9; border-color: var(--primary-color); }

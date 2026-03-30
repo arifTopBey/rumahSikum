@@ -30,10 +30,24 @@ use Maatwebsite\Excel\Facades\Excel;
 // });
 
 Route::middleware(['guest'])->group(function () {
-   
+
     Route::get('/', [FrontendController::class, 'index'])->name('frontend.index');
     Route::get('/login', [AuthController::class, 'index'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.store');
+
+    Route::get('/list-panel', [FrontendController::class, 'listPanel'])->name('frontend.list.panel');
+    Route::get('/e-learning', [FrontendController::class, 'eLearning'])->name('frontend.e-learning');
+    Route::get('/e-commerce', [FrontendController::class, 'eCommerce'])->name('frontend.eCommerce');
+    Route::get('/e-commerce/produk', [FrontendController::class, 'eCommerceDetail'])->name('frontend.eCommerce.detail');
+    Route::get('/koperasi', [FrontendController::class, 'koperasi'])->name('frontend.koperasi');
+    Route::get('/tambah-umkm', [FrontendController::class, 'tambahUmkm'])->name('frontend.tambah.umkm');
+    Route::get('/register', [AuthController::class, 'register'])->name('frontend.register');
+    Route::post('/register', [AuthController::class, 'store'])->name('frontend.register.store');
+
+    // nanti pake setelah login bisa akses halaman ini
+    Route::get('/cart-list', [FrontendController::class, 'cartList'])->name('frontend.cart.list');
+
+
 });
 
 

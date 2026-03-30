@@ -36,6 +36,11 @@ class AuthController extends Controller
 
     }
 
+    public function register()
+    {
+        return view('frontend.auth.register');
+    }
+
     public function logout(Request $request){
         
         Auth::logout();
