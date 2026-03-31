@@ -1,115 +1,7 @@
-<<<<<<< HEAD
 @extends('frontend.main.index')
 
 @section('content')
   <section class="hero-gradient">
-=======
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rumah Sikum | Digitalisasi UMKM Tangerang</title>
-    <link rel="icon" href="{{ asset('image/icon.png') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-    <script src="https://unpkg.com/lucide@latest"></script>
-
-    <style>
-        :root {
-            --primary-color: #0d6efd;
-            --accent-color: #00d2ff;
-            --dark-bg: #0f172a;
-        }
-
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background-color: #f8fafc;
-            overflow-x: hidden;
-        }
-
-        /* Modern Floating Navbar */
-        .navbar {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            transition: 0.3s;
-        }
-
-        /* Hero Section with Mesh Gradient */
-        .hero-gradient {
-            background: radial-gradient(at 0% 0%, rgba(13, 110, 253, 0.15) 0, transparent 50%), 
-                        radial-gradient(at 100% 0%, rgba(0, 210, 255, 0.1) 0, transparent 50%);
-            padding: 120px 0 80px;
-        }
-
-        .hero-title { font-weight: 800; font-size: 3.5rem; line-height: 1.2; color: var(--dark-bg); }
-        .text-gradient { background: linear-gradient(90deg, #0d6efd, #00d2ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-
-        /* Bento Grid Kategori */
-        .bento-card {
-            border-radius: 24px;
-            border: none;
-            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
-            height: 100%;
-        }
-        .bento-card:hover { transform: scale(1.02); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
-        
-        .bg-blue { background: #0d6efd; color: white; }
-        .bg-orange { background: #ff7e5f; color: white; }
-
-        /* Stats Section */
-        .stat-box { border-left: 4px solid var(--primary-color); padding-left: 20px; }
-
-        /* Product Card */
-        .product-card {
-            border-radius: 20px;
-            border: 1px solid #edf2f7;
-            background: white;
-            transition: 0.3s;
-        }
-        .product-card .img-container {
-            border-radius: 16px;
-            overflow: hidden;
-            margin: 10px;
-        }
-        .product-card:hover { border-color: var(--primary-color); }
-
-        /* Footer */
-        .footer-custom { background: var(--dark-bg); color: #94a3b8; padding: 80px 0 30px; }
-        .footer-link { color: #94a3b8; text-decoration: none; transition: 0.3s; }
-        .footer-link:hover { color: white; padding-left: 5px; }
-    </style>
-</head>
-<body>
-
-    <nav class="navbar navbar-expand-lg fixed-top shadow-sm">
-        <div class="container">
-            <a class="navbar-brand fw-bold fs-4" href="#">
-                <span class="text-primary">Rumah</span>Sikum
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mx-auto fw-semibold">
-                    <li class="nav-item"><a class="nav-link px-3" href="#">Home</a></li>
-                    <li class="nav-item"><a class="nav-link px-3" href="#">Marketplace</a></li>
-                    <li class="nav-item"><a class="nav-link px-3" href="#">Koperasi</a></li>
-                    <li class="nav-item"><a class="nav-link px-3" href="#">E-Learning</a></li>
-                </ul>
-                <div class="d-flex gap-2">
-                    <a href="{{ route('login') }}" class="btn btn-light rounded-pill px-4">Login</a>
-                    <a href="#" class="btn btn-primary rounded-pill px-4 shadow">Gabung UMKM</a>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <section class="hero-gradient">
->>>>>>> 501705a6b2991e5e8265c1a4070acd87d8b9c04a
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6 ">
@@ -120,7 +12,7 @@
                         <button class="btn btn-primary btn-lg rounded-pill px-5">Jelajahi Produk</button>
                         <button class="btn btn-outline-dark btn-lg rounded-pill px-4"><i data-lucide="play-circle" class="me-2"></i>Video Profil</button>
                     </div>
-                    
+
                     <div class="row mt-5">
                         <div class="col-4 stat-box">
                             <h3 class="fw-bold mb-0 text-dark">245K+</h3>
@@ -191,7 +83,7 @@
                 <h2 class="fw-bold">Katalog Produk Unggulan</h2>
                 <p class="text-muted">Produk pilihan yang telah melewati kurasi kualitas tinggi.</p>
             </div>
-            
+
             <div class="row g-4">
                 <div class="col-md-3">
                     <div class="product-card p-2 shadow-sm">
@@ -222,64 +114,4 @@
             </div>
         </div>
     </section>
-<<<<<<< HEAD
 @endsection
-=======
-
-    <footer class="footer-custom">
-        <div class="container">
-            <div class="row g-5">
-                <div class="col-lg-4">
-                    <h3 class="text-white fw-bold mb-4">RumahSikum.</h3>
-                    <p>Layanan digital resmi Dinas Koperasi dan Usaha Mikro Kabupaten Tangerang untuk percepatan ekonomi daerah.</p>
-                    <div class="d-flex gap-3 mt-4">
-                        <a href="#" class="btn btn-outline-light btn-sm rounded-circle"><i data-lucide="instagram"></i></a>
-                        <a href="#" class="btn btn-outline-light btn-sm rounded-circle"><i data-lucide="twitter"></i></a>
-                        <a href="#" class="btn btn-outline-light btn-sm rounded-circle"><i data-lucide="facebook"></i></a>
-                    </div>
-                </div>
-                <div class="col-lg-2 offset-lg-1">
-                    <h6 class="text-white fw-bold mb-4">Layanan</h6>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="footer-link d-block mb-2">Pendaftaran UMKM</a></li>
-                        <li><a href="#" class="footer-link d-block mb-2">Sertifikasi Halal</a></li>
-                        <li><a href="#" class="footer-link d-block mb-2">Laporan Koperasi</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-2">
-                    <h6 class="text-white fw-bold mb-4">Pusat Bantuan</h6>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="footer-link d-block mb-2">FAQ</a></li>
-                        <li><a href="#" class="footer-link d-block mb-2">Kebijakan Privasi</a></li>
-                        <li><a href="#" class="footer-link d-block mb-2">Kontak Kami</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-3">
-                    <h6 class="text-white fw-bold mb-4">Lokasi</h6>
-                    <p class="small">Jl. Raya H. Tabri No. 1, Tigaraksa, Kec. Tigaraksa, Kabupaten Tangerang, Banten 15720</p>
-                </div>
-            </div>
-            <hr class="my-5 opacity-10">
-            <div class="d-flex justify-content-between small">
-                <p class="mb-0">&copy; 2026 Rumah Sikum. All Rights Reserved.</p>
-                <!-- <p class="mb-0">Crafted with ❤️ for Tangerang</p> -->
-            </div>
-        </div>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-      lucide.createIcons();
-      
-      // Navbar scroll effect
-      window.addEventListener('scroll', function() {
-          if (window.scrollY > 50) {
-              document.querySelector('.navbar').classList.add('py-2');
-          } else {
-              document.querySelector('.navbar').classList.remove('py-2');
-          }
-      });
-    </script>
-</body>
-</html>
->>>>>>> 501705a6b2991e5e8265c1a4070acd87d8b9c04a

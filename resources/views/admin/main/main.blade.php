@@ -980,11 +980,8 @@
     });
     </script>
 
-<<<<<<< HEAD
     @else
 
-=======
->>>>>>> 501705a6b2991e5e8265c1a4070acd87d8b9c04a
     {{-- batas usaha lainnya --}}
     @endif
 
