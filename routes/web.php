@@ -126,3 +126,6 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/export-gender/{gender}', [UMKMEksportController::class, 'exportByGender'])
     ->name('admin.export.gender');
 });
+
+
+// test
