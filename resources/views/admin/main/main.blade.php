@@ -19,7 +19,7 @@
         content="AdminLTE is a Free Bootstrap 5 Admin Dashboard, 30 example pages using Vanilla JS. Fully accessible with WCAG 2.1 AA compliance." />
     <meta name="keywords"
         content="bootstrap 5, bootstrap, bootstrap 5 admin dashboard, bootstrap 5 dashboard, bootstrap 5 charts, bootstrap 5 calendar, bootstrap 5 datepicker, bootstrap 5 tables, bootstrap 5 datatable, vanilla js datatable, colorlibhq, colorlibhq dashboard, colorlibhq admin dashboard, accessible admin panel, WCAG compliant" />
-   
+
     <meta name="supported-color-schemes" content="light dark" />
     <link rel="preload" href="{{ asset('css/adminlte.css') }}" />
     <link rel="icon" type="image/x-icon" href="{{ asset('image/icon.png') }}">
@@ -49,7 +49,7 @@
 
     <style>
          /* CSS KRITIKAL: Agar teks langsung muncul meskipun font belum siap */
-        body { font-family: sans-serif; } 
+        body { font-family: sans-serif; }
         /* Pastikan elemen LCP p.text-muted tidak disembunyikan JS di awal */
         .text-muted { display: block !important; }
         /* maps */
@@ -76,7 +76,7 @@
             position: relative;
         }
 
-       
+
     </style>
 </head>
 
@@ -93,7 +93,7 @@
         <!--end::App Main-->
 
         <footer class="app-footer text-center py-3 ">
-        
+
             <strong class="text-center py-3">
                 Copyright Dinas Koperasi Dan Usaha Mikro Kabupaten Tangerang &copy; 2026&nbsp;
                 <!-- <a href="https://adminlte.io" class="text-decoration-none">Kementrian UMKM</a>. -->
@@ -218,7 +218,7 @@
     </script>
 
     @if (Request::is('sebaran-data-umkm') || Request::is('filter-skala'))
-    
+
     <script>
             // document.querySelectorAll('.skala-card').forEach(card => {
             //     card.addEventListener('click', function () {
@@ -276,7 +276,7 @@
             }
         });
     </script>
-    
+
     @elseif (Request::is('usaha-berdasarkan-wilayah'))
         {{-- usaha berdasarkan wilayah --}}
        <script>
@@ -284,11 +284,11 @@
            Chart.register(ChartDataLabels);
            const totalData = @json($identitasUsaha->count());
            const canvas = document.getElementById('businessChart');
-   
+
            canvas.height = totalData * 8; // ⬅ ini kuncinya
-   
+
            const ctx = canvas.getContext('2d');
-   
+
            const businessChart = new Chart(ctx, {
                type: 'bar',
                data: {
@@ -302,16 +302,16 @@
                        // data: [19967, 18213, 16390, 15390, 14390, 13390, 12390, 11390, 11290, 11190],
                        data: @json($identitasUsaha->pluck('total')),
                        backgroundColor: '#7D13E8',
-                       barThickness: 18, 
-                       categoryPercentage: 0.5, 
-                       barPercentage: 0.7       
+                       barThickness: 18,
+                       categoryPercentage: 0.5,
+                       barPercentage: 0.7
                    }]
                },
                options: {
                    indexAxis: 'y',
                    responsive: true,
                    // Tambahkan padding di sisi kanan agar angka tidak terpotong
-                   
+
                    layout: {
                        padding: {
                            right: 50
@@ -319,22 +319,22 @@
                    },
                     onClick: function (evt, elements) {
                        if (elements.length > 0) {
-   
+
                            const index = elements[0].index;
                            const kecamatan = this.data.labels[index];
-   
+
                            document.getElementById('skalaTitle2').innerText =
                            "Data UMKM Kecamatan " + kecamatan;
                            const btn = document.getElementById('btnExportWilayah');
                            btn.classList.remove('d-none');
-   
+
                            // ubah link export
                            btn.href = `/export-wilayah/${kecamatan}`;
-   
+
                            loadWilayah(`/filter-wilayah?kecamatan=${encodeURIComponent(kecamatan)}`);
                        }
                    },
-                   
+
                    plugins: {
                        legend: {
                            display: false
@@ -418,7 +418,7 @@
                     datasets: [{
                         data: clusterCountsData,
                         backgroundColor: '#7D13E8',
-                        borderRadius: 5, 
+                        borderRadius: 5,
                         barThickness: 15,
                     }]
                 },
@@ -463,7 +463,7 @@
                             formatter: (value) => value.toLocaleString('id-ID') // Format titik (contoh: 89.543)
                         }
                     },
-                
+
                     scales: {
                         x: {
                             beginAtZero: true,
@@ -598,7 +598,7 @@
         {{-- batas pengusaha berdasarkan desil --}}
 
     @elseif(Request::is('usaha-berdasarkan-kbli'))
-    
+
     {{-- script kbli --}}
     <script>
         // Pastikan Plugin Datalabels terdaftar
@@ -680,17 +680,8 @@
     </script>
     {{-- batas script kbli --}}
 
-<<<<<<< HEAD
 
     @elseif(Request::is('indikator-usaha-lainnya'))
-=======
-    @else
-   
-
-   
-
-
->>>>>>> 501705a6b2991e5e8265c1a4070acd87d8b9c04a
     {{-- usaha lainnya --}}
     <script>
         // Pastikan Plugin Datalabels terdaftar
@@ -728,7 +719,7 @@
 
                         btn.href = `/export-nib/${encodeURIComponent(label)}`;
                         loadNIB(`/filter-nib?status=${label}`);
-                        
+
                     }
                 },
                 plugins: {
@@ -863,14 +854,14 @@
                     loadGender(`/filter-gender?gender=${label}` );
                     }
             },
-            cutout: '70%', 
+            cutout: '70%',
             plugins: {
                 legend: {
                     display: false
-                }, 
+                },
                 datalabels: {
                     display: false
-                } 
+                }
             }
         };
 
@@ -908,7 +899,7 @@
             data: {
                 labels: ['Dibayar', 'Tidak Dibayar'],
                 datasets: [{
-                    data: laborData, 
+                    data: laborData,
                     backgroundColor: ['#d4a017', '#2b4c7e'],
                     borderWidth: 0
                 }]
@@ -927,18 +918,18 @@
 
                         // Set link export sesuai yang diklik
                         btn.href = `/export-gender/${label}`;
-                        
+
                         loadLabor(`/filter-tenaga-kerja?status=${label}`);
                     }
                 },
-                cutout: '70%', 
+                cutout: '70%',
                 plugins: {
                         legend: {
                             display: false
-                        }, 
+                        },
                         datalabels: {
                             display: false
-                        } 
+                        }
                     }
             },
         });
@@ -947,7 +938,7 @@
     <script>
         function loadNIB(url) {
 
-            
+
 
             fetch(url)
                 .then(response => response.text())
@@ -957,15 +948,15 @@
         }
 
         function loadGender(url) {
-            
-                 
+
+
             fetch(url)
                 .then(response => response.text())
                 .then(html => {
                     document.getElementById('tableContainer6').innerHTML = html;
                 });
             }
-        
+
         function loadLabor(url) {
             fetch(url)
                 .then(response => response.text())
@@ -991,7 +982,7 @@
 
 <<<<<<< HEAD
     @else
-   
+
 =======
 >>>>>>> 501705a6b2991e5e8265c1a4070acd87d8b9c04a
     {{-- batas usaha lainnya --}}

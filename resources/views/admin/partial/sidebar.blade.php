@@ -90,11 +90,7 @@
                                     <p class="text-white">Daftar UMKM</p>
                                 </a>
                             </li>
-<<<<<<< HEAD
                             <!-- <li class="nav-item">
-=======
-                            <li class="nav-item">
->>>>>>> 501705a6b2991e5e8265c1a4070acd87d8b9c04a
                                 <a href="" class="nav-link {{ Request::is('pembinaan') ? 'active' : '' }}">
                                     <i class="nav-icon bi bi-circle"></i>
                                     <p class="text-white">Koperasi</p>
@@ -105,11 +101,7 @@
                                     <i class="nav-icon bi bi-circle"></i>
                                     <p class="text-white">sertifikat</p>
                                 </a>
-<<<<<<< HEAD
                             </li> -->
-=======
-                            </li>
->>>>>>> 501705a6b2991e5e8265c1a4070acd87d8b9c04a
                         </ul>
                     </li>
 

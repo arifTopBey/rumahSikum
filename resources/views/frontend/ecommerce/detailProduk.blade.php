@@ -4,7 +4,7 @@
 @push('styles')
 <style>
     body { background-color: #f8fafc; }
-    
+
     /* Product Gallery */
     .main-img-container {
         background: white;
@@ -141,11 +141,7 @@
                     <div>
                         <h6 class="fw-bold mb-0">UMKM Batik Tangerang Sejahtera</h6>
                         <p class="text-muted small mb-1"><i data-lucide="map-pin" size="12"></i> Kec. Kelapa Dua, Tangerang</p>
-<<<<<<< HEAD
                         <a href="{{ route('frontend.toko') }}" class="text-primary text-decoration-none fw-bold small">Kunjungi Toko &rarr;</a>
-=======
-                        <a href="#" class="text-primary text-decoration-none fw-bold small">Kunjungi Toko &rarr;</a>
->>>>>>> 501705a6b2991e5e8265c1a4070acd87d8b9c04a
                     </div>
                 </div>
             </div>
@@ -188,7 +184,7 @@
         document.getElementById('mainImg').src = src;
         // Logic untuk ganti class active pada thumbnail bisa ditambahkan di sini
     }
-    
+
     lucide.createIcons();
 </script>
 @endpush

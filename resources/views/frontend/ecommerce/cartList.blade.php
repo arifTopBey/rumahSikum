@@ -4,7 +4,7 @@
 @push('styles')
 <style>
     body { background-color: #f8fafc; }
-    
+
     .cart-card {
         background: white;
         border-radius: 20px;
@@ -150,7 +150,7 @@
         <div class="col-lg-4 px-2 py-2 shadow rounded-2">
             <div class="summary-card px-2 py-2">
                 <h5 class="fw-bold mb-4">Ringkasan Belanja</h5>
-                
+
                 <div class="d-flex justify-content-between mb-2">
                     <span class="text-muted">Total Harga (3 Barang)</span>
                     <span>Rp 335.000</span>
@@ -170,7 +170,7 @@
                     <span class="fw-bold fs-5">Total Bayar</span>
                     <span class="fw-800 fs-4 text-primary">Rp 320.000</span>
                 </div>
-<!-- 
+<!--
                 <div class="promo-code mb-4">
                     <label class="small fw-bold text-muted mb-2 d-block">Punya Kode Promo?</label>
                     <div class="input-group">
@@ -179,16 +179,10 @@
                     </div>
                 </div> -->
 
-<<<<<<< HEAD
                 <a href="{{ route('frontend.checkout') }}" class="btn btn-primary w-100 py-3 rounded-4 fw-bold shadow-sm mb-3">
                     Checkout Sekarang
                 </a>
-=======
-                <button class="btn btn-primary w-100 py-3 rounded-4 fw-bold shadow-sm mb-3">
-                    Checkout Sekarang
-                </button>
->>>>>>> 501705a6b2991e5e8265c1a4070acd87d8b9c04a
-                
+
                 <div class="text-center">
                     <small class="text-muted"><i data-lucide="shield-check" size="14"></i> Pembayaran Aman & Terverifikasi</small>
                 </div>

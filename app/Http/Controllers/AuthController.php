@@ -18,11 +18,7 @@ class AuthController extends Controller
 
     public function index()
     {
-<<<<<<< HEAD
-        return view('frontend.auth.index');
-=======
         return view('frontend.index');
->>>>>>> 501705a6b2991e5e8265c1a4070acd87d8b9c04a
     }
 
     public function login(LoginSroreRequest $request){
@@ -34,7 +30,7 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             return redirect()->route('admin.sebaran.data.umkm');
-        } 
+        }
 
         return back()->with('LoginError','Email Atau Password Salah');
 
@@ -46,7 +42,7 @@ class AuthController extends Controller
     }
 
     public function logout(Request $request){
-        
+
         Auth::logout();
 
         $request->session()->invalidate();
@@ -66,21 +62,21 @@ class AuthController extends Controller
 
     //     $result = $this->authRepository->login($validated['username'], $validated['password']);
 
-    //     // dd($result); 
+    //     // dd($result);
 
     //     if ($result && isset($result['access_token'])) {
     //         session([
     //             'api_token' => $result['access_token'],
     //             'user_data' => $result['user'] ?? null // Simpan data user jika ada
     //         ]);
-            
+
     //         return redirect()->route('admin.ukmkm.list')->with('success', 'Selamat Datang!');
     //     }
 
     //     return back()->withErrors(['message' => 'Kredensial tidak valid. Silakan cek kembali username dan password Anda.'])
     //                 ->withInput();
     //     }
-    
+
     // public function logout(){
     //     $this->authRepository->logout();
 
