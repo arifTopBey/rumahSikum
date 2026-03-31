@@ -9,6 +9,8 @@ use App\Http\Controllers\FrontendController;
 // use App\Http\Controllers\KoperasiController;
 // use App\Http\Controllers\SertifikatController;
 use App\Http\Controllers\IndikatorUsahaLainnyaController;
+use App\Http\Controllers\PesananController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UmkmController;
 use App\Http\Controllers\UsahaBerdasarkanPrioritasController;
 use Illuminate\Support\Facades\Route;
@@ -46,7 +48,25 @@ Route::middleware(['guest'])->group(function () {
 
     // nanti pake setelah login bisa akses halaman ini
     Route::get('/cart-list', [FrontendController::class, 'cartList'])->name('frontend.cart.list');
+    Route::get('/toko', [FrontendController::class, 'toko'])->name('frontend.toko');
+
+    // nanti memakai id user untuk profile
+    Route::get('/profile', [ProfileController::class, 'index'])->name('frontend.profile.index');
+
+    // nanti memakai id user untuk pesanan
+    Route::get('/pesanan', [PesananController::class, 'index'])->name('frontend.pesanan.index');
+
+    Route::get('/alamat-saya', [FrontendController::class, 'alamatSaya'])->name('frontend.alamat.saya');
+
+    // nanti pakai id user untuk checkout
+    Route::get('/checkout', [FrontendController::class, 'checkout'])->name('frontend.checkout');
     
+
+    // ulasan nanti pakai id 
+    Route::get('/ulasan', [FrontendController::class, 'ulasan'])->name('frontend.ulasan');
+
+    // nanti memakai id transaksi untuk detail transaksi
+    Route::get('/transaksi-detail', [FrontendController::class, 'transaksiDetail'])->name('frontend.transaksi.detail');
 
 });
 

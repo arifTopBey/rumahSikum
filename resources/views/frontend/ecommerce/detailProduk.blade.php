@@ -141,7 +141,7 @@
                     <div>
                         <h6 class="fw-bold mb-0">UMKM Batik Tangerang Sejahtera</h6>
                         <p class="text-muted small mb-1"><i data-lucide="map-pin" size="12"></i> Kec. Kelapa Dua, Tangerang</p>
-                        <a href="#" class="text-primary text-decoration-none fw-bold small">Kunjungi Toko &rarr;</a>
+                        <a href="{{ route('frontend.toko') }}" class="text-primary text-decoration-none fw-bold small">Kunjungi Toko &rarr;</a>
                     </div>
                 </div>
             </div>

@@ -1,0 +1,75 @@
+ body { background-color: #f4f7fe; }
+    .order-wrapper { margin-top: 120px; margin-bottom: 100px; }
+
+    /* Tab Status Styling */
+    .nav-order {
+        background: white;
+        border-radius: 20px;
+        padding: 10px;
+        border: 1px solid #edf2f7;
+    }
+    .nav-order .nav-link {
+        border: none;
+        color: #64748b;
+        font-weight: 700;
+        border-radius: 15px;
+        padding: 12px 25px;
+        transition: 0.3s;
+    }
+    .nav-order .nav-link.active {
+        background: #4361ee;
+        color: white;
+        box-shadow: 0 10px 20px rgba(67, 97, 238, 0.2);
+    }
+
+    /* Order Card */
+    .order-card {
+        background: white;
+        border-radius: 25px;
+        padding: 25px;
+        border: 1px solid #edf2f7;
+        margin-top: 20px;
+        transition: 0.3s;
+    }
+    .order-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+    }
+
+    .order-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 15px;
+        border-bottom: 1px dashed #e2e8f0;
+        margin-bottom: 15px;
+    }
+
+    .status-badge {
+        padding: 6px 15px;
+        border-radius: 50px;
+        font-size: 0.75rem;
+        font-weight: 800;
+        text-transform: uppercase;
+    }
+    .status-shipping { background: #e0e7ff; color: #4361ee; }
+    .status-process { background: #fef3c7; color: #d97706; }
+    .status-done { background: #dcfce7; color: #15803d; }
+
+    .product-img-order {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 15px;
+    }
+
+    .btn-detail-order {
+        background: #f8fafc;
+        color: #1e293b;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 10px 20px;
+        font-weight: 700;
+        font-size: 0.9rem;
+    }
+    .btn-detail-order:hover { background: #f1f5f9; }

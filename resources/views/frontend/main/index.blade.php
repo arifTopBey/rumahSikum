@@ -26,6 +26,24 @@
     @if (Request::is('register'))
         <link rel="stylesheet" href="{{ asset('css/register.css') }}">
     @endif
+    @if (Request::is('profile'))
+        <link rel="stylesheet" href="{{ asset('css/profile.css') }}">
+    @endif
+    @if (Request::is('pesanan'))
+        <link rel="stylesheet" href="{{ asset('css/pesananSaya.css') }}">
+    @endif
+    @if (Request::is('alamat-saya'))
+        <link rel="stylesheet" href="{{ asset('css/alamat.css') }}">
+    @endif
+    @if (Request::is('checkout'))
+        <link rel="stylesheet" href="{{ asset('css/checkout.css') }}">
+    @endif
+    @if (Request::is('ulasan'))
+        <link rel="stylesheet" href="{{ asset('css/ulasan.css') }}">
+    @endif
+    @if (Request::is('transaksi-detail'))
+        <link rel="stylesheet" href="{{ asset('css/detailTransaksi.css') }}">
+    @endif
 
     <script src="https://unpkg.com/lucide@latest"></script>
 

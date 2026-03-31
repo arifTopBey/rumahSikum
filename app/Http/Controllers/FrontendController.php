@@ -44,5 +44,29 @@ class FrontendController extends Controller
         return view('frontend.daftarUMKM.index');
     }
 
+    // nanti memakai id
+    public function toko(){
+
+        return view('frontend.ecommerce.toko.index');
+
+    }
+
+    public function alamatSaya(){
+        return view('frontend.alamat.index');
+    }
+
+
+    public function checkout(){
+        return view('frontend.checkout.index');
+    }
+
+    public function ulasan(){
+        return view('frontend.ecommerce.ulasan');
+    }
+
+    public function transaksiDetail(){
+        return view('frontend.ecommerce.detailTransaksi');
+    }
+
 
 }
