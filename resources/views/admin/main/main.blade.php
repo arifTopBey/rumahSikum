@@ -680,8 +680,17 @@
     </script>
     {{-- batas script kbli --}}
 
+<<<<<<< HEAD
 
     @elseif(Request::is('indikator-usaha-lainnya'))
+=======
+    @else
+   
+
+   
+
+
+>>>>>>> 501705a6b2991e5e8265c1a4070acd87d8b9c04a
     {{-- usaha lainnya --}}
     <script>
         // Pastikan Plugin Datalabels terdaftar
@@ -980,8 +989,11 @@
     });
     </script>
 
+<<<<<<< HEAD
     @else
    
+=======
+>>>>>>> 501705a6b2991e5e8265c1a4070acd87d8b9c04a
     {{-- batas usaha lainnya --}}
     @endif
 

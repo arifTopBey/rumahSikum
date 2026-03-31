@@ -32,7 +32,6 @@ use Maatwebsite\Excel\Facades\Excel;
 // });
 
 Route::middleware(['guest'])->group(function () {
-   
     Route::get('/', [FrontendController::class, 'index'])->name('frontend.index');
     Route::get('/login', [AuthController::class, 'index'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.store');
@@ -91,7 +90,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/filter-gender', [DataUMKMController::class, 'filterGender'])->name('admin.filter.gender');
     Route::get('/filter-tenaga-kerja', [DataUMKMController::class, 'filterTenagaKerja'])->name('admin.filter.tenaga.kerja');
     Route::get('/filter-cluster', [DataUMKMController::class, 'getClusterData'])->name('admin.cluster.data');
+
     Route::get('/sebaran-data-umkm/kbli/{kategori}', [DataUMKMController::class, 'dataKbriKategori']);
+
+
 
     Route::get('/export-skala/{skala}', [UMKMEksportController::class, 'exportBySkala'])->name('admin.export.skala');
     // Route::get('/export-wilayah/{kecamatan}', [UMKMEksportController::class, 'exportByWilayah'])->name('admin.export.wilayah');

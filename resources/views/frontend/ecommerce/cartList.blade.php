@@ -179,9 +179,15 @@
                     </div>
                 </div> -->
 
+<<<<<<< HEAD
                 <a href="{{ route('frontend.checkout') }}" class="btn btn-primary w-100 py-3 rounded-4 fw-bold shadow-sm mb-3">
                     Checkout Sekarang
                 </a>
+=======
+                <button class="btn btn-primary w-100 py-3 rounded-4 fw-bold shadow-sm mb-3">
+                    Checkout Sekarang
+                </button>
+>>>>>>> 501705a6b2991e5e8265c1a4070acd87d8b9c04a
                 
                 <div class="text-center">
                     <small class="text-muted"><i data-lucide="shield-check" size="14"></i> Pembayaran Aman & Terverifikasi</small>

@@ -26,6 +26,7 @@ class FrontendController extends Controller
         return view('frontend.ecommerce.index');
     }
 
+<<<<<<< HEAD
     public function eCommerceDetail(){
 
         return view('frontend.ecommerce.detailProduk');
@@ -69,4 +70,10 @@ class FrontendController extends Controller
     }
 
 
+=======
+    public function koperasi(){
+
+        return view('frontend.koperasi.index');
+    }
+>>>>>>> 501705a6b2991e5e8265c1a4070acd87d8b9c04a
 }

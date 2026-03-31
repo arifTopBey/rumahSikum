@@ -1,0 +1,79 @@
+image: docker
+
+## SETUP CI/CD STARTS HERE ##
+services:
+  - name: docker:dind
+
+variables:
+  DOCKER_DRIVER: overlay2
+  CACHE_IMAGE: "${DOCKER_REGISTRY_ADDR}/rumah-sikum"
+  DOCKER_BUILDKIT: 1
+  CONTAINER_NAME: rumah-sikum
+
+before_script:
+  - eval $(ssh-agent -s)
+  - chmod 400 "$SSH_PRIVATE_KEY"
+  - ssh-add $SSH_PRIVATE_KEY
+  - mkdir -p ~/.ssh
+  - chmod 700 ~/.ssh
+  - cp "$SSH_KNOWN_HOSTS" ~/.ssh/known_hosts
+  - chmod 644 ~/.ssh/known_hosts
+
+## SETUP CI/CD ENDS HERE ##
+
+stages:
+  - build
+  - deploy
+
+### BUILD STAGE STARTS HERE ###
+build-dev:
+  stage: build
+  environment: development
+  script:
+    - echo "Build image start"
+    - cp "$APP_ENV_DEV" .env
+    - echo "$DOCKER_REGISTRY_PASSWORD" | docker login "$DOCKER_REGISTRY_ADDR" --username "$DOCKER_REGISTRY_USERNAME" --password-stdin
+    - DOCKER_BUILDKIT=1 docker build . --tag $CACHE_IMAGE:dev-latest  --cache-from $CACHE_IMAGE:dev-latest --build-arg BUILDKIT_INLINE_CACHE=1
+    - docker push "$CACHE_IMAGE":dev-latest
+    - echo "Build image complete."
+  only:
+    - dev
+
+build-prod:
+  stage: build
+  environment: production
+  script:
+    - echo "Build image start"
+    - cp "$APP_ENV_PROD" .env
+    - DOCKER_BUILDKIT=1 docker build . --tag $CACHE_IMAGE:prod-${CI_COMMIT_SHORT_SHA}  --build-arg BUILDKIT_INLINE_CACHE=1
+    - docker push "$CACHE_IMAGE":prod-${CI_COMMIT_SHORT_SHA}
+  only:
+    - main
+
+### BUILD STAGE ENDS HERE ###
+
+### DEPLOY STAGE STARTS HERE ###
+deploy-dev:
+  stage: deploy
+  environment: development
+  script:
+    - echo "Deploying application to development environment..."
+    - echo "$DOCKER_REGISTRY_PASSWORD" | docker login "$DOCKER_REGISTRY_ADDR" --username "$DOCKER_REGISTRY_USERNAME" --password-stdin
+    - DOCKER_HOST="ssh://$INSTANCE_DEV_USER@$INSTANCE_DEV_IP" IMAGE_TAG="dev-latest" docker stack deploy --compose-file docker-compose.yml --with-registry-auth --resolve-image always $CONTAINER_NAME
+    - echo "Application successfully deployed."
+  only:
+    - dev
+
+
+deploy-production:
+  stage: deploy
+  environment: production
+  script:
+    - echo "Deploying application to production environment..."
+    - echo "$DOCKER_REGISTRY_PASSWORD" | docker login "$DOCKER_REGISTRY_ADDR" --username "$DOCKER_REGISTRY_USERNAME" --password-stdin
+    - DOCKER_HOST="ssh://$INSTANCE_PRODUCTION_USER@$INSTANCE_PRODUCTION_IP" IMAGE_TAG="prod-${CI_COMMIT_SHORT_SHA}" docker stack deploy --compose-file docker-compose.yml --with-registry-auth --resolve-image always $CONTAINER_NAME
+    - echo "Application successfully deployed."
+  only:
+    - main
+
+### DEPLOY STAGE ENDS HERE ###

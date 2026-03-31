@@ -18,7 +18,11 @@ class AuthController extends Controller
 
     public function index()
     {
+<<<<<<< HEAD
         return view('frontend.auth.index');
+=======
+        return view('frontend.index');
+>>>>>>> 501705a6b2991e5e8265c1a4070acd87d8b9c04a
     }
 
     public function login(LoginSroreRequest $request){
