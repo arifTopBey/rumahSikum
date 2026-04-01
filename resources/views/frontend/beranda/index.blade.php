@@ -9,7 +9,7 @@
                     <h1 class="hero-title mb-4">Berdayakan <span class="text-gradient">Ekonomi Lokal</span> Dalam Satu Genggaman.</h1>
                     <p class="lead text-muted mb-5">Platform terintegrasi untuk pendataan, pemasaran produk unggulan, dan penguatan koperasi di Kabupaten Tangerang.</p>
                     <div class="d-flex gap-3">
-                        <button class="btn btn-primary btn-lg rounded-pill px-5">Jelajahi Produk</button>
+                        <a href="{{ route('frontend.eCommerce') }}" class="btn btn-primary btn-lg rounded-pill px-5">Jelajahi Produk</a>
                         <button class="btn btn-outline-dark btn-lg rounded-pill px-4"><i data-lucide="play-circle" class="me-2"></i>Video Profil</button>
                     </div>
 

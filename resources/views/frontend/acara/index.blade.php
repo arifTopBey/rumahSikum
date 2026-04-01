@@ -1,0 +1,123 @@
+@extends('frontend.main.index')
+
+@section('content')
+<div class="container event-wrapper">
+    <div class="event-hero shadow-lg">
+        <div class="event-hero-circle"></div>
+        <div class="row align-items-center">
+            <div class="col-lg-7">
+                <h1 class="fw-800 display-5 mb-3">Agenda & Acara UMKM</h1>
+                <p class="lead opacity-90 mb-0">Temukan pameran, bazar, dan festival UMKM terbaik di seluruh wilayah Kabupaten Tangerang.</p>
+            </div>
+            <div class="col-lg-5 text-lg-end mt-4 mt-lg-0">
+                <button class="btn btn-white bg-white text-primary rounded-pill px-4 py-3 fw-bold">Daftarkan Acara Anda</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-5 g-3">
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-text bg-white border-end-0 rounded-start-pill ps-3"><i data-lucide="search" size="18" class="text-muted"></i></span>
+                <input type="text" class="form-control border-start-0 rounded-end-pill py-3" placeholder="Cari nama acara...">
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="d-flex gap-2 overflow-auto pb-2 justify-content-md-end">
+                <button class="btn btn-primary rounded-pill px-4">Semua</button>
+                <button class="btn btn-outline-secondary bg-white rounded-pill px-4 text-nowrap">Bazar & Expo</button>
+                <button class="btn btn-outline-secondary bg-white rounded-pill px-4 text-nowrap">Workshop</button>
+                <button class="btn btn-outline-secondary bg-white rounded-pill px-4 text-nowrap">Festival Kuliner</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6 col-lg-4">
+            <div class="event-card shadow-sm">
+                <div class="event-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=600&auto=format" class="event-img" alt="Bazar">
+                    <div class="event-date-badge">
+                        <span class="date-day">15</span>
+                        <span class="date-month">Mei</span>
+                    </div>
+                </div>
+                <div class="event-body">
+                    <span class="event-category">Bazar & Expo</span>
+                    <h5 class="event-title">Tangerang UMKM Festival 2026</h5>
+                    <div class="event-meta">
+                        <i data-lucide="map-pin" size="14"></i> Alun-alun Tigaraksa
+                    </div>
+                    <div class="event-meta">
+                        <i data-lucide="clock" size="14"></i> 08:00 - 21:00 WIB
+                    </div>
+                    <a href="{{ route('frontend.acara.detail') }}" class="btn-event-detail">Lihat Detail Acara</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+            <div class="event-card shadow-sm">
+                <div class="event-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&auto=format" class="event-img" alt="Kuliner">
+                    <div class="event-date-badge">
+                        <span class="date-day">22</span>
+                        <span class="date-month">Jun</span>
+                    </div>
+                </div>
+                <div class="event-body">
+                    <span class="event-category">Festival Kuliner</span>
+                    <h5 class="event-title">Pesta Rasa Kuliner Khas Tangerang</h5>
+                    <div class="event-meta">
+                        <i data-lucide="map-pin" size="14"></i> SMS Mall Serpong
+                    </div>
+                    <div class="event-meta">
+                        <i data-lucide="clock" size="14"></i> 10:00 - 22:00 WIB
+                    </div>
+                    <a href="{{ route('frontend.acara.detail') }}" class="btn-event-detail">Lihat Detail Acara</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+            <div class="event-card shadow-sm">
+                <div class="event-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1475721027187-40afee775c73?w=600&auto=format" class="event-img" alt="Workshop">
+                    <div class="event-date-badge">
+                        <span class="date-day">05</span>
+                        <span class="date-month">Jul</span>
+                    </div>
+                </div>
+                <div class="event-body">
+                    <span class="event-category">Workshop</span>
+                    <h5 class="event-title">Digital Marketing untuk UMKM Lokal</h5>
+                    <div class="event-meta">
+                        <i data-lucide="map-pin" size="14"></i> Aula Kantor Bupati
+                    </div>
+                    <div class="event-meta">
+                        <i data-lucide="clock" size="14"></i> 09:00 - 15:00 WIB
+                    </div>
+                    <a href="{{ route('frontend.acara.detail') }}" class="btn-event-detail">Lihat Detail Acara</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-5 d-flex justify-content-center">
+        <nav>
+            <ul class="pagination">
+                <li class="page-item disabled"><a class="page-link rounded-start-pill px-3" href="#">Previous</a></li>
+                <li class="page-item active"><a class="page-link px-3" href="#">1</a></li>
+                <li class="page-item"><a class="page-link px-3" href="#">2</a></li>
+                <li class="page-item"><a class="page-link rounded-end-pill px-3" href="#">Next</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+@push('scripts')
+<script>
+    lucide.createIcons();
+</script>
+@endpush
+@endsection

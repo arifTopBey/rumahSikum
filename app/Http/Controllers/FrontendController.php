@@ -68,5 +68,29 @@ class FrontendController extends Controller
         return view('frontend.ecommerce.detailTransaksi');
     }
 
+    public function acara(){
+        return view('frontend.acara.index');
+    }
+
+    public function detailAcara(){
+        return view('frontend.acara.detailAcara');
+    }
+
+    public function pelatihan(){
+        return view('frontend.pelatihan.index');
+    }
+
+    public function daftarPelatihan(){
+        return view('frontend.pelatihan.daftarPelatihan');
+    }
+
+    public function informasiBPOM(){
+        return view('frontend.informasiBPOM.index');
+    }
+
+    public function edukasiKeuangan(){
+        return view('frontend.edukasiKeuangan.index');
+    }
+
 
 }

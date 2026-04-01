@@ -3,6 +3,7 @@
 use App\Exports\UmkmNibExport;
 use App\Exports\UmkmWilayahExport;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataUMKMController;
 use App\Http\Controllers\FrontendController;
 // use App\Http\Controllers\DataUMKMController;
@@ -66,6 +67,19 @@ Route::middleware(['guest'])->group(function () {
 
     // nanti memakai id transaksi untuk detail transaksi
     Route::get('/transaksi-detail', [FrontendController::class, 'transaksiDetail'])->name('frontend.transaksi.detail');
+
+    Route::get('/acara', [FrontendController::class, 'acara'])->name('frontend.acara');
+    Route::get('/acara/detail-acara', [FrontendController::class, 'detailAcara'])->name('frontend.acara.detail');
+
+    Route::get('/pelatihan', [FrontendController::class, 'pelatihan'])->name('frontend.pelatihan');
+    Route::get('/informasi-bpom', [FrontendController::class, 'informasiBPOM'])->name('frontend.informasi.bpom');
+
+    Route::get('edukasi-keuangan', [FrontendController::class, 'edukasiKeuangan'])->name('frontend.edukasi.keuangan');
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+
+    Route::get('/pelatihan/daftar-pelatihan', [FrontendController::class, 'daftarPelatihan'])->name('frontend.daftar.pelatihan');
+
 
 });
 
