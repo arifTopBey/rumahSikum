@@ -53,7 +53,6 @@
                 </div>
             </div>
         </div>
-
         <div class="col-md-6 col-lg-4">
             <div class="training-card shadow-sm">
                 <div class="training-img-wrapper">
