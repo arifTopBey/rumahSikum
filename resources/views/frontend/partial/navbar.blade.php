@@ -8,10 +8,43 @@
         </button>
         
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav mx-auto fw-semibold">
+            <ul class="navbar-nav mx-auto fw-semibold align-items-center">
                 <li class="nav-item"><a class="nav-link px-3" href="/">Home</a></li>
                 <li class="nav-item"><a class="nav-link px-3" href="{{ route('frontend.eCommerce') }}">Marketplace</a></li>
-                <li class="nav-item"><a class="nav-link px-3" href="{{ route('frontend.list.panel') }}">Landing Page</a></li>
+                
+                <li class="nav-item dropdown">
+                    <a class="nav-link px-3 dropdown-toggle d-flex align-items-center gap-1" href="#" id="landingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Landing Page
+                    </a>
+                    <ul class="dropdown-menu border-0 shadow-lg mt-lg-3 p-2 rounded-4" aria-labelledby="landingDropdown">
+                        <li>
+                            <a class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2" href="{{ route('frontend.list.panel') }}">
+                                <i data-lucide="layout" size="16" class="text-muted"></i> Landing Page
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2" href="{{ route('frontend.acara') }}">
+                                <i data-lucide="layout" size="16" class="text-muted"></i> Acara
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2" href="{{ route('frontend.pelatihan') }}">
+                                <i data-lucide="award" size="16" class="text-muted"></i> Pelatihan
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2" href="{{ route('frontend.informasi.bpom') }}">
+                                <i data-lucide="users" size="16" class="text-muted"></i>Informasi BPOM
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2" href="{{ route('frontend.edukasi.keuangan') }}">
+                                <i data-lucide="book-open" size="16" class="text-muted"></i> Edukasi Keuangan
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                
                 <li class="nav-item"><a class="nav-link px-3" href="{{ route('frontend.e-learning') }}">E-Learning</a></li>
             </ul>
             
@@ -31,6 +64,11 @@
                         <li>
                             <a class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2" href="{{ route('frontend.profile.index') }}">
                                 <i data-lucide="user-circle" size="16" class="text-muted"></i> Akun Saya
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2" href="{{ route('login') }}">
+                                <i data-lucide="log-in" size="16" class="text-muted"></i> Login
                             </a>
                         </li>
                         <li>

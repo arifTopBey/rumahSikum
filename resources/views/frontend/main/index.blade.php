@@ -44,6 +44,29 @@
     @if (Request::is('transaksi-detail'))
         <link rel="stylesheet" href="{{ asset('css/detailTransaksi.css') }}">
     @endif
+    @if (Request::is('acara'))
+        <link rel="stylesheet" href="{{ asset('css/acara.css') }}">
+    @endif
+    @if (Request::is('pelatihan'))
+        <link rel="stylesheet" href="{{ asset('css/pelatihan.css') }}">
+    @endif
+    @if (Request::is('informasi-bpom'))
+        <link rel="stylesheet" href="{{ asset('css/informasiBPOM.css') }}">
+    @endif
+    @if (Request::is('edukasi-keuangan'))
+        <link rel="stylesheet" href="{{ asset('css/edukasiKeuangan.css') }}">
+    @endif
+    @if (Request::is('dashboard'))
+        <link rel="stylesheet" href="{{ asset('css/sidebarDashboard.css') }}">
+    @endif
+    @if (Request::is('pelatihan/daftar-pelatihan'))
+        <link rel="stylesheet" href="{{ asset('css/daftarPelatihan.css') }}">
+    @endif
+    @if (Request::is('acara/detail-acara'))
+        <link rel="stylesheet" href="{{ asset('css/detailAcara.css') }}">
+    @endif
+
+
 
     <script src="https://unpkg.com/lucide@latest"></script>
 
