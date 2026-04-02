@@ -65,7 +65,15 @@
     @if (Request::is('acara/detail-acara'))
         <link rel="stylesheet" href="{{ asset('css/detailAcara.css') }}">
     @endif
-
+    @if (Request::is('edukasi-keuangan/detail-edukasi'))
+        <link rel="stylesheet" href="{{ asset('css/detailKeuangan.css') }}">
+    @endif
+    @if (Request::is('berita'))
+         <link rel="stylesheet" href="{{ asset('css/berita.css') }}">
+    @endif
+    @if (Request::is('berita/detail-berita'))
+         <link rel="stylesheet" href="{{ asset('css/detailBerita.css') }}">
+    @endif
 
 
     <script src="https://unpkg.com/lucide@latest"></script>

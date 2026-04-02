@@ -92,5 +92,17 @@ class FrontendController extends Controller
         return view('frontend.edukasiKeuangan.index');
     }
 
+    public function detailEdukasiKeuangan(){
+        return view('frontend.edukasiKeuangan.detail');
+    }
+
+    public function berita(){
+        return view('frontend.berita.index');
+    }
+
+    public function detailBerita(){
+        return view('frontend.berita.detailBerita');
+    }
+
 
 }

@@ -75,10 +75,14 @@ Route::middleware(['guest'])->group(function () {
     Route::get('/informasi-bpom', [FrontendController::class, 'informasiBPOM'])->name('frontend.informasi.bpom');
 
     Route::get('edukasi-keuangan', [FrontendController::class, 'edukasiKeuangan'])->name('frontend.edukasi.keuangan');
+    Route::get('edukasi-keuangan/detail-edukasi', [FrontendController::class, 'detailEdukasiKeuangan'])->name('frontend.edukasi.keuangan.detail');
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
     Route::get('/pelatihan/daftar-pelatihan', [FrontendController::class, 'daftarPelatihan'])->name('frontend.daftar.pelatihan');
+
+    Route::get('/berita', [FrontendController::class, 'berita'])->name('frontend.berita');
+    Route::get('/berita/detail-berita', [FrontendController::class, 'detailBerita'])->name('frontend.berita.detail');
 
 
 });
