@@ -31,7 +31,7 @@
                             <span class="text-primary small fw-bold text-uppercase">Tips Akuntansi</span>
                             <h5 class="fw-800 mt-2">Cara Memisahkan Rekening Pribadi & Usaha</h5>
                             <p class="text-muted small">Kesalahan fatal yang sering dilakukan UMKM adalah mencampur uang belanja dapur dengan uang modal...</p>
-                            <a href="#" class="text-primary fw-bold text-decoration-none small">Baca Selengkapnya <i data-lucide="arrow-right" size="14"></i></a>
+                            <a href="{{ route('frontend.edukasi.keuangan.detail') }}" class="text-primary fw-bold text-decoration-none small">Baca Selengkapnya <i data-lucide="arrow-right" size="14"></i></a>
                         </div>
                     </div>
                 </div>

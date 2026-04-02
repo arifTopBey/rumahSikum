@@ -28,6 +28,11 @@
                             </a>
                         </li>
                         <li>
+                            <a class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2" href="{{ route('frontend.berita') }}">
+                                <i data-lucide="layout" size="16" class="text-muted"></i> Berita
+                            </a>
+                        </li>
+                        <li>
                             <a class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2" href="{{ route('frontend.pelatihan') }}">
                                 <i data-lucide="award" size="16" class="text-muted"></i> Pelatihan
                             </a>
