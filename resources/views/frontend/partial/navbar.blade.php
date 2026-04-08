@@ -103,7 +103,9 @@
                     </ul>
                 </div>
 
-                <a href="{{ route('frontend.tambah.umkm') }}" class="btn btn-primary rounded-pill px-4 shadow-sm fw-bold">Gabung UMKM</a>
+                @if (!auth()->check())
+                    <a href="{{ route('frontend.tambah.umkm') }}" class="btn btn-primary rounded-pill px-4 shadow-sm fw-bold">Gabung UMKM</a>                    
+                @endif
             </div>
         </div>
     </div>

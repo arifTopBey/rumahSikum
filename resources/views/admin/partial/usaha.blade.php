@@ -25,3 +25,16 @@
         </table>
     </div>
 </div>
+
+<!-- <div class="d-flex justify-content-between align-items-center mt-4">
+            <p class="text-muted small">Menampilkan {{ $data->firstItem() }} sampai {{ $data->lastItem() }} dari {{ $data->total() }} berita</p>
+            <div>
+                {{ $data->links() }}
+            </div>
+        </div> -->
+
+         <!-- @if($news->status == 'Published')
+                                    <span class="badge bg-success bg-opacity-10 text-success border border-success px-3 py-2 rounded-2">Published</span>
+                                @else
+                                    <span class="badge bg-warning bg-opacity-10 text-warning border border-warning px-3 py-2 rounded-2">Draft</span>
+                                @endif -->

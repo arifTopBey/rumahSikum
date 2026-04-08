@@ -119,9 +119,29 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/sebaran-data-umkm/kbli/{kategori}', [DataUMKMController::class, 'dataKbriKategori']);
 
+    Route::get('/admin/kategori-berita', [\App\Http\Controllers\Admin\KategoriBeritaController::class, 'index'])->name('admin.kategori.berita.index');
+    Route::get('/admin/kategori-berita/create', [\App\Http\Controllers\Admin\KategoriBeritaController::class, 'create'])->name('admin.kategori.berita.create');
+    Route::post('/admin/kategori-berita', [\App\Http\Controllers\Admin\KategoriBeritaController::class, 'store'])->name('admin.kategori.berita.store');
+    Route::delete('/admin/kategori-berita/{id}', [\App\Http\Controllers\Admin\KategoriBeritaController::class, 'destroy'])->name('admin.kategori.berita.destroy');
+
+    Route::get('/admin/berita', [\App\Http\Controllers\Admin\BeritaController::class, 'index'])->name('admin.berita.index');
+    Route::get('/admin/berita/create', [\App\Http\Controllers\Admin\BeritaController::class, 'create'])->name('admin.berita.create');
+    Route::post('/admin/berita', [\App\Http\Controllers\Admin\BeritaController::class, 'store'])->name('admin.berita.store');
+
+
+
+
+
+
+
+
+
+
+
 
 
     Route::get('/export-skala/{skala}', [UMKMEksportController::class, 'exportBySkala'])->name('admin.export.skala');
+
     // Route::get('/export-wilayah/{kecamatan}', [UMKMEksportController::class, 'exportByWilayah'])->name('admin.export.wilayah');
     Route::get('/export-wilayah/{kecamatan}', function ($kecamatan) {
         return Excel::download(

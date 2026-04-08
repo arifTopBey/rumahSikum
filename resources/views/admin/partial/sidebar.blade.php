@@ -104,6 +104,36 @@
                             </li> -->
                         </ul>
                     </li>
+                    <li class="nav-item {{ Request::is('admin/berita*') ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link {{ Request::is('admin/berita*') ? 'active bg-black' : '' }}">
+                            <i class="bi bi-table text-white"></i>
+                            <p class="text-white">
+                                Berita
+                                <i class="nav-arrow bi bi-chevron-right"></i>
+                            </p>
+                        </a>
+                        <!-- <a href="{{ route('admin.kategori.berita.index') }}" class="nav-link {{ Request::is('pembinaan') ? 'active bg-black' : '' }}">
+                            <i class="bi bi-table text-white"></i>
+                            <p class="text-white">
+                                Kategori Berita
+                                <i class="nav-arrow bi bi-chevron-right"></i>
+                            </p>
+                        </a> -->
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('admin.kategori.berita.index') }}" class="nav-link {{ Request::is('admin/kategori/berita*') ? 'active' : '' }}">
+                                    <i class="nav-icon bi bi-circle"></i>
+                                    <p class="text-white">Kategori Berita</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{route('admin.berita.index')}}" class="nav-link {{ Request::is('admin/berita*') ? 'active' : '' }}">
+                                    <i class="nav-icon bi bi-circle"></i>
+                                    <p class="text-white">Berita</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
 
                     <li class="nav-item">
                         <a href="#" class="nav-link">
