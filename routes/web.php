@@ -32,24 +32,27 @@ use Maatwebsite\Excel\Facades\Excel;
 //     Route::get('/login', [AuthController::class, 'index'])->name('login');
 //     Route::post('/login', [AuthController::class, 'login'])->name('login.store');
 // });
+Route::get('/list-panel', [FrontendController::class, 'listPanel'])->name('frontend.list.panel');
+Route::get('/e-learning', [FrontendController::class, 'eLearning'])->name('frontend.e-learning');
+Route::get('/e-commerce', [FrontendController::class, 'eCommerce'])->name('frontend.eCommerce');
+Route::get('/e-commerce/produk', [FrontendController::class, 'eCommerceDetail'])->name('frontend.eCommerce.detail');
+Route::get('/koperasi', [FrontendController::class, 'koperasi'])->name('frontend.koperasi');
+Route::get('/tambah-umkm', [FrontendController::class, 'tambahUmkm'])->name('frontend.tambah.umkm');
+Route::get('/acara', [FrontendController::class, 'acara'])->name('frontend.acara');
+Route::get('/acara/detail-acara', [FrontendController::class, 'detailAcara'])->name('frontend.acara.detail');
+Route::get('/toko', [FrontendController::class, 'toko'])->name('frontend.toko');
+Route::get('/', [FrontendController::class, 'index'])->name('frontend.index');
 
 Route::middleware(['guest'])->group(function () {
-    Route::get('/', [FrontendController::class, 'index'])->name('frontend.index');
+
     Route::get('/login', [AuthController::class, 'index'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.store');
 
-    Route::get('/list-panel', [FrontendController::class, 'listPanel'])->name('frontend.list.panel');
-    Route::get('/e-learning', [FrontendController::class, 'eLearning'])->name('frontend.e-learning');
-    Route::get('/e-commerce', [FrontendController::class, 'eCommerce'])->name('frontend.eCommerce');
-    Route::get('/e-commerce/produk', [FrontendController::class, 'eCommerceDetail'])->name('frontend.eCommerce.detail');
-    Route::get('/koperasi', [FrontendController::class, 'koperasi'])->name('frontend.koperasi');
-    Route::get('/tambah-umkm', [FrontendController::class, 'tambahUmkm'])->name('frontend.tambah.umkm');
     Route::get('/register', [AuthController::class, 'register'])->name('frontend.register');
     Route::post('/register', [AuthController::class, 'store'])->name('frontend.register.store');
 
     // nanti pake setelah login bisa akses halaman ini
     Route::get('/cart-list', [FrontendController::class, 'cartList'])->name('frontend.cart.list');
-    Route::get('/toko', [FrontendController::class, 'toko'])->name('frontend.toko');
 
     // nanti memakai id user untuk profile
     Route::get('/profile', [ProfileController::class, 'index'])->name('frontend.profile.index');
@@ -69,8 +72,7 @@ Route::middleware(['guest'])->group(function () {
     // nanti memakai id transaksi untuk detail transaksi
     Route::get('/transaksi-detail', [FrontendController::class, 'transaksiDetail'])->name('frontend.transaksi.detail');
 
-    Route::get('/acara', [FrontendController::class, 'acara'])->name('frontend.acara');
-    Route::get('/acara/detail-acara', [FrontendController::class, 'detailAcara'])->name('frontend.acara.detail');
+   
 
     Route::get('/pelatihan', [FrontendController::class, 'pelatihan'])->name('frontend.pelatihan');
     Route::get('/informasi-bpom', [FrontendController::class, 'informasiBPOM'])->name('frontend.informasi.bpom');

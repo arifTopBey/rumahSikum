@@ -9,7 +9,7 @@
         
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mx-auto fw-semibold align-items-center">
-                <li class="nav-item"><a class="nav-link px-3" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link px-3" href="{{ route('frontend.index') }}">Home</a></li>
                 <li class="nav-item"><a class="nav-link px-3" href="{{ route('frontend.eCommerce') }}">Marketplace</a></li>
                 
                 <li class="nav-item dropdown">
@@ -66,27 +66,40 @@
                         <span class="small fw-bold">Akun</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end border-0 shadow-lg mt-3 p-2 rounded-4" aria-labelledby="userMenu" style="min-width: 200px;">
-                        <li>
-                            <a class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2" href="{{ route('frontend.profile.index') }}">
-                                <i data-lucide="user-circle" size="16" class="text-muted"></i> Akun Saya
-                            </a>
-                        </li>
+                        @if (!auth()->check())
+                        
                         <li>
                             <a class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2" href="{{ route('login') }}">
                                 <i data-lucide="log-in" size="16" class="text-muted"></i> Login
                             </a>
                         </li>
+                        @endif
                         <li>
                             <a class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2" href="{{ route('frontend.pesanan.index') }}">
                                 <i data-lucide="package" size="16" class="text-muted"></i> Pesanan Saya
                             </a>
                         </li>
+                        @if (auth()->check())
+                        <!-- data-lucide="layout-dashboard" -->
+                        <li>
+                            <a class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2" href="{{ route('frontend.profile.index') }}">
+                                <i data-lucide="layout-dashboard" size="16" class="text-muted"></i> Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2" href="{{ route('frontend.profile.index') }}">
+                                <i data-lucide="user-circle" size="16" class="text-muted"></i> Akun Saya
+                            </a>
+                        </li>
                         <li><hr class="dropdown-divider opacity-50"></li>
+
                         <li>
                             <a class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2 text-danger" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 <i data-lucide="log-out" size="16"></i> Keluar
                             </a>
                         </li>
+                            
+                        @endif
                     </ul>
                 </div>
 
