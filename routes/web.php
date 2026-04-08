@@ -11,6 +11,7 @@ use App\Http\Controllers\FrontendController;
 // use App\Http\Controllers\SertifikatController;
 use App\Http\Controllers\IndikatorUsahaLainnyaController;
 use App\Http\Controllers\PesananController;
+use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UmkmController;
 use App\Http\Controllers\UsahaBerdasarkanPrioritasController;
@@ -77,16 +78,21 @@ Route::middleware(['guest'])->group(function () {
     Route::get('edukasi-keuangan', [FrontendController::class, 'edukasiKeuangan'])->name('frontend.edukasi.keuangan');
     Route::get('edukasi-keuangan/detail-edukasi', [FrontendController::class, 'detailEdukasiKeuangan'])->name('frontend.edukasi.keuangan.detail');
 
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
-
+    
     Route::get('/pelatihan/daftar-pelatihan', [FrontendController::class, 'daftarPelatihan'])->name('frontend.daftar.pelatihan');
-
+    
     Route::get('/berita', [FrontendController::class, 'berita'])->name('frontend.berita');
     Route::get('/berita/detail-berita', [FrontendController::class, 'detailBerita'])->name('frontend.berita.detail');
-
+    
+    // dashboard umkm
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+    Route::get('/produk', [ProdukController::class, 'index'])->name('dashboard.produk.index');
+    Route::get('/umkm/pesanan', [\App\Http\Controllers\Dashboard\PesananController::class, 'index'])->name('dashboard.pesanan.index');
+    Route::get('/saldo-penarikan', [\App\Http\Controllers\Dashboard\SaldoPenarikanController::class, 'index'])->name('dashboard.saldo.penarikan.index');
+    Route::get('/promosi', [\App\Http\Controllers\Dashboard\PromosiController::class, 'index'])->name('dashboard.promosi.index');
+    Route::get('/pengaturan', [\App\Http\Controllers\Dashboard\PengaturanController::class, 'index'])->name('dashboard.pengaturan.index');
 
 });
-
 
 
 Route::middleware(['auth'])->group(function () {
@@ -144,6 +150,8 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/export-gender/{gender}', [UMKMEksportController::class, 'exportByGender'])
     ->name('admin.export.gender');
 });
+
+
 
 
 // test
