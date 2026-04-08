@@ -139,7 +139,7 @@
                                 </button>
                                 
                                 <div class="text-center">
-                                    <a href="/" class="text-muted small text-decoration-none">
+                                    <a href="{{ route('frontend.index') }}" class="text-muted small text-decoration-none">
                                         &larr; Kembali ke Beranda
                                     </a>
                                 </div>
