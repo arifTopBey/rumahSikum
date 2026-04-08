@@ -34,7 +34,7 @@ use Maatwebsite\Excel\Facades\Excel;
 // });
 
 Route::middleware(['guest'])->group(function () {
-    Route::get('/', [FrontendController::class, 'index'])->name('frontend.index');
+    Route::get('/rumah-sikum', [FrontendController::class, 'index'])->name('frontend.index');
     Route::get('/login', [AuthController::class, 'index'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.store');
 
