@@ -57,7 +57,7 @@
                 <a href="#" class="text-decoration-none">Lihat Semua <i data-lucide="chevron-right"></i></a>
             </div>
 
-            <div class="col-md-4">
+            <!-- <div class="col-md-4">
                 <div class="card course-card shadow-sm h-100">
                     <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=600&q=80"
                         class="card-img-top course-img" alt="Course">
@@ -85,9 +85,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
-            <div class="col-md-4">
+            <!-- <div class="col-md-4">
                 <div class="card course-card shadow-sm h-100">
                     <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80"
                         class="card-img-top course-img" alt="Course">
@@ -115,7 +115,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <div class="col-md-4">
                 <div class="card course-card shadow-sm h-100">
@@ -148,7 +148,7 @@
             </div>
         </div>
 
-        <div class="py-5 mt-5">
+        <!-- <div class="py-5 mt-5">
             <div class="text-center mb-5">
                 <h3 class="fw-bold">Belajar Langsung dari Pakarnya</h3>
                 <p class="text-muted">Mentor kami adalah praktisi yang sukses di bidangnya.</p>
@@ -167,7 +167,7 @@
                     <small class="text-muted">Expert Marketer</small>
                 </div>
             </div>
-        </div>
+        </div> -->
 
     </main>
 @endsection

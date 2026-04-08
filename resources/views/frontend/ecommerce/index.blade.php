@@ -63,7 +63,7 @@
                 </div>
 
                 <div class="row g-4">
-                    <div class="col-md-4 col-sm-6">
+                    <!-- <div class="col-md-4 col-sm-6">
                     <a href="{{ route('frontend.eCommerce.detail') }}" class="text-decoration-none">
                         <div class="card product-card shadow-sm h-100">
                             <button class="wishlist-btn"><i data-lucide="heart" size="18"></i></button>
@@ -86,9 +86,10 @@
                             </div>
                         </div>
                     </a>
-                    </div>
+                    </div> -->
 
                     <div class="col-md-4 col-sm-6">
+                         <a href="{{ route('frontend.eCommerce.detail') }}" class="text-decoration-none"></a>
                         <div class="card product-card shadow-sm h-100">
                             <button class="wishlist-btn"><i data-lucide="heart" size="18"></i></button>
                             <div class="product-img-wrapper">
@@ -109,9 +110,10 @@
                                 </div>
                             </div>
                         </div>
+                        </a>
                     </div>
 
-                    <div class="col-md-4 col-sm-6">
+                    <!-- <div class="col-md-4 col-sm-6">
                         <div class="card product-card shadow-sm h-100">
                             <button class="wishlist-btn"><i data-lucide="heart" size="18"></i></button>
                             <div class="product-img-wrapper">
@@ -132,7 +134,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
                 <nav class="mt-5">
