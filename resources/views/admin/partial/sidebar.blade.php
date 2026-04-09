@@ -23,11 +23,11 @@
             <!--begin::Brand Link-->
             <a href="" class="brand-link py-3">
                 <!--begin::Brand Image-->
-                <img src="{{ asset('image/logo_umkm.png') }}" alt="AdminLTE Logo"
+                <img src="{{ asset('image/icon.png') }}" alt="AdminLTE Logo"
                     class="brand-image opacity-75 shadow" />
                 <!--end::Brand Image-->
                 <!--begin::Brand Text-->
-                <div class="ms-2 py-3">
+                <div class="ms-1 py-3">
                     <span class="brand-text fw-bold fs-8 text-white">DINAS KOPERASI DAN USAHA MIKRO</span>
                     <p class="fs-7 text-center fw-light text-white">KABUPATEN TANGERANG</p>
                 </div>
@@ -108,7 +108,7 @@
                         <a href="#" class="nav-link {{ Request::is('admin/berita*') ? 'active bg-black' : '' }}">
                             <i class="bi bi-table text-white"></i>
                             <p class="text-white">
-                                Berita
+                                Umum
                                 <i class="nav-arrow bi bi-chevron-right"></i>
                             </p>
                         </a>

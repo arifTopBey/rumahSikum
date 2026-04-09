@@ -43,9 +43,9 @@
             </div>
         </div>
 
-        <div class="col-lg-12">
+        <div class="col-lg-12" style="min-height: 100vh;">
             <div class="table-responsive">
-                <table class="table table-hover align-middle border">
+                <table class="table table-hover align-middle border" style="min-height: 30vh;">
                     <thead class="bg-light">
                         <tr>
                             <th class="py-3 fw-semibold text-dark text-center" width="50">No</th>
@@ -60,40 +60,53 @@
                         </tr>
                     </thead>
                     <tbody>
-                        
+                    
+                    @foreach ($beritas as $berita )
                         <tr>
-                            <td class="text-center">1</td>
+                            <td class="text-center">{{ $loop->iteration }}</td>
                             <td>
-                                <img src="https://images.unsplash.com/photo-1459802071246-377c0346da93?q=80&w=818&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="rounded-2 border" width="80" height="50" style="object-fit: cover;">
+                                <img src="{{ Storage::url($berita->gambar) }}" class="rounded-2 border" width="80" height="50" style="object-fit: cover;">
                             </td>
-                            <td class="text-center small">Admin</td>
-
+                            <td class="text-center small">{{ $berita->judul }}</td>
                             <td>
                                 <div class="fw-bold text-dark"></div>
-                                <span class="smaller text-muted"><i data-lucide="eye" size="12"></i> 108 Klik</span>
+                                <span class="smaller text-muted"><i data-lucide="eye" size="12"></i> {{ $berita->views }} Klik</span>
                             </td>
                             <td class="text-center">
-                                <span class="badge bg-secondary-subtle text-secondary px-3 py-2 rounded-pill">Hiburan</span>
+                                <span class="badge bg-secondary-subtle text-secondary px-3 py-2 rounded-pill">{{ $berita->kategori->name }}</span>
                             </td>
-                            <td class="text-center small">Admin</td>
+                            <td class="text-center small">{{ $berita->users->name }}</td>
                             <td class="text-center">
-                                <span class="badge bg-success bg-opacity-10 text-success border border-success px-3 py-2 rounded-2">Published</span>
+                                @if ($berita->is_published === 1)
+                                    <span class="badge bg-success bg-opacity-10 text-success border border-success px-3 py-2 rounded-2">Published</span>
+                                    @else   
+                                    <span class="badge bg-danger bg-opacity-10 text-danger border border-danger px-3 py-2 rounded-2">Non Published</span>
+                                @endif
                             </td>
-                            <td class="text-center small">2002-20-02</td>
+                            <td class="text-center small">{{ $berita->created_at->format('Y-m-d') }}</td>
                             <td class="text-center">
                                 <div class="dropdown">
                                     <button class="btn btn-sm btn-light border" type="button" data-bs-toggle="dropdown">
                                         <i data-lucide="more-horizontal" size="18"></i>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end shadow border-0">
-                                        <li><a class="dropdown-item py-2" href="#"><i data-lucide="edit-3" size="14" class="me-2"></i> Edit</a></li>
-                                        <li><a class="dropdown-item py-2" href="#"><i data-lucide="eye" size="14" class="me-2"></i> Pratinjau</a></li>
-                                        <li><hr class="dropdown-divider"></li>
-                                        <li><a class="dropdown-item py-2 text-danger" href="#"><i data-lucide="trash-2" size="14" class="me-2"></i> Hapus</a></li>
+                                        <li><a class="dropdown-item py-2" href=""><i data-lucide="edit-3" size="14" class="me-2"></i> Edit</a></li>
+                                        <li><a class="dropdown-item py-2" href="{{ route('admin.berita.show', $berita->id) }}"><i data-lucide="eye" size="14" class="me-2"></i> Pratinjau</a></li>
+                                        <!-- <li><a class="dropdown-item py-2 text-danger" href="#"><i data-lucide="trash-2" size="14" class="me-2"></i> Hapus</a></li> -->
+                                        <form id="delete-form-{{ $berita->id }}" action="{{ route('admin.berita.destroy', $berita->id) }}" method="POST" class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button onclick="confirmDelete('{{ $berita->id }}', '{{ $berita->judul }}')" type="button" class="btn btn-sm btn-light text-danger px-3">
+                                            <i data-lucide="trash-2" size="14" class="me-3"></i>Hapus
+                                        </button>
+
+                                    </form>
+                                        <!-- <li><hr class="dropdown-divider"></li> -->
                                     </ul>
                                 </div>
                             </td>
-                        </tr>
+                        </tr>      
+                    @endforeach
                       
                         <!-- <tr>
                             <td colspan="8" class="text-center py-5 text-muted">Belum ada berita yang diterbitkan.</td>

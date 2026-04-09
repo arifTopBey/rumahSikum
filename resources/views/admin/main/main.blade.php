@@ -222,6 +222,10 @@
     @if (Request::is('sebaran-data-umkm') || Request::is('filter-skala'))
 
     <script>
+        const exportUrlTemplate = "{{ route('admin.export.skala', ['skala' => ':skala']) }}";
+        const filterUrlTemplate = "{{ route('admin.filter.skala') }}";
+    </script>
+    <script>
             // document.querySelectorAll('.skala-card').forEach(card => {
             //     card.addEventListener('click', function () {
 
@@ -238,8 +242,9 @@
 
             // Klik card skala
             document.querySelectorAll('.skala-card').forEach(card => {
-                card.addEventListener('click', function () {
 
+                card.addEventListener('click', function () {
+               
                     let skala = this.dataset.skala;
 
                     let titleMap = {
@@ -249,12 +254,18 @@
                     };
 
                     document.getElementById('exportBtn').classList.remove('d-none')
+
+                    // document.getElementById('exportBtn').href =
+                    //     `/export-skala/${skala}`;
+
                     document.getElementById('exportBtn').href =
-                        `/export-skala/${skala}`;
+                        exportUrlTemplate.replace(':skala', skala);
 
                     document.getElementById('skalaTitle9').innerText = titleMap[skala];
 
-                    loadTable(`/filter-skala?skala=${skala}`);
+                    // loadTable(`/filter-skala?skala=${skala}`);
+                    loadTable(`${filterUrlTemplate}?skala=${skala}`);           
+
                 });
             });
 

@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg fixed-top shadow-sm bg-white">
     <div class="container">
         <a class="navbar-brand fw-bold fs-4" href="#">
-            <span class="text-primary">Rumah</span>Sikum
+            <span style="color: #7728a8;">Rumah</span>Sikum
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
@@ -54,13 +54,13 @@
             </ul>
             
             <div class="d-flex align-items-center gap-2">
-                <a href="{{ route('frontend.cart.list') }}" class="btn btn-outline-primary btn-sm rounded-circle p-2 d-flex align-items-center justify-content-center">
+                <a id="cardNavbar" href="{{ route('frontend.cart.list') }}" class="btn btn-sm rounded-circle p-2 d-flex align-items-center justify-content-center" style=" border: 1px solid #7728a8;">
                     <i data-lucide="shopping-cart" size="18"></i>
                 </a>
 
                 <div class="dropdown">
                     <button class="btn btn-light rounded-pill px-3 d-flex align-items-center gap-2 border shadow-sm dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
-                        <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center text-white" style="width: 24px; height: 24px;">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center text-white" style="width: 24px; height: 24px; background-color: #7728a8;">
                             <i data-lucide="user" size="14"></i>
                         </div>
                         <span class="small fw-bold">Akun</span>
@@ -104,7 +104,7 @@
                 </div>
 
                 @if (!auth()->check())
-                    <a href="{{ route('frontend.tambah.umkm') }}" class="btn btn-primary rounded-pill px-4 shadow-sm fw-bold">Gabung UMKM</a>                    
+                    <a href="{{ route('frontend.tambah.umkm') }}" style="background-color: #7728a8;" class="btn text-white rounded-pill px-4 shadow-sm fw-bold">Gabung UMKM</a>                    
                 @endif
             </div>
         </div>

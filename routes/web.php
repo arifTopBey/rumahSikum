@@ -127,20 +127,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/berita', [\App\Http\Controllers\Admin\BeritaController::class, 'index'])->name('admin.berita.index');
     Route::get('/admin/berita/create', [\App\Http\Controllers\Admin\BeritaController::class, 'create'])->name('admin.berita.create');
     Route::post('/admin/berita', [\App\Http\Controllers\Admin\BeritaController::class, 'store'])->name('admin.berita.store');
-
-
-
-
-
-
-
-
-
-
-
+    Route::get('/admin/berita/{id}', [\App\Http\Controllers\Admin\BeritaController::class, 'show'])->name('admin.berita.show');
+    Route::delete('/admin/berita/{id}', [\App\Http\Controllers\Admin\BeritaController::class, 'destroy'])->name('admin.berita.destroy');
 
 
     Route::get('/export-skala/{skala}', [UMKMEksportController::class, 'exportBySkala'])->name('admin.export.skala');
+
+    
 
     // Route::get('/export-wilayah/{kecamatan}', [UMKMEksportController::class, 'exportByWilayah'])->name('admin.export.wilayah');
     Route::get('/export-wilayah/{kecamatan}', function ($kecamatan) {

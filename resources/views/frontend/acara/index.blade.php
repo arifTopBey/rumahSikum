@@ -24,7 +24,7 @@
         </div>
         <div class="col-md-8">
             <div class="d-flex gap-2 overflow-auto pb-2 justify-content-md-end">
-                <button class="btn btn-primary rounded-pill px-4">Semua</button>
+                <button style="background-color: #7728a8; color: white;" class="btn rounded-pill px-4">Semua</button>
                 <button class="btn btn-outline-secondary bg-white rounded-pill px-4 text-nowrap">Bazar & Expo</button>
                 <button class="btn btn-outline-secondary bg-white rounded-pill px-4 text-nowrap">Workshop</button>
                 <button class="btn btn-outline-secondary bg-white rounded-pill px-4 text-nowrap">Festival Kuliner</button>

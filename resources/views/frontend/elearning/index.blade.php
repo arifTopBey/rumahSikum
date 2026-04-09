@@ -34,7 +34,7 @@
 
         <div class="mb-5">
             <h4 class="fw-bold mb-4">Lanjutkan Belajar</h4>
-            <div class="card border-0 shadow-sm p-4 rounded-4 bg-primary text-white position-relative overflow-hidden">
+            <div style="background-color: #7728a8;" class="card border-0 shadow-sm p-4 rounded-4  text-white position-relative overflow-hidden">
                 <div class="row align-items-center position-relative z-1">
                     <div class="col-md-8">
                         <h5 class="fw-bold">Strategi Branding Produk di Instagram</h5>

@@ -144,6 +144,15 @@
         .footer-custom { background: var(--dark-bg); color: #94a3b8; padding: 80px 0 30px; }
         .footer-link { color: #94a3b8; text-decoration: none; transition: 0.3s; }
         .footer-link:hover { color: white; padding-left: 5px; }
+
+        #cardNavbar{
+            color: #7728a8;
+        }
+
+        #cardNavbar:hover{ 
+            background-color: #7728a8; 
+            color: white;       
+        }
     </style>
 
 </head>

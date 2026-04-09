@@ -43,7 +43,7 @@
                         </div>
                     </div>
 
-                    <button class="btn btn-primary w-100 rounded-pill">Terapkan Filter</button>
+                    <button style="background-color: #7728a8;" class="btn text-white w-100 rounded-pill">Terapkan Filter</button>
                 </div>
             </aside>
 
