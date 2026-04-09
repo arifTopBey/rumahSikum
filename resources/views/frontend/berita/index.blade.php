@@ -16,7 +16,7 @@
         </div>
     </div>
 
-    <div class="featured-news-card shadow-lg">
+    <!-- <div class="featured-news-card shadow-lg">
         <img src="https://images.unsplash.com/photo-1542744094-24638eff58bb?w=1200" class="featured-news-img" alt="Main News">
         <div class="featured-news-overlay">
             <span class="badge bg-primary px-3 py-2 rounded-pill mb-3">Kebijakan</span>
@@ -27,10 +27,10 @@
                 <div class="d-flex align-items-center gap-2 small"><i data-lucide="user" size="16"></i> Admin RumahSikum</div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <div class="row g-4">
-        <div class="col-md-6 col-lg-4">
+        <!-- <div class="col-md-6 col-lg-4">
             <div class="news-card">
                 <div class="news-img-wrapper shadow-sm">
                     <img src="https://images.unsplash.com/photo-1556742044-3c52d6e88c62?w=600" class="news-img" alt="News">
@@ -43,7 +43,7 @@
                     <span><i data-lucide="eye" size="12"></i> 450 Baca</span>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <div class="col-md-6 col-lg-4">
             <div class="news-card">
@@ -60,7 +60,7 @@
             </div>
         </div>
 
-        <div class="col-md-6 col-lg-4">
+        <!-- <div class="col-md-6 col-lg-4">
             <div class="news-card">
                 <div class="news-img-wrapper shadow-sm">
                     <img src="https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?w=600" class="news-img" alt="News">
@@ -73,7 +73,7 @@
                     <span><i data-lucide="eye" size="12"></i> 890 Baca</span>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 
     <div class="mt-5 d-flex justify-content-center">

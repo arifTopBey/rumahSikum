@@ -56,7 +56,7 @@
             </div>
         </div>
 
-        <div class="col-md-6 col-lg-4">
+        <!-- <div class="col-md-6 col-lg-4">
             <div class="event-card shadow-sm">
                 <div class="event-img-wrapper">
                     <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&auto=format" class="event-img" alt="Kuliner">
@@ -77,9 +77,9 @@
                     <a href="{{ route('frontend.acara.detail') }}" class="btn-event-detail">Lihat Detail Acara</a>
                 </div>
             </div>
-        </div>
+        </div> -->
 
-        <div class="col-md-6 col-lg-4">
+        <!-- <div class="col-md-6 col-lg-4">
             <div class="event-card shadow-sm">
                 <div class="event-img-wrapper">
                     <img src="https://images.unsplash.com/photo-1475721027187-40afee775c73?w=600&auto=format" class="event-img" alt="Workshop">
@@ -100,7 +100,7 @@
                     <a href="{{ route('frontend.acara.detail') }}" class="btn-event-detail">Lihat Detail Acara</a>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 
     <div class="mt-5 d-flex justify-content-center">

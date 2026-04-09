@@ -51,6 +51,7 @@
                             <th class="py-3 fw-semibold text-dark text-center" width="50">No</th>
                             <th class="py-3 fw-semibold text-dark" width="100">Thumbnail</th>
                             <th class="py-3 fw-semibold text-dark">Judul Berita</th>
+                            <th class="py-3 fw-semibold text-dark">View</th>
                             <th class="py-3 fw-semibold text-dark text-center">Kategori</th>
                             <th class="py-3 fw-semibold text-dark text-center">Penulis</th>
                             <th class="py-3 fw-semibold text-dark text-center">Status</th>
@@ -65,6 +66,8 @@
                             <td>
                                 <img src="https://images.unsplash.com/photo-1459802071246-377c0346da93?q=80&w=818&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="rounded-2 border" width="80" height="50" style="object-fit: cover;">
                             </td>
+                            <td class="text-center small">Admin</td>
+
                             <td>
                                 <div class="fw-bold text-dark"></div>
                                 <span class="smaller text-muted"><i data-lucide="eye" size="12"></i> 108 Klik</span>
