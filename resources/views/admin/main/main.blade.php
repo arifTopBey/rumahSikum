@@ -291,7 +291,13 @@
     </script>
 
     @elseif (Request::is('usaha-berdasarkan-wilayah'))
+
         {{-- usaha berdasarkan wilayah --}}
+
+    <script>
+            const exportWilayahTemplate = "{{ route('admin.export.wilayah', ['kecamatan' => ':kecamatan']) }}";
+            const filterWilayahUrl = "{{ route('admin.filter.wilayah') }}";
+    </script>
        <script>
            // 1. Daftarkan plugin secara global
            Chart.register(ChartDataLabels);
@@ -330,6 +336,7 @@
                            right: 50
                        }
                    },
+
                     onClick: function (evt, elements) {
                        if (elements.length > 0) {
 
@@ -342,9 +349,12 @@
                            btn.classList.remove('d-none');
 
                            // ubah link export
-                           btn.href = `/export-wilayah/${kecamatan}`;
+                        //    btn.href = `/export-wilayah/${kecamatan}`;
+                           btn.href =  exportWilayahTemplate.replace(':kecamatan', encodeURIComponent(kecamatan));;
 
-                           loadWilayah(`/filter-wilayah?kecamatan=${encodeURIComponent(kecamatan)}`);
+                        //    loadWilayah(`/filter-wilayah?kecamatan=${encodeURIComponent(kecamatan)}`);
+                        loadWilayah(`${filterWilayahUrl}?kecamatan=${encodeURIComponent(kecamatan)}`
+);
                        }
                    },
 
@@ -410,7 +420,12 @@
        </script>
        {{-- batas usaha berdasarkan wilayah --}}
 
+    
     @elseif(Request::is('usaha-berdasarkan-cluster-prioritas'))
+    
+    <script>
+        const filterClusterUrl = "{{ route('admin.cluster.data') }}";
+    </script>
 
     <!-- usaha berdasarkan cluster -->
         <script>
@@ -456,10 +471,15 @@
                             "Data Usaha Cluster " + cluster;
 
                         document.getElementById('btnExportNib').classList.remove('d-none');
-                        document.getElementById('btnExportNib').href =
-                            `/export-cluster/${cluster}`;
 
-                        loadTableCluster(`/filter-cluster?cluster=${cluster}`);
+                        // document.getElementById('btnExportNib').href =
+                        //     `/export-cluster/${cluster}`;
+                        // document.getElementById('btnExportNib').href =
+                        //         exportClusterTemplate.replace(':cluster', encodeURIComponent(cluster));
+
+                        // loadTableCluster(`/filter-cluster?cluster=${cluster}`);
+                        loadTableCluster(`${filterClusterUrl}?cluster=${encodeURIComponent(cluster)}`
+);
                     },
                     plugins: {
                         legend: {
@@ -696,6 +716,13 @@
 
     @elseif(Request::is('indikator-usaha-lainnya'))
     {{-- usaha lainnya --}}
+
+    <!-- blade variable kepemilikan nib -->
+    <script>
+        const exportNibTemplate = "{{ route('admin.export.nib', ['status' => ':status']) }}";
+        const filterNibUrl = "{{ route('admin.filter.nib') }}";
+    </script>
+
     <script>
         // Pastikan Plugin Datalabels terdaftar
         if (typeof ChartDataLabels !== 'undefined') {
@@ -730,8 +757,12 @@
 
                         btn.classList.remove('d-none');
 
-                        btn.href = `/export-nib/${encodeURIComponent(label)}`;
-                        loadNIB(`/filter-nib?status=${label}`);
+                        // btn.href = `/export-nib/${encodeURIComponent(label)}`;
+                        // loadNIB(`/filter-nib?status=${label}`);
+                        btn.href =
+                    exportNibTemplate.replace(':status', encodeURIComponent(label));
+
+                    loadNIB(`${filterNibUrl}?status=${encodeURIComponent(label)}`);
 
                     }
                 },
@@ -847,6 +878,17 @@
         });
     </script>
 
+    <!-- blade route variable gender-->
+    <script>
+        const exportGenderTemplate = "{{ route('admin.export.gender', ['gender' => ':gender']) }}";
+        const filterGenderUrl = "{{ route('admin.filter.gender') }}";
+    </script>
+
+    <!-- blade route variable jumlah tenaga kerja -->
+    <script>
+        const filterLaborUrl = "{{ route('admin.filter.tenaga.kerja') }}";
+    </script>
+
     <script>
         // Konfigurasi Umum untuk Donut Chart
         const donutOptions = {
@@ -863,8 +905,14 @@
                     btn.classList.remove('d-none');
 
                     // Set link export sesuai yang diklik
-                    btn.href = `/export-gender/${label}`;
-                    loadGender(`/filter-gender?gender=${label}` );
+                    // btn.href = `/export-gender/${label}`;
+                    btn.href = exportGenderTemplate.replace(':gender', encodeURIComponent(label));
+
+                    // loadGender(`/filter-gender?gender=${label}` );
+                    loadGender(`${filterGenderUrl}?gender=${encodeURIComponent(label)}`
+
+                        );
+
                     }
             },
             cutout: '70%',
@@ -930,9 +978,13 @@
                         btn.classList.remove('d-none');
 
                         // Set link export sesuai yang diklik
-                        btn.href = `/export-gender/${label}`;
+                        // btn.href = `/export-gender/${label}`;
 
-                        loadLabor(`/filter-tenaga-kerja?status=${label}`);
+                        // loadLabor(`/filter-tenaga-kerja?status=${label}`);
+                        
+                        //  btn.href =exportLaborTemplate.replace(':status', encodeURIComponent(label));
+
+                    loadLabor(`${filterLaborUrl}?status=${encodeURIComponent(label)}`);
                     }
                 },
                 cutout: '70%',
