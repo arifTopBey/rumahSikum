@@ -122,6 +122,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/kategori-berita', [\App\Http\Controllers\Admin\KategoriBeritaController::class, 'index'])->name('admin.kategori.berita.index');
     Route::get('/admin/kategori-berita/create', [\App\Http\Controllers\Admin\KategoriBeritaController::class, 'create'])->name('admin.kategori.berita.create');
     Route::post('/admin/kategori-berita', [\App\Http\Controllers\Admin\KategoriBeritaController::class, 'store'])->name('admin.kategori.berita.store');
+    Route::put('/admin/kategori-berita/{id}', [\App\Http\Controllers\Admin\KategoriBeritaController::class, 'update'])->name('admin.kategori.berita.update');
     Route::delete('/admin/kategori-berita/{id}', [\App\Http\Controllers\Admin\KategoriBeritaController::class, 'destroy'])->name('admin.kategori.berita.destroy');
 
     Route::get('/admin/berita', [\App\Http\Controllers\Admin\BeritaController::class, 'index'])->name('admin.berita.index');
@@ -130,7 +131,26 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/berita/{id}', [\App\Http\Controllers\Admin\BeritaController::class, 'show'])->name('admin.berita.show');
     Route::delete('/admin/berita/{id}', [\App\Http\Controllers\Admin\BeritaController::class, 'destroy'])->name('admin.berita.destroy');
 
+
+    // kategori acara admin
+    Route::get('/admin/kategori-acara', [\App\Http\Controllers\Admin\KategoriAcaraController::class, 'index'])->name('admin.kategori.acara.index');
+    Route::get('/admin/kategori-acara/create', [\App\Http\Controllers\Admin\KategoriAcaraController::class, 'create'])->name('admin.kategori.acara.create');
+    Route::post('/admin/kategori-acara', [\App\Http\Controllers\Admin\KategoriAcaraController::class, 'store'])->name('admin.kategori.acara.store');
+    Route::put('/admin/kategori-acara/{id}', [\App\Http\Controllers\Admin\KategoriAcaraController::class, 'update'])->name('admin.kategori.acara.update');
+    Route::delete('/admin/kategori-acara/{id}', [\App\Http\Controllers\Admin\KategoriAcaraController::class, 'destroy'])->name('admin.kategori.acara.destroy');
+
     
+    // acara admin
+    Route::get('/admin/acara', [\App\Http\Controllers\Admin\AcaraController::class, 'index'])->name('admin.acara.index');
+    Route::get('/admin/acara/create', [\App\Http\Controllers\Admin\AcaraController::class, 'create'])->name('admin.acara.create');
+    Route::post('/admin/acara', [\App\Http\Controllers\Admin\AcaraController::class, 'store'])->name('admin.acara.store');
+    Route::get('/admin/acara/{id}', [\App\Http\Controllers\Admin\AcaraController::class, 'show'])->name('admin.acara.show');
+    Route::get('/admin/acara/{id}/edit', [\App\Http\Controllers\Admin\AcaraController::class, 'edit'])->name('admin.acara.edit');
+    Route::put('/admin/acara/{id}', [\App\Http\Controllers\Admin\AcaraController::class, 'update'])->name('admin.acara.update');
+    Route::delete('/admin/acara/{id}', [\App\Http\Controllers\Admin\AcaraController::class, 'destroy'])->name('admin.acara.destroy');
+
+
+
 
     Route::get('/export-skala/{skala}', [UMKMEksportController::class, 'exportBySkala'])->name('admin.export.skala');
     // Route::get('/export-wilayah/{kecamatan}', [UMKMEksportController::class, 'exportByWilayah'])->name('admin.export.wilayah');

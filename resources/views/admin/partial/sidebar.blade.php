@@ -132,6 +132,19 @@
                                     <p class="text-white">Berita</p>
                                 </a>
                             </li>
+
+                             <li class="nav-item">
+                                <a href="{{ route('admin.kategori.acara.index') }}" class="nav-link {{ Request::is('admin/kategori-acara*') ? 'active' : '' }}">
+                                    <i class="nav-icon bi bi-circle"></i>
+                                    <p class="text-white">Kategori Acara</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{route('admin.acara.index')}}" class="nav-link {{ Request::is('admin/acara*') ? 'active' : '' }}">
+                                    <i class="nav-icon bi bi-circle"></i>
+                                    <p class="text-white">Acara</p>
+                                </a>
+                            </li>
                         </ul>
                     </li>
 

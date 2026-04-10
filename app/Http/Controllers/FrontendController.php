@@ -97,7 +97,8 @@ class FrontendController extends Controller
     }
 
     public function berita(){
-        return view('frontend.berita.index');
+        $beritas = \App\Models\Berita::where('is_published', 1)->latest()->paginate(10);
+        return view('frontend.berita.index', compact('beritas'));
     }
 
     public function detailBerita(){

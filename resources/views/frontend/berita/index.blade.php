@@ -44,21 +44,22 @@
                 </div>
             </div>
         </div> -->
-
+    @foreach ($beritas as $berita)
         <div class="col-md-6 col-lg-4">
             <div class="news-card">
                 <div class="news-img-wrapper shadow-sm">
-                    <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600" class="news-img" alt="News">
+                    <img src="{{ Storage::url($berita->gambar) }}" class="news-img" alt="News">
                 </div>
                 <span class="category-pill">Tips Bisnis</span>
-                <a href="{{ route('frontend.berita.detail') }}" class="text-decoration-none"><h5 class="news-title">Pentingnya Branding untuk Meningkatkan Harga Jual Produk</h5></a>
-                <p class="text-muted small">Jangan hanya menjual rasa, pelajari bagaimana kemasan dan logo bisa menaikkan nilai jual produk kuliner Anda...</p>
+                <a href="{{ route('frontend.berita.detail', $berita->id) }}" class="text-decoration-none"><h5 class="news-title">{{ $berita->judul }}</h5></a>
+                <p class="text-muted small">{!! $berita->deskripsi !!}</p>
                 <div class="text-muted smaller d-flex gap-3">
-                    <span><i data-lucide="calendar" size="12"></i> 30 Maret 2026</span>
-                    <span><i data-lucide="eye" size="12"></i> 1.2k Baca</span>
+                    <span><i data-lucide="calendar" size="12"></i> {{ \Carbon\Carbon::parse($berita->created_at)->format('d M Y') }}</span>
+                    <span><i data-lucide="eye" size="12"></i> {{ $berita->views }} Baca</span>
                 </div>
             </div>
         </div>
+    @endforeach
 
         <!-- <div class="col-md-6 col-lg-4">
             <div class="news-card">
