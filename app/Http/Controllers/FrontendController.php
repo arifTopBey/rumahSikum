@@ -80,6 +80,10 @@ class FrontendController extends Controller
         return view('frontend.pelatihan.index');
     }
 
+    public function detailPelatihan(){
+        return view('frontend.pelatihan.detailPelatihan');
+    }
+
     public function daftarPelatihan(){
         return view('frontend.pelatihan.daftarPelatihan');
     }

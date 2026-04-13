@@ -2,6 +2,7 @@
 
 use App\Exports\UmkmNibExport;
 use App\Exports\UmkmWilayahExport;
+use App\Http\Controllers\Admin\BeritaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataUMKMController;
@@ -43,11 +44,16 @@ Route::get('/acara/detail-acara', [FrontendController::class, 'detailAcara'])->n
 Route::get('/toko', [FrontendController::class, 'toko'])->name('frontend.toko');
 Route::get('/', [FrontendController::class, 'index'])->name('frontend.index');
 
-Route::middleware(['guest'])->group(function () {
+Route::get('/storage/private/{path}', [BeritaController::class, 'showFotoBerita'])->where('path', '.*')->name('showFoto.berita.private');
 
+// web.php
+
+
+Route::middleware(['guest'])->group(function () {
+    
     Route::get('/login', [AuthController::class, 'index'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.store');
-
+    
     Route::get('/register', [AuthController::class, 'register'])->name('frontend.register');
     Route::post('/register', [AuthController::class, 'store'])->name('frontend.register.store');
 
@@ -75,6 +81,8 @@ Route::middleware(['guest'])->group(function () {
    
 
     Route::get('/pelatihan', [FrontendController::class, 'pelatihan'])->name('frontend.pelatihan');
+    Route::get('/pelatihan/detail-pelatihan', [FrontendController::class, 'detailPelatihan'])->name('frontend.pelatihan.detail');
+
     Route::get('/informasi-bpom', [FrontendController::class, 'informasiBPOM'])->name('frontend.informasi.bpom');
 
     Route::get('edukasi-keuangan', [FrontendController::class, 'edukasiKeuangan'])->name('frontend.edukasi.keuangan');
@@ -149,6 +157,14 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/admin/acara/{id}', [\App\Http\Controllers\Admin\AcaraController::class, 'update'])->name('admin.acara.update');
     Route::delete('/admin/acara/{id}', [\App\Http\Controllers\Admin\AcaraController::class, 'destroy'])->name('admin.acara.destroy');
 
+    // pelatihan admin
+    Route::get('/admin/pelatihan', [\App\Http\Controllers\Admin\PelatihanController::class, 'index'])->name('admin.pelatihan.index');
+    Route::get('/admin/pelatihan/create', [\App\Http\Controllers\Admin\PelatihanController::class, 'create'])->name('admin.pelatihan.create');
+    Route::post('/admin/pelatihan', [\App\Http\Controllers\Admin\PelatihanController::class, 'store'])->name('admin.pelatihan.store');
+    Route::get('/admin/pelatihan/{id}', [\App\Http\Controllers\Admin\PelatihanController::class, 'show'])->name('admin.pelatihan.show');
+    Route::get('/admin/pelatihan/{id}/edit', [\App\Http\Controllers\Admin\PelatihanController::class, 'edit'])->name('admin.pelatihan.edit');
+    Route::put('/admin/pelatihan/{id}', [\App\Http\Controllers\Admin\PelatihanController::class, 'update'])->name('admin.pelatihan.update');
+    Route::delete('/admin/pelatihan/{id}', [\App\Http\Controllers\Admin\PelatihanController::class, 'destroy'])->name('admin.pelatihan.destroy');
 
 
 

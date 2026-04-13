@@ -43,7 +43,7 @@ class BeritaController extends Controller
             $berita->user_id = auth()->user()->id;
             $berita->views = 0;
             $berita->is_published = $request->has('is_published') ? 1 : 0;
-            $berita->gambar = $validated['gambar']->store('berita', 'public');
+            $berita->gambar = $validated['gambar']->store('berita', 'local');
 
             $berita->save();
 
@@ -84,5 +84,21 @@ class BeritaController extends Controller
             DB::rollBack();
             return redirect()->back()->with('error', 'Gagal menghapus berita: ' . $e->getMessage());
         }
+    }
+
+
+    public function showFotoBerita($path){    
+
+        $fullPath = storage_path('storage/private' . $path);
+        
+        if (!file_exists($fullPath)) {
+            return response()->json([
+                'error' => 'File not found',
+                'path_received' => $path,
+                'full_path' => $fullPath,
+            ], 404);
+        }
+
+        return Storage::disk('local')->response($path);
     }
 }

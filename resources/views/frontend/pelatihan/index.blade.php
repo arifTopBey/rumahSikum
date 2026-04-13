@@ -25,6 +25,8 @@
 
     <div class="row g-4">
         <div class="col-md-6 col-lg-4">
+        
+        <a href="{{ route('frontend.pelatihan.detail') }}" class="text-decoration-none">
             <div class="training-card shadow-sm">
                 <div class="training-img-wrapper">
                     <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600" class="training-img" alt="Digital Marketing">
@@ -52,6 +54,7 @@
                     <a href="{{ route('frontend.daftar.pelatihan') }}" class="btn-register-training">Daftar Pelatihan</a>
                 </div>
             </div>
+        </a>
         </div>
         <div class="col-md-6 col-lg-4">
             <div class="training-card shadow-sm">

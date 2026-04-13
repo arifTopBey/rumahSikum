@@ -65,7 +65,7 @@
                         <tr>
                             <td class="text-center">{{ $loop->iteration }}</td>
                             <td>
-                                <img src="{{ Storage::url($berita->gambar) }}" class="rounded-2 border" width="80" height="50" style="object-fit: cover;">
+                                <img src="{{ route('showFoto.berita.private', $berita->gambar) }}" class="rounded-2 border" width="80" height="50" style="object-fit: cover;">
                             </td>
                             <td class="text-center small">{{ $berita->judul }}</td>
                             <td>

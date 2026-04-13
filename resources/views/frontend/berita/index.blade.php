@@ -30,25 +30,12 @@
     </div> -->
 
     <div class="row g-4">
-        <!-- <div class="col-md-6 col-lg-4">
-            <div class="news-card">
-                <div class="news-img-wrapper shadow-sm">
-                    <img src="https://images.unsplash.com/photo-1556742044-3c52d6e88c62?w=600" class="news-img" alt="News">
-                </div>
-                <span class="category-pill">Ekonomi</span>
-                <a href="{{ route('frontend.berita.detail') }}" class="text-decoration-none"><h5 class="news-title">Tren Produk Kriya Tangerang Tembus Pasar Ekspor Eropa</h5></a>
-                <p class="text-muted small">Produk anyaman bambu dari Tigaraksa mulai diminati buyer asal Jerman karena desainnya yang unik...</p>
-                <div class="text-muted smaller d-flex gap-3">
-                    <span><i data-lucide="calendar" size="12"></i> 01 April 2026</span>
-                    <span><i data-lucide="eye" size="12"></i> 450 Baca</span>
-                </div>
-            </div>
-        </div> -->
+       
     @foreach ($beritas as $berita)
         <div class="col-md-6 col-lg-4">
             <div class="news-card">
                 <div class="news-img-wrapper shadow-sm">
-                    <img src="{{ Storage::url($berita->gambar) }}" class="news-img" alt="News">
+                    <img src="{{ route('showFoto.berita.private', ['path' => $berita->gambar]) }}" class="news-img" alt="News">
                 </div>
                 <span class="category-pill">Tips Bisnis</span>
                 <a href="{{ route('frontend.berita.detail', $berita->id) }}" class="text-decoration-none"><h5 class="news-title">{{ $berita->judul }}</h5></a>
