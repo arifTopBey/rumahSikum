@@ -53,7 +53,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                   </div>
+</div>
 
                     <div class="col-md-10 mx-auto rounded-2 shadow-lg mt-2 px-2 py-2 border mb-3">
                         <p class="fw-bold fs-5">602. Sumber Bahan Baku Utama Berdasarkan Skala Utama</p>
@@ -63,25 +63,25 @@
                                 <p class="text-muted">1. Usaha Mikro</p>
                             </div>
                             <div class="col-md-8">
-                                <p class="fw-bold">{{ $data->id_badan_usaha }}</p>
+                                <p class="fw-bold">0%</p>
                             </div>
                             <div class="col-md-4">
                                 <p class="text-muted">2. Usaha Kecil</p>
                             </div>
                             <div class="col-md-8">
-                                <p class="fw-bold">{{ $data->usahaKarakteristik->produk_utama ?? '-' }}</p>
+                                <p class="fw-bold">0%</p>
                             </div>
                             <div class="col-md-4" >
                                 <p class="text-muted">3. Usaha Menengah</p>
                             </div>
                             <div class="col-md-8">
-                                <p class="fw-bold">{{ $data->usahaKarakteristik->kegiatan_utama ?? '-' }}</p>
+                                <p class="fw-bold">0%</p>
                             </div>
                             <div class="col-md-4" >
                                 <p class="text-muted">4. Usaha Besar</p>
                             </div>
                             <div class="col-md-8">
-                                <p class="fw-bold">{{ $data->usahaKarakteristik->kegiatan_utama ?? '-' }}</p>
+                                <p class="fw-bold">0%</p>
                             </div>
                         </div>
                     </div>
@@ -94,37 +94,37 @@
                                 <p class="text-muted">1. Dalam satu desa/kelurahan/setara</p>
                             </div>
                             <div class="col-md-8">
-                                <p class="fw-bold">{{ $data->id_badan_usaha }}</p>
+                                <p class="fw-bold">0%</p>
                             </div>
                             <div class="col-md-4">
                                 <p class="text-muted">2. Dalam Satu Kecamatan</p>
                             </div>
                             <div class="col-md-8">
-                                <p class="fw-bold">{{ $data->usahaKarakteristik->produk_utama ?? '-' }}</p>
+                                <p class="fw-bold">0%</p>
                             </div>
                             <div class="col-md-4" >
                                 <p class="text-muted">3. Dalam Satu Kabupaten/Kota</p>
                             </div>
                             <div class="col-md-8">
-                                <p class="fw-bold">{{ $data->usahaKarakteristik->kegiatan_utama ?? '-' }}</p>
+                                <p class="fw-bold">0%</p>
                             </div>
                             <div class="col-md-4" >
                                 <p class="text-muted">4. Kabupaten/Kota lain dalam satu provinsi</p>
                             </div>
                             <div class="col-md-8">
-                                <p class="fw-bold">{{ $data->usahaKarakteristik->kegiatan_utama ?? '-' }}</p>
+                                <p class="fw-bold">0%</p>
                             </div>
                             <div class="col-md-4" >
                                 <p class="text-muted">5. Provinsi Lain</p>
                             </div>
                             <div class="col-md-8">
-                                <p class="fw-bold">{{ $data->usahaKarakteristik->kegiatan_utama ?? '-' }}</p>
+                                <p class="fw-bold">0%</p>
                             </div>
                             <div class="col-md-4" >
                                 <p class="text-muted">Sub total dalam negeri</p>
                             </div>
                             <div class="col-md-8">
-                                <p class="fw-bold">{{ $data->usahaKarakteristik->kegiatan_utama ?? '-' }}</p>
+                                <p class="fw-bold">0%</p>
                             </div>
                         </div>
                         <div class="row mt-2">
@@ -133,13 +133,13 @@
                                 <p class="text-muted">sub total luar negeri</p>
                             </div>
                             <div class="col-md-8">
-                                <p class="fw-bold">{{ $data->id_badan_usaha }}</p>
+                                <p class="fw-bold">0%</p>
                             </div>
                             <div class="col-md-4">
                                 <p class="fw-bold">Total Luar Negeri dan Dalam Negeri</p>
                             </div>
                              <div class="col-md-8">
-                                <p class="fw-bold">{{ $data->id_badan_usaha }}</p>
+                                <p class="fw-bold">100%</p>
                             </div>
                     </div>
                     </div>

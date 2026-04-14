@@ -40,7 +40,7 @@ Route::get('/e-commerce/produk', [FrontendController::class, 'eCommerceDetail'])
 Route::get('/koperasi', [FrontendController::class, 'koperasi'])->name('frontend.koperasi');
 Route::get('/tambah-umkm', [FrontendController::class, 'tambahUmkm'])->name('frontend.tambah.umkm');
 Route::get('/acara', [FrontendController::class, 'acara'])->name('frontend.acara');
-Route::get('/acara/detail-acara', [FrontendController::class, 'detailAcara'])->name('frontend.acara.detail');
+Route::get('/acara/detail-acara/{id}', [FrontendController::class, 'detailAcara'])->name('frontend.acara.detail');
 Route::get('/toko', [FrontendController::class, 'toko'])->name('frontend.toko');
 Route::get('/', [FrontendController::class, 'index'])->name('frontend.index');
 

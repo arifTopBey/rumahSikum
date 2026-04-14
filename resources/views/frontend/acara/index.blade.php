@@ -33,28 +33,31 @@
     </div>
 
     <div class="row g-4">
+
+        @foreach($acaras as $acara)
         <div class="col-md-6 col-lg-4">
             <div class="event-card shadow-sm">
                 <div class="event-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=600&auto=format" class="event-img" alt="Bazar">
+                    <img src="{{ Storage::url($acara->gambar) }}" class="event-img" alt="Bazar">
                     <div class="event-date-badge">
-                        <span class="date-day">15</span>
-                        <span class="date-month">Mei</span>
+                        <span class="date-day">{{ \Carbon\Carbon::parse($acara->tanggal_acara)->format('d') }}</span>
+                        <span class="date-month">{{ \Carbon\Carbon::parse($acara->tanggal_acara)->format('M') }}</span>
                     </div>
                 </div>
                 <div class="event-body">
-                    <span class="event-category">Bazar & Expo</span>
-                    <h5 class="event-title">Tangerang UMKM Festival 2026</h5>
+                    <span class="event-category">{{ $acara->kategori_acara->name }}</span>
+                    <h5 class="event-title">{{ $acara->judul }}</h5>
                     <div class="event-meta">
-                        <i data-lucide="map-pin" size="14"></i> Alun-alun Tigaraksa
+                        <i data-lucide="map-pin" size="14"></i> {{ $acara->lokasi }}
                     </div>
                     <div class="event-meta">
-                        <i data-lucide="clock" size="14"></i> 08:00 - 21:00 WIB
+                        <i data-lucide="clock" size="14"></i> {{ \Carbon\Carbon::parse($acara->jam_acara)->format('H:i') }} - {{ \Carbon\Carbon::parse($acara->jam_selesai)->format('H:i') }} WIB
                     </div>
-                    <a href="{{ route('frontend.acara.detail') }}" class="btn-event-detail">Lihat Detail Acara</a>
+                    <a href="{{ route('frontend.acara.detail', $acara->id) }}" class="btn-event-detail">Lihat Detail Acara</a>
                 </div>
             </div>
         </div>
+        @endforeach
 
         <!-- <div class="col-md-6 col-lg-4">
             <div class="event-card shadow-sm">
@@ -74,7 +77,7 @@
                     <div class="event-meta">
                         <i data-lucide="clock" size="14"></i> 10:00 - 22:00 WIB
                     </div>
-                    <a href="{{ route('frontend.acara.detail') }}" class="btn-event-detail">Lihat Detail Acara</a>
+                    <a href="{{ route('frontend.acara.detail', $acara->id) }}" class="btn-event-detail">Lihat Detail Acara</a>
                 </div>
             </div>
         </div> -->
@@ -97,13 +100,13 @@
                     <div class="event-meta">
                         <i data-lucide="clock" size="14"></i> 09:00 - 15:00 WIB
                     </div>
-                    <a href="{{ route('frontend.acara.detail') }}" class="btn-event-detail">Lihat Detail Acara</a>
+                    <a href="{{ route('frontend.acara.detail', $acara->id) }}" class="btn-event-detail">Lihat Detail Acara</a>
                 </div>
             </div>
         </div> -->
     </div>
 
-    <div class="mt-5 d-flex justify-content-center">
+    <!-- <div class="mt-5 d-flex justify-content-center">
         <nav>
             <ul class="pagination">
                 <li class="page-item disabled"><a class="page-link rounded-start-pill px-3" href="#">Previous</a></li>
@@ -112,7 +115,7 @@
                 <li class="page-item"><a class="page-link rounded-end-pill px-3" href="#">Next</a></li>
             </ul>
         </nav>
-    </div>
+    </div> -->
 </div>
 
 @push('scripts')

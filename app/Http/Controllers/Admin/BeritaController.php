@@ -43,7 +43,8 @@ class BeritaController extends Controller
             $berita->user_id = auth()->user()->id;
             $berita->views = 0;
             $berita->is_published = $request->has('is_published') ? 1 : 0;
-            $berita->gambar = $validated['gambar']->store('berita', 'local');
+            // $berita->gambar = $validated['gambar']->store('berita', 'local');
+            $berita->gambar = $validated['gambar']->store('berita', 'public');
 
             $berita->save();
 

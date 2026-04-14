@@ -12,10 +12,10 @@
                             <tbody>  
                                 <tr>
                                     <td class="text-center">1</td>
-                                    <td>Jagung</td>
-                                    <td class="text-center">3</td>
+                                    <td>Jamur Kriwil</td>
+                                    <td class="text-center">10</td>
                                     <td>Kilogram</td>
-                                    <td>Rp60.000</td>
+                                    <td>Rp200.000</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -28,32 +28,32 @@
                                 <p class="text-muted">a. Pendapatan Operasional</p>
                             </div>
                             <div class="col-md-8">
-                                <p class="fw-bold">{{ $data->id_badan_usaha }}</p>
+                                <p class="fw-bold">0%</p>
                             </div>
                             <div class="col-md-4">
                                 <p class="text-muted">b. Pendapatan Non-Operasional</p>
                             </div>
                             <div class="col-md-8">
-                                <p class="fw-bold">{{ $data->usahaKarakteristik->produk_utama ?? '-' }}</p>
+                                <p class="fw-bold">0%</p>
                             </div>
                             <div class="col-md-4" >
                                 <p class="text-muted">c. Pendapatan Lainnya</p>
                             </div>
                             <div class="col-md-8">
-                                <p class="fw-bold">{{ $data->usahaKarakteristik->kegiatan_utama ?? '-' }}</p>
+                                <p class="fw-bold">0%</p>
                             </div>
                             <div class="row px-5 py-2">
                                 <div class="col-md-4" >
                                     <p class="text-muted">1. Subsidi Usaha</p>
                                 </div>
                                 <div class="col-md-8">
-                                    <p class="fw-bold">{{ $data->usahaKarakteristik->kegiatan_utama ?? '-' }}</p>
+                                    <p class="fw-bold">0%</p>
                                 </div>
                                 <div class="col-md-4" >
                                     <p class="text-muted">2. Subsidi Fiskal (Pajak dan bea)</p>
                                 </div>
                                 <div class="col-md-8">
-                                    <p class="fw-bold">{{ $data->usahaKarakteristik->kegiatan_utama ?? '-' }}</p>
+                                    <p class="fw-bold">0%</p>
                                 </div>
                             </div>
                         </div>
@@ -66,19 +66,13 @@
                                 <p class="text-muted">Rumah Tangga / Konsumen Akhir</p>
                             </div>
                             <div class="col-md-8">
-                                <p class="fw-bold">10%</p>
-                            </div>
-                            <div class="col-md-4">
-                                <p class="text-muted">Rumah Tangga / Konsumen Akhir</p>
-                            </div>
-                            <div class="col-md-8">
-                                <p class="fw-bold">10%</p>
+                                <p class="fw-bold">50%</p>
                             </div>
                             <div class="col-md-4">
                                 <p class="text-muted">Usaha Mikro</p>
                             </div>
                             <div class="col-md-8">
-                                <p class="fw-bold">10%</p>
+                                <p class="fw-bold">20%</p>
                             </div>
                             <div class="col-md-4">
                                 <p class="text-muted">Usaha Kecil</p>
@@ -108,7 +102,7 @@
                                 <p class="text-muted">Pemerintah</p>
                             </div>
                             <div class="col-md-8">
-                                <p class="fw-bold">10%</p>
+                                <p class="fw-bold">20%</p>
                             </div>
                             <div class="col-md-4">
                                 <p class="fw-bold">Total</p>
@@ -128,13 +122,13 @@
                                 <p class="text-muted">1. Dalam satu desa/kelurahan/setara</p>
                             </div>
                             <div class="col-md-8">
-                                <p class="fw-bold">10%</p>
+                                <p class="fw-bold">60%</p>
                             </div>
                             <div class="col-md-4">
                                 <p class="text-muted">2. Dalam Satu Kecamatan</p>
                             </div>
                             <div class="col-md-8">
-                                <p class="fw-bold">10%</p>
+                                <p class="fw-bold">30%</p>
                             </div>
                             <div class="col-md-4" >
                                 <p class="text-muted">3. Dalam Satu Kabupaten/Kota</p>
@@ -146,19 +140,19 @@
                                 <p class="text-muted">4. Kabupaten/Kota lain dalam satu provinsi</p>
                             </div>
                             <div class="col-md-8">
-                                <p class="fw-bold">10%</p>
+                                <p class="fw-bold">0%</p>
                             </div>
                             <div class="col-md-4" >
                                 <p class="text-muted">5. Provinsi Lain</p>
                             </div>
                             <div class="col-md-8">
-                                <p class="fw-bold">10%</p>
+                                <p class="fw-bold">0%</p>
                             </div>
                             <div class="col-md-4" >
                                 <p class="text-muted">Sub total dalam negeri</p>
                             </div>
                             <div class="col-md-8">
-                                <p class="fw-bold">10%</p>
+                                <p class="fw-bold">100%</p>
                             </div>
                         </div>
                         <div class="row mt-2">
@@ -167,13 +161,13 @@
                                 <p class="text-muted">sub total luar negeri</p>
                             </div>
                             <div class="col-md-8">
-                                <p class="fw-bold">10%</p>
+                                <p class="fw-bold">0%</p>
                             </div>
                             <div class="col-md-4">
                                 <p class="fw-bold">Total Luar Negeri dan Dalam Negeri</p>
                             </div>
                              <div class="col-md-8">
-                                <p class="fw-bold">10%</p>
+                                <p class="fw-bold">100%</p>
                             </div>
                     </div>
                     </div>

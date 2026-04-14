@@ -41,7 +41,7 @@
                     </div>
                 </div>
 
-                <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+                <!-- <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h6 class="fw-800 mb-0">Peserta Terdaftar</h6>
                         <a href="#" class="btn btn-sm btn-outline-primary rounded-pill px-3">Lihat Semua Peserta</a>
@@ -50,7 +50,7 @@
                         <i data-lucide="users" size="40" class="text-muted mb-2"></i>
                         <p class="text-muted small">Detail manajemen pendaftaran peserta tersedia di modul terpisah.</p>
                     </div>
-                </div>
+                </div> -->
             </div>
 
             <div class="col-lg-4">

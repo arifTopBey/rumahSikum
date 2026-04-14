@@ -69,11 +69,13 @@ class FrontendController extends Controller
     }
 
     public function acara(){
-        return view('frontend.acara.index');
+        $acaras = \App\Models\Acara::where('tanggal_acara', '>=', now())->latest()->paginate(6);
+        return view('frontend.acara.index', compact('acaras'));
     }
 
-    public function detailAcara(){
-        return view('frontend.acara.detailAcara');
+    public function detailAcara($id){
+        $acara = \App\Models\Acara::findOrFail($id);
+        return view('frontend.acara.detailAcara', compact('acara'));
     }
 
     public function pelatihan(){

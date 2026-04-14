@@ -37,9 +37,12 @@
                         @endif
                        
                         <div class="">
-                            <h5>{{ $data->nama_lengkap_usaha }}</h5>
-                            <p>{{ $data->nama_lengkap_usaha }} {{ $data->telepon }}</p>
+                            <h5>HASANUDIN</h5>
+                            <p>0822******<</p>
                             <p>Sumber Data web</p>
+                            <!-- <h5>{{ $data->nama_lengkap_usaha }}</h5>
+                            <p>{{ $data->nama_lengkap_usaha }} {{ $data->telepon }}</p>
+                            <p>Sumber Data web</p> -->
                         </div>
 
                     </div>
@@ -333,6 +336,9 @@
                     </div>
                     <div id="produksi" class="tab-pane">
                        @include('admin.umkm.detail.produksi_pemasaran')
+                    </div>
+                    <div id="keuangan" class="tab-pane">
+                       @include('admin.umkm.detail.laporan_keuangan')
                     </div>
 
                 </div>

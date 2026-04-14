@@ -28,7 +28,7 @@
                 </div>
                 <div class="col-lg-3">
                     <h6 class="text-white fw-bold mb-4">Lokasi</h6>
-                    <p class="small">Jl. Raya H. Tabri No. 1, Tigaraksa, Kec. Tigaraksa, Kabupaten Tangerang, Banten 15720</p>
+                    <p class="small">Gedung Usaha-Usaha Daerah (GUD), Jl. Atik Soewardi No.1, Kadu Agung, Kec Tigaraksa, Kabupaten Tangerang, Banten 15720</p>
                 </div>
             </div>
             <hr class="my-5 opacity-10">
