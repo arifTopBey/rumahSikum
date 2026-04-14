@@ -2,6 +2,7 @@
 
 use App\Exports\UmkmNibExport;
 use App\Exports\UmkmWilayahExport;
+use App\Http\Controllers\Admin\AcaraController;
 use App\Http\Controllers\Admin\BeritaController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
@@ -33,6 +34,7 @@ use Maatwebsite\Excel\Facades\Excel;
 //     Route::get('/login', [AuthController::class, 'index'])->name('login');
 //     Route::post('/login', [AuthController::class, 'login'])->name('login.store');
 // });
+
 Route::get('/list-panel', [FrontendController::class, 'listPanel'])->name('frontend.list.panel');
 Route::get('/e-learning', [FrontendController::class, 'eLearning'])->name('frontend.e-learning');
 Route::get('/e-commerce', [FrontendController::class, 'eCommerce'])->name('frontend.eCommerce');
@@ -44,6 +46,7 @@ Route::get('/acara/detail-acara/{id}', [FrontendController::class, 'detailAcara'
 Route::get('/toko', [FrontendController::class, 'toko'])->name('frontend.toko');
 Route::get('/', [FrontendController::class, 'index'])->name('frontend.index');
 
+Route::get('/storage/private/acara/{path}', [AcaraController::class, 'showFotoAcara'])->where('path', '.*')->name('showFoto.acara.private');
 Route::get('/storage/private/{path}', [BeritaController::class, 'showFotoBerita'])->where('path', '.*')->name('showFoto.berita.private');
 
 // web.php
