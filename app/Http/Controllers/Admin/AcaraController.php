@@ -89,9 +89,11 @@ class AcaraController extends Controller
 
             if($request->hasFile('gambar')){
                 if($acara->gambar){
-                    Storage::disk('public')->delete($acara->gambar);
+                    // Storage::disk('public')->delete($acara->gambar);
+                    Storage::disk('local')->delete($acara->gambar);
                 }
-                $acara->gambar = $validated['gambar']->store('acara', 'public');
+                // $acara->gambar = $validated['gambar']->store('acara', 'public');
+                $acara->gambar = $validated['local']->store('acara', 'public');
             }
 
             $acara->save();
