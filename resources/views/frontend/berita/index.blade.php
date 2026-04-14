@@ -35,8 +35,8 @@
         <div class="col-md-6 col-lg-4">
             <div class="news-card">
                 <div class="news-img-wrapper shadow-sm">
-                    <!-- <img src="{{ route('showFoto.berita.private', ['path' => $berita->gambar]) }}" class="news-img" alt="News"> -->
-                    <img src="{{ Storage::url($berita->gambar) }}" class="news-img" alt="News">
+                    <img src="{{ route('showFoto.berita.private', ['path' => $berita->gambar]) }}" class="news-img" alt="News">
+                    <!-- <img src="{{ Storage::url($berita->gambar) }}" class="news-img" alt="News"> -->
                 </div>
                 <span class="category-pill">Tips Bisnis</span>
                 <a href="{{ route('frontend.berita.detail', $berita->id) }}" class="text-decoration-none"><h5 class="news-title">{{ $berita->judul }}</h5></a>

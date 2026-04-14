@@ -44,7 +44,8 @@ class AcaraController extends Controller
             $acara->waktu_acara_selesai = $validated['waktu_acara_selesai'];
             $acara->kuota = $validated['kuota'];
             $acara->views = 0;
-            $acara->gambar = $validated['gambar']->store('acara', 'public');
+            // $acara->gambar = $validated['gambar']->store('acara', 'public');
+            $acara->gambar = $validated['gambar']->store('acara', 'local');
             $acara->save();
             DB::commit();
             return redirect()->route('admin.acara.index')->with('success', 'Acara berhasil disimpan');
@@ -111,7 +112,10 @@ class AcaraController extends Controller
             $acara = Acara::findOrFail($id);
             
             if($acara->gambar){
-                Storage::disk('public')->delete($acara->gambar);
+
+                // Storage::disk('public')->delete($acara->gambar);
+                Storage::disk('local')->delete($acara->gambar);
+
             }
             $acara->delete();
 
@@ -123,6 +127,28 @@ class AcaraController extends Controller
             return redirect()->back()->with('error', 'Gagal menghapus acara: ' . $e->getMessage());
         }
     }
+
+
+    public function showFotoAcara2($path) {   
+         
+        // Cek apakah file ada di disk 'local' (folder storage/app)
+        if (!Storage::disk('local')->exists($path)) {
+            abort(404, 'Foto tidak ditemukan');
+        }
+        // Mengembalikan response file secara langsung
+        return Storage::disk('local')->response($path);
+    }
+
+    public function showFotoAcara($path) {   
+    // Debug: Jika gambar tidak muncul, hapus komentar dd dibawah ini untuk cek path yang masuk
+    // dd($path); 
+
+    if (!Storage::disk('local')->exists($path)) {
+        abort(404, "File tidak ada di storage/app/" . $path);
+    }
+
+    return Storage::disk('local')->response($path);
+}
 
 
 }

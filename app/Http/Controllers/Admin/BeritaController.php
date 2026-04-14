@@ -43,8 +43,8 @@ class BeritaController extends Controller
             $berita->user_id = auth()->user()->id;
             $berita->views = 0;
             $berita->is_published = $request->has('is_published') ? 1 : 0;
-            // $berita->gambar = $validated['gambar']->store('berita', 'local');
-            $berita->gambar = $validated['gambar']->store('berita', 'public');
+            $berita->gambar = $validated['gambar']->store('berita', 'local');
+            // $berita->gambar = $validated['gambar']->store('berita', 'public');
 
             $berita->save();
 
@@ -55,9 +55,6 @@ class BeritaController extends Controller
             DB::rollBack();
             return redirect()->back()->with('error', 'Gagal menyimpan berita: ' . $e->getMessage());
         }
-
-
-
     }
 
     public function show($id){
@@ -88,7 +85,7 @@ class BeritaController extends Controller
     }
 
 
-    public function showFotoBerita($path){    
+    public function showFotoBerita2($path){    
 
         $fullPath = storage_path('storage/private' . $path);
         
@@ -100,6 +97,16 @@ class BeritaController extends Controller
             ], 404);
         }
 
-        return Storage::disk('local')->response($path);
+        return Storage::disk('local')->response($fullPath);
     }
+
+    public function showFotoBerita($path) {    
+    // Cek apakah file ada di disk 'local' (folder storage/app)
+    if (!Storage::disk('local')->exists($path)) {
+        abort(404, 'Foto tidak ditemukan');
+    }
+
+    // Mengembalikan response file secara langsung
+    return Storage::disk('local')->response($path);
+}
 }

@@ -24,7 +24,8 @@
             <div class="col-lg-8">
                 <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
                     <div class="position-relative">
-                        <img src="{{ Storage::url($acara->gambar) }}" class="img-fluid w-100" style="max-height: 450px; object-fit: cover;" alt="{{ $acara->judul }}">
+                        <img src="{{ route('showFoto.acara.private', $acara->gambar) }}" class="img-fluid w-100" style="max-height: 450px; object-fit: cover;" alt="{{ $acara->judul }}">
+                        <!-- <img src="{{ Storage::url($acara->gambar) }}" class="img-fluid w-100" style="max-height: 450px; object-fit: cover;" alt="{{ $acara->judul }}"> -->
                         <div class="position-absolute top-0 start-0 m-4">
                             <span class="badge bg-white text-primary px-3 py-2 rounded-pill shadow-sm fw-bold">
                                 {{ $acara->kategori_acara->name }}

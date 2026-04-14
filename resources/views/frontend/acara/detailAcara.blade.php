@@ -76,7 +76,8 @@
 
 <div class="container event-detail-wrapper">
     <div class="event-banner shadow-lg">
-        <img src="{{ Storage::url($acara->gambar) }}" alt="Bazar Banner">
+        <!-- <img src="{{ Storage::url($acara->gambar) }}" alt="Bazar Banner"> -->
+        <img src="{{route('showFoto.acara.private', $acara->gambar) }}" alt="Bazar Banner">
     </div>
 
     <div class="row">

@@ -38,7 +38,8 @@
         <div class="col-md-6 col-lg-4">
             <div class="event-card shadow-sm">
                 <div class="event-img-wrapper">
-                    <img src="{{ Storage::url($acara->gambar) }}" class="event-img" alt="Bazar">
+                    <!-- <img src="{{ Storage::url($acara->gambar) }}" class="event-img" alt="Bazar"> -->
+                    <img src="{{ route('showFoto.acara.private', $acara->gambar) }}" class="event-img" alt="Bazar">
                     <div class="event-date-badge">
                         <span class="date-day">{{ \Carbon\Carbon::parse($acara->tanggal_acara)->format('d') }}</span>
                         <span class="date-month">{{ \Carbon\Carbon::parse($acara->tanggal_acara)->format('M') }}</span>
