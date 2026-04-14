@@ -49,23 +49,10 @@
         </div>
     @endforeach
 
-        <!-- <div class="col-md-6 col-lg-4">
-            <div class="news-card">
-                <div class="news-img-wrapper shadow-sm">
-                    <img src="https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?w=600" class="news-img" alt="News">
-                </div>
-                <span class="category-pill">Event</span>
-                <a href="{{ route('frontend.berita.detail') }}" class="text-decoration-none"><h5 class="news-title">Persiapan Bazar Ramadhan 2026 Sudah Mencapai 90%</h5></a>
-                <p class="text-muted small">Pendaftaran booth bagi pelaku UMKM kuliner takjil telah dibuka. Segera amankan slot lokasi strategis Anda...</p>
-                <div class="text-muted smaller d-flex gap-3">
-                    <span><i data-lucide="calendar" size="12"></i> 28 Maret 2026</span>
-                    <span><i data-lucide="eye" size="12"></i> 890 Baca</span>
-                </div>
-            </div>
-        </div> -->
+      
     </div>
 
-    <div class="mt-5 d-flex justify-content-center">
+    <!-- <div class="mt-5 d-flex justify-content-center">
         <nav>
             <ul class="pagination">
                 <li class="page-item disabled"><a class="page-link rounded-start-pill px-3" href="#">Prev</a></li>
@@ -74,7 +61,7 @@
                 <li class="page-item"><a class="page-link rounded-end-pill px-3" href="#">Next</a></li>
             </ul>
         </nav>
-    </div>
+    </div> -->
 </div>
 
 @push('scripts')

@@ -71,7 +71,7 @@
     @if (Request::is('berita'))
          <link rel="stylesheet" href="{{ asset('css/berita.css') }}">
     @endif
-    @if (Request::is('berita/detail-berita'))
+    @if (Request::is('berita/detail-berita*'))
          <link rel="stylesheet" href="{{ asset('css/detailBerita.css') }}">
     @endif
 

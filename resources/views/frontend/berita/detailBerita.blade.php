@@ -24,7 +24,7 @@
             </header>
 
             <div class="featured-img-frame">
-                <img src="https://images.unsplash.com/photo-1542744094-24638eff58bb?w=1200" class="w-100" alt="News Image">
+                <img src="{{ route('showFoto.berita.private', $berita->gambar) }}" class="w-100" alt="News Image">
             </div>
 
             <article class="article-body">

@@ -23,7 +23,8 @@
         <div class="row g-4">
             <div class="col-lg-8">
                 <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
-                    <img src="{{ Storage::url($berita->gambar) }}" class="card-img-top" style="height: 400px; object-fit: cover;" alt="{{ $berita->judul }}">
+                    <img src="{{ route('showFoto.acara.private', $berita->gambar) }}" class="card-img-top" style="height: 400px; object-fit: cover;" alt="{{ $berita->judul }}">
+                    <!-- <img src="{{ Storage::url($berita->gambar) }}" class="card-img-top" style="height: 400px; object-fit: cover;" alt="{{ $berita->judul }}"> -->
                     
                     <div class="card-body p-5 bg-white">
                         <h1 class="fw-800 text-dark mb-4" style="line-height: 1.3;">{{ $berita->judul }}</h1>
