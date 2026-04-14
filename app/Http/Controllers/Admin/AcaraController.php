@@ -44,7 +44,8 @@ class AcaraController extends Controller
             $acara->waktu_acara_selesai = $validated['waktu_acara_selesai'];
             $acara->kuota = $validated['kuota'];
             $acara->views = 0;
-            $acara->gambar = $validated['gambar']->store('acara', 'public');
+            // $acara->gambar = $validated['gambar']->store('acara', 'public');
+            $acara->gambar = $validated['gambar']->store('acara', 'local');
             $acara->save();
             DB::commit();
             return redirect()->route('admin.acara.index')->with('success', 'Acara berhasil disimpan');
@@ -76,6 +77,7 @@ class AcaraController extends Controller
 
         DB::beginTransaction();
         try{
+
             $acara = Acara::findOrFail($id);
             $acara->kategori_acara_id = $validated['kategori_acara_id'];
             $acara->judul = $validated['judul'];
@@ -89,22 +91,22 @@ class AcaraController extends Controller
 
             if($request->hasFile('gambar')){
                 if($acara->gambar){
-                    // Storage::disk('public')->delete($acara->gambar);
-                    Storage::disk('local')->delete($acara->gambar);
+                        // Storage::disk('public')->delete($acara->gambar);
+                        Storage::disk('local')->delete($acara->gambar);
                 }
-                // $acara->gambar = $validated['gambar']->store('acara', 'public');
-                $acara->gambar = $validated['local']->store('acara', 'public');
-            }
+                $acara->gambar = $validated['gambar']->store('acara', 'local');
+              
+                }
 
-            $acara->save();
-            DB::commit();
-            return redirect()->route('admin.acara.index')->with('success', 'Acara berhasil diupdate');
-
-        }catch(\Exception $e){
+                $acara->save();
+                DB::commit();
+                return redirect()->route('admin.acara.index')->with('success', 'Acara berhasil diupdate');
+            }catch(\Exception $e){
             DB::rollBack();
             return redirect()->back()->with('error', 'Gagal mengupdate acara: ' . $e->getMessage());
         }
     }
+
 
    public function destroy($id){
         DB::beginTransaction();
@@ -113,7 +115,10 @@ class AcaraController extends Controller
             $acara = Acara::findOrFail($id);
             
             if($acara->gambar){
-                Storage::disk('public')->delete($acara->gambar);
+
+                // Storage::disk('public')->delete($acara->gambar);
+                Storage::disk('local')->delete($acara->gambar);
+
             }
             $acara->delete();
 
@@ -127,4 +132,25 @@ class AcaraController extends Controller
     }
 
 
+    public function showFotoAcara2($path) {   
+         
+        // Cek apakah file ada di disk 'local' (folder storage/app)
+        if (!Storage::disk('local')->exists($path)) {
+            abort(404, 'Foto tidak ditemukan');
+        }
+        // Mengembalikan response file secara langsung
+        return Storage::disk('local')->response($path);
+    }
+
+    public function showFotoAcara($path) {   
+    // Debug: Jika gambar tidak muncul, hapus komentar dd dibawah ini untuk cek path yang masuk
+    // dd($path); 
+
+    if (!Storage::disk('local')->exists($path)) {
+        abort(404, "File tidak ada di storage/app/" . $path);
+    }
+
+    return Storage::disk('local')->response($path);
 }
+
+

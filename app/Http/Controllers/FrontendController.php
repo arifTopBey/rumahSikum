@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Berita;
 use Illuminate\Http\Request;
 
 class FrontendController extends Controller
@@ -107,8 +108,9 @@ class FrontendController extends Controller
         return view('frontend.berita.index', compact('beritas'));
     }
 
-    public function detailBerita(){
-        return view('frontend.berita.detailBerita');
+    public function detailBerita($id){
+        $berita = Berita::findOrFail($id);
+        return view('frontend.berita.detailBerita', compact('berita'));
     }
 
 

@@ -65,8 +65,8 @@
                         <tr>
                             <td class="text-center">{{ $loop->iteration }}</td>
                             <td>
-                                <!-- <img src="{{ route('showFoto.berita.private', $berita->gambar) }}" class="rounded-2 border" width="80" height="50" style="object-fit: cover;"> -->
-                                <img src="{{ Storage::url($berita->gambar) }}" class="rounded-2 border" width="80" height="50" style="object-fit: cover;">
+                                <img src="{{ route('showFoto.berita.private', $berita->gambar) }}" class="rounded-2 border" width="80" height="50" style="object-fit: cover;">
+                                <!-- <img src="{{ Storage::url($berita->gambar) }}" class="rounded-2 border" width="80" height="50" style="object-fit: cover;"> -->
                             </td>
                             <td class="text-center small">{{ $berita->judul }}</td>
                             <td>
@@ -91,7 +91,7 @@
                                         <i data-lucide="more-horizontal" size="18"></i>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end shadow border-0">
-                                        <li><a class="dropdown-item py-2" href=""><i data-lucide="edit-3" size="14" class="me-2"></i> Edit</a></li>
+                                        <li><a class="dropdown-item py-2" href="{{ route('admin.berita.edit', $berita->id) }}"><i data-lucide="edit-3" size="14" class="me-2"></i> Edit</a></li>
                                         <li><a class="dropdown-item py-2" href="{{ route('admin.berita.show', $berita->id) }}"><i data-lucide="eye" size="14" class="me-2"></i> Pratinjau</a></li>
                                         <!-- <li><a class="dropdown-item py-2 text-danger" href="#"><i data-lucide="trash-2" size="14" class="me-2"></i> Hapus</a></li> -->
                                         <form id="delete-form-{{ $berita->id }}" action="{{ route('admin.berita.destroy', $berita->id) }}" method="POST" class="d-inline">

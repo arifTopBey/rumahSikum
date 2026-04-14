@@ -80,8 +80,12 @@
 
                         @if($acara->gambar)
                             <div class="mb-3">
-                                <img
+                                <!-- <img
                                     src="{{ asset('storage/'.$acara->gambar) }}"
+                                    class="img-fluid rounded-3"
+                                > -->
+                                <img
+                                    src="{{ route('showFoto.acara.private', $acara->gambar) }}"
                                     class="img-fluid rounded-3"
                                 >
                             </div>
