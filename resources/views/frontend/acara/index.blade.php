@@ -59,52 +59,6 @@
             </div>
         </div>
         @endforeach
-
-        <!-- <div class="col-md-6 col-lg-4">
-            <div class="event-card shadow-sm">
-                <div class="event-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&auto=format" class="event-img" alt="Kuliner">
-                    <div class="event-date-badge">
-                        <span class="date-day">22</span>
-                        <span class="date-month">Jun</span>
-                    </div>
-                </div>
-                <div class="event-body">
-                    <span class="event-category">Festival Kuliner</span>
-                    <h5 class="event-title">Pesta Rasa Kuliner Khas Tangerang</h5>
-                    <div class="event-meta">
-                        <i data-lucide="map-pin" size="14"></i> SMS Mall Serpong
-                    </div>
-                    <div class="event-meta">
-                        <i data-lucide="clock" size="14"></i> 10:00 - 22:00 WIB
-                    </div>
-                    <a href="{{ route('frontend.acara.detail', $acara->id) }}" class="btn-event-detail">Lihat Detail Acara</a>
-                </div>
-            </div>
-        </div> -->
-
-        <!-- <div class="col-md-6 col-lg-4">
-            <div class="event-card shadow-sm">
-                <div class="event-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1475721027187-40afee775c73?w=600&auto=format" class="event-img" alt="Workshop">
-                    <div class="event-date-badge">
-                        <span class="date-day">05</span>
-                        <span class="date-month">Jul</span>
-                    </div>
-                </div>
-                <div class="event-body">
-                    <span class="event-category">Workshop</span>
-                    <h5 class="event-title">Digital Marketing untuk UMKM Lokal</h5>
-                    <div class="event-meta">
-                        <i data-lucide="map-pin" size="14"></i> Aula Kantor Bupati
-                    </div>
-                    <div class="event-meta">
-                        <i data-lucide="clock" size="14"></i> 09:00 - 15:00 WIB
-                    </div>
-                    <a href="{{ route('frontend.acara.detail', $acara->id) }}" class="btn-event-detail">Lihat Detail Acara</a>
-                </div>
-            </div>
-        </div> -->
     </div>
 
     <!-- <div class="mt-5 d-flex justify-content-center">

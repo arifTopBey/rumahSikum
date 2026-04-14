@@ -14,12 +14,12 @@
 
             <header class="article-header">
                 <span class="badge bg-primary px-3 py-2 rounded-pill mb-3">Kebijakan</span>
-                <h1 class="mb-3">Bupati Tangerang Resmikan Program Digitalisasi 1.000 UMKM Lokal</h1>
+                <h1 class="mb-3">{{ $berita->judul }}</h1>
                 
                 <div class="article-meta d-flex align-items-center gap-4">
                     <div class="d-flex align-items-center gap-2"><i data-lucide="user" size="16"></i> Admin RumahSikum</div>
-                    <div class="d-flex align-items-center gap-2"><i data-lucide="calendar" size="16"></i> 02 April 2026</div>
-                    <div class="d-flex align-items-center gap-2"><i data-lucide="message-square" size="16"></i> 12 Komentar</div>
+                    <div class="d-flex align-items-center gap-2"><i data-lucide="calendar" size="16"></i> {{ $berita->created_at->translatedFormat('d F Y') }}</div>
+                    <!-- <div class="d-flex align-items-center gap-2"><i data-lucide="message-square" size="16"></i> 12 Komentar</div> -->
                 </div>
             </header>
 
@@ -28,26 +28,10 @@
             </div>
 
             <article class="article-body">
-                <p><strong>TANGERANG</strong> – Pemerintah Kabupaten Tangerang secara resmi meluncurkan inisiatif baru bertajuk "Digital UMKM 2026". Program ini menargetkan percepatan adopsi teknologi bagi 1.000 pelaku usaha mikro, kecil, dan menengah yang tersebar di 29 kecamatan.</p>
-
-                <p>Dalam sambutannya, Bupati Tangerang menekankan bahwa digitalisasi bukan lagi sebuah pilihan, melainkan keharusan bagi UMKM untuk bertahan di tengah gempuran produk impor dan perubahan pola belanja masyarakat yang kini beralih ke ranah digital.</p>
-
-                <h2>Penyediaan Infrastruktur dan Pelatihan</h2>
-                <p>Program ini tidak hanya memberikan akses pada platform *e-marketplace* eksklusif seperti RumahSikum, tetapi juga mencakup pendampingan intensif selama enam bulan. Materi pelatihan meliputi fotografi produk, optimasi media sosial, hingga manajemen keuangan digital.</p>
-                
-                <blockquote>
-                    <div class="p-4 bg-light border-start border-primary border-4 rounded-3 my-4 italic fs-5">
-                        "Kami ingin UMKM Tangerang tidak hanya jago di kandang, tapi punya daya saing global. Transformasi digital adalah kunci pembuka pintu pasar internasional."
-                    </div>
-                </blockquote>
-
-                <p>Selain itu, pemerintah bekerja sama dengan beberapa bank daerah untuk memfasilitasi integrasi sistem pembayaran QRIS bagi setiap peserta program, guna memudahkan transaksi non-tunai yang lebih aman dan transparan.</p>
-
-                <h2>Harapan Masa Depan</h2>
-                <p>Dengan adanya program ini, diharapkan kontribusi UMKM terhadap Produk Domestik Regional Bruto (PDRB) Kabupaten Tangerang dapat meningkat signifikan pada akhir tahun 2026 mendatang.</p>
+                {!! $berita->deskripsi !!}
             </article>
 
-            <div class="d-flex align-items-center justify-content-between mt-5 pt-4 border-top">
+            <!-- <div class="d-flex align-items-center justify-content-between mt-5 pt-4 border-top">
                 <div class="d-flex align-items-center gap-3">
                     <span class="fw-bold small text-muted">Bagikan:</span>
                     <a href="#" class="share-btn"><i data-lucide="facebook" size="18"></i></a>
@@ -57,7 +41,7 @@
                 <div class="text-muted small">
                     <i data-lucide="tag" size="14"></i> UMKM, Digitalisasi, Tangerang
                 </div>
-            </div>
+            </div> -->
         </div>
 
         <div class="col-lg-4 ps-lg-5">
