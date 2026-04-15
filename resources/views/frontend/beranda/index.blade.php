@@ -6,10 +6,11 @@
             <div class="row align-items-center">
                 <div class="col-lg-6 ">
                     <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill mb-3">🚀 Era Digital UMKM Tangerang</span>
-                    <h1 class="hero-title mb-4">Berdayakan <span style="color: #7728a8;">Ekonomi Lokal</span> Dalam Satu Genggaman.</h1>
+                    <h1 class="hero-title mb-4">Berdayakan <span style="color: #a82282;">Ekonomi Lokal</span> Dalam Satu Genggaman.</h1>
                     <p class="lead text-muted mb-5">Platform terintegrasi untuk pendataan, pemasaran produk unggulan, dan penguatan koperasi di Kabupaten Tangerang.</p>
                     <div class="d-flex gap-3">
-                        <a href="{{ route('frontend.eCommerce') }}" style="background-color: #7728a8;" class="btn text-white btn-lg rounded-pill px-5">Jelajahi Produk</a>
+                        <!-- #7728a8 -->
+                        <a href="{{ route('frontend.eCommerce') }}" style="background-color: #a82282;" class="btn text-white btn-lg rounded-pill px-5">Jelajahi Produk</a>
                         <button class="btn btn-outline-dark btn-lg rounded-pill px-4"><i data-lucide="play-circle" class="me-2"></i>Video Profil</button>
                     </div>
 
@@ -39,7 +40,7 @@
         <div class="container">
             <div class="row g-4">
                 <div class="col-md-4">
-                    <div style="background-color: #7728a8; color: white;" class="card bento-card p-4">
+                    <div style="background-color: #a82282; color: white;" class="card bento-card p-4">
                         <i data-lucide="shopping-bag" class="mb-3" size="40"></i>
                         <h3>Marketplace <br>Lokal</h3>
                         <p class="opacity-75">Beli produk terbaik langsung dari tangan pengrajin lokal.</p>
@@ -106,7 +107,7 @@
     </section>
 
     <section class="container py-5">
-        <div style="background-color: #7728a8;" class="p-5 rounded-5 text-white text-center shadow-lg position-relative overflow-hidden">
+        <div style="background-color: #a82282;" class="p-5 rounded-5 text-white text-center shadow-lg position-relative overflow-hidden">
             <div class="position-relative z-1">
                 <h2 class="fw-bold mb-3">Siap Go-Digital Bersama Kami?</h2>
                 <p class="opacity-75 mb-4">Daftarkan usaha Anda sekarang dan dapatkan akses pasar yang lebih luas.</p>

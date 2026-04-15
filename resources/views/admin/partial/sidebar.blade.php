@@ -17,7 +17,7 @@
     <!--end::Header-->
 
     <!--begin::Sidebar-->
-    <aside style="background: linear-gradient(to bottom, #A020F0, #7D13E8);" class="app-sidebar shadow py-3" data-bs-theme="dark">
+    <aside style="background: linear-gradient(to bottom, #a82282, #a82252);" class="app-sidebar shadow py-3" data-bs-theme="dark">
         <!--begin::Sidebar Brand-->
         <div class="sidebar-brand ">
             <!--begin::Brand Link-->
@@ -106,19 +106,12 @@
                     </li>
                     <li class="nav-item {{ Request::is('admin/berita*') ? 'menu-open' : '' }}">
                         <a href="#" class="nav-link {{ Request::is('admin/berita*') ? 'active bg-black' : '' }}">
-                            <i class="bi bi-table text-white"></i>
+                            <i class="bi bi-body-text text-white"></i>
                             <p class="text-white">
                                 Umum
                                 <i class="nav-arrow bi bi-chevron-right"></i>
                             </p>
                         </a>
-                        <!-- <a href="{{ route('admin.kategori.berita.index') }}" class="nav-link {{ Request::is('pembinaan') ? 'active bg-black' : '' }}">
-                            <i class="bi bi-table text-white"></i>
-                            <p class="text-white">
-                                Kategori Berita
-                                <i class="nav-arrow bi bi-chevron-right"></i>
-                            </p>
-                        </a> -->
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="{{ route('admin.kategori.berita.index') }}" class="nav-link {{ Request::is('admin/kategori/berita*') ? 'active' : '' }}">
@@ -149,6 +142,31 @@
                                 <a href="{{route('admin.pelatihan.index')}}" class="nav-link {{ Request::is('admin/pelatihan*') ? 'active' : '' }}">
                                     <i class="nav-icon bi bi-circle"></i>
                                     <p class="text-white">Pelatihan</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item {{ Request::is('admin/e-learning*') ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link {{ Request::is('admin/berita*') ? 'active bg-black' : '' }}">
+                            <i class="bi bi-backpack text-white"></i>
+                            <p class="text-white">
+                                E-learning
+                                <i class="nav-arrow bi bi-chevron-right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+
+                             <li class="nav-item">
+                                <a href="{{ route('admin.kategori.elearning.index') }}" class="nav-link {{ Request::is('admin/kategori/berita*') ? 'active' : '' }}">
+                                    <i class="nav-icon bi bi-circle"></i>
+                                    <p class="text-white">Kategori E-learning</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('admin.elearning.index') }}" class="nav-link {{ Request::is('admin/elearning*') ? 'active' : '' }}">
+                                    <i class="nav-icon bi bi-circle"></i>
+                                    <p class="text-white">Modul E-learning</p>
                                 </a>
                             </li>
                         </ul>

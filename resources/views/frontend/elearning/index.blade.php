@@ -34,7 +34,7 @@
 
         <div class="mb-5">
             <h4 class="fw-bold mb-4">Lanjutkan Belajar</h4>
-            <div style="background-color: #7728a8;" class="card border-0 shadow-sm p-4 rounded-4  text-white position-relative overflow-hidden">
+            <div style="background-color: #a82282;" class="card border-0 shadow-sm p-4 rounded-4  text-white position-relative overflow-hidden">
                 <div class="row align-items-center position-relative z-1">
                     <div class="col-md-8">
                         <h5 class="fw-bold">Strategi Branding Produk di Instagram</h5>
@@ -53,7 +53,7 @@
 
         <div class="row g-4">
             <div class="col-12 d-flex justify-content-between align-items-center">
-                <h4 class="fw-bold mb-0">Kelas Terbaru</h4>
+                <h4 class="fw-bold mb-0">Video Terbaru</h4>
                 <a href="#" class="text-decoration-none">Lihat Semua <i data-lucide="chevron-right"></i></a>
             </div>
 
@@ -117,35 +117,53 @@
                 </div>
             </div> -->
 
-            <div class="col-md-4">
-                <div class="card course-card shadow-sm h-100">
-                    <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=600&q=80"
-                        class="card-img-top course-img" alt="Course">
-                    <div class="card-body p-4">
-                        <div class="d-flex justify-content-between mb-2">
-                            <span class="badge bg-info-subtle text-info">All Levels</span>
-                            <div class="d-flex align-items-center small text-muted">
-                                <i data-lucide="book-open" size="14" class="me-1"></i> E-Book
+            @foreach ($elearnings as $elearning )
+                <div class="col-md-4">
+            
+                    <a href="{{ route('frontend.e-learning.detail', $elearning->id) }}" class="text-decoration-none">
+                        <div class="card course-card shadow-sm h-100">
+                            <img src="{{ route('showFoto.elearning.thumnail.private', $elearning->thumbnail) }}" width="600" height="80"
+                                class="card-img-top course-img" alt="Course">
+                            <!-- <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=600&q=80"
+                                class="card-img-top course-img" alt="Course"> -->
+                            <div class="card-body p-4">
+                                <div class="d-flex justify-content-between mb-2">
+
+                                @if($elearning->level === 'semua level')
+                                    <span class="badge bg-info-subtle text-info">All Levels</span>
+                                @elseif($elearning->level === 'pemula')
+                                    <span class="badge bg-success-subtle text-success">Pemula</span>
+                                @elseif($elearning->level === 'mahir')
+                                    <span class="badge bg-danger-subtle text-danger">Mahir</span>
+                                @endif
+
+                                @if($elearning->pdf)
+                                    <div class="d-flex align-items-center small text-muted">
+                                        <i data-lucide="book-open" size="14" class="me-1"></i> E-Book
+                                    </div>
+                                @endif
+                                </div>
+                                <h5 class="fw-bold mb-3">{{ $elearning->name }}o</h5>
+                                <div class="d-flex align-items-center gap-2 mb-3">
+                                    <!-- <img src="https://i.pravatar.cc/150?u=mentor3" class="instructor-img" alt="Mentor"> -->
+                                    <img src="{{ route('showFoto.elearning.mentor.private', $elearning->photo_mentor) }}" class="instructor-img" alt="Mentor">
+                                    <div>
+                                        <p class="small mb-0 fw-bold">{{ $elearning->nama_mentor }}</p>
+                                        <p class="small text-muted mb-0">{{ $elearning->bidang_menthor }}</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="d-flex justify-content-end align-items-center">
+                                    <!-- <span class="fw-800 text-primary">GRATIS</span> -->
+                                    <div class="d-flex align-items-center small text-muted">
+                                        <i data-lucide="eye" size="14" class="me-1"></i> {{ $elearning->views }} Views
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <h5 class="fw-bold mb-3">Manajemen Kas Sederhana bagi Pelaku Usaha Mikro</h5>
-                        <div class="d-flex align-items-center gap-2 mb-3">
-                            <img src="https://i.pravatar.cc/150?u=mentor3" class="instructor-img" alt="Mentor">
-                            <div>
-                                <p class="small mb-0 fw-bold">Siti Aminah</p>
-                                <p class="small text-muted mb-0">Ahli Keuangan</p>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="fw-800 text-primary">GRATIS</span>
-                            <div class="d-flex align-items-center small text-muted">
-                                <i data-lucide="users" size="14" class="me-1"></i> 2.4k Siswa
-                            </div>
-                        </div>
-                    </div>
+                    </a>
                 </div>
-            </div>
+            @endforeach
         </div>
 
         <!-- <div class="py-5 mt-5">

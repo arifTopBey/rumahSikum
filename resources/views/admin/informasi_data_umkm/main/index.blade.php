@@ -4,7 +4,7 @@
 <div class="">
     <div class="container mt-4">
         <div class="row px-3">
-            <div style="background: #A020F0" class="col-md-12 rounded-2  py-3 px-5">
+            <div style="background: #a82282" class="col-md-12 rounded-2  py-3 px-5">
                 <div class="">
                     <h3 class="text-white">Selamat Datang di Sistem Informasi Data Tunggal UMKM(SIDT-UMKM)</h3>
                     <p style="color: #cc9125" class="fs-5 fw-semibold">Sebaran Data UMKM (Agregat)</p>

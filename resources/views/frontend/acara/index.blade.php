@@ -10,7 +10,7 @@
                 <p class="lead opacity-90 mb-0">Temukan pameran, bazar, dan festival UMKM terbaik di seluruh wilayah Kabupaten Tangerang.</p>
             </div>
             <div class="col-lg-5 text-lg-end mt-4 mt-lg-0">
-                <button class="btn btn-white bg-white text-primary rounded-pill px-4 py-3 fw-bold">Daftarkan Acara Anda</button>
+                <!-- <button class="btn btn-white bg-white text-primary rounded-pill px-4 py-3 fw-bold">Daftarkan Acara Anda</button> -->
             </div>
         </div>
     </div>

@@ -4,7 +4,9 @@ use App\Exports\UmkmNibExport;
 use App\Exports\UmkmWilayahExport;
 use App\Http\Controllers\Admin\AcaraController;
 use App\Http\Controllers\Admin\BeritaController;
+use App\Http\Controllers\Admin\ElearningController;
 use App\Http\Controllers\Admin\KategoriAcaraController;
+use App\Http\Controllers\Admin\KategoriElearningController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataUMKMController;
@@ -38,6 +40,8 @@ use Maatwebsite\Excel\Facades\Excel;
 
 Route::get('/list-panel', [FrontendController::class, 'listPanel'])->name('frontend.list.panel');
 Route::get('/e-learning', [FrontendController::class, 'eLearning'])->name('frontend.e-learning');
+Route::get('/e-learning/detail/{id}', [FrontendController::class, 'detailElearning'])->name('frontend.e-learning.detail');
+
 Route::get('/e-commerce', [FrontendController::class, 'eCommerce'])->name('frontend.eCommerce');
 Route::get('/e-commerce/produk', [FrontendController::class, 'eCommerceDetail'])->name('frontend.eCommerce.detail');
 Route::get('/koperasi', [FrontendController::class, 'koperasi'])->name('frontend.koperasi');
@@ -47,13 +51,15 @@ Route::get('/acara/detail-acara/{id}', [FrontendController::class, 'detailAcara'
 Route::get('/toko', [FrontendController::class, 'toko'])->name('frontend.toko');
 Route::get('/', [FrontendController::class, 'index'])->name('frontend.index');
 
-Route::get('/storage/private/acara/{path}', [AcaraController::class, 'showFotoAcara'])->where('path', '.*')->name('showFoto.acara.private');
-Route::get('/storage/private/{path}', [BeritaController::class, 'showFotoBerita'])->where('path', '.*')->name('showFoto.berita.private');
 
 Route::get('/berita', [FrontendController::class, 'berita'])->name('frontend.berita');
 Route::get('/berita/detail-berita/{id}', [FrontendController::class, 'detailBerita'])->name('frontend.berita.detail');
 
-// web.php
+// akses media private
+Route::get('/storage/private/acara/{path}', [AcaraController::class, 'showFotoAcara'])->where('path', '.*')->name('showFoto.acara.private');
+Route::get('/storage/private/elearning/thumbnail/{path}', [ElearningController::class, 'showFotoThumbnail'])->where('path', '.*')->name('showFoto.elearning.thumnail.private');
+Route::get('/storage/private/elearning/mentor/{path}', [ElearningController::class, 'showFotoMentor'])->where('path', '.*')->name('showFoto.elearning.mentor.private');
+Route::get('/storage/private/{path}', [BeritaController::class, 'showFotoBerita'])->where('path', '.*')->name('showFoto.berita.private');
 
 
 Route::middleware(['guest'])->group(function () {
@@ -174,6 +180,20 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/pelatihan/{id}/edit', [\App\Http\Controllers\Admin\PelatihanController::class, 'edit'])->name('admin.pelatihan.edit');
     Route::put('/admin/pelatihan/{id}', [\App\Http\Controllers\Admin\PelatihanController::class, 'update'])->name('admin.pelatihan.update');
     Route::delete('/admin/pelatihan/{id}', [\App\Http\Controllers\Admin\PelatihanController::class, 'destroy'])->name('admin.pelatihan.destroy');
+
+
+    // kategori e-learning admin
+    Route::get('/admin/kategori-elearning', [KategoriElearningController::class, 'index'])->name('admin.kategori.elearning.index');
+    Route::get('/admin/kategori-elearning/create', [KategoriElearningController::class, 'create'])->name('admin.kategori.elearning.create');
+    Route::post('/admin/kategori-elearning', [KategoriElearningController::class, 'store'])->name('admin.kategori.elearning.store');
+    Route::put('/admin/kategori-elearning/{id}', [KategoriElearningController::class, 'update'])->name('admin.kategori.elearning.update');
+    Route::delete('/admin/kategori-elearning/{id}', [KategoriElearningController::class, 'destroy'])->name('admin.kategori.elearning.destroy');
+
+    // admin elearning
+    Route::get('/admin/elearning', [ElearningController::class, 'index'])->name('admin.elearning.index');
+    Route::get('/admin/elearning/create',[ElearningController::class, 'create'])->name('admin.elearning.create');
+    Route::post('/admin/elearning/store', [ElearningController::class, 'store'])->name('admin.elearning.store');
+
 
 
 

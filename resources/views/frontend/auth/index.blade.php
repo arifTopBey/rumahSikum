@@ -14,7 +14,9 @@
     <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background: linear-gradient(135deg, #6B17BF 0%, #5F07B8 100%);
+
+            /* #6B17BF #5f07b8 */
+            background: linear-gradient(135deg,#a82282 0%, #a82252 100%);
             height: 100vh;
             display: flex;
             align-items: center;
@@ -28,8 +30,10 @@
         }
 
         .login-info-section {
-            background: linear-gradient(rgba(107, 23, 191, 0.8), rgba(95, 7, 184, 0.9)), 
+            background: linear-gradient(rgba(1168, 34, 130, 0.8), rgba(176, 3, 127, 0.9)), 
                         url('https://images.unsplash.com/photo-1556742044-3c52d6e88c62?auto=format&fit=crop&w=800&q=80');
+            /* background: linear-gradient(rgba(107, 23, 191, 0.8), rgba(95, 7, 184, 0.9)), 
+                        url('https://images.unsplash.com/photo-1556742044-3c52d6e88c62?auto=format&fit=crop&w=800&q=80'); */
             background-size: cover;
             background-position: center;
             color: white;
@@ -52,7 +56,7 @@
         }
 
         .btn-login {
-            background: linear-gradient(90deg, #6B17BF, #5F07B8);
+            background: linear-gradient(90deg, #a82282, #a82252);
             border: none;
             border-radius: 12px;
             padding: 12px;

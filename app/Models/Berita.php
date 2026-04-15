@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Berita extends Model
 {
-    protected $table = 'berita'; // Gunakan block 1 sebagai tabel dasar
+    protected $table = 'berita'; 
     protected $primaryKey = 'id';
     public $incrementing = true;
     protected $keyType = 'int';

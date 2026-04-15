@@ -7,7 +7,7 @@
 
         /* Welcome Section */
         .learning-header {
-            background: linear-gradient(135deg, #7728a8 0%, #a746e3 100%);
+            background: linear-gradient(135deg,#a82282 0%, #a82252 100%);
             padding: 100px 0 60px;
             color: white;
             border-radius: 0 0 50px 50px;
@@ -52,7 +52,7 @@
             display: inline-block;
             white-space: nowrap;
         }
-        .category-pill.active { background: #7728a8; color: white; }
+        .category-pill.active { background: #a82282; color: white; }
 
         /* Instructor Avatar */
         .instructor-img {

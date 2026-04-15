@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Berita;
+use App\Models\Elearning;
 use Illuminate\Http\Request;
 
 class FrontendController extends Controller
@@ -18,8 +19,24 @@ class FrontendController extends Controller
     }
 
     public function eLearning(){
+        
+        $elearnings = Elearning::where('is_publish', 1)->latest()->paginate(10);
 
-        return view('frontend.elearning.index');
+        return view('frontend.elearning.index', compact('elearnings'));
+    }
+
+    public function detailElearning($id){
+
+        $elearning = Elearning::findOrFail($id);
+        $elearning->views = $elearning->views + 1;
+        $elearning->save();
+        $elearningsElse = Elearning::where('is_publish', 1)
+        ->where('id', '!=', $id) 
+        ->latest()
+        ->paginate(10);
+
+        return view('frontend.elearning.detail', compact('elearning', 'elearningsElse'));
+
     }
 
     public function eCommerce(){
@@ -104,7 +121,7 @@ class FrontendController extends Controller
     }
 
     public function berita(){
-        $beritas = \App\Models\Berita::where('is_published', 1)->latest()->paginate(10);
+        $beritas = Berita::where('is_published', 1)->latest()->paginate(10);
         return view('frontend.berita.index', compact('beritas'));
     }
 

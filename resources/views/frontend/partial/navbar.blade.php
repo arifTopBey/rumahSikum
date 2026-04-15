@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg fixed-top shadow-sm bg-white">
     <div class="container">
         <a class="navbar-brand fw-bold fs-4" href="#">
-            <span style="color: #7728a8;">Rumah</span>Sikum
+            <span style="color: #a82282;">Rumah</span>Sikum
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
@@ -104,7 +104,7 @@
                 </div>
 
                 @if (!auth()->check())
-                    <a href="{{ route('frontend.tambah.umkm') }}" style="background-color: #7728a8;" class="btn text-white rounded-pill px-4 shadow-sm fw-bold">Gabung UMKM</a>                    
+                    <a href="{{ route('frontend.tambah.umkm') }}" style="background-color: #a82282;" class="btn text-white rounded-pill px-4 shadow-sm fw-bold">Gabung UMKM</a>                    
                 @endif
             </div>
         </div>
