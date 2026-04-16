@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Interface\UmkmInterface;
 use App\Models\IdentitasUsaha;
 use App\Models\LaporanKeuangan;
+use App\Models\UsahaPerizinan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -419,14 +420,17 @@ class DataUMKMController extends Controller
             $query->whereBetween('omzet_usaha', [15000001, 50000000]);
         }
 
-        $data = $query->paginate(10)->withQueryString();
-        ;
+        // $data = $query->paginate(10)->withQueryString();
+        $data = $query->search(request(['search']))->paginate(10)->withQueryString();
+
 
         return view('admin.informasi_data_umkm.skala.index', compact('data'));
     }
 
     public function filterWilayah(Request $request)
     {
+
+        
         $query = LaporanKeuangan::with('identitasUsaha');
 
         if ($request->kecamatan) {
@@ -435,9 +439,25 @@ class DataUMKMController extends Controller
             });
         }
 
-        $data = $query->paginate(10)->withQueryString();
+        $data = $query->search(request(['search']))->paginate(10)->withQueryString();
 
         return view('admin.informasi_data_umkm.wilayah.index', compact('data'));
+    }
+    public function filterWilayahDesa(Request $request)
+    {
+
+        
+        $query = LaporanKeuangan::with('identitasUsaha');
+
+        if ($request->kelurahan) {
+            $query->whereHas('identitasUsaha', function ($q) use ($request) {
+                $q->where('kelurahan', 'like', '%' . $request->kelurahan . '%');
+            });
+        }
+
+        $data = $query->search(request(['search']))->paginate(10)->withQueryString();
+
+        return view('admin.informasi_data_umkm.wilayah.desa', compact('data'));
     }
 
     public function filterNIB(Request $request)
@@ -457,7 +477,7 @@ class DataUMKMController extends Controller
             });
         }
 
-        $data = $query->paginate(10)->withQueryString();
+        $data = $query->search(request(['search']))->paginate(10)->withQueryString();
 
         return view('admin.informasi_data_umkm.lainnya.index', compact('data'));
     }
@@ -485,7 +505,9 @@ class DataUMKMController extends Controller
             });
         }
 
-        $data = $query->paginate(10)->withQueryString();
+        // $data = $query->paginate(10)->withQueryString();
+        $data = $query->search(request(['search']))->paginate(10)->withQueryString();
+
 
         return view('admin.informasi_data_umkm.lainnya.gender', compact('data'));
     }
@@ -506,7 +528,7 @@ class DataUMKMController extends Controller
             });
         }
 
-        $data = $query->select('usaha_laporan_keuangan.*')
+        $data = $query->select('usaha_laporan_keuangan.*')->search(request(['search']))
             ->paginate(10)
             ->withQueryString();
 
@@ -559,7 +581,7 @@ class DataUMKMController extends Controller
         //     ->paginate(10);
 
         $cluster = $request->cluster;
-
+        $search = $request->search; // Ambil input search
         $query = DB::table('usaha_karakteristik as uk')
             ->join('identitasusaha as iu', 'uk.id_badan_usaha', '=', 'iu.id_badan_usaha')
             ->join('usaha_laporan_keuangan as ulk', 'ulk.id_badan_usaha', '=', 'iu.id_badan_usaha')
@@ -609,12 +631,53 @@ class DataUMKMController extends Controller
             ]);
         }
 
+        if ($search) {
+        $query->where(function($q) use ($search) {
+            $q->where('iu.nama_lengkap_usaha', 'like', "%{$search}%")
+              ->orWhere('iu.alamat_lengkap', 'like', "%{$search}%")
+              ->orWhere('iu.kecamatan', 'like', "%{$search}%")
+              ->orWhere('iu.telpon', 'like', "%{$search}%");
+        });
+    }
+
+
         $data = $query->paginate(10)->withQueryString();
+        // $data = $query->search(request(['search']))->paginate(10)->withQueryString();
 
         return view('admin.informasi_data_umkm.cluster.index', compact('data'));
     }
 
     public function dataKbriKategori($kategori){
         
+    }
+
+
+    public function dataPerizinanUMKM(){
+
+        // $totalPirt = UsahaPerizinan::where('memiliki_pirt', 1)->count();
+        // $totalBpom = UsahaPerizinan::where('memiliki_bpom', 1)->count();
+        // $totalTdp = UsahaPerizinan::where('memiliki_tdp', 1)->count();
+        // $totalHalal = UsahaPerizinan::where('memiliki_sertifikat_halal', 1)->count();
+        $perizinan = [
+            'PIRT' => UsahaPerizinan::where('memiliki_pirt', 1)->count(),
+            'BPOM' => UsahaPerizinan::where('memiliki_bpom', 1)->count(),
+            'TDP' => UsahaPerizinan::where('memiliki_tdp', 1)->count(),
+            'Halal' => UsahaPerizinan::where('memiliki_sertifikat_halal', 1)->count(),
+        ];
+
+        // return view('admin.informasi_data_umkm.partial.perizinan', compact(
+        //     'totalPirt', 
+        //     'totalBpom', 
+        //     'totalTdp', 
+        //     'totalHalal'
+        //  ));
+
+        return view('admin.informasi_data_umkm.partial.perizinan', [
+            'perizinan' => $perizinan,
+            'totalPirt' => $perizinan['PIRT'],
+            'totalBpom' => $perizinan['BPOM'],
+            'totalTdp' => $perizinan['TDP'],
+            'totalHalal' => $perizinan['Halal'],
+        ]);
     }
 }

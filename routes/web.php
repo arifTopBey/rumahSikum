@@ -121,9 +121,11 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/sebaran-data-umkm', [DataUMKMController::class, 'index'])->name('admin.sebaran.data.umkm');
     Route::get('/usaha-berdasarkan-wilayah', [UsahaWilayahController::class, 'index'])->name('admin.wilayah');
+    Route::get('/usaha-berdasarkan-wilayah-desa', [UsahaWilayahController::class, 'wilayahDesa'])->name('admin.wilayah.desa');
     Route::get('/usaha-berdasarkan-cluster-prioritas', [UsahaBerdasarkanPrioritasController::class, 'index'])->name('admin.cluster.prioritas');
     Route::get('/usaha-berdasarkan-desil', [UsahaBerdasarkanDesilController::class, 'index'])->name('admin.usaha.desil');
     Route::get('/usaha-berdasarkan-kbli', [UsahaBerdasarkanKbliController::class, 'index'])->name('admin.usaha.kbli');
+    Route::get('/usaha-berdasarkan-perizinan', [DataUMKMController::class, 'dataPerizinanUMKM'])->name('admin.usaha.perizinan');
     Route::get('/indikator-usaha-lainnya', [IndikatorUsahaLainnyaController::class, 'index'])->name('admin.usaha.lainnya');
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -132,6 +134,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/filter-skala', [DataUMKMController::class, 'filterSkala'])->name('admin.filter.skala');
     Route::get('/filter-wilayah', [DataUMKMController::class, 'filterWilayah'])->name('admin.filter.wilayah');
+    Route::get('/filter-wilayah-desa', [DataUMKMController::class, 'filterWilayahDesa'])->name('admin.filter.wilayah.desa');
     Route::get('/filter-nib', [DataUMKMController::class, 'filterNIB'])->name('admin.filter.nib');
     Route::get('/filter-gender', [DataUMKMController::class, 'filterGender'])->name('admin.filter.gender');
     Route::get('/filter-tenaga-kerja', [DataUMKMController::class, 'filterTenagaKerja'])->name('admin.filter.tenaga.kerja');
