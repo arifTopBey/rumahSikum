@@ -175,6 +175,7 @@
     <script>
         const filterLaporanKeuangan = "{{ route('admin.filter.laporan.keuangan') }}";
         const filterDigital = "{{ route('admin.filter.pemasaran.digital') }}";
+        const filterNonDigital = "{{ route('admin.filter.pemasaran.non.digital') }}";
     </script>
 <!-- batas data variable blade -->
 <script>
@@ -270,6 +271,19 @@
                     document.getElementById('tableContainer6').innerHTML = html;
                 });
         }
+    document.addEventListener('click', function (e) {
+            if (e.target.closest('#tableContainer6 .pagination a')) {
+                e.preventDefault();
+
+                let url = e.target.closest('a').getAttribute('href');
+
+                fetch(url)
+                    .then(response => response.text())
+                    .then(html => {
+                        document.getElementById('tableContainer6').innerHTML = html;
+                    });
+            }
+    });
 </script>
 
 
@@ -364,6 +378,19 @@
                     document.getElementById('tableContainer6').innerHTML = html;
                 });
         }
+        document.addEventListener('click', function (e) {
+            if (e.target.closest('#tableContainer6 .pagination a')) {
+                e.preventDefault();
+
+                let url = e.target.closest('a').getAttribute('href');
+
+                fetch(url)
+                    .then(response => response.text())
+                    .then(html => {
+                        document.getElementById('tableContainer6').innerHTML = html;
+                    });
+            }
+    });
 </script>
 <script>
       document.addEventListener('DOMContentLoaded', function () {
@@ -372,7 +399,7 @@
 
         const dataNonDigital = @json($dataNonDigital);
         const ctxNonDigital = document.getElementById('nonDigitalChart').getContext('2d');
-
+        let nonDigital = '';
         new Chart(ctxNonDigital, {
             type: 'pie', // Tipe grafik Pie
             data: {
@@ -391,6 +418,25 @@
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                onClick: function(evt, elements) {
+                    if (elements.length > 0) {
+                        const index = elements[0].index;
+                        nonDigital = this.data.labels[index];
+                         document.getElementById('detailTitle88').innerText =
+                        "Data UMKM menggunakan NonDigital " + nonDigital;
+
+                         const formSeach = document.getElementById('formSearch');
+                        
+                        formSeach.classList.remove('d-none');
+
+                        // btn.href = `/export-nib/${encodeURIComponent(label)}`;
+                        // loadNIB(`/filter-nib?status=${label}`);
+                     
+
+                    loadNonDigital(`${filterNonDigital}?nondigital=${encodeURIComponent(nonDigital)}`);
+
+                    }
+                },
                 plugins: {
                     legend: {
                         position: 'bottom',
@@ -425,6 +471,30 @@
             }
             });
       })
+
+       function loadNonDigital(url) {
+
+
+
+            fetch(url)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('tableContainer6').innerHTML = html;
+                });
+        }
+        document.addEventListener('click', function (e) {
+            if (e.target.closest('#tableContainer6 .pagination a')) {
+                e.preventDefault();
+
+                let url = e.target.closest('a').getAttribute('href');
+
+                fetch(url)
+                    .then(response => response.text())
+                    .then(html => {
+                        document.getElementById('tableContainer6').innerHTML = html;
+                    });
+            }
+    });
 </script>
 
 
