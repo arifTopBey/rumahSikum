@@ -564,6 +564,28 @@ class DataUMKMController extends Controller
         return view('admin.informasi_data_umkm.pemasaran.index', compact('data'));
 
     }
+    public function filterNonDigital(Request $request){
+        $statusLabel = $request->nondigital; 
+        $statusValue = ($statusLabel == 'Memiliki') ? 1 : 2;
+
+        // Mulai query dari model ProduksiDanPemasaran
+        $query = ProduksiDanPemasaran::with(['identitasUsaha'])
+            ->where('pemasaran_titip_jual', $statusValue);
+
+        // Tambahkan filter search jika user mengetik di form pencarian
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->whereHas('identitasUsaha', function($q) use ($search) {
+                $q->where('nama_lengkap_usaha', 'like', "%{$search}%")
+                ->orWhere('kecamatan', 'like', "%{$search}%")
+                ->orWhere('desa', 'like', "%{$search}%");
+            });
+        }
+
+        $data = $query->paginate(10)->withQueryString();
+        return view('admin.informasi_data_umkm.pemasaran.index', compact('data'));
+
+    }
 
     // ===================== batas filter grafik =====================
 

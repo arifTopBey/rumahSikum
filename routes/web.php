@@ -140,6 +140,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/filter-wilayah-desa', [DataUMKMController::class, 'filterWilayahDesa'])->name('admin.filter.wilayah.desa');
     Route::get('/filtel-keuangan', [DataUMKMController::class, 'filterLaporanKeuanagan'])->name('admin.filter.laporan.keuangan');
     Route::get('/filtel-digital', [DataUMKMController::class, 'filterDigital'])->name('admin.filter.pemasaran.digital');
+    Route::get('/filtel-non-digital', [DataUMKMController::class, 'filterNonDigital'])->name('admin.filter.pemasaran.non.digital');
     Route::get('/filter-nib', [DataUMKMController::class, 'filterNIB'])->name('admin.filter.nib');
     Route::get('/filter-gender', [DataUMKMController::class, 'filterGender'])->name('admin.filter.gender');
     Route::get('/filter-tenaga-kerja', [DataUMKMController::class, 'filterTenagaKerja'])->name('admin.filter.tenaga.kerja');
