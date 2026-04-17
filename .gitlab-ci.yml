@@ -33,8 +33,8 @@ build-dev:
     - echo "Build image start"
     - cp "$APP_ENV_DEV" .env
     - echo "$DOCKER_REGISTRY_PASSWORD" | docker login "$DOCKER_REGISTRY_ADDR" --username "$DOCKER_REGISTRY_USERNAME" --password-stdin
-    - DOCKER_BUILDKIT=1 docker build . --tag $CACHE_IMAGE:dev-latest  --cache-from $CACHE_IMAGE:dev-latest --build-arg BUILDKIT_INLINE_CACHE=1
-    - docker push "$CACHE_IMAGE":dev-latest
+    - DOCKER_BUILDKIT=1 docker build . --tag $CACHE_IMAGE:dev-${CI_COMMIT_SHORT_SHA}  --cache-from $CACHE_IMAGE:dev-${CI_COMMIT_SHORT_SHA} --build-arg BUILDKIT_INLINE_CACHE=1
+    - docker push "$CACHE_IMAGE":dev-${CI_COMMIT_SHORT_SHA}
     - echo "Build image complete."
   only:
     - dev
@@ -45,7 +45,7 @@ build-prod:
   script:
     - echo "Build image start"
     - cp "$APP_ENV_PROD" .env
-    - DOCKER_BUILDKIT=1 docker build . --tag $CACHE_IMAGE:prod-${CI_COMMIT_SHORT_SHA}  --build-arg BUILDKIT_INLINE_CACHE=1
+    - DOCKER_BUILDKIT=1 docker build . --tag $CACHE_IMAGE:prod-${CI_COMMIT_SHORT_SHA}  --cache-from $CACHE_IMAGE:prod-${CI_COMMIT_SHORT_SHA} --build-arg BUILDKIT_INLINE_CACHE=1
     - docker push "$CACHE_IMAGE":prod-${CI_COMMIT_SHORT_SHA}
   only:
     - main
@@ -59,7 +59,7 @@ deploy-dev:
   script:
     - echo "Deploying application to development environment..."
     - echo "$DOCKER_REGISTRY_PASSWORD" | docker login "$DOCKER_REGISTRY_ADDR" --username "$DOCKER_REGISTRY_USERNAME" --password-stdin
-    - DOCKER_HOST="ssh://$INSTANCE_DEV_USER@$INSTANCE_DEV_IP" IMAGE_TAG="dev-latest" docker stack deploy --compose-file docker-compose.yml --with-registry-auth --resolve-image always $CONTAINER_NAME
+    - DOCKER_HOST="ssh://$INSTANCE_DEV_USER@$INSTANCE_DEV_IP" IMAGE_TAG="dev-${CI_COMMIT_SHORT_SHA}" docker stack deploy --compose-file docker-compose.yml --with-registry-auth --detach=false --resolve-image always $CONTAINER_NAME
     - echo "Application successfully deployed."
   only:
     - dev
@@ -71,7 +71,7 @@ deploy-production:
   script:
     - echo "Deploying application to production environment..."
     - echo "$DOCKER_REGISTRY_PASSWORD" | docker login "$DOCKER_REGISTRY_ADDR" --username "$DOCKER_REGISTRY_USERNAME" --password-stdin
-    - DOCKER_HOST="ssh://$INSTANCE_PRODUCTION_USER@$INSTANCE_PRODUCTION_IP" IMAGE_TAG="prod-${CI_COMMIT_SHORT_SHA}" docker stack deploy --compose-file docker-compose.yml --with-registry-auth --resolve-image always $CONTAINER_NAME
+    - DOCKER_HOST="ssh://$INSTANCE_PRODUCTION_USER@$INSTANCE_PRODUCTION_IP" IMAGE_TAG="prod-${CI_COMMIT_SHORT_SHA}" docker stack deploy --compose-file docker-compose.yml --with-registry-auth --detach=false --resolve-image always $CONTAINER_NAME
     - echo "Application successfully deployed."
   only:
     - main
