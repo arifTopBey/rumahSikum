@@ -1,6 +1,5 @@
  <!--begin::Header-->
-    <nav class="app-header navbar navbar-expand bg-body">
-        <!--begin::Container-->
+    <!-- <nav class="app-header navbar navbar-expand bg-body">
         <div class="container-fluid">
 
             <ul class="navbar-nav">
@@ -10,10 +9,8 @@
                 </li>
 
             </ul>
-            <!--end::End Navbar Links-->
         </div>
-        <!--end::Container-->
-    </nav>
+    </nav> -->
     <!--end::Header-->
 
     <!--begin::Sidebar-->

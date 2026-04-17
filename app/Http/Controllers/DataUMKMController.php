@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Interface\UmkmInterface;
 use App\Models\IdentitasUsaha;
 use App\Models\LaporanKeuangan;
+use App\Models\ProduksiDanPemasaran;
 use App\Models\UsahaPerizinan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -393,19 +394,10 @@ class DataUMKMController extends Controller
         return view('admin.umkm.index', compact('data'));
     }
 
-    // public function show(int $id){
-
-    //     $data = $this->umkmRepo->getFullDetail($id);
-
-    //     // dd($data);
-
-    //     return view('admin.umkm.show', compact('data'));
-    // }
-
 
     // ============== filter grafik =========================
-    public function filterSkala(Request $request)
-    {
+
+    public function filterSkala(Request $request){
         $query = LaporanKeuangan::query();
 
         if ($request->skala == 'mikro') {
@@ -534,6 +526,46 @@ class DataUMKMController extends Controller
 
         return view('admin.informasi_data_umkm.lainnya.tenagaKerja', compact('data'));
     }
+
+    public function filterLaporanKeuanagan(Request $request){
+
+        $keuangan = $request->keuangan; // Berisi 'Memiliki' atau 'Tidak Memiliki'
+        $status = ($keuangan == 'Memiliki') ? 1 : 2;
+
+        $data = LaporanKeuangan::with(['identitasUsaha'])
+            ->where('status_pencatatan_keuangan', $status)->search(request(['search']))
+            ->paginate(10)
+            ->withQueryString();
+
+        // $data = $query->search(request(['search']))->paginate(10)->withQueryString();
+        return view('admin.informasi_data_umkm.pemasaran.index', compact('data'));
+
+    }
+
+    public function filterDigital(Request $request){
+        $statusLabel = $request->digital; // Berisi 'Memiliki' atau 'Tidak Memiliki'
+        $statusValue = ($statusLabel == 'Memiliki') ? 1 : 2;
+
+        // Mulai query dari model ProduksiDanPemasaran
+        $query = ProduksiDanPemasaran::with(['identitasUsaha'])
+            ->where('pemasaran_toko_sendiri', $statusValue);
+
+        // Tambahkan filter search jika user mengetik di form pencarian
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->whereHas('identitasUsaha', function($q) use ($search) {
+                $q->where('nama_lengkap_usaha', 'like', "%{$search}%")
+                ->orWhere('kecamatan', 'like', "%{$search}%")
+                ->orWhere('desa', 'like', "%{$search}%");
+            });
+        }
+
+        $data = $query->paginate(10)->withQueryString();
+        return view('admin.informasi_data_umkm.pemasaran.index', compact('data'));
+
+    }
+
+    // ===================== batas filter grafik =====================
 
     public function getClusterData(Request $request)
     {
@@ -679,5 +711,33 @@ class DataUMKMController extends Controller
             'totalTdp' => $perizinan['TDP'],
             'totalHalal' => $perizinan['Halal'],
         ]);
+    }
+
+    public function dataPemasaranUMKM(){
+
+        $punyaLaporan = LaporanKeuangan::where('status_pencatatan_keuangan', 1)->count();
+        $tidakPunyaLaporan = LaporanKeuangan::where('status_pencatatan_keuangan', 2)->count();
+
+        // Data dikirim dalam bentuk array agar mudah dibaca Chart.js
+        $dataKeuangan = [
+            'Memiliki' => $punyaLaporan,
+            'Tidak Memiliki' => $tidakPunyaLaporan
+        ];
+
+        $punyaDigital = ProduksiDanPemasaran::where('pemasaran_toko_sendiri', 1)->count();
+        $tidakPunyaDigital = ProduksiDanPemasaran::where('pemasaran_toko_sendiri', 2)->count();
+        $dataPemasaran = [
+            'Memiliki' => $punyaDigital,
+            'Tidak Memiliki' => $tidakPunyaDigital
+        ];
+
+        $punyaNonDigital = ProduksiDanPemasaran::where('pemasaran_titip_jual', 1)->count();
+        $tidakPunyaNonDigital = ProduksiDanPemasaran::where('pemasaran_titip_jual', 2)->count();
+        $dataNonDigital = [
+            'Memiliki' => $punyaNonDigital,
+            'Tidak Memiliki' => $tidakPunyaNonDigital
+        ];
+
+        return view('admin.informasi_data_umkm.partial.pemasaran', compact('dataKeuangan', 'tidakPunyaLaporan', 'punyaLaporan', 'dataPemasaran', 'dataNonDigital'));
     }
 }

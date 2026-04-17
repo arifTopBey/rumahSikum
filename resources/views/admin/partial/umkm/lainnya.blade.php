@@ -21,10 +21,10 @@
                     <canvas id="nibChart"></canvas>
                 </div>
 
-                <div class="text-center mt-3">
+                <!-- <div class="text-center mt-3">
                     <a href="#" class="btn btn-outline-primary btn-sm rounded-pill px-4">Lihat
                         Detail &rarr;</a>
-                </div>
+                </div> -->
             </div>
         </div>
 

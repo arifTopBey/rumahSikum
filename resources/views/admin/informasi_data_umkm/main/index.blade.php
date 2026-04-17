@@ -62,6 +62,11 @@
                         <a href="{{ route('admin.usaha.kbli') }}" class="text-decoration-none text-dark">Usaha Berdasarkan KBLI</a>
                     </li>
                 </ol>
+                <ol type="A" start="2" class="ps-3 mb-3 {{ Request::is('usaha-berdasarkan-pemasaran') ? 'bg-secondary bg-opacity-10 border-start border-4 border-warning' : '' }}">
+                    <li class="nav-link py-2">
+                        <a href="{{ route('admin.usaha.pemasaran') }}" class="text-decoration-none text-dark">Usaha Berdasarkan Penjualan dan Pemasaran</a>
+                    </li>
+                </ol>
                 <ol type="A" start="2" class="ps-3 mb-3 {{ Request::is('usaha-berdasarkan-perizinan') ? 'bg-secondary bg-opacity-10 border-start border-4 border-warning' : '' }}">
                     <li class="nav-link py-2">
                         <a href="{{ route('admin.usaha.perizinan') }}" class="text-decoration-none text-dark">Jumlah Perizinan Usaha Mikro</a>
