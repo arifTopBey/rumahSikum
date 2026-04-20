@@ -1,4 +1,4 @@
-<h3 class="font-bold text-gray-800 px-3">D. Sebaran Pengusaha Berdasarkan Peringkat Desil pada DTSEN</h3>
+<h3 class="fw-bold text-gray-800 px-3">E. Sebaran Pengusaha Berdasarkan Peringkat Desil pada DTSEN</h3>
 <p class="text-xs text-muted mb-6 px-3">Peringkat desil pada Data Tunggal Sosial Ekonomi (DTSEN)
     dibagi menjadi 10 tingkat. Desil merupakan indikator untuk mengelompokan rumah tangga berdasarkan tingkat kesejahteraan dari yang terendah (desil 1) hingga desil tertinggi desil(10). Pemerintah menggunakan peringkat desil tersebut untuk menyalurkan bantuan sosial agar tepat sasaran, dimana desil yang paling rendah menjadi prioritas untuk mendapatkan bantuan</p>
 

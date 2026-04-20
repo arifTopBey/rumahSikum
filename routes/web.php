@@ -127,6 +127,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/usaha-berdasarkan-kbli', [UsahaBerdasarkanKbliController::class, 'index'])->name('admin.usaha.kbli');
     Route::get('/usaha-berdasarkan-perizinan', [DataUMKMController::class, 'dataPerizinanUMKM'])->name('admin.usaha.perizinan');
     Route::get('/usaha-berdasarkan-pemasaran', [DataUMKMController::class, 'dataPemasaranUMKM'])->name('admin.usaha.pemasaran');
+    Route::get('/usaha-berdasarkan-status-badan-usaha', [DataUMKMController::class, 'dataStatusBadanUsaha'])->name('admin.status.badan.usaha');
     Route::get('/indikator-usaha-lainnya', [IndikatorUsahaLainnyaController::class, 'index'])->name('admin.usaha.lainnya');
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -145,6 +146,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/filter-gender', [DataUMKMController::class, 'filterGender'])->name('admin.filter.gender');
     Route::get('/filter-tenaga-kerja', [DataUMKMController::class, 'filterTenagaKerja'])->name('admin.filter.tenaga.kerja');
     Route::get('/filter-cluster', [DataUMKMController::class, 'getClusterData'])->name('admin.cluster.data');
+    Route::get('/filter-status-badan-usaha', [DataUMKMController::class, 'filterStatusUsaha'])->name('admin.filter.status.usaha');
     // filter data tabel umkm
 
     Route::get('/sebaran-data-umkm/kbli/{kategori}', [DataUMKMController::class, 'dataKbriKategori']);

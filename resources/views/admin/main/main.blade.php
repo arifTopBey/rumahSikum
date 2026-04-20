@@ -246,6 +246,7 @@
                 card.addEventListener('click', function () {
                
                      skala = this.dataset.skala;
+                     console.log(skala)
 
                     let titleMap = {
                         mikro: "Data Usaha Mikro",

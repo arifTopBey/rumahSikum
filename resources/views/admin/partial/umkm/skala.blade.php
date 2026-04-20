@@ -22,48 +22,48 @@
 
     <div class="col-md-12 ">
         <div class="row">
-            <div style="cursor: pointer;" class="col-md-4 px-5 skala-card cursor-pointer" data-skala="mikro">
-                <div style="min-height: 330px;" class="border rounded-2 py-3 px-3 shadow-lg">
+            <div style="cursor: pointer;" class="col-md-4 px-3 skala-card cursor-pointer" data-skala="mikro">
+                <div style="min-height: 352px;" class="border rounded-2 py-3 px-3 shadow-lg">
                     <div
                         class="d-flex mb-3 px-3 py-2 bg-warning bg-opacity-10 border border-warning rounded-2">
-                        <p class="text-warning my-auto">Usaha Mikro</p>
+                        <p class="text-warning mx-auto fw-bold text-center my-auto">Usaha Mikro</p>
                     </div>
                     <div>
                         <p class="text-muted">Unit usaha yang hasil penjualan tahunannya sampai
                             dengan paling banyak Rp 2.000.000.000(dua miliar rupiah)</p>
                     </div>
-                    <div>
-                        <p class="fw-semibold">{{ number_format($totalMicro, 0, ',', '.') }}</p>
+                    <div class="mt-5 py-2">
+                        <p class="fw-semibold fs-3 ">{{ number_format($totalMicro, 0, ',', '.') }}</p>
                         <p class="text-muted">Unit Usaha</p>
                     </div>
                 </div>
             </div>
-            <div style="cursor: pointer;" class="col-md-4 px-5 skala-card" data-skala="kecil">
-                <div class="border rounded-2 py-3 px-3 shadow-lg">
-                    <div
+            <div style="cursor: pointer;" class="col-md-4 px-3 skala-card" data-skala="kecil">
+                <div style="min-height: 352px;" class="border rounded-2 py-3 px-3 shadow-lg">
+                    <div 
                         class="d-flex px-3 mb-3 py-2 bg-info bg-opacity-10 border border-info rounded-2">
-                        <p class="text-dark fw-bold my-auto">Usaha Kecil</p>
+                        <p class="text-primary mx-auto fw-bold my-auto">Usaha Kecil</p>
                     </div>
                     <div>
                         <p class="text-muted">Unit usaha yang hasil penjualan tahunannya lebih dari Rp 2.000.000.000 (dua miliar rupiah) sampai paling banyak Rp 15.000.000.000 (lima belas miliar rupiah)</p>
                     </div>
                     <div>
-                        <p class="fw-semibold">{{ number_format($totalUsahaKecil, 0, ',', '.') }}</p>
+                        <p class="fw-semibold fs-3">{{ number_format($totalUsahaKecil, 0, ',', '.') }}</p>
                         <p class="text-muted">Unit Usaha</p>
                     </div>
                 </div>
             </div>
-            <div style="cursor: pointer;" class="col-md-4 px-5 skala-card" data-skala="menengah">
-                <div class="border rounded-2 py-3 px-3 shadow-lg">
+            <div style="cursor: pointer;" class="col-md-4 px-3 skala-card" data-skala="menengah">
+                <div style="min-height: 352px;" class="border rounded-2 py-3 px-3 shadow-lg">
                     <div
                         class="d-flex mb-3 px-3 py-2 bg-danger bg-opacity-10 border border-danger rounded-2">
-                        <p class="text-danger my-auto">Usaha Menengah</p>
+                        <p class="text-danger mx-auto fw-bold my-auto">Usaha Menengah</p>
                     </div>
                     <div>
                         <p class="text-muted">Unit usaha yang hasil penjualan tahunannya lebih dari Rp 15.000.000.000 (lima belas miliar rupiah) sampai paling banyak Rp 50.000.000.000 (lima puluh miliar rupiah)</p>
                     </div>
                     <div>
-                        <p class="fw-semibold">{{ number_format($totalUsahaMenengah, 0, ',', '.') }}</p>
+                        <p class="fw-semibold fs-3">{{ number_format($totalUsahaMenengah, 0, ',', '.') }}</p>
                         <p class="text-muted">Unit Usaha</p>
                     </div>
                 </div>
