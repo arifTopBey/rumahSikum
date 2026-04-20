@@ -119,7 +119,28 @@
          <div class="row d-flex justify-content-end">
                 <div class="col-md-8">
                     <form id="formSearch" action="javascript:void(0);" method="GET" class="d-none">
+                        
+                        @if(Request::is('indikator-usaha-lainnya'))
+                            <div class="alert alert-info shadow-sm border-0 d-flex align-items-center">
+                                <div class="me-3">
+                                    <i class="fas fa-venus-mars fs-3"></i>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold mb-0">Mode Filter: Jenis Kelamin</h6>
+                                    <p class="small mb-0">Menampilkan daftar pengusaha dengan kategori: <strong>{{ request('gender') }}</strong></p>
+                                </div>
+                            </div>
+                         @endif
                         <div class="input-group mb-3">
+
+                            <select id="filterSkala" class="form-select me-2" style="max-width: 200px;">
+                                <option value="">Semua Skala</option>
+                                <option value="mikro">Usaha Mikro</option>
+                                <option value="kecil">Usaha Kecil</option>
+                                <option value="menengah">Usaha Menengah</option>
+                            </select>
+
+
                             <input type="text" id="searchInputWilayah" class="form-control "
                                 placeholder="Cari berdasarkan nama usaha, kecamatan, Desa" name="search"
                                 value="{{ request('search') }}">

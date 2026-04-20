@@ -14,6 +14,15 @@
                 <div class="col-md-8">
                     <form id="formSearch" action="javascript:void(0);" method="GET" class="d-none">
                         <div class="input-group mb-3">
+
+                            <select id="filterSkala" class="form-select me-2" style="max-width: 200px;">
+                                <option value="">Semua Skala</option>
+                                <option value="mikro">Usaha Mikro</option>
+                                <option value="kecil">Usaha Kecil</option>
+                                <option value="menengah">Usaha Menengah</option>
+                            </select>
+
+
                             <input type="text" id="searchInputWilayah" class="form-control "
                                 placeholder="Cari berdasarkan nama usaha, kecamatan, Desa" name="search"
                                 value="{{ request('search') }}">

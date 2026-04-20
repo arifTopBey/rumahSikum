@@ -145,7 +145,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/filter-nib', [DataUMKMController::class, 'filterNIB'])->name('admin.filter.nib');
     Route::get('/filter-gender', [DataUMKMController::class, 'filterGender'])->name('admin.filter.gender');
     Route::get('/filter-tenaga-kerja', [DataUMKMController::class, 'filterTenagaKerja'])->name('admin.filter.tenaga.kerja');
-    Route::get('/filter-cluster', [DataUMKMController::class, 'getClusterData'])->name('admin.cluster.data');
+    Route::get('/filter-cluster', [DataUMKMController::class, 'filterClusterData'])->name('admin.cluster.data');
     Route::get('/filter-status-badan-usaha', [DataUMKMController::class, 'filterStatusUsaha'])->name('admin.filter.status.usaha');
     // filter data tabel umkm
 

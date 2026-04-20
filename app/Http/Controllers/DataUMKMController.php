@@ -433,6 +433,17 @@ class DataUMKMController extends Controller
             });
         }
 
+        // Filter Skala Usaha (dari Dropdown)
+            if ($request->skala) {
+                if ($request->skala == 'mikro') {
+                    $query->where('omzet_usaha', '<=', 2000000);
+                } elseif ($request->skala == 'kecil') {
+                    $query->whereBetween('omzet_usaha', [2000001, 15000000]);
+                } elseif ($request->skala == 'menengah') {
+                    $query->whereBetween('omzet_usaha', [15000001, 50000000]);
+                }
+            }
+
         $data = $query->search(request(['search']))->paginate(10)->withQueryString();
 
         return view('admin.informasi_data_umkm.wilayah.index', compact('data'));
@@ -448,6 +459,17 @@ class DataUMKMController extends Controller
                 $q->where('kelurahan', 'like', '%' . $request->kelurahan . '%');
             });
         }
+
+         // Filter Skala Usaha (dari Dropdown)
+            if ($request->skala) {
+                if ($request->skala == 'mikro') {
+                    $query->where('omzet_usaha', '<=', 2000000);
+                } elseif ($request->skala == 'kecil') {
+                    $query->whereBetween('omzet_usaha', [2000001, 15000000]);
+                } elseif ($request->skala == 'menengah') {
+                    $query->whereBetween('omzet_usaha', [15000001, 50000000]);
+                }
+            }
 
         $data = $query->search(request(['search']))->paginate(10)->withQueryString();
 
@@ -469,6 +491,16 @@ class DataUMKMController extends Controller
             $query->whereHas('usahaKarakteristik', function ($q) {
                 $q->whereNull('nomor_induk_berusaha');
             });
+        }
+
+        if ($request->skala) {
+            if ($request->skala == 'mikro') {
+                $query->where('omzet_usaha', '<=', 2000000);
+            } elseif ($request->skala == 'kecil') {
+                $query->whereBetween('omzet_usaha', [2000001, 15000000]);
+            } elseif ($request->skala == 'menengah') {
+                $query->whereBetween('omzet_usaha', [15000001, 50000000]);
+            }
         }
 
         $data = $query->search(request(['search']))->paginate(10)->withQueryString();
@@ -499,6 +531,18 @@ class DataUMKMController extends Controller
             });
         }
 
+         if ($request->skala) {
+            if ($request->skala == 'mikro') {
+                $query->where('omzet_usaha', '<=', 2000000);
+            } elseif ($request->skala == 'kecil') {
+                $query->whereBetween('omzet_usaha', [2000001, 15000000]);
+            } elseif ($request->skala == 'menengah') {
+                $query->whereBetween('omzet_usaha', [15000001, 50000000]);
+            }
+        }
+
+        // dd($query);
+
         // $data = $query->paginate(10)->withQueryString();
         $data = $query->search(request(['search']))->paginate(10)->withQueryString();
 
@@ -521,10 +565,20 @@ class DataUMKMController extends Controller
                     ->orWhere('tenagaKerja.total_pembayaran_upah', 0);
             });
         }
+         if ($request->skala) {
+            if ($request->skala == 'mikro') {
+                $query->where('omzet_usaha', '<=', 2000000);
+            } elseif ($request->skala == 'kecil') {
+                $query->whereBetween('omzet_usaha', [2000001, 15000000]);
+            } elseif ($request->skala == 'menengah') {
+                $query->whereBetween('omzet_usaha', [15000001, 50000000]);
+            }
+        }
 
         $data = $query->select('usaha_laporan_keuangan.*')->search(request(['search']))
             ->paginate(10)
             ->withQueryString();
+
 
         return view('admin.informasi_data_umkm.lainnya.tenagaKerja', compact('data'));
     }
@@ -534,11 +588,21 @@ class DataUMKMController extends Controller
         $keuangan = $request->keuangan; // Berisi 'Memiliki' atau 'Tidak Memiliki'
         $status = ($keuangan == 'Memiliki') ? 1 : 2;
 
+        
+
         $data = LaporanKeuangan::with(['identitasUsaha'])
             ->where('status_pencatatan_keuangan', $status)->search(request(['search']))
             ->paginate(10)
             ->withQueryString();
-
+        if ($request->skala) {
+                if ($request->skala == 'mikro') {
+                    $data->where('omzet_usaha', '<=', 2000000);
+                } elseif ($request->skala == 'kecil') {
+                    $data->whereBetween('omzet_usaha', [2000001, 15000000]);
+                } elseif ($request->skala == 'menengah') {
+                    $data->whereBetween('omzet_usaha', [15000001, 50000000]);
+                }
+            }
         // $data = $query->search(request(['search']))->paginate(10)->withQueryString();
         return view('admin.informasi_data_umkm.pemasaran.index', compact('data'));
 
@@ -591,95 +655,81 @@ class DataUMKMController extends Controller
 
     public function filterStatusUsaha(Request $request){
 
-         $query = UsahaKarakteristik::query();
+        //  $query = UsahaKarakteristik::query();
+        $query = UsahaKarakteristik::query()
+        ->join('usaha_laporan_keuangan as ulk', 'usaha_karakteristik.id_badan_usaha', '=', 'ulk.id_badan_usaha')
+        ->join('identitasusaha as iu', 'usaha_karakteristik.id_badan_usaha', '=', 'iu.id_badan_usaha')
+        ->select('usaha_karakteristik.*', 'iu.nama_lengkap_usaha', 'iu.kecamatan', 'ulk.omzet_usaha');
 
-        if ($request->status == 'pt') {
-            $query->where('status_badan_usaha', 1);
+        // if ($request->status == 'pt') {
+        //     $query->where('status_badan_usaha', 1);
+        // }
+
+        // if ($request->status == 'yayasan') {
+        //     $query->where('status_badan_usaha', 2);
+        // }
+        // if ($request->status == 'cv') {
+        //     $query->where('status_badan_usaha', 3);
+        // }
+        // if ($request->status == 'firma') {
+        //     $query->where('status_badan_usaha',4);
+        // }
+        // if ($request->status == 'nv') {
+        //     $query->where('status_badan_usaha', 5);
+        // }
+        // if ($request->status == 'danaPensiun') {
+        //     $query->where('status_badan_usaha',6);
+        // }
+        // if ($request->status == 'perorangan') {
+        //     $query->where('status_badan_usaha', 7);
+        // }
+
+        // if ($request->status == 'lainnya') {
+        //     $query->where('status_badan_usaha', 8);
+        // }
+        // if ($request->status == 'none') {
+        //     $query->where('status_badan_usaha', null);
+        // }
+
+        $statusMap = [
+        'pt' => 1, 'yayasan' => 2, 'cv' => 3, 'firma' => 4,
+        'nv' => 5, 'danaPensiun' => 6, 'perorangan' => 7, 'lainnya' => 8
+        ];
+
+        if (isset($statusMap[$request->status])) {
+            $query->where('usaha_karakteristik.status_badan_usaha', $statusMap[$request->status]);
+        } elseif ($request->status == 'none') {
+            $query->whereNull('usaha_karakteristik.status_badan_usaha');
+        }
+        // 2. Filter Tambahan: Skala Usaha (Berdasarkan Omzet)
+        if ($request->skala) {
+            if ($request->skala == 'mikro') {
+                $query->where('ulk.omzet_usaha', '<=', 2000000);
+            } elseif ($request->skala == 'kecil') {
+                $query->whereBetween('ulk.omzet_usaha', [2000001, 15000000]);
+            } elseif ($request->skala == 'menengah') {
+                $query->whereBetween('ulk.omzet_usaha', [15000001, 50000000]);
+            }
         }
 
-        if ($request->status == 'yayasan') {
-            $query->where('status_badan_usaha', 2);
-        }
-        if ($request->status == 'cv') {
-            $query->where('status_badan_usaha', 3);
-        }
-        if ($request->status == 'firma') {
-            $query->where('status_badan_usaha',4);
-        }
-        if ($request->status == 'nv') {
-            $query->where('status_badan_usaha', 5);
-        }
-        if ($request->status == 'danaPensiun') {
-            $query->where('status_badan_usaha',6);
-        }
-        if ($request->status == 'perorangan') {
-            $query->where('status_badan_usaha', 7);
-        }
-
-        if ($request->status == 'lainnya') {
-            $query->where('status_badan_usaha', 8);
-        }
-        if ($request->status == 'none') {
-            $query->where('status_badan_usaha', null);
-        }
         $data = $query->search(request(['search']))->paginate(10)->withQueryString();
         return view('admin.informasi_data_umkm.statusUsaha.index', compact('data'));
     }
-
-    // ===================== batas filter grafik =====================
-
-    public function getClusterData(Request $request)
+    
+    public function filterClusterData(Request $request)
     {
-        // $data = DB::table('usaha_karakteristik as uk')
-        //     ->join('identitasusaha as iu', 'uk.id_badan_usaha', '=', 'iu.id_badan_usaha')
-        //     ->join('usaha_laporan_keuangan as ulk', 'ulk.id_badan_usaha', '=', 'iu.id_badan_usaha')
-        //     ->select(
-        //         'iu.nama_lengkap_usaha',
-        //         'uk.kode_kbli',
-        //         'ulk.omzet_usaha',
-        //         'iu.provinsi',
-        //         'iu.kabupaten',
-        //         'iu.kecamatan'
-        //     )
-        //     ->whereNotNull('uk.kode_kbli')
-        //     ->where(function ($q) use ($kluster) {
-
-        //         if ($kluster == 'Kuliner') {
-        //             $q->whereIn(DB::raw('LEFT(uk.kode_kbli,2)'), ['10','56']);
-        //         }
-
-        //         if ($kluster == 'Perdagangan') {
-        //             $q->whereIn(DB::raw('LEFT(uk.kode_kbli,2)'), ['46','47']);
-        //         }
-
-        //         if ($kluster == 'Industri') {
-        //             $q->whereIn(DB::raw('LEFT(uk.kode_kbli,2)'), ['20','23','25']);
-        //         }
-
-        //         if ($kluster == 'Jasa') {
-        //             $q->whereIn(DB::raw('LEFT(uk.kode_kbli,2)'), ['77','95']);
-        //         }
-
-        //         if ($kluster == 'Pertanian') {
-        //             $q->where(DB::raw('LEFT(uk.kode_kbli,2)'), '01');
-        //         }
-
-        //         if ($kluster == 'Lainnya') {
-        //             $q->whereNotIn(DB::raw('LEFT(uk.kode_kbli,2)'), [
-        //                 '10','56','46','47','20','23','25','77','95','01'
-        //             ]);
-        //         }
-
-        //     })
-        //     ->paginate(10);
-
+        
         $cluster = $request->cluster;
         $search = $request->search; // Ambil input search
+        $skala = $request->skala; // Tangkap input skala
+
         $query = DB::table('usaha_karakteristik as uk')
             ->join('identitasusaha as iu', 'uk.id_badan_usaha', '=', 'iu.id_badan_usaha')
             ->join('usaha_laporan_keuangan as ulk', 'ulk.id_badan_usaha', '=', 'iu.id_badan_usaha')
             ->select(
                 'iu.nama_lengkap_usaha',
+                'iu.alamat_lengkap', // Tambahkan ini agar search alamat tidak error
+                'iu.telpon',
                 'uk.id_badan_usaha',
                 'uk.kode_kbli',
                 'ulk.omzet_usaha',
@@ -688,6 +738,17 @@ class DataUMKMController extends Controller
                 'iu.kecamatan'
             )
             ->whereNotNull('uk.kode_kbli');
+
+            // --- Filter Skala Usaha (Berdasarkan Omzet) ---
+            if ($skala) {
+                if ($skala == 'mikro') {
+                    $query->where('ulk.omzet_usaha', '<=', 2000000);
+                } elseif ($skala == 'kecil') {
+                    $query->whereBetween('ulk.omzet_usaha', [2000001, 15000000]);
+                } elseif ($skala == 'menengah') {
+                    $query->whereBetween('ulk.omzet_usaha', [15000001, 50000000]);
+                }
+            }
 
         if ($cluster == 'Kuliner') {
             $query->whereIn(DB::raw('LEFT(uk.kode_kbli,2)'), ['10', '56']);
@@ -725,13 +786,13 @@ class DataUMKMController extends Controller
         }
 
         if ($search) {
-        $query->where(function($q) use ($search) {
-            $q->where('iu.nama_lengkap_usaha', 'like', "%{$search}%")
-              ->orWhere('iu.alamat_lengkap', 'like', "%{$search}%")
-              ->orWhere('iu.kecamatan', 'like', "%{$search}%")
-              ->orWhere('iu.telpon', 'like', "%{$search}%");
-        });
-    }
+            $query->where(function($q) use ($search) {
+                $q->where('iu.nama_lengkap_usaha', 'like', "%{$search}%")
+                ->orWhere('iu.alamat_lengkap', 'like', "%{$search}%")
+                ->orWhere('iu.kecamatan', 'like', "%{$search}%")
+                ->orWhere('iu.telpon', 'like', "%{$search}%");
+            });
+         }
 
 
         $data = $query->paginate(10)->withQueryString();
@@ -739,6 +800,8 @@ class DataUMKMController extends Controller
 
         return view('admin.informasi_data_umkm.cluster.index', compact('data'));
     }
+    // ===================== batas filter grafik =====================
+
 
     public function dataKbriKategori($kategori){
         

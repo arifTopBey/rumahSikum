@@ -7,7 +7,7 @@
 
     <div class="col-md-12 mt-5 ">
         <div class="row">
-            <div style="cursor: pointer;" class="col-md-3 px-2 skala-card cursor-pointer" data-skala="mikro">
+            <div style="cursor: pointer;" class="col-md-3 px-2 skala-card cursor-pointer" data-skala="pirt">
                 <div style="" class="border rounded-2 py-3 px-3 shadow-lg">
                     <div
                         class="d-flex mb-3 px-3 py-2 bg-warning bg-opacity-10 border border-warning rounded-2">
@@ -22,7 +22,7 @@
                     </div>
                 </div>
             </div>
-            <div style="cursor: pointer;" class="col-md-3 px-2 skala-card" data-skala="kecil">
+            <div style="cursor: pointer;" class="col-md-3 px-2 skala-card" data-skala="bpom">
                 <div class="border rounded-2 py-3 px-3 shadow-lg">
                     <div
                         class="d-flex px-3 mb-3 py-2 bg-info bg-opacity-10 border border-info rounded-2">
@@ -37,7 +37,7 @@
                     </div>
                 </div>
             </div>
-            <div style="cursor: pointer;" class="col-md-3 px-2 skala-card" data-skala="menengah">
+            <div style="cursor: pointer;" class="col-md-3 px-2 skala-card" data-skala="tdp">
                 <div class="border rounded-2 py-3 px-3 shadow-lg">
                     <div
                         class="d-flex mb-3 px-3 py-2 bg-danger bg-opacity-10 border border-danger rounded-2">
@@ -52,7 +52,7 @@
                     </div>
                 </div>
             </div>
-            <div style="cursor: pointer;" class="col-md-3 px-2 skala-card" data-skala="menengah">
+            <div style="cursor: pointer;" class="col-md-3 px-2 skala-card" data-skala="halal">
                 <div class="border rounded-2 py-3 px-3 shadow-lg">
                     <div
                         class="d-flex mb-3 px-3 py-2 bg-success bg-opacity-10 border border-success rounded-2">
