@@ -11,7 +11,7 @@
                 <div style="" class="border rounded-2 py-3 px-3 shadow-lg">
                     <div
                         class="d-flex mb-3 px-3 py-2 bg-warning bg-opacity-10 border border-warning rounded-2">
-                        <p class="text-warning my-auto">Memiliki PIRT</p>
+                        <p class="text-warning fw-bold mx-auto my-auto">Memiliki PIRT</p>
                     </div>
                     <div>
                         <p class="text-muted">Jumlah Usaha Mikro yang memilki PIRT</p>
@@ -26,7 +26,7 @@
                 <div class="border rounded-2 py-3 px-3 shadow-lg">
                     <div
                         class="d-flex px-3 mb-3 py-2 bg-info bg-opacity-10 border border-info rounded-2">
-                        <p class="text-primary fw-bold my-auto">Memiliki BPOM/BD</p>
+                        <p class="text-primary mx-auto fw-bold my-auto">Memiliki BPOM/BD</p>
                     </div>
                     <div>
                         <p class="text-muted">Jumlah Usaha Mikro yang memilki BPOM/BD</p>
@@ -41,7 +41,7 @@
                 <div class="border rounded-2 py-3 px-3 shadow-lg">
                     <div
                         class="d-flex mb-3 px-3 py-2 bg-danger bg-opacity-10 border border-danger rounded-2">
-                        <p class="text-danger fw-bold my-auto">Memiliki TDP</p>
+                        <p class="text-danger mx-auto fw-bold my-auto">Memiliki TDP</p>
                     </div>
                     <div>
                         <p class="text-muted">Jumlah Usaha Mikro yang memilki TDP</p>
@@ -56,7 +56,7 @@
                 <div class="border rounded-2 py-3 px-3 shadow-lg">
                     <div
                         class="d-flex mb-3 px-3 py-2 bg-success bg-opacity-10 border border-success rounded-2">
-                        <p class="text-success fw-bold my-auto">Memiliki Halal</p>
+                        <p class="text-success mx-auto fw-bold my-auto">Memiliki Halal</p>
                     </div>
                     <div>
                         <p class="text-muted">Jumlah Usaha Mikro yang memilki Halal</p>

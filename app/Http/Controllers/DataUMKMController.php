@@ -6,6 +6,7 @@ use App\Interface\UmkmInterface;
 use App\Models\IdentitasUsaha;
 use App\Models\LaporanKeuangan;
 use App\Models\ProduksiDanPemasaran;
+use App\Models\UsahaKarakteristik;
 use App\Models\UsahaPerizinan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -366,10 +367,10 @@ class DataUMKMController extends Controller
             ->groupBy('kecamatan')
             ->orderByDesc('total')
             ->get();
-
-        $totalMicro = LaporanKeuangan::where('omzet_usaha', '<=', 2000000)->count();
-        $totalUsahaKecil = LaporanKeuangan::whereBetween('omzet_usaha', [2000000, 15000000])->count();
-        $totalUsahaMenengah = LaporanKeuangan::whereBetween('omzet_usaha', [15000000, 50000000])->count();
+        // 2_000_000_000 15_000_000_000 50_000_000_000
+        $totalMicro = LaporanKeuangan::where('omzet_usaha', '<=', 2_000_000_000)->count();
+        $totalUsahaKecil = LaporanKeuangan::whereBetween('omzet_usaha', [2_000_000_000, 15_000_000_000])->count();
+        $totalUsahaMenengah = LaporanKeuangan::whereBetween('omzet_usaha', [15_000_000_000, 50_000_000_000])->count();
         // ================= batas point b identisas berdasarkan wilayah =====================
 
        
@@ -398,6 +399,7 @@ class DataUMKMController extends Controller
     // ============== filter grafik =========================
 
     public function filterSkala(Request $request){
+
         $query = LaporanKeuangan::query();
 
         if ($request->skala == 'mikro') {
@@ -587,6 +589,43 @@ class DataUMKMController extends Controller
 
     }
 
+    public function filterStatusUsaha(Request $request){
+
+         $query = UsahaKarakteristik::query();
+
+        if ($request->status == 'pt') {
+            $query->where('status_badan_usaha', 1);
+        }
+
+        if ($request->status == 'yayasan') {
+            $query->where('status_badan_usaha', 2);
+        }
+        if ($request->status == 'cv') {
+            $query->where('status_badan_usaha', 3);
+        }
+        if ($request->status == 'firma') {
+            $query->where('status_badan_usaha',4);
+        }
+        if ($request->status == 'nv') {
+            $query->where('status_badan_usaha', 5);
+        }
+        if ($request->status == 'danaPensiun') {
+            $query->where('status_badan_usaha',6);
+        }
+        if ($request->status == 'perorangan') {
+            $query->where('status_badan_usaha', 7);
+        }
+
+        if ($request->status == 'lainnya') {
+            $query->where('status_badan_usaha', 8);
+        }
+        if ($request->status == 'none') {
+            $query->where('status_badan_usaha', null);
+        }
+        $data = $query->search(request(['search']))->paginate(10)->withQueryString();
+        return view('admin.informasi_data_umkm.statusUsaha.index', compact('data'));
+    }
+
     // ===================== batas filter grafik =====================
 
     public function getClusterData(Request $request)
@@ -761,5 +800,44 @@ class DataUMKMController extends Controller
         ];
 
         return view('admin.informasi_data_umkm.partial.pemasaran', compact('dataKeuangan', 'tidakPunyaLaporan', 'punyaLaporan', 'dataPemasaran', 'dataNonDigital'));
+    }
+
+    public function dataStatusBadanUsaha(){
+
+        // Definisi Map Label
+        $labelsMap = [
+            1 => 'PT',
+            2 => 'Yayasan',
+            3 => 'CV',
+            4 => 'Firma',
+            5 => 'NV',
+            6 => 'Dana Pensiun',
+            7 => 'Perorangan',
+            8 => 'Lainnya',
+            null => 'Tidak Ada'
+        ];
+
+        // Ambil data jumlah per status_badan_usaha
+        $dataRaw = UsahaKarakteristik::select('status_badan_usaha', DB::raw('count(*) as total'))
+                    ->groupBy('status_badan_usaha')
+                    ->get();
+        foreach ($labelsMap as $key => $label) {
+        $chartLabels[] = $label;
+
+        // Cari data yang sesuai, jika tidak ada set 0
+        $row = $dataRaw->where('status_badan_usaha', $key)->first();
+        $chartData[] = $row ? $row->total : 0;
+    }
+        $pt = UsahaKarakteristik::where('status_badan_usaha', 1)->count();
+        $yayasan = UsahaKarakteristik::where('status_badan_usaha', 2)->count();
+        $cv = UsahaKarakteristik::where('status_badan_usaha', 3)->count();
+        $firma = UsahaKarakteristik::where('status_badan_usaha', 4)->count();
+        $nv = UsahaKarakteristik::where('status_badan_usaha', 5)->count();
+        $danaPensiun = UsahaKarakteristik::where('status_badan_usaha', 6)->count();
+        $perorangan = UsahaKarakteristik::where('status_badan_usaha', 7)->count();
+        $lainnya = UsahaKarakteristik::where('status_badan_usaha', 8)->count();
+        $belumMemilikiStatus = UsahaKarakteristik::where('status_badan_usaha', null)->count();
+
+        return view('admin.informasi_data_umkm.partial.usahaStatusBadanUsaha', compact('chartLabels', 'chartData','pt','yayasan','cv','firma','nv','danaPensiun','perorangan','lainnya', 'belumMemilikiStatus'));
     }
 }
