@@ -1,5 +1,5 @@
 <div class="">
-    <h5 class="fw-bold">G. Pertumbuhan Usaha Mikro</h5>
+    <h5 class="fw-bold">J. Pertumbuhan Usaha Mikro</h5>
     <p class="text-muted">
        Grafik ini menggambarkan tren pertumbuhan unit usaha berdasarkan kurun waktu dimulainya operasional usaha.
        Peningkatan volume yang signifikan dalam beberapa tahun terakhir menunjukkan dinamika kewirausahaan yang semakin
@@ -13,67 +13,7 @@
 
 
     <div class="col-md-12 mt-5 ">
-        <!-- <div class="row">
-            <div style="cursor: pointer;" class="col-md-3 px-2 skala-card cursor-pointer" data-skala="pt">
-                <div class="border rounded-2 py-3 px-3 shadow-lg">
-                    <div class="d-flex mb-3 px-3 py-2 bg-warning bg-opacity-10 border border-warning rounded-2">
-                        <p class="text-warning fw-bold mx-auto my-auto">PT</p>
-                    </div>
-                    <div>
-                        <p class="text-muted">Jumlah Usaha Berstatus PT</p>
-                    </div>
-                    <div>
-                        <p class="fw-semibold fs-2">10.0000</p>
-                        <p class="text-muted">Unit Usaha</p>
-                    </div>
-                </div>
-            </div>
-            <div style="cursor: pointer;" class="col-md-3 px-2 skala-card" data-skala="yayasan">
-                <div class="border rounded-2 py-3 px-3 shadow-lg">
-                    <div class="d-flex px-3 mb-3 py-2 bg-info bg-opacity-10 border border-info rounded-2">
-                        <p class="text-primary mx-auto fw-bold my-auto">Yayasan</p>
-                    </div>
-                    <div>
-                        <p class="text-muted">Jumlah Usaha Berstatus Yayasab</p>
-                    </div>
-                    <div>
-                        <p class="fw-semibold fs-2">10.000</p>
-                        <p class="text-muted">Unit Usaha</p>
-                    </div>
-                </div>
-            </div>
-            <div style="cursor: pointer;" class="col-md-3 px-2 skala-card" data-skala="cv">
-                <div class="border rounded-2 py-3 px-3 shadow-lg">
-                    <div class="d-flex mb-3 px-3 py-2 bg-danger bg-opacity-10 border border-danger rounded-2">
-                        <p class="text-danger mx-auto fw-bold my-auto">CV</p>
-                    </div>
-                    <div>
-                        <p class="text-muted">Jumlah Usaha Berstatus CV</p>
-                    </div>
-                    <div>
-                        <p class="fw-semibold fs-2">100.000</p>
-                        <p class="text-muted">Unit Usaha</p>
-                    </div>
-                </div>
-            </div>
-            <div style="cursor: pointer;" class="col-md-3 px-2 skala-card" data-skala="firma">
-                <div class="border rounded-2 py-3 px-3 shadow-lg">
-                    <div class="d-flex mb-3 px-3 py-2 bg-success bg-opacity-10 border border-success rounded-2">
-                        <p class="text-success mx-auto fw-bold my-auto">Firma</p>
-                    </div>
-                    <div>
-                        <p class="text-muted">Jumlah Usaha Berstatus Firma</p>
-                    </div>
-                    <div>
-                        <p class="fw-semibold fs-2">10.000</p>
-                        <p class="text-muted">Unit Usaha</p>
-                    </div>
-                </div>
-            </div>
-
-        </div> -->
-
-
+       
         <div class="row">
 
             <div class="col-md-12">

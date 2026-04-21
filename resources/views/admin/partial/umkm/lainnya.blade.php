@@ -2,7 +2,7 @@
     <div class="row border mb-2 border-warning bg-warning bg-opacity-10 rounded-2">
         <div class="col-md-10 py-3 px-3">
             <div class="">
-                <p class="fw-bold fs-5 text-primary">NIB & Indikator Usaha Lainnya di KAB. TANGERANG BANTEN</p>
+                <p class="fw-bold fs-5 text-primary">L. NIB & Indikator Usaha Lainnya di KAB. TANGERANG BANTEN</p>
                 <p class="text-muted">Berikut ini adalah diagram lainnya yang digunakan untuk melihat data argregasi UMKM</p>
             </div>
         </div>

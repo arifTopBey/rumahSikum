@@ -128,6 +128,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/usaha-berdasarkan-perizinan', [DataUMKMController::class, 'dataPerizinanUMKM'])->name('admin.usaha.perizinan');
     Route::get('/usaha-berdasarkan-pemasaran', [DataUMKMController::class, 'dataPemasaranUMKM'])->name('admin.usaha.pemasaran');
     Route::get('/usaha-berdasarkan-status-badan-usaha', [DataUMKMController::class, 'dataStatusBadanUsaha'])->name('admin.status.badan.usaha');
+    Route::get('/usaha-berdasarkan-omset', [DataUMKMController::class, 'dataOmzetUsaha'])->name('admin.usaha.berdasarkan.omzet');
     Route::get('/pertumbuhan-usaha-mikro', [DataUMKMController::class, 'dataPertumbuhanUmkm'])->name('admin.data.pertumbuhan.umkm');
     Route::get('/indikator-usaha-lainnya', [IndikatorUsahaLainnyaController::class, 'index'])->name('admin.usaha.lainnya');
 
@@ -150,6 +151,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/filter-status-badan-usaha', [DataUMKMController::class, 'filterStatusUsaha'])->name('admin.filter.status.usaha');
     Route::get('/filter-pertumbuhan-usaha', [DataUMKMController::class, 'filterPertumbuhanUsaha'])->name('admin.filter.pertumbuhan.usaha');
     Route::get('/filter-perizinan-usaha', [DataUMKMController::class, 'filterPerizinan'])->name('admin.filter.perizinan.usaha');
+    Route::get('/filter-omzet-usaha', [DataUMKMController::class, 'filterOmzet'])->name('admin.filter.omzet.usaha');
     // filter data tabel umkm
 
     Route::get('/sebaran-data-umkm/kbli/{kategori}', [DataUMKMController::class, 'dataKbriKategori']);

@@ -1,5 +1,5 @@
 <div class="">
-    <h5 class="fw-bold">G. Sebaran Usaha Yang Memiliki Perizinan</h5>
+    <h5 class="fw-bold">I. Sebaran Usaha Yang Memiliki Perizinan</h5>
     <p class="text-muted">Bagian ini menampilkan statistik sebaran perizinan yang dimiliki oleh unit usaha binaan. Melalui perbandingan jumlah pemilik PIRT, BPOM, TDP, dan sertifikasi Halal, pemerintah daerah dapat memetakan kebutuhan fasilitasi sertifikasi bagi UMKM yang belum memenuhi standar perizinan. Hal ini sejalan dengan upaya percepatan transformasi formalitas usaha sesuai dengan amanat regulasi penyederhanaan perizinan berusaha.</p>
 </div>
 <div class="row">

@@ -2,7 +2,7 @@
     <div class="row border mb-2 border-warning bg-warning bg-opacity-10 rounded-2">
         <div class="col-md-10 py-3 px-3">
             <div class="">
-                <p class="fw-bold fs-5 text-primary">F. Usaha Berdasarkan Penjualan dan Pemasaran</p>
+                <p class="fw-bold fs-5 text-primary">G. Usaha Berdasarkan Penjualan dan Pemasaran</p>
                 <p class="text-muted">Berikut ini adalah diagram Pemasaran dan Penjualan yang digunakan untuk melihat data argregasi UMKM</p>
             </div>
         </div>

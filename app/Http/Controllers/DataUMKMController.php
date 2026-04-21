@@ -911,6 +911,23 @@ class DataUMKMController extends Controller
         return view('admin.informasi_data_umkm.perizinan.index', compact('data'));
 
     }
+
+    public function filterOmzet(Request $request)
+{
+    $skala = $request->skala;
+    $query = LaporanKeuangan::with('identitasUsaha');
+    if ($skala == 'Di Bawah 2 Miliar') {
+        $query->where('omzet_usaha', '<', 2000000000);
+    } elseif ($skala == '2 Miliar - 15 Miliar') {
+        $query->whereBetween('omzet_usaha', [2000000000, 15000000000]);
+    } elseif ($skala == '15 Miliar - 50 Miliar') {
+        $query->whereBetween('omzet_usaha', [15000000001, 50000000000]);
+    }
+
+    $data = $query->search(request(['search']))->paginate(10)->withQueryString();
+
+    return view('admin.informasi_data_umkm.omzet.index', compact('data'));
+}
     // ===================== batas filter grafik =====================
 
 
@@ -1044,5 +1061,22 @@ class DataUMKMController extends Controller
         // $values = array_merge([$sebelum2015], array_values($finalData));
 
      return view('admin.informasi_data_umkm.partial.pertumbuhan_umkm', compact('labels', 'values'));
+    }
+
+
+    public function dataOmzetUsaha(){
+        // Range Omzet sesuai instruksi
+        $mikro = LaporanKeuangan::where('omzet_usaha', '<', 2000000000)->count(); // < 2 Miliar
+        $kecil = LaporanKeuangan::whereBetween('omzet_usaha', [2000000000, 15000000000])->count(); // 2M - 15M
+        $menengah = LaporanKeuangan::whereBetween('omzet_usaha', [15000000001, 50000000000])->count(); // > 15M - 50M
+
+        $dataOmzet = [
+            'labels' => ['Di Bawah 2 Miliar', '2 Miliar - 15 Miliar', '15 Miliar - 50 Miliar'],
+            'values' => [$mikro, $kecil, $menengah]
+        ];
+
+
+         return view('admin.informasi_data_umkm.partial.omzet', compact('dataOmzet'));
+
     }
 }

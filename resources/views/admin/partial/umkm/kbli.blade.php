@@ -1,6 +1,6 @@
 <div class="container">
     <div class="p-6 bg-white shadow-sm px-3 py-2">
-        <h3 class="fw-bold text-dark">E. Sebaran Usaha berdasarkan KBLI 2020 di KAB. TANGERANG,
+        <h3 class="fw-bold text-dark">F. Sebaran Usaha berdasarkan KBLI 2020 di KAB. TANGERANG,
             BANTEN
         </h3>
         <p class="text-xs text-gray-500 mb-4">Menyajikan jumlah data usaha berdasarkan Klasifikasi Baku

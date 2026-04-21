@@ -1,5 +1,5 @@
 <div class="">
-    <h5 class="fw-bold">G. Usaha berdasarkan Status Usaha</h5>
+    <h5 class="fw-bold">H. Usaha berdasarkan Status Usaha</h5>
     <p class="text-muted">
         Bagian ini menyajikan statistik sebaran unit usaha berdasarkan bentuk legalitas atau status badan usahanya.
         Melalui visualisasi perbandingan antara status Perseroan Terbatas (PT), CV, Koperasi, hingga usaha Perorangan,
