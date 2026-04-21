@@ -27,6 +27,10 @@ class LaporanKeuangan extends Model
         return $this->hasOne(IdentitasPengusaha::class, 'id_badan_usaha', 'id_badan_usaha');
     }
 
+    public function produksiDanPemasaran(){
+        return $this->hasOne(ProduksiDanPemasaran::class, 'id_badan_usaha', 'id_badan_usaha');
+    }
+
      public function scopeSearch($query, array $filters){
        $query->when($filters['search'] ?? false, function($query, $search) {
         

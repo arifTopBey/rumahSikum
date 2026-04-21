@@ -284,7 +284,7 @@
 
             // Handle pagination click (WAJIB TAMBAH INI)
             document.addEventListener('click', function (e) {
-            if (e.target.closest('#tableContainer .pagination a')) {
+            if (e.target.closest('#tableContainer9 .pagination a')) {
                 e.preventDefault();
 
                 let url = e.target.closest('a').getAttribute('href');
