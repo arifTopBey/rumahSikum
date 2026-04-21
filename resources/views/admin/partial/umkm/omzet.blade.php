@@ -17,7 +17,7 @@
             <div class="col-md-12">
                 <div class="card shadow-sm border-0">
                     <div class="card-body">
-                        <h5 class="fw-bold mb-4">Grafik Usaha Berdasarkan Tahun</h5>
+                        <h5 class="fw-bold mb-4">Grafik Usaha Berdasarkan Omset Usaha</h5>
                         <div style=" overflow-x: auto;">
                             <div style="height: 300px;">
                                 <canvas id="omzetChart"></canvas>
