@@ -5,12 +5,23 @@ namespace App\Http\Controllers;
 use App\Models\Berita;
 use App\Models\Elearning;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class FrontendController extends Controller
 {
     public function index(Request $request){
 
-        return view('frontend.beranda.index');
+        // Menghitung total seluruh UMKM dari tabel identitasusaha
+        $totalUMKM = DB::table('identitasusaha')->count();
+
+        // Menghitung jumlah kecamatan yang unik (distinct)
+        $jumlahKecamatan = DB::table('identitasusaha')
+            ->whereNotNull('kecamatan')
+            ->where('kecamatan', '!=', '')
+            ->distinct('kecamatan')
+            ->count('kecamatan');
+
+        return view('frontend.beranda.index', compact('totalUMKM', 'jumlahKecamatan'));
     }
 
     public function listPanel(){

@@ -16,7 +16,7 @@
 
                     <div class="row mt-5">
                         <div class="col-4 stat-box">
-                            <h3 class="fw-bold mb-0 text-dark">245K+</h3>
+                            <h3 class="fw-bold mb-0 text-dark">{{ number_format($totalUMKM, 0, ',', '.') }}</h3>
                             <small class="text-muted">UMKM Terdaftar</small>
                         </div>
                         <!-- <div class="col-4 stat-box border-info">
@@ -24,7 +24,7 @@
                             <small class="text-muted">Koperasi Aktif</small>
                         </div> -->
                         <div class="col-4 stat-box border-warning">
-                            <h3 class="fw-bold mb-0 text-dark">31</h3>
+                            <h3 class="fw-bold mb-0 text-dark">{{ number_format($jumlahKecamatan, 0, ',', '.') }}</h3>
                             <small class="text-muted">Kecamatan</small>
                         </div>
                     </div>
