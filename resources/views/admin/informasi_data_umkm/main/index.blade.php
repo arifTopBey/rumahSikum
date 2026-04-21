@@ -77,6 +77,11 @@
                         <a href="{{ route('admin.usaha.perizinan') }}" class="text-decoration-none text-dark">Jumlah Perizinan Usaha Mikro</a>
                     </li>
                 </ol>
+                <ol type="A" start="2" class="ps-3 mb-3 {{ Request::is('pertumbuhan-usaha-mikro') ? 'bg-secondary bg-opacity-10 border-start border-4 border-warning' : '' }}">
+                    <li class="nav-link py-2">
+                        <a href="{{ route('admin.data.pertumbuhan.umkm') }}" class="text-decoration-none text-dark">Pertumbuhan Usaha Mikro</a>
+                    </li>
+                </ol>
                 <ol type="A" start="2" class="ps-3 mb-3 {{ Request::is('indikator-usaha-lainnya') ? 'bg-secondary bg-opacity-10 border-start border-4 border-warning' : '' }}">
                     <li class="nav-link py-2">
                         <a href="{{ route('admin.usaha.lainnya') }}" class="text-decoration-none text-dark">Indikator Usaha LainnyaI</a>

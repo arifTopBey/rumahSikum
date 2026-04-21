@@ -89,6 +89,14 @@
                 <div class="col-md-8">
                     <form id="formSearch" action="javascript:void(0);" method="GET" class="d-none">
                         <div class="input-group mb-3">
+
+                           <select id="filterSkala" class="form-select me-2" style="max-width: 200px;">
+                                <option value="">Semua Skala</option>
+                                <option value="mikro">Usaha Mikro</option>
+                                <option value="kecil">Usaha Kecil</option>
+                                <option value="menengah">Usaha Menengah</option>
+                            </select>   
+
                             <input type="text" id="searchInputWilayah" class="form-control "
                                 placeholder="Cari berdasarkan nama usaha, kecamatan, Desa" name="search"
                                 value="{{ request('search') }}">
@@ -179,5 +187,100 @@
             }
         });
     });
+</script>
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const filterUrlTemplate = "{{ route('admin.filter.perizinan.usaha') }}";
+
+        let skala = '';
+        // Klik card skala
+        document.querySelectorAll('.skala-card').forEach(card => {
+
+            card.addEventListener('click', function () {
+
+                skala = this.dataset.skala;
+                console.log(skala)
+
+                let titleMap = {
+                    pirt: 'PIRT',
+                    bpom: 'BPOM/BD',
+                    tdp: 'TDP',
+                    halal: "halal",
+                };
+
+                // document.getElementById('exportBtn').classList.remove('d-none')
+                const formSeach = document.getElementById('formSearch');
+
+                formSeach.classList.remove('d-none');
+
+                // document.getElementById('exportBtn').href =
+                //     `/export-skala/${skala}`;
+
+                // document.getElementById('exportBtn').href =
+                //     exportUrlTemplate.replace(':skala', skala);
+
+                document.getElementById('skalaTitle9').innerText = 'UMKM yang Memiliki ' +  titleMap[skala];
+
+                // loadTable(`/filter-skala?skala=${skala}`);
+                loadTable(`${filterUrlTemplate}?izin=${skala}`);
+
+            });
+        });
+
+        // Function reusable untuk load table
+        function loadTable(url) {
+            fetch(url)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('tableContainer9').innerHTML = html;
+                });
+        }
+
+        // Handle pagination click (WAJIB TAMBAH INI)
+        document.addEventListener('click', function (e) {
+            if (e.target.closest('#tableContainer9 .pagination a')) {
+                e.preventDefault();
+
+                let url = e.target.closest('a').getAttribute('href');
+
+                loadTable(url);
+            }
+        });
+
+        // --- LOGIKA PENCARIAN AJAX ---
+        document.getElementById('btnDoSearch').addEventListener('click', function () {
+            performSearch();
+        });
+        // Support tekan "Enter" di input search
+        document.getElementById('searchInputWilayah').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+
+        document.getElementById('filterSkala').addEventListener('change', function() {
+             performSearch();
+        });
+
+        function performSearch() {
+            const searchValue = document.getElementById('searchInputWilayah').value;
+            const skalaValue = document.getElementById('filterSkala').value; // Ambil nilai dropdown
+
+            // Panggil loadWilayah dengan kecamatan + kata kunci search
+            // const url = `${filterUrlTemplate}?status=${encodeURIComponent(skala)}&search=${encodeURIComponent(searchValue)}`;
+              const url = `${filterUrlTemplate}?izin=${encodeURIComponent(skala)}&search=${encodeURIComponent(searchValue)}&skala=${skalaValue}`;
+
+            loadTable(url);
+        }
+
+        document.getElementById('btnResetSearch').addEventListener('click', function () {
+            document.getElementById('searchInputWilayah').value = '';
+            document.getElementById('filterSkala').value = '';
+            loadTable(`${filterUrlTemplate}?izin=${encodeURIComponent(skala)}`);
+        });
+    })
+
 </script>
 

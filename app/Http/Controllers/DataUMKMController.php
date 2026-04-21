@@ -800,6 +800,99 @@ class DataUMKMController extends Controller
 
         return view('admin.informasi_data_umkm.cluster.index', compact('data'));
     }
+
+    public function filterPertumbuhanUsaha(Request $request){
+
+        $tahun = $request->tahun;
+        $search = $request->search;
+        $skala = $request->skala;
+
+        $query = DB::table('usaha_karakteristik as uk')
+            ->join('identitasusaha as iu', 'uk.id_badan_usaha', '=', 'iu.id_badan_usaha')
+            ->join('usaha_laporan_keuangan as ulk', 'ulk.id_badan_usaha', '=', 'iu.id_badan_usaha')
+            ->select(
+                'iu.nama_lengkap_usaha',
+                'iu.id_badan_usaha',
+                'iu.nama_lengkap_usaha',
+                'iu.kabupaten',
+                'iu.kecamatan',
+                'iu.provinsi',
+                'uk.tahun_mulai_operasi',
+                'ulk.omzet_usaha'
+            )
+            // Filter Utama berdasarkan tahun yang diklik di grafik
+            ->where('uk.tahun_mulai_operasi', $tahun);
+
+        // Filter Tambahan: Skala Usaha
+        if ($skala) {
+            if ($skala == 'mikro') {
+                $query->where('ulk.omzet_usaha', '<=', 2000000);
+            } elseif ($skala == 'kecil') {
+                $query->whereBetween('ulk.omzet_usaha', [2000001, 15000000]);
+            } elseif ($skala == 'menengah') {
+                $query->whereBetween('ulk.omzet_usaha', [15000001, 50000000]);
+            }
+        }
+
+        // Filter Search
+        if ($search) {
+            $query->where(function($q) use ($search) {
+                $q->where('iu.nama_lengkap_usaha', 'like', "%{$search}%")
+                ->orWhere('iu.kecamatan', 'like', "%{$search}%")
+                ->orWhere('iu.kelurahan', 'like', "%{$search}%");
+            });
+        }
+
+        $data = $query->paginate(10)->withQueryString();
+        // dd($data);
+
+        return view('admin.informasi_data_umkm.pertumbuhan.index', compact('data'));
+
+    }
+
+    public function filterPerizinan(Request $request){
+
+        $izin = $request->izin; // Berisi: 'PIRT', 'BPOM', 'TDP', atau 'Halal'
+        $search = $request->search;
+        $skala = $request->skala;
+
+        $query = UsahaPerizinan::with(['identitasUsaha', 'laporanKeuangan']);
+
+        // 1. Mapping Label Grafik ke Kolom Database
+        if ($izin == 'pirt') {
+            $query->where('memiliki_pirt', 1);
+        } elseif ($izin == 'bpom') {
+            $query->where('memiliki_bpom', 1);
+        } elseif ($izin == 'tdp') {
+            $query->where('memiliki_tdp', 1);
+        } elseif ($izin == 'halal') {
+            $query->where('memiliki_sertifikat_halal', 1);
+        }
+
+        // 2. Filter Skala (Jika join ke laporan keuangan tersedia)
+        if ($skala) {
+            $query->whereHas('laporanKeuangan', function ($q) use ($skala) {
+                if ($skala == 'mikro') $q->where('omzet_usaha', '<=', 2000000);
+                elseif ($skala == 'kecil') $q->whereBetween('omzet_usaha', [2000001, 15000000]);
+                elseif ($skala == 'menengah') $q->whereBetween('omzet_usaha', [15000001, 50000000]);
+            });
+        }
+
+        // 3. Filter Search
+        if ($search) {
+            $query->whereHas('identitasUsaha', function ($q) use ($search) {
+                $q->where('nama_lengkap_usaha', 'like', "%{$search}%")
+                ->orWhere('kecamatan', 'like', "%{$search}%");
+            });
+        }
+
+        $data = $query->paginate(10)->withQueryString();
+
+        // dd($data);
+
+        return view('admin.informasi_data_umkm.perizinan.index', compact('data'));
+
+    }
     // ===================== batas filter grafik =====================
 
 
@@ -814,19 +907,13 @@ class DataUMKMController extends Controller
         // $totalBpom = UsahaPerizinan::where('memiliki_bpom', 1)->count();
         // $totalTdp = UsahaPerizinan::where('memiliki_tdp', 1)->count();
         // $totalHalal = UsahaPerizinan::where('memiliki_sertifikat_halal', 1)->count();
+
         $perizinan = [
             'PIRT' => UsahaPerizinan::where('memiliki_pirt', 1)->count(),
             'BPOM' => UsahaPerizinan::where('memiliki_bpom', 1)->count(),
             'TDP' => UsahaPerizinan::where('memiliki_tdp', 1)->count(),
             'Halal' => UsahaPerizinan::where('memiliki_sertifikat_halal', 1)->count(),
         ];
-
-        // return view('admin.informasi_data_umkm.partial.perizinan', compact(
-        //     'totalPirt', 
-        //     'totalBpom', 
-        //     'totalTdp', 
-        //     'totalHalal'
-        //  ));
 
         return view('admin.informasi_data_umkm.partial.perizinan', [
             'perizinan' => $perizinan,
@@ -902,5 +989,42 @@ class DataUMKMController extends Controller
         $belumMemilikiStatus = UsahaKarakteristik::where('status_badan_usaha', null)->count();
 
         return view('admin.informasi_data_umkm.partial.usahaStatusBadanUsaha', compact('chartLabels', 'chartData','pt','yayasan','cv','firma','nv','danaPensiun','perorangan','lainnya', 'belumMemilikiStatus'));
+    }
+
+     public function dataPertumbuhanUmkm(){
+
+        $dataTahun = UsahaKarakteristik::select('tahun_mulai_operasi', DB::raw('count(*) as total'))
+            ->whereNotNull('tahun_mulai_operasi')
+            ->where('tahun_mulai_operasi', '!=', '')
+            ->groupBy('tahun_mulai_operasi')
+            ->orderBy('tahun_mulai_operasi', 'asc') // Urutkan dari tahun terkecil
+            ->get();
+
+        // Siapkan label dan nilai untuk Chart.js
+        $labels = $dataTahun->pluck('tahun_mulai_operasi');
+        $values = $dataTahun->pluck('total');
+
+        // $dataTahun = UsahaKarakteristik::select('tahun_mulai_operasi', DB::raw('count(*) as total'))
+        // ->whereNotNull('tahun_mulai_operasi')
+        // ->groupBy('tahun_mulai_operasi')
+        // ->orderBy('tahun_mulai_operasi', 'asc')
+        // ->get();
+
+        // $finalData = [];
+        // $sebelum2015 = 0;
+
+        // foreach ($dataTahun as $item) {
+        //     if ($item->tahun_mulai_operasi < 2015) {
+        //         $sebelum2015 += $item->total;
+        //     } else {
+        //         $finalData[$item->tahun_mulai_operasi] = $item->total;
+        //     }
+        // }
+
+        //     // Gabungkan: Data "Sebelum 2015" diletakkan di awal
+        // $labels = array_merge(['< 2015'], array_keys($finalData));
+        // $values = array_merge([$sebelum2015], array_values($finalData));
+
+     return view('admin.informasi_data_umkm.partial.pertumbuhan_umkm', compact('labels', 'values'));
     }
 }
