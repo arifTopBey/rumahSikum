@@ -12,4 +12,8 @@ class KategoriElearning extends Model
     protected $keyType = 'int';
     public $timestamps = true;
     protected $guarded = [];
+
+    public function elearning(){
+        return $this->hasMany(Elearning::class, 'kategori_elearning_id', 'id');
+    }
 }

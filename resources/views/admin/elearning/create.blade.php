@@ -43,7 +43,7 @@
                     <p class="text-muted small mb-0">Publikasikan konten video atau e-book untuk akses mandiri UMKM.</p>
                 </div>
                 <div class="d-flex gap-2">
-                    <a href="#" class="btn btn-light rounded-pill px-4 fw-bold border">Batal</a>
+                    <a href="{{ route('admin.elearning.index') }}" class="btn btn-light rounded-pill px-4 fw-bold border">Batal</a>
                     <button type="submit" class="btn btn-primary rounded-pill px-4 fw-bold shadow">Simpan & Publikasikan</button>
                 </div>
             </div>
@@ -58,9 +58,13 @@
                     <div class="mb-4">
                         <label class="form-label fw-bold text-dark d-block">Thumbnail Materi</label>
                         <div class="border border-2 border-dashed rounded-4 p-4 text-center bg-light position-relative">
+
+                            <img id="preview-thumbnail" src="" class="img-fluid rounded-3 mb-2 d-none" style="max-height:200px; object-fit:cover;" />
+
+
                             <i data-lucide="image" size="32" class="text-muted mb-2"></i>
                             <p class="smaller text-muted mb-0">Klik atau tarik gambar ke sini (Rasio 16:9)</p>
-                            <input type="file" name="thumbnail" class="position-absolute w-100 h-100 top-0 start-0 opacity-0" style="cursor: pointer;">
+                            <input id="thumbnail-input" type="file" name="thumbnail" class="position-absolute w-100 h-100 top-0 start-0 opacity-0" style="cursor: pointer;">
                         </div>
                     </div>
 
@@ -76,15 +80,23 @@
                     </h6>
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label class="form-label small fw-bold text-muted">Link Video Utama (YouTube/Vimeo)</label>
+                            <label class="form-label small fw-bold text-muted">Link Video Utama YouTube</label>
                             <div class="input-group">
                                 <span class="input-group-text bg-light border-2"><i data-lucide="youtube" size="16"></i></span>
-                                <input type="url" name="link_youtube" class="form-control border-2" placeholder="https://youtube.com/...">
+                                <input type="url" id="youtube-input" name="link_youtube" class="form-control border-2" placeholder="https://youtube.com/...">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label small fw-bold text-muted">Atau Upload E-Book (PDF) Optional</label>
                             <input type="file" name="pdf" class="form-control border-2" accept="application/pdf">
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div id="youtube-preview" class="mt-3 d-none">
+                            <p class="mt-2 text-muted fw-bold fs-3">Preview Video</p>
+                            <div class="ratio ratio-16x9">
+                                <iframe id="youtube-frame" src="" frameborder="0" allowfullscreen></iframe>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -132,13 +144,27 @@
                 </div>
 
                 <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 text-center bg-primary bg-opacity-10 border border-primary border-opacity-25">
-                    <div class="mx-auto bg-white rounded-circle d-flex align-items-center justify-content-center mb-3 shadow-sm" style="width: 80px; height: 80px;">
+                    <!-- <div class="mx-auto bg-white rounded-circle d-flex align-items-center justify-content-center mb-3 shadow-sm" style="width: 80px; height: 80px;">
+                        <i data-lucide="user-plus" size="32" class="text-primary"></i>
+                    </div> -->
+                      <img id="preview-mentor" 
+                            src="" 
+                            class="rounded-circle mb-3 d-none mx-auto" 
+                            style="width:100px; height:100px; object-fit:cover;" />
+
+                    <!-- Placeholder -->
+                    <!-- <div id="placeholder-mentor" class="mb-3">
+                        <i data-lucide="user" size="32" class="text-muted"></i>
+                        <p class="smaller text-muted mb-0">Upload Foto Mentor</p>
+                    </div> -->
+                     <div id="placeholder-mentor" class="mx-auto bg-white rounded-circle d-flex align-items-center justify-content-center mb-3 shadow-sm" style="width: 80px; height: 80px;">
                         <i data-lucide="user-plus" size="32" class="text-primary"></i>
                     </div>
+
                     <h6 class="fw-800 mb-1">Informasi Mentor</h6>
                     <div class="mb-3 text-start">
                         <label class="form-label small fw-bold text-muted">Foto Mentor</label>
-                        <input type="file" name="photo_mentor" class="form-control rounded-3 border-0 shadow-sm" >
+                        <input id="mentor-input" type="file" name="photo_mentor" class="form-control rounded-3 border-0 shadow-sm" >
                     </div>
                     <div class="mb-3 text-start">
                         <label class="form-label small fw-bold text-muted">Nama Mentor / Pengajar</label>
@@ -173,5 +199,82 @@
     .smaller { font-size: 0.75rem; }
     .ck-editor__editable { min-height: 250px; border-radius: 0 0 12px 12px !important; }
 </style>
+<script>
+     document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('thumbnail-input').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        const preview = document.getElementById('preview-thumbnail');
+        const placeholder = document.getElementById('placeholder-thumbnail');
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.classList.remove('d-none');
+                placeholder.style.display = 'none';
+            }
+
+            reader.readAsDataURL(file);
+        }
+    });
+     })
+    
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const input = document.getElementById('youtube-input');
+    const preview = document.getElementById('youtube-preview');
+    const frame = document.getElementById('youtube-frame');
+
+    function getYoutubeId(url) {
+        const regExp = /(?:youtube\.com\/.*v=|youtu\.be\/)([^&]+)/;
+        const match = url.match(regExp);
+        return match ? match[1] : null;
+    }
+
+    input.addEventListener('input', function () {
+        const url = input.value;
+        const videoId = getYoutubeId(url);
+
+        if (videoId) {
+            frame.src = `https://www.youtube.com/embed/${videoId}`;
+            preview.classList.remove('d-none');
+        } else {
+            preview.classList.add('d-none');
+            frame.src = '';
+        }
+    });
+
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const input = document.getElementById('mentor-input');
+    const preview = document.getElementById('preview-mentor');
+    const placeholder = document.getElementById('placeholder-mentor');
+
+    input.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.classList.remove('d-none');
+                // placeholder.style.display = 'none';
+                placeholder.classList.add('d-none');
+            }
+
+            reader.readAsDataURL(file);
+        }
+    });
+
+});
+</script>
 
 @endsection

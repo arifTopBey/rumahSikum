@@ -340,6 +340,27 @@
                     <div id="keuangan" class="tab-pane">
                        @include('admin.umkm.detail.laporan_keuangan')
                     </div>
+                    <div id="izin" class="tab-pane">
+                       @include('admin.umkm.detail.izin_dan_standarisasi_usaha')
+                    </div>
+                    <div id="tenagaKerja" class="tab-pane">
+                       @include('admin.umkm.detail.tenaga_kerja')
+                    </div>
+                    <div id="proses" class="tab-pane">
+                       @include('admin.umkm.detail.proses_produksi')
+                    </div>
+                    <div id="kemitraan" class="tab-pane">
+                       @include('admin.umkm.detail.kemitraan')
+                    </div>
+                    <div id="pembinaan" class="tab-pane">
+                       @include('admin.umkm.detail.pembinaan')
+                    </div>
+                    <div id="catatan" class="tab-pane">
+                       @include('admin.umkm.detail.catatan')
+                    </div>
+                    <div id="penghargaan" class="tab-pane">
+                       @include('admin.umkm.detail.penghargaan')
+                    </div>
 
                 </div>
               

@@ -17,25 +17,25 @@
             <div class="col-md-3">
                 <div class="card border-0 bg-light p-3 rounded-4">
                     <p class="text-muted small mb-1 fw-bold">Total Materi</p>
-                    <h4 class="fw-800 mb-0">24 Materi</h4>
+                    <h4 class="fw-800 mb-0">{{ $totalMateri ?? 0 }} Materi</h4>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="card border-0 bg-light p-3 rounded-4">
                     <p class="text-muted small mb-1 fw-bold">Total Penonton</p>
-                    <h4 class="fw-800 mb-0">3,120 Penonton</h4>
+                    <h4 class="fw-800 mb-0">{{ $totalViews ? $totalViews : 0  }} Penonton</h4>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="card border-0 bg-light p-3 rounded-4">
-                    <p class="text-muted small mb-1 fw-bold">Penyelesaian</p>
-                    <h4 class="fw-800 mb-0">78%</h4>
+                    <p class="text-muted small mb-1 fw-bold">Total PDF</p>
+                    <h4 class="fw-800 mb-0">{{ $totalPdf ? $totalPdf : 0 }}</h4>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="card border-0 bg-light p-3 rounded-4">
                     <p class="text-muted small mb-1 fw-bold">Materi Populer</p>
-                    <h4 class="fw-800 mb-0 text-primary small">Branding Instagram</h4>
+                    <h4 class="fw-800 mb-0 text-primary small">{{ $topElearning->name ?? 'Tidak Tersedia'  }}</h4>
                 </div>
             </div>
         </div>
@@ -43,17 +43,17 @@
         <div class="col-md-12 mb-4">
             <div class="row g-3">
                 <div class="col-md-8 d-flex gap-2">
-                    <select class="form-select w-auto rounded-pill border-2 px-3">
+                    <select class="form-select w-auto rounded-pill border-2 px-5">
                         <option>Semua Kategori</option>
                         <option>Digital Marketing</option>
                         <option>Keuangan</option>
                         <option>Legalitas</option>
                     </select>
-                    <select class="form-select w-auto rounded-pill border-2 px-3">
+                    <!-- <select class="form-select w-auto rounded-pill border-2 px-3">
                         <option>Format: Semua</option>
                         <option>Video</option>
                         <option>E-Book</option>
-                    </select>
+                    </select> -->
                 </div>
                 <div class="col-md-4">
                     <div class="input-group">
@@ -170,7 +170,7 @@
                         <tr>
                             <th class="ps-4 py-3 text-center" width="5%">No</th>
                             <th class="py-3" width="35%">Judul Kelas & Mentor</th>
-                            <th class="py-3 text-center">Format</th>
+                            <th class="py-3 text-center">Level</th>
                             <th class="py-3 text-center">Total Penonton</th>
                             <th class="py-3 text-center">Modul PDF</th>
                             <th class="py-3 text-center">Status</th>
@@ -193,7 +193,7 @@
                                 </div>
                             </td>
                             <td class="text-center small">
-                                <span class="badge bg-info-subtle text-info rounded-pill px-3 py-2"><i data-lucide="play-circle" size="14" class="me-1"></i> Video</span>
+                                <span class="badge bg-info-subtle text-info rounded-pill px-3 py-2"> {{ $elearning->level }}</span>
                             </td>
                             <td class="text-center">
                                 <div class="fw-bold mb-0">{{ $elearning->views }}</div>
@@ -219,10 +219,19 @@
                                         <i data-lucide="more-vertical" size="18"></i>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end shadow border-0">
-                                        <li><a class="dropdown-item py-2" href="#"><i data-lucide="layout" size="14" class="me-2 text-primary"></i> Kelola Modul</a></li>
-                                        <li><a class="dropdown-item py-2" href="#"><i data-lucide="edit-3" size="14" class="me-2 text-warning"></i> Edit Detail</a></li>
+                                        <li><a class="dropdown-item py-2" href="{{ route('admin.elearning.edit', $elearning->id) }}"><i data-lucide="layout" size="14" class="me-2 text-primary"></i> Kelola Modul</a></li>
+                                        <li><a class="dropdown-item py-2" href="{{ route('admin.elearning.show', $elearning->id) }}"><i data-lucide="eye" size="14" class="me-2 text-warning"></i> Detail</a></li>
                                         <li><hr class="dropdown-divider"></li>
-                                        <li><a class="dropdown-item py-2 text-danger" href="#"><i data-lucide="trash-2" size="14" class="me-2"></i> Hapus</a></li>
+                                        <li class="dropdown-item py-2 text-danger">
+                                             <form id="delete-form-{{ $elearning->id }}" action="{{ route('admin.elearning.delete', $elearning->id) }}" method="POST" class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button onclick="confirmDelete('{{ $elearning->id }}', '{{ $elearning->name }}')" type="button" class="btn btn-sm btn-light text-danger px-3">
+                                                <i data-lucide="trash-2" size="14" class="me-3"></i>Hapus
+                                            </button>
+
+                                        </form>
+                                        </li>
                                     </ul>
                                 </div>
                             </td>

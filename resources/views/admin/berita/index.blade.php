@@ -95,13 +95,13 @@
                                         <li><a class="dropdown-item py-2" href="{{ route('admin.berita.show', $berita->id) }}"><i data-lucide="eye" size="14" class="me-2"></i> Pratinjau</a></li>
                                         <!-- <li><a class="dropdown-item py-2 text-danger" href="#"><i data-lucide="trash-2" size="14" class="me-2"></i> Hapus</a></li> -->
                                         <form id="delete-form-{{ $berita->id }}" action="{{ route('admin.berita.destroy', $berita->id) }}" method="POST" class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button onclick="confirmDelete('{{ $berita->id }}', '{{ $berita->judul }}')" type="button" class="btn btn-sm btn-light text-danger px-3">
-                                            <i data-lucide="trash-2" size="14" class="me-3"></i>Hapus
-                                        </button>
+                                            @csrf
+                                            @method('DELETE')
+                                            <button onclick="confirmDelete('{{ $berita->id }}', '{{ $berita->judul }}')" type="button" class="btn btn-sm btn-light text-danger px-3">
+                                                <i data-lucide="trash-2" size="14" class="me-3"></i>Hapus
+                                            </button>
 
-                                    </form>
+                                        </form>
                                         <!-- <li><hr class="dropdown-divider"></li> -->
                                     </ul>
                                 </div>

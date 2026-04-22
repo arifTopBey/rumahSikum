@@ -14,4 +14,8 @@ class Elearning extends Model
 
     protected $guarded = ['id']; 
 
+    public function kategoriElearning(){
+        return $this->belongsTo(KategoriElearning::class, 'kategori_elearning_id', 'id');
+    }
+
 }

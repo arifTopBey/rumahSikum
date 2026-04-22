@@ -54,23 +54,41 @@
             <div class="col-lg-4">
 
                 <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 text-center">
-                    <h6 class="fw-800 text-start mb-3">Gambar Utama</h6>
+                    <h6 class="fw-bold text-start mb-3"><span class="fw-bold text-muted">Ganti Dengan Klik Gambar</span></h6>
 
                     {{-- Preview gambar lama --}}
-                    @if ($berita->gambar)
+                    <!-- @if ($berita->gambar)
                         <div class="mb-3">
-                            <!-- <img src="{{ asset('storage/' . $berita->gambar) }}" 
-                                 class="img-fluid rounded-3" style="max-height:200px;"> -->
+                            <img src="{{ asset('storage/' . $berita->gambar) }}" 
+                                 class="img-fluid rounded-3" style="max-height:200px;">
                             <img src="{{ route('showFoto.berita.private', $berita->gambar) }}" 
                                  class="img-fluid rounded-3" style="max-height:200px;">
                         </div>
-                    @endif
+                    @endif -->
 
-                    <div class="border border-2 border-dashed rounded-4 p-4 mb-2">
-                        <i data-lucide="image" size="48" class="text-muted mb-2"></i>
-                        <p class="smaller text-muted mb-2">Ganti gambar (opsional)</p>
-                        <input type="file" name="gambar" class="form-control form-control-sm" accept="image/*">
-                    </div>
+                   <div class="border border-2 border-dashed rounded-4 p-4 mb-2 text-center position-relative">
+
+                        <!-- Preview -->
+                        <img id="preview-gambar" 
+                            src="{{ $berita->gambar ? route('showFoto.berita.private', $berita->gambar) : '' }}" 
+                            class="img-fluid rounded-3 mb-2 {{ $berita->gambar ? '' : 'd-none' }}" 
+                            style="max-height:200px; object-fit:cover;" />
+
+                        <!-- Placeholder -->
+                        <div id="placeholder-gambar" class="{{ $berita->gambar ? 'd-none' : '' }}">
+                            <i data-lucide="image" size="48" class="text-muted mb-2"></i>
+                            <p class="smaller text-muted mb-2">Upload atau ganti gambar</p>
+                        </div>
+
+                        <!-- Input -->
+                        <input 
+                            type="file" 
+                            id="input-gambar"
+                            name="gambar" 
+                            accept="image/*"
+                            class="position-absolute w-100 h-100 top-0 start-0 opacity-0"
+                            style="cursor: pointer;">
+                </div>
                 </div>
 
                 <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
@@ -123,5 +141,29 @@
         min-height: 400px;
     }
 </style>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
 
+    const input = document.getElementById('input-gambar');
+    const preview = document.getElementById('preview-gambar');
+    const placeholder = document.getElementById('placeholder-gambar');
+
+    input.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.classList.remove('d-none');
+                placeholder.classList.add('d-none');
+            }
+
+            reader.readAsDataURL(file);
+        }
+    });
+
+});
+</script>
 @endsection

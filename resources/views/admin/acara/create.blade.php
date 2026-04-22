@@ -5,32 +5,32 @@
 
 <div class="container-fluid px-5 bg-white">
     @if ($errors->any())
-           <div class="alert alert-danger">
-               <ul class="mb-0">
-                   @foreach ($errors->all() as $error)
-                       <li>{{ $error }}</li>
-                   @endforeach
-               </ul>
-           </div>  
-       @endif
-    
-       @if (session('success'))
-           <div class="alert alert-success">
-               {{ session('success') }}
-           </div>
-        @endif
-    
-        @if (session('error'))
-           <div class="alert alert-danger">
-               {{ session('error') }}
-           </div>
-        @endif
-    
-         @if (session('warning'))
-           <div class="alert alert-warning">
-               {{ session('warning') }}
-           </div>  
-       @endif
+    <div class="alert alert-danger">
+        <ul class="mb-0">
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
+
+    @if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+    @endif
+
+    @if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+    @endif
+
+    @if (session('warning'))
+    <div class="alert alert-warning">
+        {{ session('warning') }}
+    </div>
+    @endif
 
     <form action="{{ route('admin.acara.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
@@ -55,11 +55,39 @@
 
                     <div class="mb-4">
                         <label class="form-label fw-bold text-dark d-block">Banner Acara</label>
-                        <div class="border border-2 border-dashed rounded-4 p-5 text-center position-relative" id="drop-area">
+
+                        <!-- <div class="border border-2 border-dashed rounded-4 p-5 text-center position-relative" id="drop-area">
                             <i data-lucide="image" size="40" class="text-muted mb-2"></i>
                             <p class="smaller text-muted mb-3">Unggah gambar poster acara (Rekomendasi 16:9)</p>
                             <input type="file" name="gambar" class="form-control border-0 position-absolute w-100 h-100 top-0 start-0 opacity-0" style="cursor: pointer;">
                             <button type="button" class="btn btn-primary btn-sm rounded-pill px-4">Pilih File</button>
+                        </div> -->
+                        <div class="border border-2 border-dashed rounded-4 p-5 text-center position-relative">
+
+                            <!-- Preview -->
+                            <img id="preview-acara"
+                                src=""
+                                class="img-fluid rounded-3 mb-3 d-none"
+                                style="max-height:250px; object-fit:cover;" />
+
+                            <!-- Placeholder -->
+                            <div id="placeholder-acara">
+                                <i data-lucide="image" size="40" class="text-muted mb-2"></i>
+                                <p class="smaller text-muted mb-3">Unggah gambar poster acara (Rekomendasi 16:9)</p>
+                            </div>
+
+                            <!-- Input -->
+                            <input
+                                type="file"
+                                id="input-acara"
+                                name="gambar"
+                                accept="image/*"
+                                class="position-absolute w-100 h-100 top-0 start-0 opacity-0"
+                                style="cursor: pointer;">
+
+                            <button id="buttonThumbanil" type="button" class="btn btn-primary btn-sm rounded-pill px-4">
+                                Pilih File
+                            </button>
                         </div>
                     </div>
 
@@ -127,16 +155,16 @@
                         @endforeach
                     </select>
                 </div> -->
-                 <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+                <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
                     <h6 class="fw-800 mb-3">Kategori</h6>
                     <div class="mb-3">
                         <label class="form-label small fw-bold text-muted">Pilih Kategori</label>
                         <select name="kategori_acara_id" class="form-select rounded-3" required>
                             <option value="">-- Pilih Kategori Acara --</option>
                             @foreach ($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->name }}</option>   
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
                             @endforeach
-                           
+
                         </select>
                     </div>
                     <!-- <div class="mb-0">
@@ -157,12 +185,50 @@
     // Editor
     ClassicEditor
         .create(document.querySelector('#editor'))
-        .catch(error => { console.error(error); });
+        .catch(error => {
+            console.error(error);
+        });
 </script>
 <style>
-    .fw-800 { font-weight: 800; }
-    .ck-editor__editable { min-height: 250px; border-radius: 0 0 12px 12px !important; }
-    .ck-toolbar { border-radius: 12px 12px 0 0 !important; }
+    .fw-800 {
+        font-weight: 800;
+    }
+
+    .ck-editor__editable {
+        min-height: 250px;
+        border-radius: 0 0 12px 12px !important;
+    }
+
+    .ck-toolbar {
+        border-radius: 12px 12px 0 0 !important;
+    }
 </style>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+        const input = document.getElementById('input-acara');
+        const preview = document.getElementById('preview-acara');
+        const buttonThumbanil = document.getElementById('buttonThumbanil');
+        const placeholder = document.getElementById('placeholder-acara');
+
+        input.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.classList.remove('d-none');
+                    placeholder.classList.add('d-none');
+                    buttonThumbanil.classList.add('d-none');
+                }
+
+                reader.readAsDataURL(file);
+            }
+        });
+
+    });
+</script>
 @endsection

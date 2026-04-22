@@ -60,7 +60,7 @@ Route::get('/storage/private/acara/{path}', [AcaraController::class, 'showFotoAc
 Route::get('/storage/private/elearning/thumbnail/{path}', [ElearningController::class, 'showFotoThumbnail'])->where('path', '.*')->name('showFoto.elearning.thumnail.private');
 Route::get('/storage/private/elearning/mentor/{path}', [ElearningController::class, 'showFotoMentor'])->where('path', '.*')->name('showFoto.elearning.mentor.private');
 Route::get('/storage/private/{path}', [BeritaController::class, 'showFotoBerita'])->where('path', '.*')->name('showFoto.berita.private');
-
+Route::get('/storage/app/private/{path}', [ElearningController::class, 'showPdfElearning'])->where('path', '.*')->name('showPdf.elearning.private');
 
 Route::middleware(['guest'])->group(function () {
     
@@ -210,6 +210,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/elearning', [ElearningController::class, 'index'])->name('admin.elearning.index');
     Route::get('/admin/elearning/create',[ElearningController::class, 'create'])->name('admin.elearning.create');
     Route::post('/admin/elearning/store', [ElearningController::class, 'store'])->name('admin.elearning.store');
+    Route::get('/admin/elearning/{id}', [ElearningController::class, 'show'])->name('admin.elearning.show');
+    Route::get('/admin/elearning/edit/{id}', [ElearningController::class, 'edit'])->name('admin.elearning.edit');
+    Route::put('/admin/elearning/update/{id}', [ElearningController::class, 'update'])->name('admin.elearning.update');
+    Route::delete('/admin/elearning/delete/{id}', [ElearningController::class, 'destroy'])->name('admin.elearning.delete');
 
 
 

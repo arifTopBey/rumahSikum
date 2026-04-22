@@ -49,8 +49,8 @@
                 <!--begin::Sidebar Menu-->
                 <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="navigation"
                     aria-label="Main navigation" data-accordion="false" id="navigation">
-                    <li class="nav-item {{ Request::is('dashboard') ? 'menu-open' : '' }}">
-                        <a href="#" class="nav-link {{ Request::is('dashboard') ? 'active bg-black' : '' }}">
+                    <li class="nav-item {{ Request::is('sebaran-data-umkm') ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link {{ Request::is('sebaran-data-umkm') ? 'active bg-black' : '' }}">
                             <i class="bi bi-house text-white"></i>
                             <p class="text-white">
                                 Infomasi Data UMKM
@@ -64,16 +64,16 @@
                                     <p class="text-white">Sebaran Data UMKM (Agregat)</p>
                                 </a>
                             </li>
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a href="" class="nav-link">
                                     <i class="bi bi-dot text-white"></i>
                                     <p class="text-white">Detail Data UMKM (BNBA)</p>
                                 </a>
-                            </li>
+                            </li> -->
                         </ul>
                     </li>
-                    <li class="nav-item {{ Request::is('pembinaan*') ? 'menu-open' : '' }}">
-                        <a href="#" class="nav-link {{ Request::is('pembinaan') ? 'active bg-black' : '' }}">
+                    <li class="nav-item {{ Request::is('list-umkm*') ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link {{ Request::is('list-umkm*') ? 'active bg-black' : '' }}">
                             <i class="bi bi-table text-white"></i>
                             <p class="text-white">
                                 Tabel Tabulasi UMKM
@@ -82,7 +82,7 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="{{route('admin.ukmkm.list')}}" class="nav-link {{ Request::is('pembinaan') ? 'active' : '' }}">
+                                <a href="{{route('admin.ukmkm.list')}}" class="nav-link {{ Request::is('list-umkm') ? 'active' : '' }}">
                                     <i class="nav-icon bi bi-circle"></i>
                                     <p class="text-white">Daftar UMKM</p>
                                 </a>
@@ -143,8 +143,8 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item {{ Request::is('admin/e-learning*') ? 'menu-open' : '' }}">
-                        <a href="#" class="nav-link {{ Request::is('admin/berita*') ? 'active bg-black' : '' }}">
+                    <li class="nav-item {{ Request::is('admin/elearning*') ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link {{ Request::is('admin/elearning*') ? 'active bg-black' : '' }}">
                             <i class="bi bi-backpack text-white"></i>
                             <p class="text-white">
                                 E-learning
@@ -154,7 +154,7 @@
                         <ul class="nav nav-treeview">
 
                              <li class="nav-item">
-                                <a href="{{ route('admin.kategori.elearning.index') }}" class="nav-link {{ Request::is('admin/kategori/berita*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.kategori.elearning.index') }}" class="nav-link {{ Request::is('admin/kategori-elearning*') ? 'active' : '' }}">
                                     <i class="nav-icon bi bi-circle"></i>
                                     <p class="text-white">Kategori E-learning</p>
                                 </a>
