@@ -48,9 +48,9 @@
             <div class="col-md-12">
                 <div class="d-flex justify-content-between py-2 ">
                     <h4 id="skalaTitle9" class="fw-bold text-primary mb-3"></h4>
-                    <!-- <a style="max-height: 40px;;" id="exportBtn" href="#" class="btn btn-success d-none px-2 mt-5">
+                    <a style="max-height: 40px;;" id="exportBtn" href="{{ route('admin.export.usaha.berdasarkan.omset') }}" class="btn btn-success d-none px-2 mt-5">
                         Export Excel
-                    </a> -->
+                    </a>
                 </div>
 
                 <div id="tableContainer9" class="mt-4">
@@ -66,6 +66,9 @@
         const ctxOmzet = document.getElementById('omzetChart').getContext('2d');
         const dataOmzet = @json($dataOmzet);
         let filterOmzet = "{{ route('admin.filter.omzet.usaha') }}"
+
+        const exportUrlTemplate = "{{ route('admin.export.usaha.berdasarkan.omset')}}";
+
         let laporanKeuangan = '';
 
         new Chart(ctxOmzet, {
@@ -96,12 +99,18 @@
                             "Data UMKM Omset " + laporanKeuangan;
 
                         const formSeach = document.getElementById('formSearch');
+                        const exportBtn = document.getElementById('exportBtn');
 
                         formSeach.classList.remove('d-none');
+                        exportBtn.classList.remove('d-none');
+                        const exportUrl = new URL(exportUrlTemplate);
+                        exportUrl.searchParams.set('skala', laporanKeuangan);
+                        exportBtn.href = exportUrl.toString();
 
                         // btn.href = `/export-nib/${encodeURIComponent(label)}`;
                         // loadNIB(`/filter-nib?status=${label}`);
 
+                        //  exportBtn.href = `/export-usaha-berdasarkan-omset?skala=${encodeURIComponent(laporanKeuangan)}`;
 
                         loadKeuangan(`${filterOmzet}?skala=${encodeURIComponent(laporanKeuangan)}`);
 
@@ -181,71 +190,24 @@
             //   const url = `${filterOmzet}?izin=${encodeURIComponent(skala)}&search=${encodeURIComponent(searchValue)}&skala=${skalaValue}`;
 
             loadKeuangan(url);
+
+            // Update URL export button juga
+            const exportUrl = new URL(exportUrlTemplate);
+            exportUrl.searchParams.set('skala', laporanKeuangan);
+            exportUrl.searchParams.set('search', searchValue);
+            document.getElementById('exportBtn').href = exportUrl.toString();
         }
 
         document.getElementById('btnResetSearch').addEventListener('click', function () {
             document.getElementById('searchInputWilayah').value = '';
+             const exportUrl = new URL(exportUrlTemplate);
+            exportUrl.searchParams.set('skala', laporanKeuangan);
+            document.getElementById('exportBtn').href = exportUrl.toString();
             loadKeuangan(`${filterOmzet}?skala=${encodeURIComponent(laporanKeuangan)}`);
         });
+
+
+
     });
 
 </script>
-<!-- <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const ctxOmzet = document.getElementById('omzetChart').getContext('2d');
-        const dataOmzet = @json($dataOmzet);
-
-        new Chart(ctxOmzet, {
-            type: 'line',
-            data: {
-                labels: dataOmzet.labels,
-                datasets: [{
-                    label: 'Jumlah Unit Usaha',
-                    data: dataOmzet.values,
-                    backgroundColor: [
-                        '#ffc107', // Kuning (Mikro)
-                        '#0d6efd', // Biru (Kecil)
-                        '#198754'  // Hijau (Menengah)
-                    ],
-                    borderWidth: 1,
-                    borderRadius: 10
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                onClick: function(evt, elements) {
-                    if (elements.length > 0) {
-                        const index = elements[0].index;
-                        const label = this.data.labels[index];
-                        
-                        // Mapping label ke parameter filter
-                        let skala = '';
-                        if(index === 0) skala = 'mikro';
-                        else if(index === 1) skala = 'kecil';
-                        else if(index === 2) skala = 'menengah';
-
-                        document.getElementById('skalaTitle2').innerText = "Data UMKM Omzet: " + label;
-                        document.getElementById('formSearch').classList.remove('d-none');
-                        
-                        // Panggil fungsi load filter (sesuaikan dengan route Anda)
-                        loadOmzetTable(`${filterOmzetUrl}?skala=${skala}`);
-                    }
-                },
-                plugins: {
-                    legend: { display: false },
-                    datalabels: {
-                        anchor: 'end',
-                        align: 'top',
-                        formatter: (val) => val.toLocaleString('id-ID'),
-                        font: { weight: 'bold' }
-                    }
-                },
-                scales: {
-                    y: { beginAtZero: true, grid: { display: true } },
-                    x: { grid: { display: false } }
-                }
-            }
-        });
-    });
-</script> -->

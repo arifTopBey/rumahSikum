@@ -4,7 +4,7 @@
     <div class="row ">
         <div class="col-md-4">
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="checkChecked" checked>
+                <input class="form-check-input" type="checkbox" value="" id="checkChecked" {{ $data->usahaProsesProduksi->bahan_baku_utama == 1 ? 'checked' : '' }}>
                 <label class="form-check-label fs-5" for="checkChecked">
                     Manual
                 </label>
@@ -15,7 +15,7 @@
         </div>
         <div class="col-md-4">
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="checkChecked" checked>
+                <input class="form-check-input" type="checkbox" value="" id="checkChecked"  {{ $data->usahaProsesProduksi->proses_produksi == 1 ? 'checked' : '' }}>
                 <label class="form-check-label fs-5" for="checkChecked">
                     Mekaknik
                 </label>
@@ -26,7 +26,7 @@
         </div>
         <div class="col-md-4">
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="checkChecked" checked>
+                <input class="form-check-input" type="checkbox" value="" id="checkChecked" {{ $data->usahaProsesProduksi->sistem_produksi == 1 ? 'checked' : '' }}>
                 <label class="form-check-label fs-5" for="checkChecked">
                     Digital
                 </label>
@@ -37,7 +37,7 @@
         </div>
         <div class="col-md-4">
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="checkChecked" checked>
+                <input class="form-check-input" type="checkbox" value="" id="checkChecked" {{ $data->usahaProsesProduksi->pengendalian_mutu == 1 ? 'checked' : '' }}>
                 <label class="form-check-label fs-5" for="checkChecked">
                    Artifical Intelegence
                 </label>

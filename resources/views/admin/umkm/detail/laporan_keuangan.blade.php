@@ -1,7 +1,7 @@
 <div class="col-md-10 mx-auto rounded-2 mt-2 px-2 py-2 border mb-3">
 
     <h5 class="fs-4 fw-bold">1101. Apakah memiliki laporan keuangan usaha per 31 Desember?</h5>
-    <p class="mt-3">Tidak</p>
+    <p class="mt-3">{{ $data->laporanKeuangan->status_pencatatan_keuangan === 1 ? 'Mempunyai' : 'Tidak Mempunyai' }}</p>
 
 
     <h5 class="fs-4 fw-bold mt-5 mb-2">1103. Pajak Penghasilan Badan</h5>

@@ -17,14 +17,14 @@
                     class="col-md-10 mx-auto shadow-lg border py-2 rounded-2 d-flex justify-content-between">
                     <div class="d-flex flex-column justify-content-center">
 
-                         @if( $data->laporanKeuangan->omzet_usaha <= 2000000)
+                         @if( $data->laporanKeuangan->omzet_usaha <= 2_000_000_000)
                             <div
                                 class="d-flex mb-3 px-3 py-2 bg-warning bg-opacity-10 border border-warning rounded-2">
                                 <p class="text-warning my-auto">Usaha Mikro</p>
                             </div>
 
 
-                        @elseif( $data->laporanKeuangan->omzet_usaha > 2000000 && $data->laporanKeuangan->omzet_usaha <= 15000000)
+                        @elseif( $data->laporanKeuangan->omzet_usaha > 2_000_000_000 && $data->laporanKeuangan->omzet_usaha <= 15_000_000_000)
                             <div class="d-flex mb-3 px-3 py-2 bg-primary bg-opacity-10 border border-primary rounded-2">
                                 <p class="text-primary my-auto">Usaha Kecil</p>
                             </div>
@@ -36,9 +36,13 @@
                             </div>
                         @endif
                        
+                         @php
+                                $telpon = $data->telpon;
+                                $maskedTelpon = substr($telpon, 0, 4) . str_repeat('*', strlen($telpon) - 4);
+                            @endphp
                         <div class="">
-                            <h5>HASANUDIN</h5>
-                            <p>0822******<</p>
+                            <h5>{{ $data->nama_lengkap_usaha }}</h5>
+                            <p>{{ $maskedTelpon }}</p>
                             <p>Sumber Data web</p>
                             <!-- <h5>{{ $data->nama_lengkap_usaha }}</h5>
                             <p>{{ $data->nama_lengkap_usaha }} {{ $data->telepon }}</p>
@@ -151,7 +155,7 @@
                                     <p class="text-muted">NIB</p>
                                 </div>
                                 <div class="col-md-9">
-                                    <p class="fw-bold">{{ $data->id_badan_usaha }}</p>
+                                    <p class="fw-bold">{{ $data->usahaKarakteristik->nomor_induk_berusaha?? 'Belum Ada' }}</p>
                                 </div>
                                 <div class="col-md-3">
                                     <p class="text-muted">Produk Utama</p>

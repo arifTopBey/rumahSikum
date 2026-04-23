@@ -6,7 +6,7 @@
                                 <p class="text-muted">301. Nama Pengusaha*</p>
                             </div>
                             <div class="col-md-8">
-                                <p class="fw-bold">HASANUDIN</p>
+                                <p class="fw-bold">{{ $data->identitasPengusaha->nama_pengusaha }}</p>
                             </div>
                             <div class="col-md-4">
                                 <p class="text-muted">302.A Jenis Kelamin</p>
@@ -30,19 +30,25 @@
                                 <p class="text-muted">304. Status Pengusaha* </p>
                             </div>
                             <div class="col-md-8">
-                                <p class="fw-bold">Pemilik dan Pengelola</p>
+                                <p class="fw-bold">
+                                   {{ $data->identitasPengusaha->status_pengusaha === 1 ? 'Pemilik' : 'Pemilik dan Penanggung Jawab' }}
+                                </p>
                             </div>
                             <div class="col-md-4" >
                                 <p class="text-muted">305. NIK Pengusaha* </p>
                             </div>
+                            @php
+                                $nik = $data->identitasPengusaha->nik_pengusaha;
+                                $masked = substr($nik, 0, 4) . str_repeat('*', strlen($nik) - 4);
+                            @endphp
                             <div class="col-md-8">
-                                <p class="fw-bold">3603**************</p>
+                                <p class="fw-bold">{{ $masked }}</p>
                             </div>
                             <div class="col-md-4" >
                                 <p class="text-muted">306. NPWP Pengusaha* </p>
                             </div>
                             <div class="col-md-8">
-                                <p class="fw-bold">-</p>
+                                <p class="fw-bold">{{ $data->npwp_usaha }}</p>
                             </div>
                         </div>
                     </div>
@@ -54,49 +60,55 @@
                                 <p class="text-muted">308. Provisi</p>
                             </div>
                             <div class="col-md-8">
-                                <p class="fw-bold">BANTEN</p>
+                                <p class="fw-bold">{{ $data->provinsi }}</p>
                             </div>
                             <div class="col-md-4">
                                 <p class="text-muted">Kabupaten/Kota</p>
                             </div>
                             <div class="col-md-8">
-                                <p class="fw-bold">KAB. TANGERANG</p>
+                                <p class="fw-bold">{{ $data->kabupaten }}</p>
                             </div>
                             <div class="col-md-4">
                                 <p class="text-muted">Kecamatan</p>
                             </div>
                             <div class="col-md-8">
-                                <p class="fw-bold">SOLEAAR</p>
+                                <p class="fw-bold">{{ $data->kecamatan }}</p>
                             </div>
                             <div class="col-md-4">
                                 <p class="text-muted">Desa/Kelurahan</p>
                             </div>
                             <div class="col-md-8">
-                                <p class="fw-bold">CIKAREO</p>
+                                <p class="fw-bold">{{ $data->kelurahan }}</p>
                             </div>
                             <div class="col-md-4">
                                 <p class="text-muted">Jalan/Kawasan Nomor</p>
                             </div>
                             <div class="col-md-8">
-                                <p class="fw-bold">Kp. Cirahong</p>
+                                <p class="fw-bold">{{ $data->alamat_lengkap }}</p>
                             </div>
+                              @php
+                                    preg_match('/RT[^0-9]*([0-9]+)/i', $data->alamat_lengkap, $matches);
+                                    $rt = $matches[1] ?? '-';
+                                    preg_match('/RW[^0-9]*([0-9]+)/i', $data->alamat_lengkap, $rwMatch);
+                                    $data->rw = $rwMatch[1] ?? null;
+                             @endphp
                             <div class="col-md-4">
                                 <p class="text-muted">RT</p>
                             </div>
                             <div class="col-md-8">
-                                <p class="fw-bold">17</p>
+                                <p class="fw-bold">{{ $rt }}</p>
                             </div>
                             <div class="col-md-4">
                                 <p class="text-muted">RW</p>
                             </div>
                             <div class="col-md-8">
-                                <p class="fw-bold">4</p>
+                                <p class="fw-bold">{{ $data->rw }}</p>
                             </div>
                             <div class="col-md-4">
                                 <p class="text-muted">Kode Pos</p>
                             </div>
                             <div class="col-md-8">
-                                <p class="fw-bold">15730</p>
+                                <p class="fw-bold">-</p>
                             </div>
     
                         </div>
@@ -115,19 +127,19 @@
                                 <p class="text-muted">309. Telpon/HP</p>
                             </div>
                             <div class="col-md-8">
-                                <p class="fw-bold ">0822******</p>
+                                <p class="fw-bold ">{{ $data->telpon }}</p>
                             </div>
                             <div class="col-md-4">
                                 <p class="text-muted">Whatsapp Aktif</p>
                             </div>
                             <div class="col-md-8">
-                                <p class="fw-bold ">0822******</p>
+                                <p class="fw-bold ">{{ $data->telpon }}</p>
                             </div>
                             <div class="col-md-4">
                                 <p class="text-muted">310. Tingkat Pendidikan Pengusaha*</p>
                             </div>
                             <div class="col-md-8">
-                                <p class="fw-bold">Tamat SMA / Sederajat</p>
+                                <p class="fw-bold"></p>
                             </div>
                             <div class="col-md-4">
                                 <p class="text-muted">311. Apakah Menjadi Anggota Koperasi*

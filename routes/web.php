@@ -5,6 +5,7 @@ use App\Exports\UmkmWilayahExport;
 use App\Http\Controllers\Admin\AcaraController;
 use App\Http\Controllers\Admin\BeritaController;
 use App\Http\Controllers\Admin\ElearningController;
+use App\Http\Controllers\Admin\ExportController;
 use App\Http\Controllers\Admin\KategoriAcaraController;
 use App\Http\Controllers\Admin\KategoriElearningController;
 use App\Http\Controllers\AuthController;
@@ -215,8 +216,9 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/admin/elearning/update/{id}', [ElearningController::class, 'update'])->name('admin.elearning.update');
     Route::delete('/admin/elearning/delete/{id}', [ElearningController::class, 'destroy'])->name('admin.elearning.delete');
 
-
-
+    // Route Download Excel
+    Route::get('/export-pertumbuhan-usaha', [ExportController::class, 'exportPertumbuhan'])->name('admin.export.pertumbuhan.usaha');   
+    Route::get('/export-usaha-berdasarkan-omset', [ExportController::class, 'exportBerdasarkanOmset'])->name('admin.export.usaha.berdasarkan.omset');
 
     Route::get('/export-skala/{skala}', [UMKMEksportController::class, 'exportBySkala'])->name('admin.export.skala');
     // Route::get('/export-wilayah/{kecamatan}', [UMKMEksportController::class, 'exportByWilayah'])->name('admin.export.wilayah');

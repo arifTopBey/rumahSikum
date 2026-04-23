@@ -56,9 +56,9 @@
             <div class="col-md-12">
                 <div class="d-flex justify-content-between py-2 ">
                     <h4 id="skalaTitle9" class="fw-bold text-primary mb-3"></h4>
-                    <!-- <a style="max-height: 40px;;" id="exportBtn" href="#" class="btn btn-success d-none px-2 mt-5">
+                    <a style="max-height: 40px;;" id="exportBtn" href="#" class="btn btn-success d-none px-2 mt-5">
                         Export Excel
-                    </a> -->
+                    </a>
                 </div>
 
                 <div id="tableContainer9" class="mt-4">
@@ -77,6 +77,7 @@
         // Daftarkan plugin datalabels jika Anda ingin angka di atas batang
 
         const filterUrlTemplate = "{{ route('admin.filter.pertumbuhan.usaha') }}";
+        const exportUrlTemplate = "{{ route('admin.export.pertumbuhan.usaha')}}";
 
         Chart.register(ChartDataLabels);
 
@@ -137,14 +138,17 @@
 
                         //  const btn = document.getElementById('btnExportNib');
                          const formSeach = document.getElementById('formSearch');
+                         const exportBtn = document.getElementById('exportBtn');
                         
                         formSeach.classList.remove('d-none');
+                        exportBtn.classList.remove('d-none');
                         // btn.classList.remove('d-none');
 
                         // btn.href = `/export-nib/${encodeURIComponent(label)}`;
                         // loadNIB(`/filter-nib?status=${label}`);
                         // btn.href =
                     // exportNibTemplate.replace(':status', encodeURIComponent(tahunMulai));
+                    exportBtn.href = `/export-pertumbuhan-usaha?tahun=${encodeURIComponent(tahunMulai)}`;
 
                     loadTable(`${filterUrlTemplate}?tahun=${encodeURIComponent(tahunMulai)}`);
 

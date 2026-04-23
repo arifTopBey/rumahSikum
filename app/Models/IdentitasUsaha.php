@@ -42,7 +42,18 @@ class IdentitasUsaha extends Model
     {
         return $this->hasOne(UsahaKarakteristik::class, 'id_badan_usaha', 'id_badan_usaha');
     }
+    public function identitasPengusaha()
+    {
+        return $this->hasOne(IdentitasPengusaha::class, 'id_badan_usaha', 'id_badan_usaha');
+    }
 
+    public function usahaProsesProduksi(){
+
+        return $this->hasOne(UsahaProsesProduksi::class, 'id_badan_usaha', 'id_badan_usaha');
+
+    }
+
+    
     public function scopeSearch($query, array $filters){
         $query->when($filters['search'] ?? false, function($query, $search){
             return  $query->where('nama_lengkap_usaha', 'like', '%' . $search . '%')

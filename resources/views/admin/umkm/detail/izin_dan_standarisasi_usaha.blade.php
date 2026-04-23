@@ -17,7 +17,7 @@
                 <td class="text-start">
                     <div class="col-md-4">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" checked>
+                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" readonly>
                             <label class="form-check-label fs-5" for="checkChecked">
                                 Lainnya
                             </label>
@@ -34,7 +34,7 @@
                 <td class="text-start">
                     <div class="col-md-4">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" checked>
+                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" readonly {{ $data->usahaPerizinan->memiliki_pirt == 1 ? 'checked' : '' }}>
                             <label class="form-check-label fs-5" for="checkChecked">
                                 Pangan Industri Rumah Tangga (PIRT)
                             </label>
@@ -46,7 +46,7 @@
                 <td class="text-start">
                     <div class="col-md-4">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" checked>
+                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" readonly {{ $data->usahaPerizinan->memiliki_bpom == 1 ? 'checked' : '' }}>
                             <label class="form-check-label fs-5" for="checkChecked">
                                 MD / BPOM
                             </label>
@@ -58,7 +58,7 @@
                 <td class="text-start">
                     <div class="col-md-4">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" checked>
+                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" readonly>
                             <label class="form-check-label fs-5" for="checkChecked">
                                 Izin Mendirikan Bangunan
                             </label>
@@ -70,7 +70,7 @@
                 <td class="text-start">
                     <div class="col-md-4">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" checked>
+                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" readonly>
                             <label class="form-check-label fs-5" for="checkChecked">
                                 Izin Lokasi
                             </label>
@@ -82,7 +82,7 @@
                 <td class="text-start">
                     <div class="col-md-4">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" checked>
+                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" readonly>
                             <label class="form-check-label fs-5" for="checkChecked">
                                 Izin Gangguan ( UUG/HO)
                             </label>
@@ -94,7 +94,7 @@
                 <td class="text-start">
                     <div class="col-md-4">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" checked>
+                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" readonly>
                             <label class="form-check-label fs-5" for="checkChecked">
                                 Izin Daftar Perusahaan
                             </label>
@@ -106,7 +106,7 @@
                 <td class="text-start">
                     <div class="col-md-4">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" checked>
+                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" readonly>
                             <label class="form-check-label fs-5" for="checkChecked">
                                 Jasa Keuangan
                             </label>
@@ -118,7 +118,7 @@
                 <td class="text-start">
                     <div class="col-md-4">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" checked>
+                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" readonly>
                             <label class="form-check-label fs-5" for="checkChecked">
                                 Kordinat (Untuk Usaha Perikanan)
                             </label>
@@ -130,7 +130,7 @@
                 <td class="text-start">
                     <div class="col-md-4">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" checked>
+                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" readonly {{ $data->usahaPerizinan->memiliki_tdp == 1 ? 'checked' : '' }}>
                             <label class="form-check-label fs-5" for="checkChecked">
                                 Tanda Daftar Perusahaan (TDP)
                             </label>
@@ -142,7 +142,7 @@
                 <td class="text-start">
                     <div class="col-md-4">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" checked>
+                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" readonly>
                             <label class="form-check-label fs-5" for="checkChecked">
                                 Lingkungan Hidup dan Kehutanan
                             </label>
@@ -154,7 +154,7 @@
                 <td class="text-start">
                     <div class="col-md-4">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" checked>
+                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" readonly>
                             <label class="form-check-label fs-5" for="checkChecked">
                                 Energi Sumber Daya Mineral
                             </label>
@@ -166,7 +166,7 @@
                 <td class="text-start">
                     <div class="col-md-4">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" checked>
+                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" readonly>
                             <label class="form-check-label fs-5" for="checkChecked">
                                 Ketenagakerjaan
                             </label>
@@ -178,7 +178,7 @@
                 <td class="text-start">
                     <div class="col-md-4">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" checked>
+                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" readonly>
                             <label class="form-check-label fs-5" for="checkChecked">
                                 Simpan Pinjam
                             </label>
@@ -190,7 +190,7 @@
                 <td class="text-start">
                     <div class="col-md-4">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" checked>
+                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" readonly>
                             <label class="form-check-label fs-5" for="checkChecked">
                                 Perindrustian
                             </label>
@@ -202,7 +202,7 @@
                 <td class="text-start">
                     <div class="col-md-4">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" checked>
+                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" readonly>
                             <label class="form-check-label fs-5" for="checkChecked">
                                 Pekerjaan Umum dan Perumahan Rakyat
                             </label>
@@ -214,7 +214,7 @@
                 <td class="text-start">
                     <div class="col-md-4">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" checked>
+                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" readonly>
                             <label class="form-check-label fs-5" for="checkChecked">
                                 Transportasi
                             </label>
@@ -227,7 +227,7 @@
                 <td class="text-start">
                     <div class="col-md-4">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" checked>
+                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" readonly>
                             <label class="form-check-label fs-5" for="checkChecked">
                                 Kesehatan, Obat, dan Makanan
                             </label>
@@ -243,7 +243,7 @@
                 <td class="text-start">
                     <div class="col-md-4">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" checked>
+                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" readonly>
                             <label class="form-check-label fs-5" for="checkChecked">
                                
                             </label>
@@ -274,7 +274,7 @@
                 <td class="text-start">
                     <div class="col-md-4">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" checked>
+                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" readonly>
                             <label class="form-check-label fs-5" for="checkChecked">
                                 Standarisasi Nasional Indonesia (SNI)
                             </label>
@@ -288,7 +288,7 @@
                 <td class="text-start">
                     <div class="col-md-4">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" checked>
+                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" readonly {{ $data->usahaPerizinan->memiliki_sertifikat_halal == 1 ? 'checked' : '' }}>
                             <label class="form-check-label fs-5" for="checkChecked">
                                 Halal
                             </label>
@@ -301,7 +301,7 @@
                 <td class="text-start">
                     <div class="col-md-4">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" checked>
+                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" readonly>
                             <label class="form-check-label fs-5" for="checkChecked">
                                 Nutrition Fact/Uji Produk
                             </label>
@@ -314,7 +314,7 @@
                 <td class="text-start">
                     <div class="col-md-4">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" checked>
+                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" readonly>
                             <label class="form-check-label fs-5" for="checkChecked">
                                 HACCP(Hazard Analisis Critical Crontrol Point)
                             </label>
@@ -327,7 +327,7 @@
                 <td class="text-start">
                     <div class="col-md-4">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" checked>
+                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" readonly>
                             <label class="form-check-label fs-5" for="checkChecked">
                                  Merek
                             </label>
@@ -340,7 +340,7 @@
                 <td class="text-start">
                     <div class="col-md-4">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" checked>
+                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" readonly>
                             <label class="form-check-label fs-5" for="checkChecked">
                                 Mitigasi Kebencanaan
                             </label>
@@ -353,7 +353,7 @@
                 <td class="text-start">
                     <div class="col-md-4">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" checked>
+                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" readonly>
                             <label class="form-check-label fs-5" for="checkChecked">
                                 ISO-9001:2015 (Standart Manajement Mutu)
                             </label>
@@ -366,7 +366,7 @@
                 <td class="text-start">
                     <div class="col-md-4">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" checked>
+                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" readonly>
                             <label class="form-check-label fs-5" for="checkChecked">
                                 ISO-22000:2018 (Std. Mananjement Keamanan Pangan)
                             </label>
@@ -379,7 +379,7 @@
                 <td class="text-start">
                     <div class="col-md-4">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" checked>
+                            <input class="form-check-input" type="checkbox" value="" id="checkChecked" readonly>
                             <label class="form-check-label fs-5" for="checkChecked">
                                 ISO-14001:2015 (Sistem Manajemen Linkungan)
                             </label>
