@@ -53,7 +53,11 @@ class IdentitasUsaha extends Model
 
     }
 
-    
+    public function skalaUsaha(){
+        return $this->hasOne(SkalaUsaha::class, 'id_badan_usaha', 'id_badan_usaha');
+    }
+
+
     public function scopeSearch($query, array $filters){
         $query->when($filters['search'] ?? false, function($query, $search){
             return  $query->where('nama_lengkap_usaha', 'like', '%' . $search . '%')

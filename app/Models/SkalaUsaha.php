@@ -4,31 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class LaporanKeuangan extends Model
+class SkalaUsaha extends Model
 {
-    protected $table = 'usaha_laporan_keuangan'; // Gunakan block 1 sebagai tabel dasar
+    
+    protected $table = 'skala_usaha'; 
     protected $primaryKey = 'id_badan_usaha';
     public $incrementing = false;
     protected $keyType = 'int';
     public $timestamps = false;
 
-    public function identitasUsaha()
-    {
+    public function identitasUsaha(){
         return $this->belongsTo(IdentitasUsaha::class, 'id_badan_usaha', 'id_badan_usaha');
-    }
-
-    public function usahaKarakteristik()
-    {
-        return $this->hasOne(UsahaKarakteristik::class, 'id_badan_usaha', 'id_badan_usaha');
-    }
-
-    public function identitasPengusaha()
-    {
-        return $this->hasOne(IdentitasPengusaha::class, 'id_badan_usaha', 'id_badan_usaha');
-    }
-
-    public function produksiDanPemasaran(){
-        return $this->hasOne(ProduksiDanPemasaran::class, 'id_badan_usaha', 'id_badan_usaha');
     }
 
      public function scopeSearch($query, array $filters){

@@ -6,6 +6,7 @@ use App\Interface\UmkmInterface;
 use App\Models\IdentitasUsaha;
 use App\Models\LaporanKeuangan;
 use App\Models\ProduksiDanPemasaran;
+use App\Models\SkalaUsaha;
 use App\Models\UsahaKarakteristik;
 use App\Models\UsahaPerizinan;
 use Illuminate\Http\Request;
@@ -367,19 +368,13 @@ class DataUMKMController extends Controller
             ->groupBy('kecamatan')
             ->orderByDesc('total')
             ->get();
-        // 2_000_000_000 15_000_000_000 50_000_000_000
-        // $totalMicro = LaporanKeuangan::whereHas('produksiDanPemasaran', function ($query) {
-        //         $query->where('produksi_sendiri', '<=', 2_000_000_000);
-        // })->count();
-        // $totalUsahaKecil = LaporanKeuangan::whereHas('produksiDanPemasaran', function ($query) {
-        //         $query->whereBetween('produksi_sendiri', [2_000_000_000, 15_000_000_000]);
-        // })->count();
-        // $totalUsahaMenengah = LaporanKeuangan::whereHas('produksiDanPemasaran', function ($query) {
-        //         $query->whereBetween('produksi_sendiri', [15_000_000_000, 50_000_000_000]);
-        // })->count();
-        $totalMicro = LaporanKeuangan::where('omzet_usaha', '<=', 2_000_000_000)->count();
-        $totalUsahaKecil = LaporanKeuangan::whereBetween('omzet_usaha', [2_000_000_000, 15_000_000_000])->count();
-        $totalUsahaMenengah = LaporanKeuangan::whereBetween('omzet_usaha', [15_000_000_000, 50_000_000_000])->count();
+        
+        // $totalMicro = LaporanKeuangan::where('omzet_usaha', '<=', 2_000_000_000)->count();
+        // $totalUsahaKecil = LaporanKeuangan::whereBetween('omzet_usaha', [2_000_000_000, 15_000_000_000])->count();
+        // $totalUsahaMenengah = LaporanKeuangan::whereBetween('omzet_usaha', [15_000_000_000, 50_000_000_000])->count();
+        $totalMicro = SkalaUsaha::where('skala_usaha', 'mikro')->count();
+        $totalUsahaKecil = SkalaUsaha::where('skala_usaha', 'kecil')->count();
+        $totalUsahaMenengah = SkalaUsaha::where('skala_usaha', 'menengah')->count();
         // ================= batas point b identisas berdasarkan wilayah =====================
 
        
@@ -409,27 +404,23 @@ class DataUMKMController extends Controller
 
     public function filterSkala(Request $request){
 
-        $query = LaporanKeuangan::query();
+        // $query = LaporanKeuangan::query();
+        $query = SkalaUsaha::query();
 
         if ($request->skala == 'mikro') {
-            $query->where('omzet_usaha', '<=', 2_000_000_000);
-            // $query->whereHas('produksiDanPemasaran', function ($query) {
-            //     $query->where('produksi_sendiri', '<=', 2_000_000_000);
-            // });
+            // $query->where('omzet_usaha', '<=', 2_000_000_000);
+           $query->where('skala_usaha', 'mikro');
         }
 
         if ($request->skala == 'kecil') {
-            $query->whereBetween('omzet_usaha', [2_000_000_000, 15_000_000_000]);
-            //  $query->whereHas('produksiDanPemasaran', function ($query) {
-            //     $query->whereBetween('produksi_sendiri',  [2_000_000_001, 15_000_000_000]);
-            // });
+            // $query->whereBetween('omzet_usaha', [2_000_000_000, 15_000_000_000]);
+            $query->where('skala_usaha', 'kecil');
+
         }
 
         if ($request->skala == 'menengah') {
-            $query->whereBetween('omzet_usaha', [15_000_000_000, 50_000_000_000]);
-            //  $query->whereHas('produksiDanPemasaran', function ($query) {
-            //    $query->whereBetween('produksi_sendiri',  [15000000000, 50000000000]);
-            // });
+            // $query->whereBetween('omzet_usaha', [15_000_000_000, 50_000_000_000]);
+           $query->where('skala_usaha', 'menengah');
         }
 
         // $data = $query->paginate(10)->withQueryString();
