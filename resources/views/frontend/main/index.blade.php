@@ -121,7 +121,10 @@
         .bento-card:hover { transform: scale(1.02); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
         
         .bg-blue { background: #0d6efd; color: white; }
-        .bg-orange { background: #ff7e5f; color: white; }
+        .bg-orange { 
+        /* background: #ff7e5f; */
+        background: #a82282;
+         color: white; }
 
         /* Stats Section */
         .stat-box { border-left: 4px solid var(--primary-color); padding-left: 20px; }

@@ -434,7 +434,7 @@ class DataUMKMController extends Controller
     {
 
         
-        $query = LaporanKeuangan::with('identitasUsaha');
+        $query = SkalaUsaha::with('identitasUsaha');
 
         if ($request->kecamatan) {
             $query->whereHas('identitasUsaha', function ($q) use ($request) {
@@ -445,11 +445,11 @@ class DataUMKMController extends Controller
         // Filter Skala Usaha (dari Dropdown)
             if ($request->skala) {
                 if ($request->skala == 'mikro') {
-                    $query->where('omzet_usaha', '<=', 2000000);
+                    $query->where('skala_usaha', 'mikro');
                 } elseif ($request->skala == 'kecil') {
-                    $query->whereBetween('omzet_usaha', [2000001, 15000000]);
+                    $query->where('skala_usaha', 'kecil');
                 } elseif ($request->skala == 'menengah') {
-                    $query->whereBetween('omzet_usaha', [15000001, 50000000]);
+                    $query->where('skala_usaha', 'menengah');
                 }
             }
 
@@ -461,7 +461,7 @@ class DataUMKMController extends Controller
     {
 
         
-        $query = LaporanKeuangan::with('identitasUsaha');
+        $query = SkalaUsaha::with('identitasUsaha');
 
         if ($request->kelurahan) {
             $query->whereHas('identitasUsaha', function ($q) use ($request) {
@@ -472,11 +472,11 @@ class DataUMKMController extends Controller
          // Filter Skala Usaha (dari Dropdown)
             if ($request->skala) {
                 if ($request->skala == 'mikro') {
-                    $query->where('omzet_usaha', '<=', 2000000);
+                    $query->where('skala_usaha', 'mikro');
                 } elseif ($request->skala == 'kecil') {
-                    $query->whereBetween('omzet_usaha', [2000001, 15000000]);
+                    $query->where('skala_usaha', 'kecil');
                 } elseif ($request->skala == 'menengah') {
-                    $query->whereBetween('omzet_usaha', [15000001, 50000000]);
+                    $query->where('skala_usaha', 'menengah');
                 }
             }
 

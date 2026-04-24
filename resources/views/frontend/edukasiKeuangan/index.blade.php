@@ -108,11 +108,11 @@
                 </button>
             </div>
 
-            <div class="mt-4 p-4 rounded-4 bg-primary text-white text-center shadow-sm">
+            <!-- <div class="mt-4 p-4 rounded-4 bg-primary text-white text-center shadow-sm">
                 <h6 class="fw-bold">Butuh Pinjaman Modal?</h6>
                 <p class="smaller opacity-75">Cek program Kredit Usaha Rakyat (KUR) khusus UMKM Tangerang.</p>
                 <button class="btn btn-light btn-sm rounded-pill px-4 fw-bold">Info Selengkapnya</button>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>
