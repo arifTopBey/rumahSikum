@@ -24,12 +24,12 @@
                         </li>
                         <li>
                             <a class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2" href="{{ route('frontend.acara') }}">
-                                <i data-lucide="layout" size="16" class="text-muted"></i> Acara
+                                <i data-lucide="party-popper" size="16" class="text-muted"></i> Acara
                             </a>
                         </li>
                         <li>
                             <a class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2" href="{{ route('frontend.berita') }}">
-                                <i data-lucide="layout" size="16" class="text-muted"></i> Berita
+                                <i data-lucide="newspaper" size="16" class="text-muted"></i> Berita
                             </a>
                         </li>
                         <li>
@@ -82,7 +82,7 @@
                         @if (auth()->check())
                         <!-- data-lucide="layout-dashboard" -->
                         <li>
-                            <a class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2" href="{{ route('frontend.profile.index') }}">
+                            <a class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2" href="{{ route('admin.sebaran.data.umkm') }}">
                                 <i data-lucide="layout-dashboard" size="16" class="text-muted"></i> Dashboard
                             </a>
                         </li>

@@ -26,7 +26,7 @@
             </ul>
 
             <div class="tab-content">
-                <div class="order-card shadow-sm">
+                <!-- <div class="order-card shadow-sm">
                     <div class="order-header">
                         <div class="d-flex align-items-center gap-3">
                             <i data-lucide="shopping-bag" class="text-primary"></i>
@@ -87,7 +87,7 @@
                     </div>
                 </div>
 
-                </div>
+                </div> -->
         </div>
     </div>
 </div>

@@ -42,7 +42,6 @@ use Maatwebsite\Excel\Facades\Excel;
 Route::get('/list-panel', [FrontendController::class, 'listPanel'])->name('frontend.list.panel');
 Route::get('/e-learning', [FrontendController::class, 'eLearning'])->name('frontend.e-learning');
 Route::get('/e-learning/detail/{id}', [FrontendController::class, 'detailElearning'])->name('frontend.e-learning.detail');
-
 Route::get('/e-commerce', [FrontendController::class, 'eCommerce'])->name('frontend.eCommerce');
 Route::get('/e-commerce/produk', [FrontendController::class, 'eCommerceDetail'])->name('frontend.eCommerce.detail');
 Route::get('/koperasi', [FrontendController::class, 'koperasi'])->name('frontend.koperasi');
@@ -51,7 +50,26 @@ Route::get('/acara', [FrontendController::class, 'acara'])->name('frontend.acara
 Route::get('/acara/detail-acara/{id}', [FrontendController::class, 'detailAcara'])->name('frontend.acara.detail');
 Route::get('/toko', [FrontendController::class, 'toko'])->name('frontend.toko');
 Route::get('/', [FrontendController::class, 'index'])->name('frontend.index');
+Route::get('/pelatihan', [FrontendController::class, 'pelatihan'])->name('frontend.pelatihan');
+Route::get('/pelatihan/detail-pelatihan', [FrontendController::class, 'detailPelatihan'])->name('frontend.pelatihan.detail');
+Route::get('/informasi-bpom', [FrontendController::class, 'informasiBPOM'])->name('frontend.informasi.bpom');
+Route::get('edukasi-keuangan', [FrontendController::class, 'edukasiKeuangan'])->name('frontend.edukasi.keuangan');
+Route::get('edukasi-keuangan/detail-edukasi', [FrontendController::class, 'detailEdukasiKeuangan'])->name('frontend.edukasi.keuangan.detail');    
+Route::get('/pelatihan/daftar-pelatihan', [FrontendController::class, 'daftarPelatihan'])->name('frontend.daftar.pelatihan');
+// nanti pake setelah login bisa akses halaman ini
+Route::get('/cart-list', [FrontendController::class, 'cartList'])->name('frontend.cart.list');
+    // nanti memakai id user untuk profile
+Route::get('/profile', [ProfileController::class, 'index'])->name('frontend.profile.index');
+    // nanti memakai id user untuk pesanan
+Route::get('/pesanan', [PesananController::class, 'index'])->name('frontend.pesanan.index');
 
+Route::get('/alamat-saya', [FrontendController::class, 'alamatSaya'])->name('frontend.alamat.saya');
+    // nanti pakai id user untuk checkout
+Route::get('/checkout', [FrontendController::class, 'checkout'])->name('frontend.checkout'); 
+    // ulasan nanti pakai id 
+Route::get('/ulasan', [FrontendController::class, 'ulasan'])->name('frontend.ulasan');
+    // nanti memakai id transaksi untuk detail transaksi
+Route::get('/transaksi-detail', [FrontendController::class, 'transaksiDetail'])->name('frontend.transaksi.detail');
 
 Route::get('/berita', [FrontendController::class, 'berita'])->name('frontend.berita');
 Route::get('/berita/detail-berita/{id}', [FrontendController::class, 'detailBerita'])->name('frontend.berita.detail');
@@ -63,6 +81,7 @@ Route::get('/storage/private/elearning/mentor/{path}', [ElearningController::cla
 Route::get('/storage/private/{path}', [BeritaController::class, 'showFotoBerita'])->where('path', '.*')->name('showFoto.berita.private');
 Route::get('/storage/app/private/{path}', [ElearningController::class, 'showPdfElearning'])->where('path', '.*')->name('showPdf.elearning.private');
 
+
 Route::middleware(['guest'])->group(function () {
     
     Route::get('/login', [AuthController::class, 'index'])->name('login');
@@ -71,39 +90,7 @@ Route::middleware(['guest'])->group(function () {
     Route::get('/register', [AuthController::class, 'register'])->name('frontend.register');
     Route::post('/register', [AuthController::class, 'store'])->name('frontend.register.store');
 
-    // nanti pake setelah login bisa akses halaman ini
-    Route::get('/cart-list', [FrontendController::class, 'cartList'])->name('frontend.cart.list');
-
-    // nanti memakai id user untuk profile
-    Route::get('/profile', [ProfileController::class, 'index'])->name('frontend.profile.index');
-
-    // nanti memakai id user untuk pesanan
-    Route::get('/pesanan', [PesananController::class, 'index'])->name('frontend.pesanan.index');
-
-    Route::get('/alamat-saya', [FrontendController::class, 'alamatSaya'])->name('frontend.alamat.saya');
-
-    // nanti pakai id user untuk checkout
-    Route::get('/checkout', [FrontendController::class, 'checkout'])->name('frontend.checkout');
     
-
-    // ulasan nanti pakai id 
-    Route::get('/ulasan', [FrontendController::class, 'ulasan'])->name('frontend.ulasan');
-
-    // nanti memakai id transaksi untuk detail transaksi
-    Route::get('/transaksi-detail', [FrontendController::class, 'transaksiDetail'])->name('frontend.transaksi.detail');
-
-   
-
-    Route::get('/pelatihan', [FrontendController::class, 'pelatihan'])->name('frontend.pelatihan');
-    Route::get('/pelatihan/detail-pelatihan', [FrontendController::class, 'detailPelatihan'])->name('frontend.pelatihan.detail');
-
-    Route::get('/informasi-bpom', [FrontendController::class, 'informasiBPOM'])->name('frontend.informasi.bpom');
-
-    Route::get('edukasi-keuangan', [FrontendController::class, 'edukasiKeuangan'])->name('frontend.edukasi.keuangan');
-    Route::get('edukasi-keuangan/detail-edukasi', [FrontendController::class, 'detailEdukasiKeuangan'])->name('frontend.edukasi.keuangan.detail');
-
-    
-    Route::get('/pelatihan/daftar-pelatihan', [FrontendController::class, 'daftarPelatihan'])->name('frontend.daftar.pelatihan');
     
     
     
