@@ -8,7 +8,7 @@
         <div class="col-lg-3">
             <div class="account-nav shadow-sm">
                 <div class="text-center mb-4">
-                    <h6 class="fw-800 mb-0">Halo, Budi Santoso!</h6>
+                    <h6 class="fw-800 mb-0">Halo, {{ auth()->user()->name }}</h6>
                     <p class="small text-muted">Member sejak 2024</p>
                 </div>
                 <nav>
@@ -35,7 +35,8 @@
                 <form action="#" method="POST">
                     @csrf
                     <div class="avatar-upload">
-                        <img src="https://i.pravatar.cc/300?u=budi" class="avatar-preview" id="preview">
+                        <!-- <img src="https://i.pravatar.cc/300?u=budi" class="avatar-preview" id="preview"> -->
+                        <img src="{{ asset('image/icon.png') }}" class="avatar-preview" id="preview">
                         <button type="button" class="btn-edit-avatar shadow-sm">
                             <i data-lucide="camera" size="16"></i>
                         </button>
@@ -44,22 +45,24 @@
                     <div class="row g-4">
                         <div class="col-md-6">
                             <label class="form-label-custom">Nama Lengkap</label>
-                            <input type="text" class="form-control form-control-custom" value="Budi Santoso">
+                            <input type="text" class="form-control form-control-custom" value="{{ auth()->user()->name }}">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label-custom">Email</label>
-                            <input type="email" class="form-control form-control-custom" value="budi.santoso@email.com">
+                            <input type="email" class="form-control form-control-custom" value="{{ auth()->user()->email }}">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label-custom">Nomor WhatsApp</label>
                             <div class="input-group">
                                 <span class="input-group-text border-0 bg-light rounded-start-3">62</span>
-                                <input type="number" class="form-control form-control-custom rounded-start-0" value="8123456789">
+                                <input type="number" class="form-control form-control-custom rounded-start-0" value="" placeholder="-">
+                                <!-- <input type="number" class="form-control form-control-custom rounded-start-0" value="8123456789"> -->
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label-custom">Tanggal Lahir</label>
-                            <input type="date" class="form-control form-control-custom">
+                            <!-- <label class="form-label-custom">Tanggal Lahir</label> -->
+                            <label class="form-label-custom">Tanggal Akun Dibuat</label>
+                            <input type="date" class="form-control form-control-custom" value="{{ auth()->user()->created_at }}">
                         </div>
                         <div class="col-12 mt-5">
                             <hr class="opacity-50">
