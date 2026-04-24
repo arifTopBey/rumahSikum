@@ -18,20 +18,20 @@
                     <tr>
                         <td class="text-center"><a href="{{ route('admin.umkm.detail', $umkm->id_badan_usaha) }}" class="fs-3 text-dark text-decoration-none">:</a></td>
                         <td class="">{{ $loop->iteration }}</td>
-                        <td class="">{{ $umkm->nama_lengkap_usaha }}</td>
+                        <td class="">{{ $umkm->identitasUsaha->nama_lengkap_usaha }}</td>
 
                         <td class="text-center">
-                            @if ($umkm->omzet_usaha <= 2000000)
+                            @if ($umkm->skalaUsaha->skala_usaha === 'mikro')
                                 <div
                                     class="d-flex mb-3 px-3 py-2 bg-warning bg-opacity-10 border border-warning rounded-2">
                                     <p class="text-warning my-auto">Usaha Mikro</p>
                                 </div>
-                            @elseif($umkm->omzet_usaha > 2000000 && $umkm->omzet_usaha <= 15000000)
+                            @elseif($umkm->skalaUsaha->skala_usaha === 'kecil')
                                 <div
                                     class="d-flex mb-3 px-3 py-2 bg-primary bg-opacity-10 border border-primary rounded-2">
                                     <p class="text-primary my-auto">Usaha Kecil</p>
                                 </div>
-                            @elseif ($umkm->omzet_usaha > 15000000)
+                            @elseif ($umkm->skalaUsaha->skala_usaha === 'menengah')
                                 <div
                                     class="d-flex mb-3 px-3 py-2 bg-danger bg-opacity-10 border border-danger rounded-2">
                                     <p class="text-danger my-auto">Usaha Menengah</p>
@@ -40,11 +40,11 @@
                         </td>
 
                         <td class="text-center">
-                            {{ preg_replace('/^[0-9.]+\s+/', '', $umkm->provinsi ?? '') }}</td>
+                            {{ preg_replace('/^[0-9.]+\s+/', '',  $umkm->identitasUsaha->provinsi  ?? '') }}</td>
                         <td class="text-center">
-                            {{ preg_replace('/^[0-9.]+\s+/', '', $umkm->kabupaten ?? '') }}</td>
+                            {{ preg_replace('/^[0-9.]+\s+/', '', $umkm->identitasUsaha->kabupaten ?? '') }}</td>
                         <td class="text-center">
-                            {{ preg_replace('/^[0-9.]+\s+/', '', $umkm->kecamatan ?? '') }}</td>
+                            {{ preg_replace('/^[0-9.]+\s+/', '', $umkm->identitasUsaha->kecamatan ?? '') }}</td>
                         <td class="text-center">
                             {{ $umkm->tahun_mulai_operasi }}
                         </td>

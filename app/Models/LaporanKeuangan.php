@@ -31,6 +31,12 @@ class LaporanKeuangan extends Model
         return $this->hasOne(ProduksiDanPemasaran::class, 'id_badan_usaha', 'id_badan_usaha');
     }
 
+    public function skalaUsaha(){
+
+       return $this->hasOne(SkalaUsaha::class, 'id_badan_usaha', 'id_badan_usaha');
+
+    }
+
      public function scopeSearch($query, array $filters){
         $query->when($filters['search'] ?? false, function($query, $search) {
             

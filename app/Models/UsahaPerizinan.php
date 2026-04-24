@@ -16,8 +16,10 @@ class UsahaPerizinan extends Model
     {
         return $this->belongsTo(IdentitasUsaha::class, 'id_badan_usaha', 'id_badan_usaha');
     }
-
     public function laporanKeuangan(){
          return $this->belongsTo(LaporanKeuangan::class, 'id_badan_usaha', 'id_badan_usaha');
+    }
+    public function skalaUsaha(){
+         return $this->belongsTo(SkalaUsaha::class, 'id_badan_usaha', 'id_badan_usaha');
     }
 }
