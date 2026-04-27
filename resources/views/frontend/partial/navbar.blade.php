@@ -74,12 +74,12 @@
                             </a>
                         </li>
                         @endif
+                        @if (auth()->check())
                         <li>
                             <a class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2" href="{{ route('frontend.pesanan.index') }}">
                                 <i data-lucide="package" size="16" class="text-muted"></i> Pesanan Saya
                             </a>
                         </li>
-                        @if (auth()->check())
                         <!-- data-lucide="layout-dashboard" -->
                         <li>
                             <a class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2" href="{{ route('admin.sebaran.data.umkm') }}">

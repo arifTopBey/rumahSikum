@@ -140,6 +140,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/filter-pertumbuhan-usaha', [DataUMKMController::class, 'filterPertumbuhanUsaha'])->name('admin.filter.pertumbuhan.usaha');
     Route::get('/filter-perizinan-usaha', [DataUMKMController::class, 'filterPerizinan'])->name('admin.filter.perizinan.usaha');
     Route::get('/filter-omzet-usaha', [DataUMKMController::class, 'filterOmzet'])->name('admin.filter.omzet.usaha');
+    Route::get('/filter-metode-pemasaran-usaha', [DataUMKMController::class, 'filterMetodeUsahaPemasaran'])->name('admin.filter.metode.pemasaran.usaha');
+    
     // filter data tabel umkm
 
     Route::get('/sebaran-data-umkm/kbli/{kategori}', [DataUMKMController::class, 'dataKbriKategori']);

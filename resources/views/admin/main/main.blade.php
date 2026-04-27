@@ -983,8 +983,11 @@
     <script>
         const exportNibTemplate = "{{ route('admin.export.nib', ['status' => ':status']) }}";
         const filterNibUrl = "{{ route('admin.filter.nib') }}";
+        const filterMetodePemasaranUsaha = "{{ route('admin.filter.metode.pemasaran.usaha') }}"
     </script>
 
+   
+    <!-- ===================== script berdasarkan nib ======================== -->
     <script>
         // Pastikan Plugin Datalabels terdaftar
         if (typeof ChartDataLabels !== 'undefined') {
@@ -994,7 +997,7 @@
         // --- 1. CHART KEPEMILIKAN NIB (PIE) ---
         const punyaNIB = @json($punyaNIB);
         const tidakPunyaNIB = @json($tidakPunyaNIB);
-        let nibData = '';
+        // let nibData = '';
         const ctxNib = document.getElementById('nibChart').getContext('2d');
         new Chart(ctxNib, {
             type: 'pie',
@@ -1012,22 +1015,22 @@
                 onClick: function(evt, elements) {
                     if (elements.length > 0) {
                         const index = elements[0].index;
-                        nibData = this.data.labels[index];
-                         document.getElementById('detailTitle88').innerText =
-                        "Data UMKM - NIB " + nibData;
 
-                         const btn = document.getElementById('btnExportNib');
-                         const formSeach = document.getElementById('formSearch');
-                        
-                        formSeach.classList.remove('d-none');
-                        btn.classList.remove('d-none');
+                        // nibData = this.data.labels[index];
+                        currentActiveLabel = this.data.labels[index];
+                        currentType = 'NIB'; // Set mode NIB
+
+                        document.getElementById('detailTitle88').innerText = "Data UMKM - NIB " + currentActiveLabel;
+                        document.getElementById('formSearch').classList.remove('d-none');
+                        document.getElementById('btnExportNib').classList.remove('d-none');
+                        performUniversalSearch();
 
                         // btn.href = `/export-nib/${encodeURIComponent(label)}`;
                         // loadNIB(`/filter-nib?status=${label}`);
-                        btn.href =
-                    exportNibTemplate.replace(':status', encodeURIComponent(nibData));
+                        //     btn.href =
+                        // exportNibTemplate.replace(':status', encodeURIComponent(nibData));
 
-                    loadNIB(`${filterNibUrl}?status=${encodeURIComponent(nibData)}`);
+                        // loadNIB(`${filterNibUrl}?status=${encodeURIComponent(nibData)}`);
 
                     }
                 },
@@ -1058,23 +1061,23 @@
 
         // --- 2. CHART METODE PEMASARAN (VERTICAL BAR) ---
         const pemasaranLabels = [
-                'Toko Sendiri',
-                'Titip Jual',
-                'Reseller',
-                'Distributor',
-                'Marketplace',
-                'Media Sosial',
+                'Digital',
+                'NonDigital',
+                'Perantara',
+                'Pemerintah Pusat',
+                'Provinsi',
+                'Kabupaten',
                 'Lainnya'
             ];
 
-    const pemasaranValues = [
-            {{ (int) $pemasaran->toko_sendiri }},
-            {{ (int) $pemasaran->titip_jual }},
-            {{ (int) $pemasaran->reseller }},
-            {{ (int) $pemasaran->distributor }},
-            {{ (int) $pemasaran->marketplace }},
-            {{ (int) $pemasaran->media_sosial }},
-            {{ (int) $pemasaran->lainnya }}
+   const pemasaranValues = [
+            {{ $pemasaran['toko_sendiri'] }},
+            {{ $pemasaran['titip_jual'] }},
+            {{ $pemasaran['reseller'] }},
+            {{ $pemasaran['distributor'] }},
+            {{ $pemasaran['marketplace'] }},
+            {{ $pemasaran['media_sosial'] }},
+            {{ $pemasaran['lainnya'] }}
         ];
 
         const ctxPemasaran = document.getElementById('pemasaranChart').getContext('2d');
@@ -1092,6 +1095,28 @@
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                  onClick: function(evt, elements) {
+                    if (elements.length > 0) {
+                        const index = elements[0].index;
+
+                        // nibData = this.data.labels[index];
+                        currentActiveLabel = this.data.labels[index];
+                        currentType = 'PEMASARAN_USAHA'; // Set mode NIB
+
+                        document.getElementById('detailTitle88').innerText = "Data Pemasaran Usaha " + currentActiveLabel;
+                        document.getElementById('formSearch').classList.remove('d-none');
+                        document.getElementById('btnExportNib').classList.remove('d-none');
+                        performUniversalSearch();
+
+                        // btn.href = `/export-nib/${encodeURIComponent(label)}`;
+                        // loadNIB(`/filter-nib?status=${label}`);
+                        //     btn.href =
+                        // exportNibTemplate.replace(':status', encodeURIComponent(nibData));
+
+                        // loadNIB(`${filterNibUrl}?status=${encodeURIComponent(nibData)}`);
+
+                    }
+                },
                 layout: {
                     padding: {
                         top: 30   // kasih ruang di atas
@@ -1143,36 +1168,36 @@
         });
     
      // --- LOGIKA PENCARIAN AJAX ---
-        document.getElementById('btnDoSearch').addEventListener('click', function() {
-            performSearch();
-        });
-        // Support tekan "Enter" di input search
-        document.getElementById('searchInputWilayah').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                performSearch();
-            }
-        });
-          document.getElementById('filterSkala').addEventListener('change', function() {
-             performSearch();
-        });
+        // document.getElementById('btnDoSearch').addEventListener('click', function() {
+        //     performSearch();
+        // });
+        // // Support tekan "Enter" di input search
+        // document.getElementById('searchInputWilayah').addEventListener('keypress', function (e) {
+        //     if (e.key === 'Enter') {
+        //         performSearch();
+        //     }
+        // });
+        //   document.getElementById('filterSkala').addEventListener('change', function() {
+        //      performSearch();
+        // });
 
-        function performSearch() {
-            const searchValue = document.getElementById('searchInputWilayah').value;
-            const skalaValue = document.getElementById('filterSkala').value; // Ambil nilai dropdown
+        // function performSearch() {
+        //     const searchValue = document.getElementById('searchInputWilayah').value;
+        //     const skalaValue = document.getElementById('filterSkala').value; // Ambil nilai dropdown
 
-            // Panggil loadWilayah dengan kecamatan + kata kunci search
-            // const url = `${filterNibUrl}?status=${encodeURIComponent(nibData)}&search=${encodeURIComponent(searchValue)}`;
-            const url = `${filterNibUrl}?status=${encodeURIComponent(nibData)}&search=${encodeURIComponent(searchValue)}&skala=${skalaValue}`;
-            // console.log(url)
+        //     // Panggil loadWilayah dengan kecamatan + kata kunci search
+        //     // const url = `${filterNibUrl}?status=${encodeURIComponent(nibData)}&search=${encodeURIComponent(searchValue)}`;
+        //     const url = `${filterNibUrl}?status=${encodeURIComponent(nibData)}&search=${encodeURIComponent(searchValue)}&skala=${skalaValue}`;
+        //     // console.log(url)
 
-            loadNIB(url);
-        }
+        //     loadNIB(url);
+        // }
 
-        document.getElementById('btnResetSearch').addEventListener('click', function() {
-            document.getElementById('searchInputWilayah').value = '';
-            document.getElementById('filterSkala').value = '';
-            loadNIB(`${filterNibUrl}?status=${encodeURIComponent(nibData)}`);
-        });
+        // document.getElementById('btnResetSearch').addEventListener('click', function() {
+        //     document.getElementById('searchInputWilayah').value = '';
+        //     document.getElementById('filterSkala').value = '';
+        //     loadNIB(`${filterNibUrl}?status=${encodeURIComponent(nibData)}`);
+        // });
 
     </script>
 
@@ -1187,7 +1212,8 @@
         const filterLaborUrl = "{{ route('admin.filter.tenaga.kerja') }}";
     </script>
 
-<!-- gender pengusaha -->
+    
+    <!-- ===================== script berdasarkan gender ======================== -->
     <script>
 
         let dataGender = '';
@@ -1198,24 +1224,22 @@
             onClick: function(evt, elements) {
                 if (elements.length > 0) {
                     const index = elements[0].index;
-                    dataGender = this.data.labels[index];
-                        document.getElementById('detailTitle88').innerText =
-                    "Data Pengusaha - " + dataGender;
+                    // dataGender = this.data.labels[index];
+                    currentActiveLabel = this.data.labels[index];
+                    currentType = 'GENDER'; // Set mode GENDER
+                    document.getElementById('detailTitle88').innerText = "Data Pengusaha - " + currentActiveLabel;
                     
-                    // Tampilkan tombol
-                    const btn = document.getElementById('btnExportNib');
-                    const formSeach = document.getElementById('formSearch');
-                        
-                    formSeach.classList.remove('d-none');
-
-                    btn.classList.remove('d-none');
+                    document.getElementById('formSearch').classList.remove('d-none');
+                    document.getElementById('btnExportNib').classList.remove('d-none');
 
                     // Set link export sesuai yang diklik
                     // btn.href = `/export-gender/${label}`;
-                    btn.href = exportGenderTemplate.replace(':gender', encodeURIComponent(dataGender));
+                    // btn.href = exportGenderTemplate.replace(':gender', encodeURIComponent(dataGender));
 
                     // loadGender(`/filter-gender?gender=${label}` );
-                    loadGender(`${filterGenderUrl}?gender=${encodeURIComponent(dataGender)}`);}
+                    // loadGender(`${filterGenderUrl}?gender=${encodeURIComponent(dataGender)}`);
+                    performUniversalSearch();
+                }
             },
             cutout: '70%',
             plugins: {
@@ -1229,47 +1253,49 @@
         };
 
         // --- LOGIKA PENCARIAN AJAX ---
-        document.getElementById('btnDoSearch').addEventListener('click', function() {
-            performSearchGender();
-        });
-        // Support tekan "Enter" di input search
-        document.getElementById('searchInputWilayah').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                performSearchGender();
-            }
-        });
+        // document.getElementById('btnDoSearch').addEventListener('click', function() {
+        //     performSearchGender();
+        // });
+        // // Support tekan "Enter" di input search
+        // document.getElementById('searchInputWilayah').addEventListener('keypress', function (e) {
+        //     if (e.key === 'Enter') {
+        //         performSearchGender();
+        //     }
+        // });
 
-        document.getElementById('filterSkala').addEventListener('change', function() {
-             performSearchGender();
-            // console.log('test');
-            // console.log(performSearchGender);
+        // document.getElementById('filterSkala').addEventListener('change', function() {
+        //      performSearchGender();
+        //     // console.log('test');
+        //     // console.log(performSearchGender);
 
-        });
+        // });
 
 
-        function performSearchGender() {
-            const searchValue = document.getElementById('searchInputWilayah').value;
-            const skalaValue = document.getElementById('filterSkala').value; // Ambil nilai dropdown
+        // function performSearchGender() {
+        //     const searchValue = document.getElementById('searchInputWilayah').value;
+        //     const skalaValue = document.getElementById('filterSkala').value; // Ambil nilai dropdown
 
-            console.log(skalaValue);
+        //     console.log(skalaValue);
 
-            // Panggil loadWilayah dengan kecamatan + kata kunci search
-            const url = `${filterGenderUrl}?gender=${encodeURIComponent(dataGender)}&search=${encodeURIComponent(searchValue)}&skala=${skalaValue}`;
-            // console.log(url);
+        //     // Panggil loadWilayah dengan kecamatan + kata kunci search
+        //     const url = `${filterGenderUrl}?gender=${encodeURIComponent(dataGender)}&search=${encodeURIComponent(searchValue)}&skala=${skalaValue}`;
+        //     // console.log(url);
 
-            loadGender(url);
-        }
+        //     loadGender(url);
+        // }
 
         
 
-        document.getElementById('btnResetSearch').addEventListener('click', function() {
-            document.getElementById('searchInputWilayah').value = '';
-            document.getElementById('filterSkala').value = '';
+        // document.getElementById('btnResetSearch').addEventListener('click', function() {
+        //     document.getElementById('searchInputWilayah').value = '';
+        //     document.getElementById('filterSkala').value = '';
 
-            loadGender(`${filterGenderUrl}?gender=${encodeURIComponent(dataGender)}`);
-        });
+        //     loadGender(`${filterGenderUrl}?gender=${encodeURIComponent(dataGender)}`);
+        // });
 
         // batas data gender
+
+
 
         // --- 1. CHART JENIS KELAMIN pengusaha ---
         const lakiLaki = @json((int) $jenisKelamin->laki_laki);
@@ -1297,7 +1323,7 @@
                     {{ $tenagaKerja->tidak_dibayar ?? 0 }}
             ];
 
-        const totalLabor = {{ $totalTenagaKerja ?? 0 }};
+        // const totalLabor = {{ $totalTenagaKerja ?? 0 }};
         let dataLabor = "";
         const ctxLabor = document.getElementById('laborChart').getContext('2d');
         new Chart(ctxLabor, {
@@ -1316,23 +1342,22 @@
                 onClick: function(evt, elements) {
                     if (elements.length > 0) {
                         const index = elements[0].index;
-                        dataLabor = this.data.labels[index];
-                        document.getElementById('detailTitle88').innerText =
-                        "Data Tenaga Kerja - " + dataLabor;
+                        // dataLabor = this.data.labels[index];
+                        currentActiveLabel = this.data.labels[index];
+                        currentType = 'LABOR';
+                        document.getElementById('detailTitle88').innerText = "Data Tenaga Kerja - " + currentActiveLabel;
                         const btn = document.getElementById('btnExportNib');
                         const formSeach = document.getElementById('formSearch');
                         
                         formSeach.classList.remove('d-none');
                         btn.classList.remove('d-none');
 
-                        // Set link export sesuai yang diklik
-                        // btn.href = `/export-gender/${label}`;
-
                         // loadLabor(`/filter-tenaga-kerja?status=${label}`);
                         
                         //  btn.href =exportLaborTemplate.replace(':status', encodeURIComponent(label));
 
-                    loadLabor(`${filterLaborUrl}?status=${encodeURIComponent(dataLabor)}`);
+                        // loadLabor(`${filterLaborUrl}?status=${encodeURIComponent(dataLabor)}`);
+                        performUniversalSearch();
                     }
                 },
                 cutout: '70%',
@@ -1347,67 +1372,67 @@
             },
         });
  // --- LOGIKA PENCARIAN AJAX ---
-        document.getElementById('btnDoSearch').addEventListener('click', function() {
-            performSearch();
-        });
-        // Support tekan "Enter" di input search
-        document.getElementById('searchInputWilayah').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                performSearch();
-            }
-        });
+        // document.getElementById('btnDoSearch').addEventListener('click', function() {
+        //     performSearch();
+        // });
+        // // Support tekan "Enter" di input search
+        // document.getElementById('searchInputWilayah').addEventListener('keypress', function (e) {
+        //     if (e.key === 'Enter') {
+        //         performSearch();
+        //     }
+        // });
 
-        document.getElementById('filterSkala').addEventListener('change', function() {
-             performSearch();
-        });
+        // document.getElementById('filterSkala').addEventListener('change', function() {
+        //      performSearch();
+        // });
 
 
-        function performSearch() {
-            const searchValue = document.getElementById('searchInputWilayah').value;
-            // Panggil loadWilayah dengan kecamatan + kata kunci search
-            const url = `${filterLaborUrl}?status=${encodeURIComponent(dataLabor)}&search=${encodeURIComponent(searchValue)}`;
+        // function performSearch() {
+        //     const searchValue = document.getElementById('searchInputWilayah').value;
+        //     // Panggil loadWilayah dengan kecamatan + kata kunci search
+        //     const url = `${filterLaborUrl}?status=${encodeURIComponent(dataLabor)}&search=${encodeURIComponent(searchValue)}`;
             
-            loadLabor(url);
-        }
+        //     loadLabor(url);
+        // }
 
-        document.getElementById('btnResetSearch').addEventListener('click', function() {
-            document.getElementById('searchInputWilayah').value = '';
-            document.getElementById('filterSkala').value = '';
-            loadLabor(`${filterLaborUrl}?status=${encodeURIComponent(dataLabor)}`);
-        });
+        // document.getElementById('btnResetSearch').addEventListener('click', function() {
+        //     document.getElementById('searchInputWilayah').value = '';
+        //     document.getElementById('filterSkala').value = '';
+        //     loadLabor(`${filterLaborUrl}?status=${encodeURIComponent(dataLabor)}`);
+        // });
 
 
     </script>
 
     <script>
-        function loadNIB(url) {
+        // function loadNIB(url) {
 
 
 
-            fetch(url)
-                .then(response => response.text())
-                .then(html => {
-                    document.getElementById('tableContainer6').innerHTML = html;
-                });
-        }
+        //     fetch(url)
+        //         .then(response => response.text())
+        //         .then(html => {
+        //             document.getElementById('tableContainer6').innerHTML = html;
+        //         });
+        // }
 
-        function loadGender(url) {
+        // function loadGender(url) {
 
 
-            fetch(url)
-                .then(response => response.text())
-                .then(html => {
-                    document.getElementById('tableContainer6').innerHTML = html;
-                });
-            }
+        //     fetch(url)
+        //         .then(response => response.text())
+        //         .then(html => {
+        //             document.getElementById('tableContainer6').innerHTML = html;
+        //         });
+        //     }
 
-        function loadLabor(url) {
-            fetch(url)
-                .then(response => response.text())
-                .then(html => {
-                    document.getElementById('tableContainer6').innerHTML = html;
-                });
-            }
+        // function loadLabor(url) {
+        //     fetch(url)
+        //         .then(response => response.text())
+        //         .then(html => {
+        //             document.getElementById('tableContainer6').innerHTML = html;
+        //         });
+        //     }
 
         document.addEventListener('click', function (e) {
             if (e.target.closest('#tableContainer6 .pagination a')) {
@@ -1424,6 +1449,54 @@
     });
     </script>
 
+    <script>
+        // 1. Variabel Global untuk melacak status aktif
+        let currentType = ''; // 'NIB', 'GENDER', atau 'LABOR'
+        let currentActiveLabel = '';
+
+        // 2. Fungsi Load Data Universal
+        function loadTableData(url) {
+            fetch(url)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('tableContainer6').innerHTML = html;
+                });
+        }
+
+        // 3. Fungsi Search & Filter Universal
+        function performUniversalSearch() {
+            const searchValue = document.getElementById('searchInputWilayah').value;
+            const skalaValue = document.getElementById('filterSkala').value;
+            
+            let url = "";
+
+            if (currentType === 'NIB') {
+                url = `${filterNibUrl}?status=${encodeURIComponent(currentActiveLabel)}&search=${encodeURIComponent(searchValue)}&skala=${skalaValue}`;
+            } else if (currentType === 'GENDER') {
+                url = `${filterGenderUrl}?gender=${encodeURIComponent(currentActiveLabel)}&search=${encodeURIComponent(searchValue)}&skala=${skalaValue}`;
+            } else if (currentType === 'PEMASARAN_USAHA') {
+                url = `${filterMetodePemasaranUsaha}?metode=${encodeURIComponent(currentActiveLabel)}&search=${encodeURIComponent(searchValue)}&skala=${skalaValue}`;
+            }
+
+            if (url !== "") loadTableData(url);
+        }
+
+        // 4. Update Event Listeners (Gunakan satu sumber)
+        document.getElementById('btnDoSearch').addEventListener('click', performUniversalSearch);
+        document.getElementById('filterSkala').addEventListener('change', performUniversalSearch);
+        document.getElementById('searchInputWilayah').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') performUniversalSearch();
+        });
+
+        document.getElementById('btnResetSearch').addEventListener('click', function() {
+        document.getElementById('searchInputWilayah').value = '';
+        document.getElementById('filterSkala').value = '';
+        performUniversalSearch(); // Jalankan ulang pencarian bersih
+    });
+
+    </script>
+
+    
     @else
 
     {{-- batas usaha lainnya --}}

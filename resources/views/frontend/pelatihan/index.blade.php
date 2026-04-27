@@ -20,7 +20,7 @@
             <button class="btn btn-light border rounded-pill px-4">Manajemen</button>
             <button class="btn btn-light border rounded-pill px-4">Legalitas</button>
         </div>
-        <div class="text-muted fw-bold">Menampilkan 12 Kelas Pelatihan</div>
+        <!-- <div class="text-muted fw-bold">Menampilkan 12 Kelas Pelatihan</div> -->
     </div>
 
     <div class="row g-4">

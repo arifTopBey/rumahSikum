@@ -400,8 +400,13 @@ class DataUMKMController extends Controller
     }
 
 
-    // ============== filter grafik =========================
+    /**
+      ============== filter grafik =========================
 
+      ============== di klick ==============================
+      */
+
+    // done di ubah
     public function filterSkala(Request $request){
 
         // $query = LaporanKeuangan::query();
@@ -430,6 +435,7 @@ class DataUMKMController extends Controller
         return view('admin.informasi_data_umkm.skala.index', compact('data'));
     }
 
+    // done diubah
     public function filterWilayah(Request $request)
     {
 
@@ -457,6 +463,8 @@ class DataUMKMController extends Controller
 
         return view('admin.informasi_data_umkm.wilayah.index', compact('data'));
     }
+
+    // done diubah
     public function filterWilayahDesa(Request $request)
     {
 
@@ -485,6 +493,7 @@ class DataUMKMController extends Controller
         return view('admin.informasi_data_umkm.wilayah.desa', compact('data'));
     }
 
+    // done diubah
     public function filterNIB(Request $request)
     {
         $query = SkalaUsaha::with('usahaKarakteristik', 'identitasUsaha');
@@ -517,6 +526,7 @@ class DataUMKMController extends Controller
         return view('admin.informasi_data_umkm.lainnya.index', compact('data'));
     }
 
+    // done diubah
     public function filterGender(Request $request)
     {
         $query = SkalaUsaha::with('identitasPengusaha', 'identitasUsaha');
@@ -559,6 +569,7 @@ class DataUMKMController extends Controller
         return view('admin.informasi_data_umkm.lainnya.gender', compact('data'));
     }
 
+    // done diubah
     public function filterTenagaKerja(Request $request)
     {
         $query = LaporanKeuangan::with('identitasUsaha', 'identitasPengusaha' , 'skalaUsaha')
@@ -601,6 +612,67 @@ class DataUMKMController extends Controller
         return view('admin.informasi_data_umkm.lainnya.tenagaKerja', compact('data'));
     }
 
+    public function filterMetodeUsahaPemasaran(Request $request){
+        // $kolom = $request->status; // Isinya: 'Toko Sendiri', 'Marketplace', dll
+        $search = $request->search;
+        $skala = $request->skala;
+
+        // dd($request->metode);
+        $query = ProduksiDanPemasaran::with('skalaUsaha', 'identitasUsaha');
+
+        if($request->metode){
+            if($request->metode === 'Digital'){
+                $query->where('pemasaran_toko_sendiri', 1);
+            }
+            if($request->metode === 'NonDigital'){
+                $query->where('pemasaran_titip_jual', 1);
+            }
+            if($request->metode === 'Perantara'){
+                $query->where('pemasaran_reseller', 1);
+            }
+            if($request->metode === 'Pemerintah Pusat'){
+                $query->where('pemasaran_distributor', 1);
+            }
+            if($request->metode === 'Provinsi'){
+                $query->where('pemasaran_marketplace', 1);
+            }
+            if($request->metode === 'Kabupaten'){
+                $query->where('pemasaran_media_sosial', 1);
+            }
+            if($request->metode === 'Lainnya'){
+                $query->where('pemasaran_lainnya', 1);
+            }
+        }
+
+         if ($request->skala) {
+            if ($request->skala == 'mikro') {
+                // $query->where('omzet_usaha', '<=', 2000000);
+                $query->whereHas('skalaUsaha', function($q){
+                    $q->where('skala_usaha', 'mikro');
+                });
+            } elseif ($request->skala == 'kecil') {
+                // $query->whereBetween('omzet_usaha', [2000001, 15000000]);
+                 $query->whereHas('skalaUsaha', function($q){
+                    $q->where('skala_usaha', 'kecil');
+                });
+            } elseif ($request->skala == 'menengah') {
+                // $query->whereBetween('omzet_usaha', [15000001, 50000000]);
+                 $query->whereHas('skalaUsaha', function($q){
+                    $q->where('skala_usaha', 'menengah');
+                });
+            }
+        }
+
+        $data = $query->select('usaha_produksi_pemasaran.*')->search(request(['search']))
+            ->paginate(10)
+            ->withQueryString();
+
+     return view('admin.informasi_data_umkm.lainnya.metodePemasaran', compact('data'));
+
+
+    }
+
+    // done diubah
     public function filterLaporanKeuanagan(Request $request){
 
         $keuangan = $request->keuangan; // Berisi 'Memiliki' atau 'Tidak Memiliki'
@@ -608,32 +680,40 @@ class DataUMKMController extends Controller
 
         
 
-        $data = LaporanKeuangan::with(['identitasUsaha'])
-            ->where('status_pencatatan_keuangan', $status)->search(request(['search']))
-            ->paginate(10)
-            ->withQueryString();
+        $query = LaporanKeuangan::with(['identitasUsaha', 'skalaUsaha'])
+            ->where('status_pencatatan_keuangan', $status)->search(request(['search']));
         if ($request->skala) {
                 if ($request->skala == 'mikro') {
-                    $data->where('omzet_usaha', '<=', 2_000_000_000);
+                    // $data->where('omzet_usaha', '<=', 2_000_000_000);
+                    $query->whereHas('skalaUsaha', function($q){
+                        $q->where('skala_usaha', 'mikro');
+                    });
                 } elseif ($request->skala == 'kecil') {
-                    $data->whereBetween('omzet_usaha', [2_000_000_000, 15_000_000]);
+                    // $query->whereBetween('omzet_usaha', [2_000_000_000, 15_000_000]);
+                     $query->whereHas('skalaUsaha', function($q){
+                        $q->where('skala_usaha', 'kecil');
+                    });
                 } elseif ($request->skala == 'menengah') {
-                    $data->whereBetween('omzet_usaha', [15000001, 50000000]);
+                    // $query->whereBetween('omzet_usaha', [15000001, 50000000]);
+                      $query->whereHas('skalaUsaha', function($q){
+                        $q->where('skala_usaha', 'menengah');
+                    });
                 }
         }
        
-
-        // $data = $query->search(request(['search']))->paginate(10)->withQueryString();
+        // baru paginate di akhir
+        $data = $query->paginate(10)->withQueryString();
         return view('admin.informasi_data_umkm.pemasaran.index', compact('data'));
 
     }
 
+    // done di ubah skala
     public function filterDigital(Request $request){
         $statusLabel = $request->digital; // Berisi 'Memiliki' atau 'Tidak Memiliki'
         $statusValue = ($statusLabel == 'Memiliki') ? 1 : 2;
 
         // Mulai query dari model ProduksiDanPemasaran
-        $query = ProduksiDanPemasaran::with(['identitasUsaha'])
+        $query = ProduksiDanPemasaran::with(['identitasUsaha', 'skalaUsaha'])
             ->where('pemasaran_toko_sendiri', $statusValue);
 
         // Tambahkan filter search jika user mengetik di form pencarian
@@ -645,6 +725,24 @@ class DataUMKMController extends Controller
                 ->orWhere('desa', 'like', "%{$search}%");
             });
         }
+         if ($request->skala) {
+                if ($request->skala == 'mikro') {
+                    // $data->where('omzet_usaha', '<=', 2_000_000_000);
+                    $query->whereHas('skalaUsaha', function($q){
+                        $q->where('skala_usaha', 'mikro');
+                    });
+                } elseif ($request->skala == 'kecil') {
+                    // $query->whereBetween('omzet_usaha', [2_000_000_000, 15_000_000]);
+                     $query->whereHas('skalaUsaha', function($q){
+                        $q->where('skala_usaha', 'kecil');
+                    });
+                } elseif ($request->skala == 'menengah') {
+                    // $query->whereBetween('omzet_usaha', [15000001, 50000000]);
+                      $query->whereHas('skalaUsaha', function($q){
+                        $q->where('skala_usaha', 'menengah');
+                    });
+                }
+        }
 
         $data = $query->paginate(10)->withQueryString();
         return view('admin.informasi_data_umkm.pemasaran.index', compact('data'));
@@ -655,7 +753,7 @@ class DataUMKMController extends Controller
         $statusValue = ($statusLabel == 'Memiliki') ? 1 : 2;
 
         // Mulai query dari model ProduksiDanPemasaran
-        $query = ProduksiDanPemasaran::with(['identitasUsaha'])
+        $query = ProduksiDanPemasaran::with(['identitasUsaha', 'skalaUsaha'])
             ->where('pemasaran_titip_jual', $statusValue);
 
         // Tambahkan filter search jika user mengetik di form pencarian
@@ -667,13 +765,31 @@ class DataUMKMController extends Controller
                 ->orWhere('desa', 'like', "%{$search}%");
             });
         }
+         if ($request->skala) {
+                if ($request->skala == 'mikro') {
+                    // $data->where('omzet_usaha', '<=', 2_000_000_000);
+                    $query->whereHas('skalaUsaha', function($q){
+                        $q->where('skala_usaha', 'mikro');
+                    });
+                } elseif ($request->skala == 'kecil') {
+                    // $query->whereBetween('omzet_usaha', [2_000_000_000, 15_000_000]);
+                     $query->whereHas('skalaUsaha', function($q){
+                        $q->where('skala_usaha', 'kecil');
+                    });
+                } elseif ($request->skala == 'menengah') {
+                    // $query->whereBetween('omzet_usaha', [15000001, 50000000]);
+                      $query->whereHas('skalaUsaha', function($q){
+                        $q->where('skala_usaha', 'menengah');
+                    });
+                }
+        }
 
         $data = $query->paginate(10)->withQueryString();
         return view('admin.informasi_data_umkm.pemasaran.index', compact('data'));
 
     }
 
-    public function filterStatusUsaha(Request $request){
+    public function filterStatusUsaha2(Request $request){
 
         //  $query = UsahaKarakteristik::query();
         $query = UsahaKarakteristik::query()
@@ -719,6 +835,47 @@ class DataUMKMController extends Controller
         $data = $query->search(request(['search']))->paginate(10)->withQueryString();
         return view('admin.informasi_data_umkm.statusUsaha.index', compact('data'));
     }
+
+    public function filterStatusUsaha(Request $request)
+{
+    $status = $request->status;
+    $skala = $request->skala;
+    $search = $request->search;
+
+    // Mulai query dari Model Utama dengan Eager Loading relasi
+    $query = UsahaKarakteristik::query()->with(['identitasUsaha', 'keuangan', 'skalaUsaha']);
+
+    // 1. Filter Status Badan Usaha
+    $statusMap = [
+        'pt' => 1, 'yayasan' => 2, 'cv' => 3, 'firma' => 4,
+        'nv' => 5, 'danaPensiun' => 6, 'perorangan' => 7, 'lainnya' => 8
+    ];
+
+    if (isset($statusMap[$status])) {
+        $query->where('status_badan_usaha', $statusMap[$status]);
+    } elseif ($status == 'none') {
+        $query->whereNull('status_badan_usaha');
+    }
+
+    // 2. Filter Skala Usaha (Menggunakan relasi ke tabel skala_usaha agar lebih akurat)
+    if ($skala) {
+        $query->whereHas('skalaUsaha', function($q) use ($skala) {
+            $q->where('skala_usaha', $skala);
+        });
+    }
+
+    // 3. Filter Search (Menggunakan pencarian pada tabel identitasusaha)
+    if ($search) {
+        $query->whereHas('identitasUsaha', function($q) use ($search) {
+            $q->where('nama_lengkap_usaha', 'like', "%{$search}%")
+              ->orWhere('kecamatan', 'like', "%{$search}%");
+        });
+    }
+
+    $data = $query->paginate(10)->withQueryString();
+
+    return view('admin.informasi_data_umkm.statusUsaha.index', compact('data'));
+}
     
     public function filterClusterData2(Request $request)
     {
@@ -943,6 +1100,7 @@ class DataUMKMController extends Controller
     return view('admin.informasi_data_umkm.pertumbuhan.index', compact('data'));
 }
 
+    // done diubah
     public function filterPerizinan(Request $request){
 
         $izin = $request->izin; // Berisi: 'PIRT', 'BPOM', 'TDP', atau 'Halal'
@@ -990,6 +1148,7 @@ class DataUMKMController extends Controller
 
     }
 
+    // done di ubah
     public function filterOmzet(Request $request)
 {
     $skala = $request->skala;
@@ -1006,6 +1165,12 @@ class DataUMKMController extends Controller
 
     return view('admin.informasi_data_umkm.omzet.index', compact('data'));
 }
+    /**
+      ============== batas filter grafik =========================
+
+      ============== di klick ====================================
+      **/
+
     // ===================== batas filter grafik =====================
 
 

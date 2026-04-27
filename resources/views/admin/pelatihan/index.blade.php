@@ -57,7 +57,7 @@
                     <tbody>
                     
 
-                        <tr>
+                        <!-- <tr>
                             <td class="text-center">1</td>
                             <td>
                                 <div class="d-flex align-items-center gap-3">
@@ -97,7 +97,7 @@
                                     <ul class="dropdown-menu dropdown-menu-end shadow border-0">
                                         <li><a class="dropdown-item py-2" href=""><i data-lucide="edit-3" size="14" class="me-2"></i> Edit</a></li>
                                         <li><a class="dropdown-item py-2" href=""><i data-lucide="eye" size="14" class="me-2"></i> Pratinjau</a></li>
-                                        <!-- <li><a class="dropdown-item py-2 text-danger" href="#"><i data-lucide="trash-2" size="14" class="me-2"></i> Hapus</a></li> -->
+                                        <li><a class="dropdown-item py-2 text-danger" href="#"><i data-lucide="trash-2" size="14" class="me-2"></i> Hapus</a></li>
                                         <form id="delete-form-" action="" method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
@@ -106,11 +106,11 @@
                                         </button>
 
                                     </form>
-                                        <!-- <li><hr class="dropdown-divider"></li> -->
+                                        <li><hr class="dropdown-divider"></li>
                                     </ul>
                                 </div>
                             </td>
-                        </tr>      
+                        </tr>       -->
                       
                         <!-- <tr>
                             <td colspan="8" class="text-center py-5 text-muted">Belum ada berita yang diterbitkan.</td>

@@ -39,17 +39,17 @@
                         <td class="">{{ $umkm->identitasUsaha->nama_lengkap_usaha }}</td>
 
                         <td class="text-center">
-                            @if ($umkm->skala_usaha === 'mikro')
+                            @if ($umkm->skalaUsaha->skala_usaha === 'mikro')
                                 <div
                                     class="d-flex mb-3 px-3 py-2 bg-warning bg-opacity-10 border border-warning rounded-2">
                                     <p class="text-warning my-auto">Usaha Mikro</p>
                                 </div>
-                            @elseif($umkm->skala_usaha === 'kecil')
+                            @elseif($umkm->skalaUsaha->skala_usaha === 'kecil')
                                 <div
                                     class="d-flex mb-3 px-3 py-2 bg-primary bg-opacity-10 border border-primary rounded-2">
                                     <p class="text-primary my-auto">Usaha Kecil</p>
                                 </div>
-                            @elseif ($umkm->skala_usaha === 'menengah')
+                            @elseif ($umkm->skalaUsaha->skala_usaha === 'menengah')
                                 <div
                                     class="d-flex mb-3 px-3 py-2 bg-danger bg-opacity-10 border border-danger rounded-2">
                                     <p class="text-danger my-auto">Usaha Menengah</p>
