@@ -3,13 +3,13 @@
 @section('content')
     <div class="container-fluid px-5 bg-white">
         <div class="row py-5">
-            <div
-                class="col-md-12 mx-auto border-primary bg-primary bg-opacity-10 rounded-2 py-3 mb-4 d-flex justify-content-between align-items-center">
+            <div style="background-color: rgba(168, 34, 130, 0.3);"
+                class="col-md-12 mx-auto border-primary rounded-2 py-3 mb-4 d-flex justify-content-between align-items-center">
                 <div>
-                    <p class="fw-bold fs-5 text-primary mb-0">Kelola Kategori Acara</p>
+                    <p  class="fw-bold fs-5 text-white mb-0">Kelola Kategori Acara</p>
                     <p class="text-muted mb-0">Tambahkan atau ubah kategori Acara dengan cepat di sini.</p>
                 </div>
-                <button class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm" data-bs-toggle="modal"
+                <button style="background-color: #a82282; color: white" class="btn rounded-pill px-4 fw-bold shadow-sm" data-bs-toggle="modal"
                     data-bs-target="#modalTambahKategori">
                     <i data-lucide="plus-circle" size="18" class="me-1"></i> Tambah Kategori Acara
                 </button>
@@ -90,7 +90,7 @@
                     <div class="modal-footer border-0 p-4 pt-0">
                         <button type="button" class="btn btn-light rounded-pill px-4 fw-bold"
                             data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary rounded-pill px-4 fw-bold">Simpan Kategori Acara</button>
+                        <button style="background-color: #a82282; color: white" type="submit" class="btn rounded-pill px-4 fw-bold">Simpan Kategori Acara</button>
                     </div>
                 </form>
             </div>

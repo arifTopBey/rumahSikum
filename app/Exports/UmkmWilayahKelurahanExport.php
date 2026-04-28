@@ -10,15 +10,15 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 
 
-class UmkmWilayahExport implements FromQuery, WithHeadings, WithMapping, WithChunkReading, ShouldAutoSize
+class UmkmWilayahKelurahanExport implements FromQuery, WithHeadings, WithMapping, WithChunkReading, ShouldAutoSize
 {
-    protected $kecamatan;
+    protected $kelurahan;
     protected $skala;
     protected $search;
 
-    public function __construct($kecamatan, $skala = null, $search = null)
+    public function __construct($kelurahan, $skala = null, $search = null)
     {
-        $this->kecamatan = $kecamatan;
+        $this->kelurahan = $kelurahan;
         $this->skala = $skala;
         $this->search = $search;
     }
@@ -28,9 +28,9 @@ class UmkmWilayahExport implements FromQuery, WithHeadings, WithMapping, WithChu
     // Gunakan Eager Loading untuk identitasUsaha dan skalaUsaha
     $query = LaporanKeuangan::with(['identitasUsaha', 'skalaUsaha']);
 
-    // Filter Kecamatan (Wajib ada)
+    // Filter kelurahan (Wajib ada)
     $query->whereHas('identitasUsaha', function ($q) {
-        $q->where('kecamatan', 'like', "%{$this->kecamatan}%");
+        $q->where('kelurahan', 'like', "%{$this->kelurahan}%");
     });
 
     // dd($this->skala);
@@ -62,7 +62,7 @@ public function map($row): array
         ucfirst($row->skalaUsaha->skala_usaha ?? '-'),
         $row->identitasUsaha->provinsi ?? '-',
         $row->identitasUsaha->kabupaten ?? '-',
-        $row->identitasUsaha->kecamatan ?? '-',
+        $row->identitasUsaha->kelurahan ?? '-',
     ];
 }
     public function headings(): array
@@ -72,7 +72,7 @@ public function map($row): array
             'Skala Usaha',
             'Provinsi',
             'Kabupaten',
-            'Kecamatan'
+            'Kelurahan'
         ];
     }
 

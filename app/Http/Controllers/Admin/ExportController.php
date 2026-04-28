@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Exports\PertumbuhanUsahaMikro;
+use App\Exports\UmkmClusterExport;
+use App\Exports\UmkmWilayahExport;
+use App\Exports\UmkmWilayahKelurahanExport;
 use App\Exports\UsahaBerdasarkanOmset;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -42,5 +45,50 @@ class ExportController extends Controller
             ),
             'usaha-berdasarkan-omset.xlsx'
         );
+    }
+
+
+    public function exportWilayah(Request $request,$kecamatan){
+        $skala = $request->skala;
+        $search = $request->search;
+
+        return Excel::download(
+            // new UmkmWilayahExport($kecamatan),
+            new UmkmWilayahExport($kecamatan, $skala, $search),
+            "UMKM_Wilayah_$kecamatan.xlsx",
+            // \Maatwebsite\Excel\Excel::CSV
+        );
+    }
+    public function exportWilayahKelurahan(Request $request,$kelurahan){
+
+        $skala = $request->skala;
+        $search = $request->search;
+
+        return Excel::download(
+            new UmkmWilayahKelurahanExport($kelurahan, $skala, $search),
+            "UMKM_Wilayah_$kelurahan.xlsx", 
+        );
+    }
+
+    public function exportBerdasarkanCluster(Request $request, $cluster){
+         $skala = $request->skala;
+        $search = $request->search;
+
+        return Excel::download(
+            new UmkmClusterExport($cluster, $skala, $search),
+            "UMKM_Cluster_$cluster.xlsx", 
+        );
+    }
+
+    public function exportDesil(){
+
+    }
+
+    public function exportKbli(){
+
+    }
+
+    public function exportPenjualanPemasaran(){
+        
     }
 }

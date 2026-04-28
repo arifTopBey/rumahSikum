@@ -317,6 +317,7 @@
         });
     </script>
 
+    
     @elseif (Request::is('usaha-berdasarkan-wilayah'))
 
         {{-- usaha berdasarkan wilayah --}}
@@ -380,11 +381,11 @@
 
                            // ubah link export
                         //    btn.href = `/export-wilayah/${kecamatan}`;
-                           btn.href =  exportWilayahTemplate.replace(':kecamatan', encodeURIComponent(kecamatan));;
+                        //    btn.href =  exportWilayahTemplate.replace(':kecamatan', encodeURIComponent(kecamatan));
 
                         //    loadWilayah(`/filter-wilayah?kecamatan=${encodeURIComponent(kecamatan)}`);
-                        loadWilayah(`${filterWilayahUrl}?kecamatan=${encodeURIComponent(kecamatan)}`
-);
+                        updateExportUrl();
+                        loadWilayah(`${filterWilayahUrl}?kecamatan=${encodeURIComponent(kecamatan)}`);
                        }
                    },
 
@@ -433,6 +434,24 @@
                 });
             }
 
+            // Fungsi untuk update href tombol export
+            function updateExportUrl() {
+                const skala = document.getElementById('filterSkala').value;
+                const search = document.getElementById('searchInputWilayah').value;
+
+                let exportUrl = exportWilayahTemplate.replace(':kecamatan', encodeURIComponent(kecamatan));
+                            
+                 const params = new URLSearchParams();
+                if (skala) params.append('skala', skala);
+                if (search) params.append('search', search);
+                            
+                const queryString = params.toString();
+                if (queryString) {
+                    exportUrl += '?' + queryString;
+                }            
+                document.getElementById('btnExportWilayah').href = exportUrl;
+            }
+
         document.addEventListener('click', function (e) {
             if (e.target.closest('#tableContainerWilayah .pagination a')) {
                 e.preventDefault();
@@ -451,6 +470,8 @@
         // --- LOGIKA PENCARIAN AJAX ---
         document.getElementById('btnDoSearch').addEventListener('click', function() {
             performSearch();
+            updateExportUrl(); // ← tambahkan ini
+
         });
         // Support tekan "Enter" di input search
         document.getElementById('searchInputWilayah').addEventListener('keypress', function (e) {
@@ -460,6 +481,7 @@
         });
                 document.getElementById('filterSkala').addEventListener('change', function() {
                     performSearch();
+                    updateExportUrl();
             });
 
         function performSearch() {
@@ -471,9 +493,13 @@
             loadWilayah(url);
         }
 
+        
+
         document.getElementById('btnResetSearch').addEventListener('click', function() {
             document.getElementById('searchInputWilayah').value = '';
             document.getElementById('filterSkala').value = ''; // Reset dropdown
+            updateExportUrl(); // ← tambahkan ini
+
             loadWilayah(`${filterWilayahUrl}?kecamatan=${encodeURIComponent(kecamatan)}`);
         });
 
@@ -484,7 +510,7 @@
         {{-- usaha berdasarkan wilayah --}}
 
     <script>
-            const exportWilayahTemplateDesa = "{{ route('admin.export.wilayah', ['kecamatan' => ':kecamatan']) }}";
+            const exportWilayahTemplateDesa = "{{ route('admin.export.wilayah.kelurahan', ['kelurahan' => ':kelurahan']) }}";
             const filterWilayahUrlDesa = "{{ route('admin.filter.wilayah.desa') }}";
     </script>
        <script>
@@ -540,9 +566,11 @@
                            formSeach.classList.remove('d-none');
                            btn.classList.remove('d-none');
 
+                           updateExportUrl();
+
                            // ubah link export
                         //    btn.href = `/export-wilayah/${kecamatan}`;
-                           btn.href =  exportWilayahTemplateDesa.replace(':kecamatan', encodeURIComponent(kelurahan));;
+                        //    btn.href =  exportWilayahTemplateDesa.replace(':kecamatan', encodeURIComponent(kelurahan));
 
                         //    loadWilayah(`/filter-wilayah?kecamatan=${encodeURIComponent(kecamatan)}`);
                         loadWilayah(`${filterWilayahUrlDesa}?kelurahan=${encodeURIComponent(kelurahan)}`
@@ -594,6 +622,23 @@
                     document.getElementById('tableContainerWilayah').innerHTML = html;
                 });
             }
+        function updateExportUrl() {
+                const skala = document.getElementById('filterSkala').value;
+                const search = document.getElementById('searchInputWilayah').value;
+
+                let exportUrl = exportWilayahTemplateDesa.replace(':kelurahan', encodeURIComponent(kelurahan));
+                            
+                 const params = new URLSearchParams();
+                if (skala) params.append('skala', skala);
+                if (search) params.append('search', search);
+                            
+                const queryString = params.toString();
+                if (queryString) {
+                    exportUrl += '?' + queryString;
+                }            
+                document.getElementById('btnExportWilayah').href = exportUrl;
+            }
+
 
         document.addEventListener('click', function (e) {
             if (e.target.closest('#tableContainerWilayah .pagination a')) {
@@ -613,16 +658,19 @@
          // --- LOGIKA PENCARIAN AJAX ---
         document.getElementById('btnDoSearch').addEventListener('click', function() {
             performSearch();
+            updateExportUrl();
         });
         // Support tekan "Enter" di input search
         document.getElementById('searchInputWilayah').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 performSearch();
+                updateExportUrl();
             }
         });
 
         document.getElementById('filterSkala').addEventListener('change', function() {
-                    performSearch();
+            performSearch();
+            updateExportUrl();
         });
 
 
@@ -640,6 +688,7 @@
         document.getElementById('btnResetSearch').addEventListener('click', function() {
             document.getElementById('searchInputWilayah').value = '';
             document.getElementById('filterSkala').value =  ''
+            updateExportUrl();
             loadWilayah(`${filterWilayahUrlDesa}?kelurahan=${encodeURIComponent(kelurahan)}`);
         });
         
@@ -651,6 +700,8 @@
     
     <script>
         const filterClusterUrl = "{{ route('admin.cluster.data') }}";
+        const exportClusterUrl = "{{ route('admin.export.cluster.prioritas', ['cluster' => ':cluster']) }}";
+
     </script>
 
     <!-- usaha berdasarkan cluster -->
@@ -696,17 +747,10 @@
                         document.getElementById('clusterTitle').innerText =
                             "Data Usaha Cluster " + cluster;
 
-                        document.getElementById('btnExportNib').classList.remove('d-none');
+                        document.getElementById('btnExportWilayah').classList.remove('d-none');
                         const formSeach = document.getElementById('formSearch');
-                        
-                           formSeach.classList.remove('d-none');
-
-                        // document.getElementById('btnExportNib').href =
-                        //     `/export-cluster/${cluster}`;
-                        // document.getElementById('btnExportNib').href =
-                        //         exportClusterTemplate.replace(':cluster', encodeURIComponent(cluster));
-
-                        // loadTableCluster(`/filter-cluster?cluster=${cluster}`);
+                        formSeach.classList.remove('d-none');
+                        updateExportUrl();
                         loadTableCluster(`${filterClusterUrl}?cluster=${encodeURIComponent(cluster)}`
 );
                     },
@@ -756,16 +800,19 @@
              // --- LOGIKA PENCARIAN AJAX ---
         document.getElementById('btnDoSearch').addEventListener('click', function() {
             performSearch();
+            updateExportUrl();
         });
         // Support tekan "Enter" di input search
         document.getElementById('searchInputWilayah').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 performSearch();
+                updateExportUrl();
             }
         });
 
         document.getElementById('filterSkala').addEventListener('change', function() {
              performSearch();
+             updateExportUrl();
         });
 
         function performSearch() {
@@ -782,6 +829,7 @@
         document.getElementById('btnResetSearch').addEventListener('click', function() {
             document.getElementById('searchInputWilayah').value = '';
             document.getElementById('filterSkala').value = '';
+            updateExportUrl();
             loadTableCluster(`${filterClusterUrl}?cluster=${encodeURIComponent(cluster)}`);
         });
         </script>
@@ -792,6 +840,23 @@
                     .then(html => {
                         document.getElementById('tableCluster').innerHTML = html;
                     });
+            }
+
+             function updateExportUrl() {
+                const skala = document.getElementById('filterSkala').value;
+                const search = document.getElementById('searchInputWilayah').value;
+
+                let exportUrl = exportClusterUrl.replace(':cluster', encodeURIComponent(cluster));
+                            
+                 const params = new URLSearchParams();
+                if (skala) params.append('skala', skala);
+                if (search) params.append('search', search);
+                            
+                const queryString = params.toString();
+                if (queryString) {
+                    exportUrl += '?' + queryString;
+                }            
+                document.getElementById('btnExportWilayah').href = exportUrl;
             }
 
             document.addEventListener('click', function (e) {

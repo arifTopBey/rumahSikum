@@ -3,12 +3,12 @@
 @section('content')
 <div class="container-fluid px-5 bg-white">
     <div class="row py-5">
-        <div class="col-md-12 mx-auto border-primary bg-primary bg-opacity-10 rounded-2 py-3 mb-4 d-flex justify-content-between align-items-center">
+        <div style="background-color: rgba(168, 34, 130, 0.3);" class="col-md-12 mx-auto border-primary  rounded-2 py-3 mb-4 d-flex justify-content-between align-items-center">
             <div>
-                <p class="fw-bold fs-5 text-primary mb-0">Manajemen Berita & Artikel</p>
+                <p class="fw-bold fs-5 text-white mb-0">Manajemen Berita & Artikel</p>
                 <p class="text-muted mb-0">Kelola konten edukasi, kebijakan, dan informasi terkini untuk UMKM.</p>
             </div>
-            <a href="{{ route('admin.berita.create') }}" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm">
+            <a href="{{ route('admin.berita.create') }}" style="background-color: #a82282; color: white" class="btn rounded-pill px-4 fw-bold shadow-sm">
                 <i data-lucide="plus-circle" size="18" class="me-1"></i> Buat Berita Baru
             </a>
         </div>

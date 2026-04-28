@@ -135,6 +135,12 @@
                                     <p class="text-white">Acara</p>
                                 </a>
                             </li>
+                             <li class="nav-item">
+                                <a href="{{ route('admin.kategori.pelatihan.index') }}" class="nav-link {{ Request::is('admin/kategori-pelatihan*') ? 'active' : '' }}">
+                                    <i class="nav-icon bi bi-circle"></i>
+                                    <p class="text-white">Kategori Pelatihan</p>
+                                </a>
+                            </li>
                             <li class="nav-item">
                                 <a href="{{route('admin.pelatihan.index')}}" class="nav-link {{ Request::is('admin/pelatihan*') ? 'active' : '' }}">
                                     <i class="nav-icon bi bi-circle"></i>

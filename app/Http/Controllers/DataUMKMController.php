@@ -407,7 +407,8 @@ class DataUMKMController extends Controller
       */
 
     // done di ubah
-    public function filterSkala(Request $request){
+    public function filterSkala(Request $request)
+    {
 
         // $query = LaporanKeuangan::query();
         $query = SkalaUsaha::query();

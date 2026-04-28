@@ -26,7 +26,7 @@
     </div>
     @endif
 
-    <form action="{{ route('admin.acara.update', $acara->id) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('admin.pelatihan.update', $pelatihan->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
@@ -34,8 +34,8 @@
 
             <div class="col-md-12 d-flex justify-content-between align-items-center mb-4">
                 <div>
-                    <h4 style="color:  #a82282;" class="fw-800 mb-1">Edit Acara</h4>
-                    <p class="text-muted small mb-0">Perbarui informasi acara.</p>
+                    <h4 style="color:  #a82282;" class="fw-800 mb-1">Edit Pelatihan</h4>
+                    <p class="text-muted small mb-0">Perbarui informasi Pelatihan.</p>
                 </div>
 
                 <div class="d-flex gap-2">
@@ -44,7 +44,7 @@
                     </a>
 
                     <button type="submit" style="background-color: #a82282; color: white" class="btn rounded-pill px-4 fw-bold shadow">
-                        Update Acara
+                        Update Pelatihan
                     </button>
                 </div>
             </div>
@@ -58,13 +58,13 @@
                     {{-- JUDUL --}}
                     <div class="mb-4">
                         <label class="form-label fw-bold text-dark">
-                            Nama / Judul Acara
+                            Nama / Judul Pelatihan
                         </label>
 
                         <input
                             type="text"
                             name="judul"
-                            value="{{ old('judul', $acara->judul) }}"
+                            value="{{ old('judul', $pelatihan->judul) }}"
                             class="form-control form-control-lg rounded-3 border-2"
                             required>
                     </div>
@@ -74,43 +74,21 @@
                     <div class="mb-4">
 
                         <label class="form-label fw-bold text-dark d-block">
-                            Banner Acara
+                            Banner Pelatihan
                         </label>
 
-                        <!-- @if($acara->gambar)
-                            <div class="mb-3">
-                                <img
-                                    src="{{ asset('storage/'.$acara->gambar) }}"
-                                    class="img-fluid rounded-3"
-                                >
-                                <img
-                                    src="{{ route('showFoto.acara.private', $acara->gambar) }}"
-                                    class="img-fluid rounded-3"
-                                >
-                            </div>
-                        @endif
-
-                        <input
-                            type="file"
-                            name="gambar"
-                            class="form-control rounded-3"
-                        >
-
-                        <small class="text-muted">
-                            Kosongkan jika tidak ingin mengganti banner
-                        </small> -->
                         <div class="border border-2 border-dashed rounded-4 p-4 text-center position-relative">
 
                             <!-- Preview -->
                             <img id="preview-acara"
-                                src="{{ $acara->gambar ? route('showFoto.acara.private', $acara->gambar) : '' }}"
-                                class="img-fluid rounded-3 mb-3 {{ $acara->gambar ? '' : 'd-none' }}"
+                                src="{{ $pelatihan->gambar ? route('showFoto.pelatihan.private', $pelatihan->gambar) : '' }}"
+                                class="img-fluid rounded-3 mb-3 {{ $pelatihan->gambar ? '' : 'd-none' }}"
                                 style="max-height:250px; object-fit:cover;" />
 
                             <!-- Placeholder -->
-                            <div id="placeholder-acara" class="{{ $acara->gambar ? 'd-none' : '' }}">
+                            <div id="placeholder-acara" class="{{ $pelatihan->gambar ? 'd-none' : '' }}">
                                 <i data-lucide="image" size="40" class="text-muted mb-2"></i>
-                                <p class="smaller text-muted mb-2">Upload atau ganti banner acara</p>
+                                <p class="smaller text-muted mb-2">Upload atau ganti banner Pelatihan</p>
                             </div>
 
                             <!-- Input -->
@@ -135,12 +113,12 @@
                     <div>
 
                         <label class="form-label fw-bold text-dark">
-                            Deskripsi & Detail Acara
+                            Deskripsi & Detail Pelatihan
                         </label>
 
                         <textarea
                             id="editor"
-                            name="deskripsi">{{ old('deskripsi', $acara->deskripsi) }}</textarea>
+                            name="deskripsi">{{ old('deskripsi', $pelatihan->deskripsi) }}</textarea>
 
                     </div>
 
@@ -164,13 +142,13 @@
                     <div class="mb-3">
 
                         <label class="form-label small fw-bold text-muted">
-                            Tanggal Acara
+                            Tanggal pelatihan
                         </label>
 
                         <input
                             type="date"
                             name="tanggal_acara"
-                            value="{{ old('tanggal_acara', $acara->tanggal_acara) }}"
+                            value="{{ old('tanggal_acara', $pelatihan->tanggal_acara) }}"
                             class="form-control rounded-3">
 
                     </div>
@@ -187,7 +165,7 @@
                             <input
                                 type="time"
                                 name="waktu_acara_mulai"
-                                value="{{ old('waktu_acara_mulai', \Carbon\Carbon::parse($acara->waktu_acara_mulai)->format('H:i')) }}"
+                                value="{{ old('waktu_acara_mulai', \Carbon\Carbon::parse($pelatihan->waktu_acara_mulai)->format('H:i')) }}"
                                 class="form-control rounded-3">
 
                         </div>
@@ -202,7 +180,7 @@
                             <input
                                 type="time"
                                 name="waktu_acara_selesai"
-                                value="{{ old('waktu_acara_selesai', \Carbon\Carbon::parse($acara->waktu_acara_selesai)->format('H:i')) }}"
+                                value="{{ old('waktu_acara_selesai', \Carbon\Carbon::parse($pelatihan->waktu_acara_selesai)->format('H:i')) }}"
                                 class="form-control rounded-3">
 
                         </div>
@@ -217,7 +195,7 @@
                 <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
 
                     <h6 class="fw-800 mb-3">
-                        Lokasi & Kapasitas
+                        Lokasi Pelatihan
                     </h6>
 
 
@@ -230,34 +208,9 @@
                         <textarea
                             name="lokasi"
                             rows="2"
-                            class="form-control rounded-3">{{ old('lokasi', $acara->lokasi) }}</textarea>
+                            class="form-control rounded-3">{{ old('lokasi', $pelatihan->lokasi) }}</textarea>
 
                     </div>
-
-
-
-                    <div>
-
-                        <label class="form-label small fw-bold text-muted">
-                            Kuota Peserta
-                        </label>
-
-                        <div class="input-group">
-
-                            <input
-                                type="number"
-                                name="kuota"
-                                value="{{ old('kuota', $acara->kuota) }}"
-                                class="form-control rounded-3">
-
-                            <span class="input-group-text">
-                                Orang
-                            </span>
-
-                        </div>
-
-                    </div>
-
                 </div>
 
 
@@ -270,7 +223,7 @@
                     </h6>
 
                     <select
-                        name="kategori_acara_id"
+                        name="kategori_pelatihan_id"
                         class="form-select rounded-3"
                         required>
 
@@ -282,7 +235,7 @@
 
                         <option
                             value="{{ $category->id }}"
-                            {{ old('kategori_acara_id', $acara->kategori_acara_id) == $category->id ? 'selected' : '' }}>
+                            {{ old('kategori_pelatihan_id', $pelatihan->kategoriPelatihan->id) == $category->id ? 'selected' : '' }}>
                             {{ $category->name }}
                         </option>
 

@@ -10,7 +10,7 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 
 
-class UmkmWilayahExport implements FromQuery, WithHeadings, WithMapping, WithChunkReading, ShouldAutoSize
+class UmkmClusterExport implements FromQuery, WithHeadings, WithMapping, WithChunkReading, ShouldAutoSize
 {
     protected $kecamatan;
     protected $skala;

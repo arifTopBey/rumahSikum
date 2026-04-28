@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin\ElearningController;
 use App\Http\Controllers\Admin\ExportController;
 use App\Http\Controllers\Admin\KategoriAcaraController;
 use App\Http\Controllers\Admin\KategoriElearningController;
+use App\Http\Controllers\Admin\KategoriPelatihanController;
+use App\Http\Controllers\Admin\PelatihanController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataUMKMController;
@@ -76,6 +78,7 @@ Route::get('/berita/detail-berita/{id}', [FrontendController::class, 'detailBeri
 
 // akses media private
 Route::get('/storage/private/acara/{path}', [AcaraController::class, 'showFotoAcara'])->where('path', '.*')->name('showFoto.acara.private');
+Route::get('/storage/private/pelatihan/{path}', [PelatihanController::class, 'showFotoPelatihan'])->where('path', '.*')->name('showFoto.pelatihan.private');
 Route::get('/storage/private/elearning/thumbnail/{path}', [ElearningController::class, 'showFotoThumbnail'])->where('path', '.*')->name('showFoto.elearning.thumnail.private');
 Route::get('/storage/private/elearning/mentor/{path}', [ElearningController::class, 'showFotoMentor'])->where('path', '.*')->name('showFoto.elearning.mentor.private');
 Route::get('/storage/private/{path}', [BeritaController::class, 'showFotoBerita'])->where('path', '.*')->name('showFoto.berita.private');
@@ -179,6 +182,13 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/admin/acara/{id}', [AcaraController::class, 'update'])->name('admin.acara.update');
     Route::delete('/admin/acara/{id}', [AcaraController::class, 'destroy'])->name('admin.acara.destroy');
 
+    // kategori pelatihan
+    Route::get('/admin/kategori-pelatihan', [KategoriPelatihanController::class, 'index'])->name('admin.kategori.pelatihan.index');
+    Route::get('/admin/kategori-pelatihan/create', [KategoriPelatihanController::class, 'create'])->name('admin.kategori.pelatihan.create');
+    Route::post('/admin/kategori-pelatihan', [KategoriPelatihanController::class, 'store'])->name('admin.kategori.pelatihan.store');
+    Route::put('/admin/kategori-pelatihan/{id}', [KategoriPelatihanController::class, 'update'])->name('admin.kategori.pelatihan.update');
+    Route::delete('/admin/kategori-pelatihan/{id}', [KategoriPelatihanController::class, 'destroy'])->name('admin.kategori.pelatihan.destroy');
+
     // pelatihan admin
     Route::get('/admin/pelatihan', [\App\Http\Controllers\Admin\PelatihanController::class, 'index'])->name('admin.pelatihan.index');
     Route::get('/admin/pelatihan/create', [\App\Http\Controllers\Admin\PelatihanController::class, 'create'])->name('admin.pelatihan.create');
@@ -208,17 +218,12 @@ Route::middleware(['auth'])->group(function () {
     // Route Download Excel
     Route::get('/export-pertumbuhan-usaha', [ExportController::class, 'exportPertumbuhan'])->name('admin.export.pertumbuhan.usaha');   
     Route::get('/export-usaha-berdasarkan-omset', [ExportController::class, 'exportBerdasarkanOmset'])->name('admin.export.usaha.berdasarkan.omset');
-
+    Route::get('/export-wilayah/{kecamatan}', [ExportController::class, 'exportWilayah'])->name('admin.export.wilayah');
+    Route::get('/export-wilayah-kelurahan/{kelurahan}', [ExportController::class, 'exportWilayahKelurahan'])->name('admin.export.wilayah.kelurahan');
+    Route::get('/export-cluster-prioritas/{cluster}', [ExportController::class, 'exportBerdasarkanCluster'])->name('admin.export.cluster.prioritas');
     Route::get('/export-skala/{skala}', [UMKMEksportController::class, 'exportBySkala'])->name('admin.export.skala');
     // Route::get('/export-wilayah/{kecamatan}', [UMKMEksportController::class, 'exportByWilayah'])->name('admin.export.wilayah');
-    Route::get('/export-wilayah/{kecamatan}', function ($kecamatan) {
-        return Excel::download(
-            new UmkmWilayahExport($kecamatan),
-            "UMKM_Wilayah_$kecamatan.xlsx",
-            // \Maatwebsite\Excel\Excel::CSV
-        );
-    })->name('admin.export.wilayah');
-
+   
    Route::get('/export-nib/{status}', function ($status) {
         return Excel::download(
             new UmkmNibExport($status),

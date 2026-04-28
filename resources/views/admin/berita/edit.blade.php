@@ -26,7 +26,7 @@
         <div class="row py-5">
             <div class="col-md-12 d-flex justify-content-between align-items-center mb-4">
                 <div>
-                    <h4 class="fw-800 text-primary mb-1">Edit Berita</h4>
+                    <h4 style="color: #a82282;" class="fw-800 mb-1">Edit Berita</h4>
                     <p class="text-muted small mb-0">Perbarui informasi berita.</p>
                 </div>
             </div>
@@ -116,7 +116,7 @@
                     </div>
 
                     <div class="d-flex gap-2 mt-3">
-                        <button type="submit" class="btn btn-primary rounded-pill px-4 fw-bold shadow">
+                        <button type="submit" style="background-color: #a82282; color: white" class="btn rounded-pill px-4 fw-bold shadow">
                             Update Berita
                         </button>
                     </div>

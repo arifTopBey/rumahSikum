@@ -37,12 +37,12 @@
         <div class="row py-5">
             <div class="col-md-12 d-flex justify-content-between align-items-center mb-4">
                 <div>
-                    <h4 class="fw-800 text-primary mb-1">Buat Acara Baru</h4>
-                    <p class="text-muted small mb-0">Atur jadwal pelatihan, webinar, atau bazar untuk mitra UMKM.</p>
+                    <h4 style="color: #a82282;" class="fw-800 mb-1">Buat Acara Baru</h4>
+                    <p class="text-muted small mb-0">Atur jadwal Acara, webinar, atau bazar untuk mitra UMKM.</p>
                 </div>
                 <div class="d-flex gap-2">
                     <a href="#" class="btn btn-light rounded-pill px-4 fw-bold border">Batal</a>
-                    <button type="submit" class="btn btn-primary rounded-pill px-4 fw-bold shadow">Simpan & Publikasikan</button>
+                    <button  type="submit" style="background-color: #a82282; color: white" class="btn rounded-pill px-4 fw-bold shadow">Simpan & Publikasikan</button>
                 </div>
             </div>
 
@@ -72,7 +72,7 @@
 
                             <!-- Placeholder -->
                             <div id="placeholder-acara">
-                                <i data-lucide="image" size="40" class="text-muted mb-2"></i>
+                                <i data-lucide="image" size="40" class="text-muted mb-2 mx-auto"></i>
                                 <p class="smaller text-muted mb-3">Unggah gambar poster acara (Rekomendasi 16:9)</p>
                             </div>
 
@@ -85,7 +85,7 @@
                                 class="position-absolute w-100 h-100 top-0 start-0 opacity-0"
                                 style="cursor: pointer;">
 
-                            <button id="buttonThumbanil" type="button" class="btn btn-primary btn-sm rounded-pill px-4">
+                            <button id="buttonThumbanil" style="background-color: #a82282; color: white" type="button"  class="btn btn-sm rounded-pill px-4">
                                 Pilih File
                             </button>
                         </div>
@@ -101,7 +101,7 @@
             <div class="col-lg-4">
                 <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
                     <h6 class="fw-800 mb-3 d-flex align-items-center gap-2">
-                        <i data-lucide="clock" size="18" class="text-primary"></i> Waktu & Pelaksanaan
+                        <i data-lucide="clock" size="18" style="color: #a82282;" class=""></i> Waktu & Pelaksanaan
                     </h6>
                     <div class="mb-3">
                         <label class="form-label small fw-bold text-muted">Tanggal Acara</label>
@@ -121,7 +121,7 @@
 
                 <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
                     <h6 class="fw-800 mb-3 d-flex align-items-center gap-2">
-                        <i data-lucide="map-pin" size="18" class="text-primary"></i> Lokasi & Kapasitas
+                        <i data-lucide="map-pin" size="18" style="color: #a82282;" class=""></i> Lokasi & Kapasitas
                     </h6>
                     <!-- <div class="mb-3">
                         <label class="form-label small fw-bold text-muted">Tipe Acara</label>

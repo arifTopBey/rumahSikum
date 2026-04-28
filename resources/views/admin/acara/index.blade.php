@@ -3,12 +3,12 @@
 @section('content')
 <div class="container-fluid px-5 bg-white">
     <div class="row py-5">
-        <div class="col-md-12 border-primary bg-primary bg-opacity-10 rounded-3 py-3 mb-4 d-flex justify-content-between align-items-center">
+        <div style="background-color: rgba(168, 34, 130, 0.3);" class="col-md-12 border-primary rounded-3 py-3 mb-4 d-flex justify-content-between align-items-center">
             <div>
-                <h5 class="fw-800 text-primary mb-0">Manajemen Acara & Pelatihan</h5>
-                <p class="text-muted small mb-0">Kelola jadwal bazar, pelatihan digital, dan agenda UMKM lainnya.</p>
+                <h5 class="fw-800 text-white mb-0">Manajemen Acara</h5>
+                <p class="text-muted small mb-0">Kelola jadwal bazar dan agenda UMKM lainnya.</p>
             </div>
-            <a href="{{ route('admin.acara.create') }}" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm d-flex align-items-center gap-2">
+            <a href="{{ route('admin.acara.create') }}" style="background-color: #a82282; color: white" class="btn rounded-pill px-4 fw-bold shadow-sm d-flex align-items-center gap-2">
                 <i data-lucide="calendar-plus" size="18"></i> Buat Acara Baru
             </a>
         </div>
@@ -26,7 +26,7 @@
                 <div class="col-md-4">
                     <div class="input-group">
                         <input type="text" class="form-control rounded-start-pill border-2 ps-4" placeholder="Cari nama acara...">
-                        <button class="btn btn-primary rounded-end-pill px-4"><i data-lucide="search" size="18"></i></button>
+                        <button style="background-color: #a82282; color: white" class="btn rounded-end-pill px-4"><i data-lucide="search" size="18"></i></button>
                     </div>
                 </div>
             </div>

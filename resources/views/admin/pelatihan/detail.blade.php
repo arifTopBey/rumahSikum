@@ -6,16 +6,16 @@
         <div class="col-md-12 mb-4 d-flex justify-content-between align-items-center">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0">
-                    <li class="breadcrumb-item"><a href="{{ route('admin.acara.index') }}" class="text-decoration-none">Daftar Acara</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.pelatihan.index') }}" class="text-decoration-none">Daftar Acara</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Detail Acara</li>
                 </ol>
             </nav>
             <div class="d-flex gap-2">
-                <a href="{{ route('admin.acara.index') }}" class="btn btn-outline-secondary rounded-pill px-4 fw-bold">
+                <a href="{{ route('admin.pelatihan.index') }}" class="btn btn-outline-secondary rounded-pill px-4 fw-bold">
                     <i data-lucide="arrow-left" size="18" class="me-1"></i> Kembali
                 </a>
-                <a href="{{ route('admin.acara.edit', $acara->id) }}" style="background-color: #a82282; color: white" class="btn rounded-pill px-4 fw-bold shadow-sm">
-                    <i data-lucide="edit-3" size="18" class="me-1"></i> Edit Acara
+                <a href="{{ route('admin.pelatihan.edit', $pelatihan->id) }}" style="background-color: #a82282; color: white" class="btn rounded-pill px-4 fw-bold shadow-sm">
+                    <i data-lucide="edit-3" size="18" class="me-1"></i> Edit Pelatihan
                 </a>
             </div>
         </div>
@@ -24,20 +24,19 @@
             <div class="col-lg-8">
                 <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
                     <div class="position-relative">
-                        <img src="{{ route('showFoto.acara.private', $acara->gambar) }}" class="img-fluid w-100" style="max-height: 450px; object-fit: cover;" alt="{{ $acara->judul }}">
-                        <!-- <img src="{{ Storage::url($acara->gambar) }}" class="img-fluid w-100" style="max-height: 450px; object-fit: cover;" alt="{{ $acara->judul }}"> -->
+                        <img src="{{ route('showFoto.pelatihan.private', $pelatihan->gambar) }}" class="img-fluid w-100" style="max-height: 450px; object-fit: cover;" alt="{{ $pelatihan->judul }}">
                         <div class="position-absolute top-0 start-0 m-4">
                             <span class="badge bg-white text-primary px-3 py-2 rounded-pill shadow-sm fw-bold">
-                                {{ $acara->kategori_acara->name }}
+                                {{ $pelatihan->kategoriPelatihan->name }}
                             </span>
                         </div>
                     </div>
                     
                     <div class="card-body p-5 bg-white">
-                        <h2 class="fw-800 text-dark mb-4">{{ $acara->judul }}</h2>
+                        <h2 class="fw-800 text-dark mb-4">{{ $pelatihan->judul }}</h2>
                         
                         <div class="event-description text-muted lh-lg fs-6">
-                            {!! $acara->deskripsi !!}
+                            {!! $pelatihan->deskripsi !!}
                         </div>
                     </div>
                 </div>
@@ -64,7 +63,7 @@
                         </div>
                         <div>
                             <p class="text-muted smaller mb-0">Tanggal</p>
-                            <p class="fw-bold text-dark mb-0">{{ \Carbon\Carbon::parse($acara->tanggal_acara)->format('d F Y') }}</p>
+                            <p class="fw-bold text-dark mb-0">{{ \Carbon\Carbon::parse($pelatihan->tanggal_acara)->format('d F Y') }}</p>
                         </div>
                     </div>
 
@@ -74,7 +73,7 @@
                         </div>
                         <div>
                             <p class="text-muted smaller mb-0">Waktu</p>
-                            <p class="fw-bold text-dark mb-0">{{ $acara->waktu_acara_mulai }} - {{ $acara->waktu_acara_selesai }} WIB</p>
+                            <p class="fw-bold text-dark mb-0">{{ $pelatihan->waktu_acara_mulai }} - {{ $pelatihan->waktu_acara_selesai }} WIB</p>
                         </div>
                     </div>
 
@@ -84,27 +83,27 @@
                         </div>
                         <div>
                             <p class="text-muted smaller mb-0">Lokasi / Venue</p>
-                            <p class="fw-bold text-dark mb-0">{{ $acara->lokasi }}</p>
+                            <p class="fw-bold text-dark mb-0">{{ $pelatihan->lokasi }}</p>
                         </div>
                     </div>
 
                     <hr class="my-4 opacity-50">
 
-                    <div class="mb-4">
+                    <!-- <div class="mb-4">
                         <label class="text-muted smaller d-block mb-2">Kapasitas Peserta</label>
                         <div class="d-flex justify-content-between align-items-end mb-1">
-                            <h4 class="fw-800 mb-0">45 <small class="text-muted fw-normal" style="font-size: 1rem;">/ {{ $acara->kuota }}</small></h4>
+                            <h4 class="fw-800 mb-0">45 <small class="text-muted fw-normal" style="font-size: 1rem;">/ {{ $pelatihan->kuota }}</small></h4>
                             <span style="color: #a82282;" class="fw-bold small">45% Terisi</span>
                         </div>
                         <div class="progress rounded-pill" style="height: 8px;">
                             <div  class="progress-bar" role="progressbar" style="width: 45%; background-color: #a82282;" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
-                    </div>
+                    </div> -->
 
                     @php
                         $now = \Carbon\Carbon::now();
-                        $mulai = \Carbon\Carbon::parse($acara->tanggal_acara . ' ' . $acara->waktu_acara_mulai);
-                        $selesai = \Carbon\Carbon::parse($acara->tanggal_acara . ' ' . $acara->waktu_acara_selesai);
+                        $mulai = \Carbon\Carbon::parse($pelatihan->tanggal_acara . ' ' . $pelatihan->waktu_acara_mulai);
+                        $selesai = \Carbon\Carbon::parse($pelatihan->tanggal_acara . ' ' . $pelatihan->waktu_acara_selesai);
 
                         if ($now->lt($mulai)) {
                             $status = 'Mendatang';

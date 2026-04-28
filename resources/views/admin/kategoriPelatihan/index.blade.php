@@ -6,12 +6,12 @@
             <div style="background-color: rgba(168, 34, 130, 0.5);"
                 class="col-md-12 mx-auto border-primary  rounded-2 py-3 mb-4 d-flex justify-content-between align-items-center">
                 <div>
-                    <p class="fw-bold fs-5 text-white mb-0">Kelola Kategori Berita</p>
-                    <p class="text-muted mb-0">Tambahkan atau ubah kategori berita dengan cepat di sini.</p>
+                    <p class="fw-bold fs-5 text-white mb-0">Kelola Kategori Pelatihan</p>
+                    <p class="text-muted mb-0">Tambahkan atau ubah kategori pealtihan dengan cepat di sini.</p>
                 </div>
                 <button style="background-color: #a82282; color: white" class="btn rounded-pill px-4 fw-bold shadow-sm" data-bs-toggle="modal"
                     data-bs-target="#modalTambahKategori">
-                    <i data-lucide="plus-circle" size="18" class="me-1"></i> Tambah Kategori
+                    <i data-lucide="plus-circle" size="18" class="me-1"></i> Tambah Kategori Pelatihan
                 </button>
             </div>
 
@@ -23,7 +23,7 @@
                                 <th class="py-3 fw-semibold text-dark text-center" width="70">No</th>
                                 <th class="py-3 fw-semibold text-dark">Nama Kategori</th>
                                 <th class="py-3 fw-semibold text-dark">Slug (URL)</th>
-                                <th class="py-3 fw-semibold text-dark text-center">Total Berita</th>
+                                <th class="py-3 fw-semibold text-dark text-center">Total Pelatihan</th>
                                 <th class="py-3 fw-semibold text-dark text-center">Aksi</th>
                             </tr>
                         </thead>
@@ -69,10 +69,10 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0 rounded-4 shadow-lg">
                 <div class="modal-header border-0 p-4 pb-0">
-                    <h5 class="fw-800 mb-0" id="modalTambahKategoriLabel">Buat Kategori Baru</h5>
+                    <h5 style="color: #a82282;" class="fw-bold mb-0" id="modalTambahKategoriLabel">Buat Kategori Pelatihan Baru</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="formKategori" action="{{ route('admin.kategori.berita.store') }}" method="POST">
+                <form id="formKategori" action="{{ route('admin.kategori.pelatihan.store') }}" method="POST">
                     @csrf
                      <!-- <input type="hidden" name="_method" id="methodField" value="POST">
                     <input type="hidden" name="id" id="cat_id"> -->
@@ -102,39 +102,7 @@
         </div>
     </div>
 
-
-    <!-- <script>
-        document.addEventListener("DOMContentLoaded", function () {
-
-            const catName = document.getElementById("cat_name");
-            const catSlug = document.getElementById("cat_slug");
-
-            function generateSlug(text) {
-                return text
-                    .toLowerCase()
-                    .trim()
-                    .replace(/[^a-z0-9\s-]/g, '')
-                    .replace(/\s+/g, '-')
-                    .replace(/-+/g, '-');
-            }
-
-            if (catName) {
-                catName.addEventListener("input", function () {
-                    catSlug.value = generateSlug(this.value);
-                });
-            }
-
-            // reset form saat modal ditutup (bootstrap native event)
-            const modal = document.getElementById('modalTambahKategori');
-
-            modal.addEventListener('hidden.bs.modal', function () {
-                modal.querySelector("form").reset();
-            });
-
-        });
-    </script> -->
-
-    <script>
+<script>
 document.addEventListener("DOMContentLoaded", function () {
 
     const catName = document.getElementById("cat_name");
@@ -170,7 +138,7 @@ document.addEventListener("DOMContentLoaded", function () {
             catId.value = id;
             catName.value = name;
             catSlug.value = slug;
-            form.action = `/admin/kategori-berita/${id}`;
+            form.action = `/admin/kategori-pelatihan/${id}`;
             methodField.value = "PUT";
 
             modalTitle.innerText = "Edit Kategori";
