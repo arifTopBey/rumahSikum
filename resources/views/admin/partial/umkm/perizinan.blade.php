@@ -193,6 +193,7 @@
 
     document.addEventListener('DOMContentLoaded', function () {
         const filterUrlTemplate = "{{ route('admin.filter.perizinan.usaha') }}";
+        const exportPerizinanBaseUrl = "{{ route('admin.export.perizinan') }}";
 
         let skala = '';
         // Klik card skala
@@ -210,20 +211,13 @@
                     halal: "halal",
                 };
 
-                // document.getElementById('exportBtn').classList.remove('d-none')
+                document.getElementById('exportBtn').classList.remove('d-none')
                 const formSeach = document.getElementById('formSearch');
 
                 formSeach.classList.remove('d-none');
-
-                // document.getElementById('exportBtn').href =
-                //     `/export-skala/${skala}`;
-
-                // document.getElementById('exportBtn').href =
-                //     exportUrlTemplate.replace(':skala', skala);
-
                 document.getElementById('skalaTitle9').innerText = 'UMKM yang Memiliki ' +  titleMap[skala];
+                updateExportUrl()
 
-                // loadTable(`/filter-skala?skala=${skala}`);
                 loadTable(`${filterUrlTemplate}?izin=${skala}`);
 
             });
@@ -252,19 +246,23 @@
         // --- LOGIKA PENCARIAN AJAX ---
         document.getElementById('btnDoSearch').addEventListener('click', function () {
             performSearch();
+            updateExportUrl()
         });
         // Support tekan "Enter" di input search
         document.getElementById('searchInputWilayah').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 performSearch();
+                updateExportUrl()
             }
         });
 
         document.getElementById('filterSkala').addEventListener('change', function() {
              performSearch();
+             updateExportUrl();
         });
 
         function performSearch() {
+            updateExportUrl();
             const searchValue = document.getElementById('searchInputWilayah').value;
             const skalaValue = document.getElementById('filterSkala').value; // Ambil nilai dropdown
 
@@ -278,8 +276,24 @@
         document.getElementById('btnResetSearch').addEventListener('click', function () {
             document.getElementById('searchInputWilayah').value = '';
             document.getElementById('filterSkala').value = '';
+            updateExportUrl();
             loadTable(`${filterUrlTemplate}?izin=${encodeURIComponent(skala)}`);
         });
+
+
+    function updateExportUrl() {
+            const searchValue = document.getElementById('searchInputWilayah').value;
+            const skalaValue  = document.getElementById('filterSkala').value;
+
+            const params = new URLSearchParams();
+            if (skala)        params.append('izin',   skala);
+            if (skalaValue)  params.append('skala',  skalaValue);
+            if (searchValue) params.append('search', searchValue);
+
+            document.getElementById('exportBtn').href =
+                exportPerizinanBaseUrl + '?' + params.toString();
+        }
+
     })
 
 </script>

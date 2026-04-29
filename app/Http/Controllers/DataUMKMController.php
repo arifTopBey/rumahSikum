@@ -407,8 +407,8 @@ class DataUMKMController extends Controller
       */
 
     // done di ubah
-    public function filterSkala(Request $request)
-    {
+public function filterSkala(Request $request)
+{
 
         // $query = LaporanKeuangan::query();
         $query = SkalaUsaha::query();
@@ -669,8 +669,6 @@ class DataUMKMController extends Controller
             ->withQueryString();
 
      return view('admin.informasi_data_umkm.lainnya.metodePemasaran', compact('data'));
-
-
     }
 
     // done diubah
@@ -1099,8 +1097,7 @@ class DataUMKMController extends Controller
     $data = $query->paginate(10)->withQueryString();
 
     return view('admin.informasi_data_umkm.pertumbuhan.index', compact('data'));
-}
-
+    }
     // done diubah
     public function filterPerizinan(Request $request){
 

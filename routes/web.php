@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\KategoriAcaraController;
 use App\Http\Controllers\Admin\KategoriElearningController;
 use App\Http\Controllers\Admin\KategoriPelatihanController;
 use App\Http\Controllers\Admin\PelatihanController;
+use App\Http\Controllers\Admin\WhatappController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataUMKMController;
@@ -190,13 +191,13 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/admin/kategori-pelatihan/{id}', [KategoriPelatihanController::class, 'destroy'])->name('admin.kategori.pelatihan.destroy');
 
     // pelatihan admin
-    Route::get('/admin/pelatihan', [\App\Http\Controllers\Admin\PelatihanController::class, 'index'])->name('admin.pelatihan.index');
-    Route::get('/admin/pelatihan/create', [\App\Http\Controllers\Admin\PelatihanController::class, 'create'])->name('admin.pelatihan.create');
-    Route::post('/admin/pelatihan', [\App\Http\Controllers\Admin\PelatihanController::class, 'store'])->name('admin.pelatihan.store');
-    Route::get('/admin/pelatihan/{id}', [\App\Http\Controllers\Admin\PelatihanController::class, 'show'])->name('admin.pelatihan.show');
-    Route::get('/admin/pelatihan/{id}/edit', [\App\Http\Controllers\Admin\PelatihanController::class, 'edit'])->name('admin.pelatihan.edit');
-    Route::put('/admin/pelatihan/{id}', [\App\Http\Controllers\Admin\PelatihanController::class, 'update'])->name('admin.pelatihan.update');
-    Route::delete('/admin/pelatihan/{id}', [\App\Http\Controllers\Admin\PelatihanController::class, 'destroy'])->name('admin.pelatihan.destroy');
+    Route::get('/admin/pelatihan', [PelatihanController::class, 'index'])->name('admin.pelatihan.index');
+    Route::get('/admin/pelatihan/create', [PelatihanController::class, 'create'])->name('admin.pelatihan.create');
+    Route::post('/admin/pelatihan', [PelatihanController::class, 'store'])->name('admin.pelatihan.store');
+    Route::get('/admin/pelatihan/{id}', [PelatihanController::class, 'show'])->name('admin.pelatihan.show');
+    Route::get('/admin/pelatihan/{id}/edit', [PelatihanController::class, 'edit'])->name('admin.pelatihan.edit');
+    Route::put('/admin/pelatihan/{id}', [PelatihanController::class, 'update'])->name('admin.pelatihan.update');
+    Route::delete('/admin/pelatihan/{id}', [PelatihanController::class, 'destroy'])->name('admin.pelatihan.destroy');
 
 
     // kategori e-learning admin
@@ -215,35 +216,26 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/admin/elearning/update/{id}', [ElearningController::class, 'update'])->name('admin.elearning.update');
     Route::delete('/admin/elearning/delete/{id}', [ElearningController::class, 'destroy'])->name('admin.elearning.delete');
 
-    // Route Download Excel
+    // Route Export Excel
     Route::get('/export-pertumbuhan-usaha', [ExportController::class, 'exportPertumbuhan'])->name('admin.export.pertumbuhan.usaha');   
     Route::get('/export-usaha-berdasarkan-omset', [ExportController::class, 'exportBerdasarkanOmset'])->name('admin.export.usaha.berdasarkan.omset');
     Route::get('/export-wilayah/{kecamatan}', [ExportController::class, 'exportWilayah'])->name('admin.export.wilayah');
     Route::get('/export-wilayah-kelurahan/{kelurahan}', [ExportController::class, 'exportWilayahKelurahan'])->name('admin.export.wilayah.kelurahan');
     Route::get('/export-cluster-prioritas/{cluster}', [ExportController::class, 'exportBerdasarkanCluster'])->name('admin.export.cluster.prioritas');
+    Route::get('/export-laporan-keuangan', [ExportController::class, 'exportLaporanKeuangan'])->name('admin.export.laporan.keuangan');
+    Route::get('/export-pemasaran-digital', [ExportController::class, 'exportPemasaranDigital'])->name('admin.export.pemasaran.digital');
+    Route::get('/export-pemasaran-nondigital', [ExportController::class, 'exportPemasaranNonDigital'])->name('admin.export.pemasaran.non.digital');
+    Route::get('/export-status-usaha', [ExportController::class, 'exportStatusUsaha'])->name('admin.export.status.usaha');
+    Route::get('/export-perizinan', [ExportController::class, 'exportPerizinan'])->name('admin.export.perizinan');
+    Route::get('/export-nib', [ExportController::class, 'exportNIB'])->name('admin.export.nib');
+    Route::get('/export-gender', [ExportController::class, 'exportGender'])->name('admin.export.gender');
     Route::get('/export-skala/{skala}', [UMKMEksportController::class, 'exportBySkala'])->name('admin.export.skala');
-    // Route::get('/export-wilayah/{kecamatan}', [UMKMEksportController::class, 'exportByWilayah'])->name('admin.export.wilayah');
-   
-   Route::get('/export-nib/{status}', function ($status) {
-        return Excel::download(
-            new UmkmNibExport($status),
-            "UMKM_NIB_$status.csv",
-            \Maatwebsite\Excel\Excel::CSV
-        );
-    })->name('admin.export.nib');
+    Route::get('/export-tenaga-kerja', [ExportController::class, 'exportTenagaKerja'])->name('admin.export.tenaga-kerja');
+    Route::get('/export-metode-pemasaran', [ExportController::class, 'exportMetodePemasaran'])->name('admin.export.metode-pemasaran');
+    // whatsups
+    Route::get('/admin/whatapps', [WhatappController::class, 'index'])->name('admin.whatapp.index');
+    Route::get('/admin/whatapps/create', [WhatappController::class, 'create'])->name('admin.whatapp.create');
 
-// Route::get('/export-gender/{gender}', function ($gender) {
-//     ini_set('memory_limit', '1024M');
-//     set_time_limit(0);
-
-//     return Excel::download(
-//         new \App\Exports\UmkmGenderExport($gender),
-//         "UMKM_Gender_$gender.csv",
-//         \Maatwebsite\Excel\Excel::CSV
-//     );
-// })->name('admin.export.gender');
-Route::get('/export-gender/{gender}', [UMKMEksportController::class, 'exportByGender'])
-    ->name('admin.export.gender');
 });
 
 

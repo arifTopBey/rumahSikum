@@ -189,9 +189,9 @@
             <div class="col-md-12">
                 <div class="d-flex justify-content-between py-2 ">
                     <h4 id="skalaTitle9" class="fw-bold text-primary mb-3"></h4>
-                    <!-- <a style="max-height: 40px;;" id="exportBtn" href="#" class="btn btn-success d-none px-2 mt-5">
+                    <a style="max-height: 40px;;" id="exportBtn" href="#" class="btn btn-success d-none px-2 mt-5">
                         Export Excel
-                    </a> -->
+                    </a>
                 </div>
 
                 <div id="tableContainer9" class="mt-4">
@@ -252,13 +252,13 @@
 
 
 <!-- di klik cardnya -->
-<script>
-    // const exportUrlTemplate = "{{ route('admin.export.skala', ['skala' => ':skala']) }}";
-</script>
+
 <script>
 
     document.addEventListener('DOMContentLoaded', function () {
         const filterUrlTemplate = "{{ route('admin.filter.status.usaha') }}";
+        const exportStatusBaseUrl = "{{ route('admin.export.status.usaha') }}";
+
 
         let skala = '';
         // Klik card skala
@@ -280,16 +280,11 @@
                     lainnya: "Lainnya",
                 };
 
-                // document.getElementById('exportBtn').classList.remove('d-none')
+                document.getElementById('exportBtn').classList.remove('d-none')
                 const formSeach = document.getElementById('formSearch');
 
                 formSeach.classList.remove('d-none');
-
-                // document.getElementById('exportBtn').href =
-                //     `/export-skala/${skala}`;
-
-                // document.getElementById('exportBtn').href =
-                //     exportUrlTemplate.replace(':skala', skala);
+                updateExportUrl();    
 
                 document.getElementById('skalaTitle9').innerText = titleMap[skala];
 
@@ -335,6 +330,9 @@
         });
 
         function performSearch() {
+            
+             updateExportUrl(); 
+
             const searchValue = document.getElementById('searchInputWilayah').value;
             const skalaValue = document.getElementById('filterSkala').value; // Ambil nilai dropdown
 
@@ -348,8 +346,26 @@
         document.getElementById('btnResetSearch').addEventListener('click', function () {
             document.getElementById('searchInputWilayah').value = '';
             document.getElementById('filterSkala').value = '';
+            updateExportUrl(); // ← tambah di baris pertama
+
             loadTable(`${filterUrlTemplate}?status=${encodeURIComponent(skala)}`);
         });
+
+
+
+        function updateExportUrl() {
+            const searchValue = document.getElementById('searchInputWilayah').value;
+            const skalaValue  = document.getElementById('filterSkala').value;
+    
+            const params = new URLSearchParams();
+            if (skala)       params.append('status', skala);
+            if (skalaValue)  params.append('skala',  skalaValue);
+            if (searchValue) params.append('search', searchValue);
+    
+            document.getElementById('exportBtn').href =
+                exportStatusBaseUrl + '?' + params.toString();
+        }
+
     })
 
 </script>

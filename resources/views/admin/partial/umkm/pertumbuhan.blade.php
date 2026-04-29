@@ -100,32 +100,6 @@
                     maxBarThickness: 40
                 }]
             },
-
-            // options: {
-            //     responsive: true,
-            //     maintainAspectRatio: false,
-            //     scales: {
-            //         x: {
-            //             ticks: {
-            //                 autoSkip: true, // Chart.js akan otomatis menyembunyikan sebagian label agar tidak tabrakan
-            //                 maxRotation: 45, // Memiringkan label 45 derajat
-            //                 minRotation: 45
-            //             },
-            //             grid: { display: false }
-            //         }
-            //     },
-            //     plugins: {
-            //         datalabels: {
-            //             // Sembunyikan angka jika nilai terlalu kecil atau data terlalu padat
-            //             display: function (context) {
-            //                 return context.dataset.data[context.dataIndex] > 500; // Hanya muncul jika unit usaha > 500
-            //             },
-            //             anchor: 'end',
-            //             align: 'top',
-            //             offset: -5
-            //         }
-            //     }
-            // }
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
@@ -142,15 +116,9 @@
                         
                         formSeach.classList.remove('d-none');
                         exportBtn.classList.remove('d-none');
-                        // btn.classList.remove('d-none');
-
-                        // btn.href = `/export-nib/${encodeURIComponent(label)}`;
-                        // loadNIB(`/filter-nib?status=${label}`);
-                        // btn.href =
-                    // exportNibTemplate.replace(':status', encodeURIComponent(tahunMulai));
-                    exportBtn.href = `/export-pertumbuhan-usaha?tahun=${encodeURIComponent(tahunMulai)}`;
-
-                    loadTable(`${filterUrlTemplate}?tahun=${encodeURIComponent(tahunMulai)}`);
+                        
+                        updateExportUrl();
+                        loadTable(`${filterUrlTemplate}?tahun=${encodeURIComponent(tahunMulai)}`);
 
                     }
                 },
@@ -217,17 +185,20 @@
                 let url = e.target.closest('a').getAttribute('href');
 
                 loadTable(url);
+                updateExportUrl();
             }
         });
 
          // --- LOGIKA PENCARIAN AJAX ---
         document.getElementById('btnDoSearch').addEventListener('click', function () {
             performSearch();
+            updateExportUrl();
         });
         // Support tekan "Enter" di input search
         document.getElementById('searchInputWilayah').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 performSearch();
+                updateExportUrl();
             }
         });
 
@@ -239,6 +210,8 @@
             const searchValue = document.getElementById('searchInputWilayah').value;
             const skalaValue = document.getElementById('filterSkala').value; // Ambil nilai dropdown
 
+            updateExportUrl();
+
             // Panggil loadWilayah dengan kecamatan + kata kunci search
             // const url = `${filterUrlTemplate}?status=${encodeURIComponent(skala)}&search=${encodeURIComponent(searchValue)}`;
               const url = `${filterUrlTemplate}?tahun=${encodeURIComponent(tahunMulai)}&search=${encodeURIComponent(searchValue)}&skala=${skalaValue}`;
@@ -249,8 +222,23 @@
         document.getElementById('btnResetSearch').addEventListener('click', function () {
             document.getElementById('searchInputWilayah').value = '';
             document.getElementById('filterSkala').value = '';
+            updateExportUrl()
             loadTable(`${filterUrlTemplate}?tahun=${encodeURIComponent(tahunMulai)}`);
         });
+
+        function updateExportUrl() {
+            const searchValue = document.getElementById('searchInputWilayah').value;
+            const skalaValue  = document.getElementById('filterSkala').value;
+
+            const params = new URLSearchParams();
+            if (tahunMulai)  params.append('tahun',  tahunMulai);
+            if (skalaValue)  params.append('skala',  skalaValue);
+            if (searchValue) params.append('search', searchValue);
+
+            document.getElementById('exportBtn').href =
+                exportUrlTemplate + '?' + params.toString();
+        }
+
 
     });
 </script>

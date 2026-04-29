@@ -3,7 +3,8 @@
         <div class="col-md-10 py-3 px-3">
             <div class="">
                 <p class="fw-bold fs-5 text-primary">G. Usaha Berdasarkan Penjualan dan Pemasaran</p>
-                <p class="text-muted">Berikut ini adalah diagram Pemasaran dan Penjualan yang digunakan untuk melihat data argregasi UMKM</p>
+                <p class="text-muted">Berikut ini adalah diagram Pemasaran dan Penjualan yang digunakan untuk melihat
+                    data argregasi UMKM</p>
             </div>
         </div>
         <div class="col-md-2">
@@ -29,7 +30,7 @@
         </div>
         <div class="col-md-4">
             <div class="card h-100 border-0 shadow-sm p-3">
-                 <h6 class="fw-bold">Pemasaran Usaha Menggunakan digital(e-commerce)</h6>
+                <h6 class="fw-bold">Pemasaran Usaha Menggunakan digital(e-commerce)</h6>
                 <p class="text-muted small">Data perbandingan UMKM yang memiliki digital(e-commerce) dan Tidak.</p>
                 <div style="height: 250px;">
                     <canvas id="digitalChart"></canvas>
@@ -43,8 +44,8 @@
         </div>
         <div class="col-md-4">
             <div class="card h-100 border-0 shadow-sm p-3">
-               
-                 <h6 class="fw-bold">Pemasaran Usaha Menggunakan non-digital (pasar)</h6>
+
+                <h6 class="fw-bold">Pemasaran Usaha Menggunakan non-digital (pasar)</h6>
                 <p class="text-muted small">Data perbandingan UMKM yang memiliki non-digital(pasar) dan Tidak.</p>
                 <div style="height: 250px;">
                     <canvas id="nonDigitalChart"></canvas>
@@ -137,33 +138,32 @@
     </div> -->
     <div class="row mt-5">
 
-         <div class="row d-flex justify-content-end">
-                <div class="col-md-8">
-                    <form id="formSearch" action="javascript:void(0);" method="GET" class="d-none">
-                        <div class="input-group mb-3">
+        <div class="row d-flex justify-content-end">
+            <div class="col-md-8">
+                <form id="formSearch" action="javascript:void(0);" method="GET" class="d-none">
+                    <div class="input-group mb-3">
 
-                             <select id="filterSkala" class="form-select me-2" style="max-width: 200px;">
-                                <option value="">Semua Skala</option>
-                                <option value="mikro">Usaha Mikro</option>
-                                <option value="kecil">Usaha Kecil</option>
-                                <option value="menengah">Usaha Menengah</option>
-                            </select>
+                        <select id="filterSkala" class="form-select me-2" style="max-width: 200px;">
+                            <option value="">Semua Skala</option>
+                            <option value="mikro">Usaha Mikro</option>
+                            <option value="kecil">Usaha Kecil</option>
+                            <option value="menengah">Usaha Menengah</option>
+                        </select>
 
-                            <input type="text" id="searchInputWilayah" class="form-control "
-                                placeholder="Cari berdasarkan nama usaha, kecamatan, Desa" name="search"
-                                value="{{ request('search') }}">
-                           <button class="btn btn-outline-primary" type="button" id="btnDoSearch">Cari</button>
-                           <button class="btn btn-secondary" type="button" id="btnResetSearch">Reset</button>
-                        </div>
-                    </form>
-                </div>
+                        <input type="text" id="searchInputWilayah" class="form-control "
+                            placeholder="Cari berdasarkan nama usaha, kecamatan, Desa" name="search"
+                            value="{{ request('search') }}">
+                        <button class="btn btn-outline-primary" type="button" id="btnDoSearch">Cari</button>
+                        <button class="btn btn-secondary" type="button" id="btnResetSearch">Reset</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    
+
         <div class="col-md-12">
             <div class="d-flex justify-content-between py-2 ">
                 <h4 id="detailTitle88" class="fw-bold text-primary mb-3 mt-5"></h4>
-                <a style="max-height: 40px;" id="btnExportNib" href="#"
-                    class="btn btn-success d-none px-2 mt-5">
+                <a style="max-height: 40px;" id="btnExportNib" href="#" class="btn btn-success d-none px-2 mt-5">
                     Export Excel
                 </a>
             </div>
@@ -180,14 +180,19 @@
 
 
 <!-- variable data blade -->
-    <script>
-        const filterLaporanKeuangan = "{{ route('admin.filter.laporan.keuangan') }}";
-        const filterDigital = "{{ route('admin.filter.pemasaran.digital') }}";
-        const filterNonDigital = "{{ route('admin.filter.pemasaran.non.digital') }}";
-    </script>
+<script>
+    const filterLaporanKeuangan = "{{ route('admin.filter.laporan.keuangan') }}";
+    const filterDigital = "{{ route('admin.filter.pemasaran.digital') }}";
+    const filterNonDigital = "{{ route('admin.filter.pemasaran.non.digital') }}";
+
+    const exportKeuanganBaseUrl = "{{ route('admin.export.laporan.keuangan') }}";
+    const exportDigitalBaseUrl = "{{ route('admin.export.pemasaran.digital') }}";
+    const exportNonDigitalBaseUrl = "{{ route('admin.export.pemasaran.non.digital') }}";
+
+</script>
 <!-- batas data variable blade -->
 <script>
-      document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function () {
         // Daftarkan plugin untuk angka di dalam grafik
         Chart.register(ChartDataLabels);
 
@@ -203,7 +208,7 @@
                     data: Object.values(dataKeuangan),
                     backgroundColor: [
                         '#198754', // Hijau (Memiliki)
-                        '#a82282'  
+                        '#a82282'
                         // '#ced4da'  // Abu-abu (Tidak Memiliki)
                     ],
                     borderWidth: 2,
@@ -214,17 +219,19 @@
                 responsive: true,
                 maintainAspectRatio: false,
 
-                 onClick: function(evt, elements) {
+                onClick: function (evt, elements) {
                     if (elements.length > 0) {
                         const index = elements[0].index;
-                         currentType = 'KEUANGAN'; 
-                         currentActiveLabel = this.data.labels[index];
+                        currentType = 'KEUANGAN';
+                        currentActiveLabel = this.data.labels[index];
                         // laporanKeuangan = this.data.labels[index];
-                         document.getElementById('detailTitle88').innerText = "Data UMKM  " + currentActiveLabel + " Laporan Keuangan";
+                        document.getElementById('detailTitle88').innerText = "Data UMKM  " + currentActiveLabel + " Laporan Keuangan";
 
-                         const formSeach = document.getElementById('formSearch');
-                        
+                        const formSeach = document.getElementById('formSearch');
+                        const btnExport = document.getElementById('btnExportNib');
+
                         formSeach.classList.remove('d-none');
+                        btnExport.classList.remove('d-none');
                         performUniversalSearch();
                     }
                 },
@@ -242,14 +249,14 @@
                             weight: 'bold',
                             size: 14
                         },
-                        formatter: function(value, ctx) {
+                        formatter: function (value, ctx) {
                             // Menampilkan angka murni
                             return value.toLocaleString('id-ID');
                         }
                     },
                     tooltip: {
                         callbacks: {
-                            label: function(context) {
+                            label: function (context) {
                                 let label = context.label || '';
                                 let value = context.raw || 0;
                                 let total = context.dataset.data.reduce((a, b) => a + b, 0);
@@ -260,25 +267,14 @@
                     }
                 }
             }
-            });
-      })
+        });
+    })
 
-
-    //   function loadKeuangan(url) {
-
-
-
-    //         fetch(url)
-    //             .then(response => response.text())
-    //             .then(html => {
-    //                 document.getElementById('tableContainer6').innerHTML = html;
-    //             });
-    //     }
 </script>
 
 
 <script>
-      document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function () {
         // Daftarkan plugin untuk angka di dalam grafik
         Chart.register(ChartDataLabels);
 
@@ -294,7 +290,7 @@
                     data: Object.values(dataPemasaran),
                     backgroundColor: [
                         '#198754', // Hijau (Memiliki)
-                        '#ced4da'  
+                        '#ced4da'
                         // '#ced4da'  // Abu-abu (Tidak Memiliki)
                     ],
                     borderWidth: 2,
@@ -304,23 +300,25 @@
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                onClick: function(evt, elements) {
+                onClick: function (evt, elements) {
                     if (elements.length > 0) {
                         const index = elements[0].index;
-                         currentType = 'DIGITAL'; 
-                         currentActiveLabel = this.data.labels[index];
-                         digital = this.data.labels[index];
-                         document.getElementById('detailTitle88').innerText = "Data UMKM menggunakan Digital " + currentActiveLabel;
+                        currentType = 'DIGITAL';
+                        currentActiveLabel = this.data.labels[index];
+                        digital = this.data.labels[index];
+                        document.getElementById('detailTitle88').innerText = "Data UMKM menggunakan Digital " + currentActiveLabel;
 
                         const formSeach = document.getElementById('formSearch');
-                        
+                        const btnExport = document.getElementById('btnExportNib');
+
                         formSeach.classList.remove('d-none');
+                        btnExport.classList.remove('d-none');
 
                         // btn.href = `/export-nib/${encodeURIComponent(label)}`;
                         // loadNIB(`/filter-nib?status=${label}`);
-                     
-                          performUniversalSearch();
-                    // loadDigital(`${filterDigital}?digital=${encodeURIComponent(digital)}`);
+
+                        performUniversalSearch();
+                        // loadDigital(`${filterDigital}?digital=${encodeURIComponent(digital)}`);
 
                     }
                 },
@@ -338,14 +336,14 @@
                             weight: 'bold',
                             size: 14
                         },
-                        formatter: function(value, ctx) {
+                        formatter: function (value, ctx) {
                             // Menampilkan angka murni
                             return value.toLocaleString('id-ID');
                         }
                     },
                     tooltip: {
                         callbacks: {
-                            label: function(context) {
+                            label: function (context) {
                                 let label = context.label || '';
                                 let value = context.raw || 0;
                                 let total = context.dataset.data.reduce((a, b) => a + b, 0);
@@ -356,22 +354,11 @@
                     }
                 }
             }
-            });
-      })
-
-        // function loadDigital(url) {
-
-
-
-        //     fetch(url)
-        //         .then(response => response.text())
-        //         .then(html => {
-        //             document.getElementById('tableContainer6').innerHTML = html;
-        //         });
-        // }
+        });
+    })
 </script>
 <script>
-      document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function () {
         // Daftarkan plugin untuk angka di dalam grafik
         Chart.register(ChartDataLabels);
 
@@ -386,7 +373,7 @@
                     data: Object.values(dataNonDigital),
                     backgroundColor: [
                         '#198754', // Hijau (Memiliki)
-                        '#ff0335'  
+                        '#ff0335'
                         // '#ced4da'  // Abu-abu (Tidak Memiliki)
                     ],
                     borderWidth: 2,
@@ -396,27 +383,24 @@
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                onClick: function(evt, elements) {
+                onClick: function (evt, elements) {
                     if (elements.length > 0) {
                         const index = elements[0].index;
-                         currentType = 'NONDIGITAL'; 
-                         currentActiveLabel = this.data.labels[index];
+                        currentType = 'NONDIGITAL';
+                        currentActiveLabel = this.data.labels[index];
                         // nonDigital = this.data.labels[index];
-                         document.getElementById('detailTitle88').innerText =
-                        "Data UMKM menggunakan NonDigital " + nonDigital;
+                        document.getElementById('detailTitle88').innerText =
+                            "Data UMKM menggunakan NonDigital " + nonDigital;
 
-                         const formSeach = document.getElementById('formSearch');
-                        
+                        const formSeach = document.getElementById('formSearch');
+                         const btnExport = document.getElementById('btnExportNib');
+
+                        btnExport.classList.remove('d-none');
+
                         formSeach.classList.remove('d-none');
-
-                        // btn.href = `/export-nib/${encodeURIComponent(label)}`;
-                        // loadNIB(`/filter-nib?status=${label}`);
-                     
-
-                    // loadNonDigital(`${filterNonDigital}?nondigital=${encodeURIComponent(nonDigital)}`);
                         performUniversalSearch();
 
-                    
+
 
                     }
                 },
@@ -434,14 +418,14 @@
                             weight: 'bold',
                             size: 14
                         },
-                        formatter: function(value, ctx) {
+                        formatter: function (value, ctx) {
                             // Menampilkan angka murni
                             return value.toLocaleString('id-ID');
                         }
                     },
                     tooltip: {
                         callbacks: {
-                            label: function(context) {
+                            label: function (context) {
                                 let label = context.label || '';
                                 let value = context.raw || 0;
                                 let total = context.dataset.data.reduce((a, b) => a + b, 0);
@@ -452,82 +436,79 @@
                     }
                 }
             }
-            });
-      })
+        });
+    })
 
-    //    function loadNonDigital(url) {
+    document.addEventListener('click', function (e) {
+        if (e.target.closest('#tableContainer6 .pagination a')) {
+            e.preventDefault();
 
+            let url = e.target.closest('a').getAttribute('href');
 
-
-    //         fetch(url)
-    //             .then(response => response.text())
-    //             .then(html => {
-    //                 document.getElementById('tableContainer6').innerHTML = html;
-    //             });
-    //     }
-        document.addEventListener('click', function (e) {
-            if (e.target.closest('#tableContainer6 .pagination a')) {
-                e.preventDefault();
-
-                let url = e.target.closest('a').getAttribute('href');
-
-                fetch(url)
-                    .then(response => response.text())
-                    .then(html => {
-                        document.getElementById('tableContainer6').innerHTML = html;
-                    });
-            }
-    });
-</script>
-
-
- <script>
-    
-          // 1. Variabel Global untuk melacak status aktif
-        let currentType = ''; // 'NIB', 'GENDER', atau 'LABOR'
-        let currentActiveLabel = '';
-
-        // 2. Fungsi Load Data Universal
-        function loadTableData(url) {
             fetch(url)
                 .then(response => response.text())
                 .then(html => {
                     document.getElementById('tableContainer6').innerHTML = html;
                 });
         }
+    });
+</script>
 
-        // 3. Fungsi Search & Filter Universal
-        function performUniversalSearch() {
-            const searchValue = document.getElementById('searchInputWilayah').value;
-            const skalaValue = document.getElementById('filterSkala').value;
-            
-            let url = "";
 
-            if (currentType === 'KEUANGAN') {
-                // loadKeuangan(`${filterLaporanKeuangan}?keuangan=${encodeURIComponent(laporanKeuangan)}`);
-                url = `${filterLaporanKeuangan}?keuangan=${encodeURIComponent(currentActiveLabel)}&search=${encodeURIComponent(searchValue)}&skala=${skalaValue}`;
-            } else if (currentType === 'DIGITAL') {
-                url = `${filterDigital}?digital=${encodeURIComponent(currentActiveLabel)}&search=${encodeURIComponent(searchValue)}&skala=${skalaValue}`;
-            } else if (currentType === 'NONDIGITAL') {
-                url = `${filterNonDigital}?nondigital=${encodeURIComponent(currentActiveLabel)}&search=${encodeURIComponent(searchValue)}&skala=${skalaValue}`;
-            }
+<script>
 
-            if (url !== "") loadTableData(url);
+    // 1. Variabel Global untuk melacak status aktif
+    let currentType = ''; // 'NIB', 'GENDER', atau 'LABOR'
+    let currentActiveLabel = '';
+
+    // 2. Fungsi Load Data Universal
+    function loadTableData(url) {
+        fetch(url)
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('tableContainer6').innerHTML = html;
+            });
+    }
+
+    // 3. Fungsi Search & Filter Universal
+    function performUniversalSearch() {
+        const searchValue = document.getElementById('searchInputWilayah').value;
+        const skalaValue = document.getElementById('filterSkala').value;
+
+        let url = "";
+        let exportUrl = "";
+
+
+        if (currentType === 'KEUANGAN') {
+            url = `${filterLaporanKeuangan}?keuangan=${encodeURIComponent(currentActiveLabel)}&search=${encodeURIComponent(searchValue)}&skala=${skalaValue}`;
+            exportUrl = `${exportKeuanganBaseUrl}?keuangan=${encodeURIComponent(currentActiveLabel)}&search=${encodeURIComponent(searchValue)}&skala=${skalaValue}`;
+
+        } else if (currentType === 'DIGITAL') {
+            url = `${filterDigital}?digital=${encodeURIComponent(currentActiveLabel)}&search=${encodeURIComponent(searchValue)}&skala=${skalaValue}`;
+            exportUrl = `${exportDigitalBaseUrl}?digital=${encodeURIComponent(currentActiveLabel)}&search=${encodeURIComponent(searchValue)}&skala=${skalaValue}`;
+
+        } else if (currentType === 'NONDIGITAL') {
+            url = `${filterNonDigital}?nondigital=${encodeURIComponent(currentActiveLabel)}&search=${encodeURIComponent(searchValue)}&skala=${skalaValue}`;
+            exportUrl = `${exportNonDigitalBaseUrl}?nondigital=${encodeURIComponent(currentActiveLabel)}&search=${encodeURIComponent(searchValue)}&skala=${skalaValue}`;
+
         }
 
-            // 4. Update Event Listeners (Gunakan satu sumber)
-            document.getElementById('btnDoSearch').addEventListener('click', performUniversalSearch);
-            document.getElementById('filterSkala').addEventListener('change', performUniversalSearch);
-            document.getElementById('searchInputWilayah').addEventListener('keypress', function (e) {
-                if (e.key === 'Enter') performUniversalSearch();
-            });
+        if (url !== "") {
+            loadTableData(url);
+            const btnExport = document.getElementById('btnExportNib');
+            btnExport.href = exportUrl;
+        }
+    }
+    // 4. Update Event Listeners (Gunakan satu sumber)
+    document.getElementById('btnDoSearch').addEventListener('click', performUniversalSearch);
+    document.getElementById('filterSkala').addEventListener('change', performUniversalSearch);
+    document.getElementById('searchInputWilayah').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') performUniversalSearch();
+    });
 
-            document.getElementById('btnResetSearch').addEventListener('click', function() {
-            document.getElementById('searchInputWilayah').value = '';
-            document.getElementById('filterSkala').value = '';
-            performUniversalSearch(); // Jalankan ulang pencarian bersih
-        });
-    </script>
-
-
-
+    document.getElementById('btnResetSearch').addEventListener('click', function () {
+        document.getElementById('searchInputWilayah').value = '';
+        document.getElementById('filterSkala').value = '';
+        performUniversalSearch(); // Jalankan ulang pencarian bersih
+    });
+</script>

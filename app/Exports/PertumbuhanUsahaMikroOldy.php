@@ -7,7 +7,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
 
-class PertumbuhanUsahaMikro implements FromCollection, WithHeadings, ShouldAutoSize
+class PertumbuhanUsahaMikroOldy implements FromCollection, WithHeadings, ShouldAutoSize
 {
     protected $tahun, $search, $skala;
 
