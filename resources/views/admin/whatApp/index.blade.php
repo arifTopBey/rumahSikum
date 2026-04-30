@@ -16,19 +16,6 @@
         <div class="col-md-12 mb-4">
             <div class="row align-items-center">
                 <div class="col-md-8">
-                    <!-- <div class="d-flex gap-2">
-                        <select class="form-select w-auto rounded-3">
-                            <option value="">Semua Kategori</option>
-                            <option value="Kebijakan">Kebijakan</option>
-                            <option value="Ekonomi">Ekonomi</option>
-                            <option value="Tips">Tips Bisnis</option>
-                        </select>
-                        <select class="form-select w-auto rounded-3">
-                            <option value="">Status</option>
-                            <option value="Published">Published</option>
-                            <option value="Draft">Draft</option>
-                        </select>
-                    </div> -->
                 </div>
                 <div class="col-md-4">
                     <form action="#" method="GET">
@@ -58,19 +45,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                    
-                    @foreach ($whatApps as $wa )
+
+                        @foreach ($whatApps as $wa )
                         <tr>
                             <td class="text-center">{{ $loop->iteration }}</td>
                             <td class="text-center small">{{ $wa->no_wa }}</td>
                             <td class="text-center small">{{ $wa->message }}</td>
-                
-                        
+
+
                             <td class="text-center">
                                 @if ($wa->status === 'success')
-                                    <span class="badge bg-success bg-opacity-10 text-success border border-success px-3 py-2 rounded-2">Success</span>
+                                <span class="badge bg-success bg-opacity-10 text-success border border-success px-3 py-2 rounded-2">Success</span>
                                 @else
-                                    <span class="badge bg-danger bg-opacity-10 text-danger border border-danger px-3 py-2 rounded-2">Failed</span>
+                                <span class="badge bg-danger bg-opacity-10 text-danger border border-danger px-3 py-2 rounded-2">Failed</span>
                                 @endif
                             </td>
                             <td class="text-center small">{{ \Carbon\Carbon::parse($wa->created_at)->format('d M Y') }}</td>
@@ -81,24 +68,30 @@
                                         <i data-lucide="more-horizontal" size="18"></i>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end shadow border-0">
-                                        <li><a class="dropdown-item py-2" ><i data-lucide="send" size="14" class="me-2"></i> Resend</a></li>
-                                        <!-- <li><a class="dropdown-item py-2" ><i data-lucide="eye" size="14" class="me-2"></i> Pratinjau</a></li> -->
+                                        <li>
+                                            <form action="{{ route('admin.whatapp.resend', $wa->id) }}" method="POST">
+                                                @csrf
+                                                <button type="submit" class="dropdown-item py-2">
+                                                    <i data-lucide="send" size="14" class="me-2"></i> Resend
+                                                </button>
+                                            </form>
+                                        </li>
+                                        <!-- <li><a class="dropdown-item py-2" ><i data-lucide="send" size="14" class="me-2"></i> Resend</a></li> -->
                                     </ul>
                                 </div>
                             </td>
-                        </tr>      
-                    @endforeach 
-                      
-                        <!-- <tr>
-                            <td colspan="8" class="text-center py-5 text-muted">Belum ada berita yang diterbitkan.</td>
-                        </tr> -->
-                      
+                        </tr>
+                        @endforeach
+
                     </tbody>
                 </table>
             </div>
+            <div class="d-flex justify-content-end">
+                {{ $whatApps->links() }}
+            </div>
         </div>
 
-        
+
     </div>
 </div>
 

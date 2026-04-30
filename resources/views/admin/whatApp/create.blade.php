@@ -41,7 +41,7 @@
                     <p class="text-muted small mb-0">Atur Nomor Whatapp dan Pesan</p>
                 </div>
                 <div class="d-flex gap-2">
-                    <a href="#" class="btn btn-light rounded-pill px-4 fw-bold border">Batal</a>
+                    <a href="{{ route('admin.whatapp.index') }}" class="btn btn-light rounded-pill px-4 fw-bold border">Batal</a>
                     <button  type="submit" style="background-color: #a82282; color: white" class="btn rounded-pill px-4 fw-bold shadow">Kirim WhatApp</button>
                 </div>
             </div>
@@ -50,12 +50,12 @@
                 <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
                     <div class="mb-4">
                         <label class="form-label fw-bold text-dark">Nomor WhatApp</label>
-                        <input type="text" name="no_wa" class="form-control form-control-lg rounded-3 border-2" placeholder="Masukan Nomor Whatapp" required>
+                        <input type="text" name="no_wa" class="form-control form-control-lg rounded-3 border-2" placeholder="Contoh:086xxxxx" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="exampleFormControlTextarea1" class="form-label fw-bold text-dark">Pesan (Message)</label>
-                        <textarea name="message" class="form-control" id="exampleFormControlTextarea1" rows="3" style="min-height: 300px;"></textarea>
+                        <textarea placeholder="Masukan Pesan yang ingin dikirim" name="message" class="form-control" id="exampleFormControlTextarea1" rows="3" style="min-height: 300px;"></textarea>
                     </div>
                 </div>
             </div>

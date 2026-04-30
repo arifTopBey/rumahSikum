@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Berita;
 use App\Models\Elearning;
+use App\Models\KategoriPelatihan;
+use App\Models\Pelatihan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -108,11 +110,15 @@ class FrontendController extends Controller
     }
 
     public function pelatihan(){
-        return view('frontend.pelatihan.index');
+
+        $categories = KategoriPelatihan::orderByDesc('id')->get();
+        $pelatihan = Pelatihan::orderByDesc('id')->paginate(10)->withQueryString();
+        return view('frontend.pelatihan.index', compact('pelatihan', 'categories'));
     }
 
-    public function detailPelatihan(){
-        return view('frontend.pelatihan.detailPelatihan');
+    public function detailPelatihan($id){
+        $pelatihan = Pelatihan::findOrFail($id)->first();
+        return view('frontend.pelatihan.detailPelatihan', compact('pelatihan'));
     }
 
     public function daftarPelatihan(){

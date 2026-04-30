@@ -15,49 +15,54 @@
 
     <div class="d-flex justify-content-between align-items-center mb-5 flex-wrap gap-3">
         <div class="d-flex gap-2">
-            <button class="btn btn-primary rounded-pill px-4">Semua Kelas</button>
-            <button class="btn btn-light border rounded-pill px-4">Pemasaran</button>
-            <button class="btn btn-light border rounded-pill px-4">Manajemen</button>
-            <button class="btn btn-light border rounded-pill px-4">Legalitas</button>
+            <button style="background-color: #a82282; color: white;" class="btn rounded-pill px-4">Semua Kelas</button>
+            @foreach ($categories as $category)
+                <button class="btn btn-light border rounded-pill px-4">{{ $category->name }}</button>
+            @endforeach
+            
         </div>
         <!-- <div class="text-muted fw-bold">Menampilkan 12 Kelas Pelatihan</div> -->
     </div>
 
     <div class="row g-4">
-        <!-- <div class="col-md-6 col-lg-4">
-        
-        <a href="{{ route('frontend.pelatihan.detail') }}" class="text-decoration-none">
-
-            <div class="training-card shadow-sm">
-                <div class="training-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=600" class="training-img" alt="Digital Marketing">
-                    <div class="price-badge">Gratis</div>
-                </div>
-                <div class="training-body">
-                    <div class="mentor-info">
-                        <img src="https://i.pravatar.cc/100?u=mentor1" class="mentor-img">
-                        <span class="small text-muted fw-bold">Andi Pratama, MBA</span>
-                    </div>
-                    <h5 class="training-title">Strategi Digital Marketing & Iklan Facebook untuk Pemula</h5>
-                    
-                    <div class="d-flex gap-2 mb-4">
-                        <span class="tag-item"><i data-lucide="video" size="12"></i> Zoom</span>
-                        <span class="tag-item"><i data-lucide="calendar" size="12"></i> 10 April</span>
-                    </div>
-
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <span class="slot-status">Sisa 5 Slot Lagi!</span>
-                        <div class="progress flex-grow-1 ms-3" style="height: 6px;">
-                            <div class="progress-bar bg-danger" style="width: 85%"></div>
-                        </div>
-                    </div>
-                    
-                    <a href="{{ route('frontend.daftar.pelatihan') }}" class="btn-register-training">Daftar Pelatihan</a>
-                </div>
-            </div>
-        </a>
-        </div>
+    @foreach ($pelatihan as $latih )
         <div class="col-md-6 col-lg-4">
+            <a href="{{ route('frontend.pelatihan.detail', $latih->id) }}" class="text-decoration-none">
+
+                <div class="training-card shadow-sm">
+                    <div class="training-img-wrapper">
+                        <img width="600" src="{{ route('showFoto.pelatihan.private', $latih->gambar) }}" class="training-img" alt="Digital Marketing">
+                        <div style="color:#a82282" class="price-badge">Gratis</div>
+                    </div>
+                    <div class="training-body">
+                        <div class="mentor-info">
+                            <!-- <img src="https://i.pravatar.cc/100?u=mentor1" class="mentor-img"> -->
+                            <span class="small text-muted fw-bold">Kategori : {{ $latih->kategoriPelatihan->name }}</span>
+                        </div>
+                        <h5 class="training-title">Strategi Digital Marketing & Iklan Facebook untuk Pemula</h5>
+                        
+                        <div class="d-flex gap-2 mb-4">
+                            <span class="tag-item"><i data-lucide="map-pin" size="12"></i> {{ $latih->lokasi }}</span>
+                            <span class="tag-item"><i data-lucide="calendar" size="12" class="me-1"></i>{{ \Carbon\Carbon::parse($latih->tanggal_acara)->translatedFormat('d F') }}</span>
+                        </div>
+
+                        <!-- <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="slot-status">Sisa 5 Slot Lagi!</span>
+                            <div class="progress flex-grow-1 ms-3" style="height: 6px;">
+                                <div class="progress-bar bg-danger" style="width: 85%"></div>
+                            </div>
+                        </div> -->
+                        
+                        <!-- <a href="" class="btn-register-training">Detail Pelatihan</a> -->
+                        <a href="{{ route('frontend.pelatihan.detail', $latih->id) }}" style="background-color: #a82282;" class="btn-register-training">Detail Pelatihan</a>
+                    </div>
+                </div>
+            </a>
+        </div>  
+    @endforeach
+
+
+        <!-- <div class="col-md-6 col-lg-4">
             <div class="training-card shadow-sm">
                 <div class="training-img-wrapper">
                     <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=600" class="training-img" alt="Branding">
@@ -85,36 +90,8 @@
                     <a href="{{ route('frontend.daftar.pelatihan') }}" class="btn-register-training">Daftar Pelatihan</a>
                 </div>
             </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-            <div class="training-card shadow-sm">
-                <div class="training-img-wrapper">
-                    <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600" class="training-img" alt="Finance">
-                    <div class="price-badge">Gratis</div>
-                </div>
-                <div class="training-body">
-                    <div class="mentor-info">
-                        <img src="https://i.pravatar.cc/100?u=mentor3" class="mentor-img">
-                        <span class="small text-muted fw-bold">Hendra Saputra</span>
-                    </div>
-                    <h5 class="training-title">Manajemen Keuangan & Pembukuan Sederhana UMKM</h5>
-                    
-                    <div class="d-flex gap-2 mb-4">
-                        <span class="tag-item"><i data-lucide="video" size="12"></i> Webinar</span>
-                        <span class="tag-item"><i data-lucide="calendar" size="12"></i> 20 April</span>
-                    </div>
-
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <span class="text-success small fw-bold">Slot Tersedia</span>
-                        <div class="progress flex-grow-1 ms-3" style="height: 6px;">
-                            <div class="progress-bar bg-success" style="width: 20%"></div>
-                        </div>
-                    </div>
-                    
-                    <a href="{{ route('frontend.daftar.pelatihan') }}" class="btn-register-training">Daftar Pelatihan</a>
-                </div>
-            </div>
         </div> -->
+       
     </div>
 </div>
 

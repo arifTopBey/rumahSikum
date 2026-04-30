@@ -54,7 +54,7 @@ Route::get('/acara/detail-acara/{id}', [FrontendController::class, 'detailAcara'
 Route::get('/toko', [FrontendController::class, 'toko'])->name('frontend.toko');
 Route::get('/', [FrontendController::class, 'index'])->name('frontend.index');
 Route::get('/pelatihan', [FrontendController::class, 'pelatihan'])->name('frontend.pelatihan');
-Route::get('/pelatihan/detail-pelatihan', [FrontendController::class, 'detailPelatihan'])->name('frontend.pelatihan.detail');
+Route::get('/pelatihan/detail-pelatihan/{id}', [FrontendController::class, 'detailPelatihan'])->name('frontend.pelatihan.detail');
 Route::get('/informasi-bpom', [FrontendController::class, 'informasiBPOM'])->name('frontend.informasi.bpom');
 Route::get('edukasi-keuangan', [FrontendController::class, 'edukasiKeuangan'])->name('frontend.edukasi.keuangan');
 Route::get('edukasi-keuangan/detail-edukasi', [FrontendController::class, 'detailEdukasiKeuangan'])->name('frontend.edukasi.keuangan.detail');    
@@ -76,6 +76,7 @@ Route::get('/transaksi-detail', [FrontendController::class, 'transaksiDetail'])-
 
 Route::get('/berita', [FrontendController::class, 'berita'])->name('frontend.berita');
 Route::get('/berita/detail-berita/{id}', [FrontendController::class, 'detailBerita'])->name('frontend.berita.detail');
+
 
 // akses media private
 Route::get('/storage/private/acara/{path}', [AcaraController::class, 'showFotoAcara'])->where('path', '.*')->name('showFoto.acara.private');
@@ -233,10 +234,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/export-tenaga-kerja', [ExportController::class, 'exportTenagaKerja'])->name('admin.export.tenaga-kerja');
     Route::get('/export-metode-pemasaran', [ExportController::class, 'exportMetodePemasaran'])->name('admin.export.metode-pemasaran');
 
-    // whatsups
+    // whatApp
     Route::get('/admin/whatapps', [WhatappController::class, 'index'])->name('admin.whatapp.index');
     Route::get('/admin/whatapps/create', [WhatappController::class, 'create'])->name('admin.whatapp.create');
     Route::post('/whatsapp/send', [WhatappController::class, 'send'])->name('whatsapp.send');
+    Route::post('/whatsapp/resend/{id}', [WhatappController::class, 'resend'])->name('admin.whatapp.resend');
 
 });
 
