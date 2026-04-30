@@ -117,7 +117,7 @@ class WhatappController extends Controller
                 DB::table('whatapp')->insert([
                     'no_wa' => $phone,
                     'message' => $request->message,
-                    'status' => $response->successful() ? 'success' : 'failed',
+                    'status' => $response->successful() ? 'Terkirim' : 'Gagal',
                     'id_message' => $uuid,
                     // 'created_at' => now()
                 ]);

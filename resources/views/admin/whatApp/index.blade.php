@@ -54,7 +54,7 @@
 
 
                             <td class="text-center">
-                                @if ($wa->status === 'success')
+                                @if ($wa->status === 'Terkirim')
                                 <span class="badge bg-success bg-opacity-10 text-success border border-success px-3 py-2 rounded-2">Success</span>
                                 @else
                                 <span class="badge bg-danger bg-opacity-10 text-danger border border-danger px-3 py-2 rounded-2">Failed</span>
