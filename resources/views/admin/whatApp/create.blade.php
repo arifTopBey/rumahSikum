@@ -32,7 +32,7 @@
     </div>
     @endif
 
-    <form action="{{ route('admin.acara.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('whatsapp.send') }}" method="POST">
         @csrf
         <div class="row py-5">
             <div class="col-md-12 d-flex justify-content-between align-items-center mb-4">
@@ -42,7 +42,7 @@
                 </div>
                 <div class="d-flex gap-2">
                     <a href="#" class="btn btn-light rounded-pill px-4 fw-bold border">Batal</a>
-                    <button  type="submit" style="background-color: #a82282; color: white" class="btn rounded-pill px-4 fw-bold shadow">Simpan WhatApp</button>
+                    <button  type="submit" style="background-color: #a82282; color: white" class="btn rounded-pill px-4 fw-bold shadow">Kirim WhatApp</button>
                 </div>
             </div>
 
@@ -50,12 +50,12 @@
                 <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
                     <div class="mb-4">
                         <label class="form-label fw-bold text-dark">Nomor WhatApp</label>
-                        <input type="text" name="judul" class="form-control form-control-lg rounded-3 border-2" placeholder="Masukan Nomor Whatapp" required>
+                        <input type="text" name="no_wa" class="form-control form-control-lg rounded-3 border-2" placeholder="Masukan Nomor Whatapp" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="exampleFormControlTextarea1" class="form-label fw-bold text-dark">Pesan (Message)</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" style="min-height: 300px;"></textarea>
+                        <textarea name="message" class="form-control" id="exampleFormControlTextarea1" rows="3" style="min-height: 300px;"></textarea>
                     </div>
                 </div>
             </div>
@@ -93,30 +93,6 @@
 </style>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-
-        const input = document.getElementById('input-acara');
-        const preview = document.getElementById('preview-acara');
-        const buttonThumbanil = document.getElementById('buttonThumbanil');
-        const placeholder = document.getElementById('placeholder-acara');
-
-        input.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-
-            if (file) {
-                const reader = new FileReader();
-
-                reader.onload = function(e) {
-                    preview.src = e.target.result;
-                    preview.classList.remove('d-none');
-                    placeholder.classList.add('d-none');
-                    buttonThumbanil.classList.add('d-none');
-                }
-
-                reader.readAsDataURL(file);
-            }
-        });
-
-    });
+   
 </script>
 @endsection

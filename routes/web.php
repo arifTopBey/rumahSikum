@@ -232,9 +232,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/export-skala/{skala}', [UMKMEksportController::class, 'exportBySkala'])->name('admin.export.skala');
     Route::get('/export-tenaga-kerja', [ExportController::class, 'exportTenagaKerja'])->name('admin.export.tenaga-kerja');
     Route::get('/export-metode-pemasaran', [ExportController::class, 'exportMetodePemasaran'])->name('admin.export.metode-pemasaran');
+
     // whatsups
     Route::get('/admin/whatapps', [WhatappController::class, 'index'])->name('admin.whatapp.index');
     Route::get('/admin/whatapps/create', [WhatappController::class, 'create'])->name('admin.whatapp.create');
+    Route::post('/whatsapp/send', [WhatappController::class, 'send'])->name('whatsapp.send');
 
 });
 

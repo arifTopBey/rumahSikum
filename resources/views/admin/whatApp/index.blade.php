@@ -54,44 +54,40 @@
                             <th class="py-3 fw-semibold text-dark text-center">Status</th>
                             <th class="py-3 fw-semibold text-dark text-center">Tanggal</th>
                             <th class="py-3 fw-semibold text-dark text-center">Id Message</th>
+                            <th class="py-3 fw-semibold text-dark text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                     
-                    
+                    @foreach ($whatApps as $wa )
                         <tr>
-                            <td class="text-center">1</td>
-                            <td class="text-center small">0998098</td>
-                            <td class="text-center small">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo repellendus ex neque quo molestias odio ducimus enim maxime. Nulla omnis ducimus, voluptatibus esse saepe ex dolorum et minima consequuntur quidem.</td>
+                            <td class="text-center">{{ $loop->iteration }}</td>
+                            <td class="text-center small">{{ $wa->no_wa }}</td>
+                            <td class="text-center small">{{ $wa->message }}</td>
                 
-                           
+                        
                             <td class="text-center">
-                                
-                                    <span class="badge bg-success bg-opacity-10 text-success border border-success px-3 py-2 rounded-2">Published</span>
+                                @if ($wa->status === 'success')
+                                    <span class="badge bg-success bg-opacity-10 text-success border border-success px-3 py-2 rounded-2">Success</span>
+                                @else
+                                    <span class="badge bg-danger bg-opacity-10 text-danger border border-danger px-3 py-2 rounded-2">Failed</span>
+                                @endif
                             </td>
-                            <td class="text-center small">10 agustus 2025</td>
+                            <td class="text-center small">{{ \Carbon\Carbon::parse($wa->created_at)->format('d M Y') }}</td>
+                            <td class="text-center small">{{ $wa->id_message }}</td>
                             <td class="text-center">
                                 <div class="dropdown">
                                     <button class="btn btn-sm btn-light border" type="button" data-bs-toggle="dropdown">
                                         <i data-lucide="more-horizontal" size="18"></i>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end shadow border-0">
-                                        <li><a class="dropdown-item py-2" ><i data-lucide="edit-3" size="14" class="me-2"></i> Edit</a></li>
-                                        <li><a class="dropdown-item py-2" ><i data-lucide="eye" size="14" class="me-2"></i> Pratinjau</a></li>
-                                        <!-- <li><a class="dropdown-item py-2 text-danger" href="#"><i data-lucide="trash-2" size="14" class="me-2"></i> Hapus</a></li> -->
-                                        <form id="" action="" method="POST" class="d-inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button onclick="" type="button" class="btn btn-sm btn-light text-danger px-3">
-                                                <i data-lucide="trash-2" size="14" class="me-3"></i>Hapus
-                                            </button>
-
-                                        </form>
-                                        <!-- <li><hr class="dropdown-divider"></li> -->
+                                        <li><a class="dropdown-item py-2" ><i data-lucide="send" size="14" class="me-2"></i> Resend</a></li>
+                                        <!-- <li><a class="dropdown-item py-2" ><i data-lucide="eye" size="14" class="me-2"></i> Pratinjau</a></li> -->
                                     </ul>
                                 </div>
                             </td>
                         </tr>      
+                    @endforeach 
                       
                         <!-- <tr>
                             <td colspan="8" class="text-center py-5 text-muted">Belum ada berita yang diterbitkan.</td>

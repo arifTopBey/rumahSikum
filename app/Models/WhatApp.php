@@ -14,4 +14,16 @@ class WhatApp extends Model
 
     protected $guarded = ['id']; 
 
+    public function scopeSearch($query, $keyword)
+{
+    if (!$keyword) return $query;
+
+    return $query->where(function ($q) use ($keyword) {
+        $q->where('no_wa', 'like', "%{$keyword}%")
+          ->orWhere('message', 'like', "%{$keyword}%")
+          ->orWhere('status', 'like', "%{$keyword}%")
+          ->orWhere('id_message', 'like', "%{$keyword}%");
+    });
+}
+
 }
