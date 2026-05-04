@@ -192,6 +192,54 @@
                             </li>
                         </ul>
                     </li>
+
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="bi bi-bag-fill text-white"></i>
+                            <p class="fs-6 text-white">
+                               Pesanan
+                                <i class="nav-arrow bi bi-chevron-right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                 <a href="{{ route('user.list.pesanan', auth()->user()->id) }}" class="nav-link">
+                                    <i class="nav-icon bi bi-bag-check"></i>
+                                    <p class="text-white">Pesanan saya</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                 <a href="{{ route('user.address') }}" class="nav-link">
+                                    <i class="nav-icon bi bi-star-fill"></i>
+                                    <p class="text-white">Reviews</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="bi bi-person-gear text-white"></i>
+                            <p class="fs-6 text-white">
+                               Pengaturan Akun
+                                <i class="nav-arrow bi bi-chevron-right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                 <a href="{{ route('user.prfile.index', auth()->user()->id) }}" class="nav-link">
+                                    <i class="nav-icon bi bi-person-circle"></i>
+                                    <p class="text-white">Profil</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                 <a href="{{ route('user.address') }}" class="nav-link">
+                                    <i class="nav-icon bi bi-building-add"></i>
+                                    <p class="text-white">Alamat Pengiriman</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="bi bi-house-fill text-white"></i>

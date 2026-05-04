@@ -3,13 +3,16 @@
 use App\Exports\UmkmNibExport;
 use App\Exports\UmkmWilayahExport;
 use App\Http\Controllers\Admin\AcaraController;
+use App\Http\Controllers\Admin\AddressController;
 use App\Http\Controllers\Admin\BeritaController;
+use App\Http\Controllers\Admin\DaftarPesananController;
 use App\Http\Controllers\Admin\ElearningController;
 use App\Http\Controllers\Admin\ExportController;
 use App\Http\Controllers\Admin\KategoriAcaraController;
 use App\Http\Controllers\Admin\KategoriElearningController;
 use App\Http\Controllers\Admin\KategoriPelatihanController;
 use App\Http\Controllers\Admin\PelatihanController;
+use App\Http\Controllers\Admin\UserProfileController;
 use App\Http\Controllers\Admin\WhatappController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
@@ -83,6 +86,7 @@ Route::get('/storage/private/acara/{path}', [AcaraController::class, 'showFotoAc
 Route::get('/storage/private/pelatihan/{path}', [PelatihanController::class, 'showFotoPelatihan'])->where('path', '.*')->name('showFoto.pelatihan.private');
 Route::get('/storage/private/elearning/thumbnail/{path}', [ElearningController::class, 'showFotoThumbnail'])->where('path', '.*')->name('showFoto.elearning.thumnail.private');
 Route::get('/storage/private/elearning/mentor/{path}', [ElearningController::class, 'showFotoMentor'])->where('path', '.*')->name('showFoto.elearning.mentor.private');
+Route::get('/storage/private/profile/user/{path}', [UserProfileController::class, 'showFotoProfil'])->where('path', '.*')->name('showFoto.fotoProfile.private');
 Route::get('/storage/private/{path}', [BeritaController::class, 'showFotoBerita'])->where('path', '.*')->name('showFoto.berita.private');
 Route::get('/storage/app/private/{path}', [ElearningController::class, 'showPdfElearning'])->where('path', '.*')->name('showPdf.elearning.private');
 
@@ -239,6 +243,22 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/whatapps/create', [WhatappController::class, 'create'])->name('admin.whatapp.create');
     Route::post('/whatsapp/send', [WhatappController::class, 'send'])->name('whatsapp.send');
     Route::post('/whatsapp/resend/{id}', [WhatappController::class, 'resend'])->name('admin.whatapp.resend');
+
+
+    // alamat
+    Route::get('/user/alamat', [AddressController::class, 'index'])->name('user.address');
+    Route::post('/user/alamat/create', [AddressController::class, 'store'])->name('user.address.store');
+    Route::put('/user/alamat/update/{id}', [AddressController::class, 'update'])->name('user.address.update');
+    Route::delete('/user/alamat/delete/{id}', [AddressController::class, 'destroy'])->name('user.address.delete');
+    
+    
+    // profile
+    Route::get('/user/profile/{id}', [UserProfileController::class, 'index'])->name('user.prfile.index');
+    Route::put('/user/profile/{id}/update', [UserProfileController::class, 'update'])->name('user.profile.update');
+
+
+    // order list 
+    Route::get('/user/daftar-pesanan/{id}', [DaftarPesananController::class, 'index'])->name('user.list.pesanan');
 
 });
 

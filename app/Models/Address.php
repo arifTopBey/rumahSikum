@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Acara extends Model
+class Address extends Model
 {
-    protected $table = 'acara'; 
+    protected $table = 'user_address'; 
     protected $primaryKey = 'id';
     public $incrementing = true;
     protected $keyType = 'int';
@@ -14,9 +14,9 @@ class Acara extends Model
 
     protected $guarded = ['id']; 
 
-    public function kategori_acara()
+    public function users()
     {
-        return $this->belongsTo(KategoriAcara::class, 'kategori_acara_id', 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
 }

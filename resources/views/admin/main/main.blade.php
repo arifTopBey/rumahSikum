@@ -378,14 +378,11 @@
                         
                            formSeach.classList.remove('d-none');
                            btn.classList.remove('d-none');
+                           document.getElementById('filterSkala').value = ''; // reset grafik filter
 
-                           // ubah link export
-                        //    btn.href = `/export-wilayah/${kecamatan}`;
-                        //    btn.href =  exportWilayahTemplate.replace(':kecamatan', encodeURIComponent(kecamatan));
 
-                        //    loadWilayah(`/filter-wilayah?kecamatan=${encodeURIComponent(kecamatan)}`);
-                        updateExportUrl();
-                        loadWilayah(`${filterWilayahUrl}?kecamatan=${encodeURIComponent(kecamatan)}`);
+                            updateExportUrl();
+                            loadWilayah(`${filterWilayahUrl}?kecamatan=${encodeURIComponent(kecamatan)}`);
                        }
                    },
 
@@ -568,13 +565,9 @@
 
                            updateExportUrl();
 
-                           // ubah link export
-                        //    btn.href = `/export-wilayah/${kecamatan}`;
-                        //    btn.href =  exportWilayahTemplateDesa.replace(':kecamatan', encodeURIComponent(kelurahan));
+                            document.getElementById('filterSkala').value = ''; // reset grafik filter
 
-                        //    loadWilayah(`/filter-wilayah?kecamatan=${encodeURIComponent(kecamatan)}`);
-                        loadWilayah(`${filterWilayahUrlDesa}?kelurahan=${encodeURIComponent(kelurahan)}`
-);
+                            loadWilayah(`${filterWilayahUrlDesa}?kelurahan=${encodeURIComponent(kelurahan)}`);
                        }
                    },
 
