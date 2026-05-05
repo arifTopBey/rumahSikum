@@ -94,14 +94,15 @@
         @yield('content')
         <!--end::App Main-->
 
-        <footer class="app-footer text-center py-3 ">
+    
+
+        <!-- <footer class="app-footer text-center py-3 ">
 
             <strong class="text-center py-3">
                 Copyright Dinas Koperasi Dan Usaha Mikro Kabupaten Tangerang &copy; 2026&nbsp;
-                <!-- <a href="https://adminlte.io" class="text-decoration-none">Kementrian UMKM</a>. -->
             </strong>
             All rights reserved.
-        </footer>
+        </footer> -->
     </div>
     <!--end::App Wrapper-->
 

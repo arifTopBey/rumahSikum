@@ -49,6 +49,23 @@
                 <!--begin::Sidebar Menu-->
                 <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="navigation"
                     aria-label="Main navigation" data-accordion="false" id="navigation">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="bi bi-columns-gap text-white"></i>
+                            <p class="text-white">
+                                Dashboard
+                                <i class="nav-arrow bi bi-chevron-right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('user.dashboard') }}" class="nav-link">
+                                    <i class="bi bi-person-vcard text-white"></i>
+                                    <p class="text-white">Dashboard User</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                     <li class="nav-item {{ Request::is('sebaran-data-umkm') ? 'menu-open' : '' }}">
                         <a href="#" class="nav-link {{ Request::is('sebaran-data-umkm') ? 'active bg-black' : '' }}">
                             <i class="bi bi-house text-white"></i>
@@ -64,12 +81,6 @@
                                     <p class="text-white">Sebaran Data UMKM (Agregat)</p>
                                 </a>
                             </li>
-                            <!-- <li class="nav-item">
-                                <a href="" class="nav-link">
-                                    <i class="bi bi-dot text-white"></i>
-                                    <p class="text-white">Detail Data UMKM (BNBA)</p>
-                                </a>
-                            </li> -->
                         </ul>
                     </li>
                     <li class="nav-item {{ Request::is('list-umkm*') ? 'menu-open' : '' }}">
@@ -174,6 +185,56 @@
                             </li>
                         </ul>
                     </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="bi bi-cart-plus-fill text-white"></i>
+                            <p class="text-white">
+                                Produk
+                                <i class="nav-arrow bi bi-chevron-right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+
+                             <li class="nav-item">
+                                <a href="{{ route('admin.kategori.produk') }}" class="nav-link {{ Request::is('admin/kategori-produk*') ? 'active' : '' }}">
+                                    <i class="nav-icon bi bi-layout-text-sidebar"></i>
+                                    <p class="text-white">Kategori Produk</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('admin.elearning.index') }}" class="nav-link {{ Request::is('admin/elearning*') ? 'active' : '' }}">
+                                    <i class="nav-icon bi bi-cart-plus-fill"></i>
+                                    <p class="text-white">Daftar List Produk</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="bi bi bi-shop-window text-white"></i>
+                            <p class="text-white">
+                                Kelola Ecommerce
+                                <i class="nav-arrow bi bi-chevron-right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+
+                             <li class="nav-item">
+                                <a href="" class="nav-link {{ Request::is('admin/kategori-produk*') ? 'active' : '' }}">
+                                    <i class="nav-icon bi bi-ticket-perforated-fill"></i>
+                                    <p class="text-white">Kode Kupon</p>
+                                </a>
+                            </li>
+                             <li class="nav-item">
+                                <a href="" class="nav-link {{ Request::is('admin/kategori-produk*') ? 'active' : '' }}">
+                                    <i class="nav-icon bi bi-newspaper"></i>
+                                    <p class="text-white">List Pengajuan UMKM</p>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
 
                     <li class="nav-item">
                         <a href="#" class="nav-link">
@@ -187,7 +248,7 @@
                             <li class="nav-item">
                                  <a href="{{ route('admin.whatapp.index') }}" class="nav-link">
                                     <i class="nav-icon bi bi-circle"></i>
-                                    <p class="text-white">WhatApps Blase</p>
+                                    <p class="text-white">WhatApps Blast</p>
                                 </a>
                             </li>
                         </ul>
@@ -235,6 +296,12 @@
                                  <a href="{{ route('user.address') }}" class="nav-link">
                                     <i class="nav-icon bi bi-building-add"></i>
                                     <p class="text-white">Alamat Pengiriman</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                 <a href="{{ route('user.daftar.umkm') }}" class="nav-link">
+                                    <i class="nav-icon bi bi-bag-plus-fill"></i>
+                                    <p class="text-white">Daftar Jadi UMKM</p>
                                 </a>
                             </li>
                         </ul>

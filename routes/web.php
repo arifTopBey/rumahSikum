@@ -6,11 +6,14 @@ use App\Http\Controllers\Admin\AcaraController;
 use App\Http\Controllers\Admin\AddressController;
 use App\Http\Controllers\Admin\BeritaController;
 use App\Http\Controllers\Admin\DaftarPesananController;
+use App\Http\Controllers\Admin\DaftarUmkmController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ElearningController;
 use App\Http\Controllers\Admin\ExportController;
 use App\Http\Controllers\Admin\KategoriAcaraController;
 use App\Http\Controllers\Admin\KategoriElearningController;
 use App\Http\Controllers\Admin\KategoriPelatihanController;
+use App\Http\Controllers\Admin\KategoriProdukController;
 use App\Http\Controllers\Admin\PelatihanController;
 use App\Http\Controllers\Admin\UserProfileController;
 use App\Http\Controllers\Admin\WhatappController;
@@ -79,6 +82,7 @@ Route::get('/transaksi-detail', [FrontendController::class, 'transaksiDetail'])-
 
 Route::get('/berita', [FrontendController::class, 'berita'])->name('frontend.berita');
 Route::get('/berita/detail-berita/{id}', [FrontendController::class, 'detailBerita'])->name('frontend.berita.detail');
+// Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
 
 // akses media private
@@ -89,6 +93,7 @@ Route::get('/storage/private/elearning/mentor/{path}', [ElearningController::cla
 Route::get('/storage/private/profile/user/{path}', [UserProfileController::class, 'showFotoProfil'])->where('path', '.*')->name('showFoto.fotoProfile.private');
 Route::get('/storage/private/{path}', [BeritaController::class, 'showFotoBerita'])->where('path', '.*')->name('showFoto.berita.private');
 Route::get('/storage/app/private/{path}', [ElearningController::class, 'showPdfElearning'])->where('path', '.*')->name('showPdf.elearning.private');
+Route::get('/storage/app/{path}', [KategoriProdukController::class, 'showIconKategori'])->where('path', '.*')->name('show.icon.produk.private');
 
 
 Route::middleware(['guest'])->group(function () {
@@ -100,11 +105,7 @@ Route::middleware(['guest'])->group(function () {
     Route::post('/register', [AuthController::class, 'store'])->name('frontend.register.store');
 
     
-    
-    
-    
     // dashboard umkm
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
     Route::get('/produk', [ProdukController::class, 'index'])->name('dashboard.produk.index');
     Route::get('/umkm/pesanan', [\App\Http\Controllers\Dashboard\PesananController::class, 'index'])->name('dashboard.pesanan.index');
     Route::get('/saldo-penarikan', [\App\Http\Controllers\Dashboard\SaldoPenarikanController::class, 'index'])->name('dashboard.saldo.penarikan.index');
@@ -259,6 +260,21 @@ Route::middleware(['auth'])->group(function () {
 
     // order list 
     Route::get('/user/daftar-pesanan/{id}', [DaftarPesananController::class, 'index'])->name('user.list.pesanan');
+
+
+    // daftar umkm
+    Route::get('/user/daftar-umkm', [DaftarUmkmController::class, 'index'])->name('user.daftar.umkm');
+
+
+    // dashboard user dan seller
+    Route::get('/user/dashboard', [AdminDashboardController::class, 'index'])->name('user.dashboard');
+
+    // kategori Produk
+    Route::get('/admin/kategori-produk', [KategoriProdukController::class, 'index'])->name('admin.kategori.produk');
+    Route::post('/admin/kategori-produk/store', [KategoriProdukController::class, 'store'])->name('admin.kategori.produk.store');
+    Route::put('/admin/kategori-produk/update/{id}',  [KategoriProdukController::class, 'update'])->name('admin.kategori.produk.update');
+    Route::delete('/admin/kategori-produk/delete/{id}',  [KategoriProdukController::class, 'delete'])->name('admin.kategori.produk.delete');
+
 
 });
 

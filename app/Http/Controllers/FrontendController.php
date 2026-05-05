@@ -72,6 +72,7 @@ class FrontendController extends Controller
     }
 
     public function tambahUmkm(){
+        
         return view('frontend.daftarUMKM.index');
     }
 

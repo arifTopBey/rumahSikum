@@ -104,7 +104,7 @@
                 </div>
 
                 @if (!auth()->check())
-                    <a href="{{ route('frontend.tambah.umkm') }}" style="background-color: #a82282;" class="btn text-white rounded-pill px-4 shadow-sm fw-bold">Gabung UMKM</a>                    
+                    <a href="{{ route('login') }}" style="background-color: #a82282;" class="btn text-white rounded-pill px-4 shadow-sm fw-bold">Gabung UMKM</a>                    
                 @endif
             </div>
         </div>
