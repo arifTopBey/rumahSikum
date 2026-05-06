@@ -4,6 +4,7 @@ use App\Exports\UmkmNibExport;
 use App\Exports\UmkmWilayahExport;
 use App\Http\Controllers\Admin\AcaraController;
 use App\Http\Controllers\Admin\AddressController;
+use App\Http\Controllers\Admin\BannerSliderController;
 use App\Http\Controllers\Admin\BeritaController;
 use App\Http\Controllers\Admin\DaftarPesananController;
 use App\Http\Controllers\Admin\DaftarUmkmController;
@@ -264,6 +265,7 @@ Route::middleware(['auth'])->group(function () {
 
     // daftar umkm
     Route::get('/user/daftar-umkm', [DaftarUmkmController::class, 'index'])->name('user.daftar.umkm');
+    Route::post('/user/daftar-umkm/store', [ProdukController::class, 'vendorStore'])->name('user.daftar.umkm.store');
 
 
     // dashboard user dan seller
@@ -274,6 +276,13 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/kategori-produk/store', [KategoriProdukController::class, 'store'])->name('admin.kategori.produk.store');
     Route::put('/admin/kategori-produk/update/{id}',  [KategoriProdukController::class, 'update'])->name('admin.kategori.produk.update');
     Route::delete('/admin/kategori-produk/delete/{id}',  [KategoriProdukController::class, 'delete'])->name('admin.kategori.produk.delete');
+
+
+    // banner
+    Route::get('/admin/banner-ecommerce', [BannerSliderController::class, 'index'])->name('admin.slider.index');
+    Route::post('/admin/banner-ecommerce/create', [BannerSliderController::class, 'store'])->name('admin.slider.store');
+    Route::delete('/admin/banner-ecommerce/delete/{id}', [BannerSliderController::class, 'destroy'])->name('admin.slider.delete');
+    Route::put('/admin/banner-ecommerce/update/{id}', [BannerSliderController::class, 'update'])->name('admin.slider.update');
 
 
 });

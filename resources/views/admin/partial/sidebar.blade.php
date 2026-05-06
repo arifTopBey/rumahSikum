@@ -221,6 +221,12 @@
                         <ul class="nav nav-treeview">
 
                              <li class="nav-item">
+                                <a href="{{route('admin.slider.index')}}" class="nav-link {{ Request::is('admin/banner-ecommerce*') ? 'active' : '' }}">
+                                    <i class="nav-icon bi bi-card-image"></i>
+                                    <p class="text-white">Banner</p>
+                                </a>
+                            </li>
+                             <li class="nav-item">
                                 <a href="" class="nav-link {{ Request::is('admin/kategori-produk*') ? 'active' : '' }}">
                                     <i class="nav-icon bi bi-ticket-perforated-fill"></i>
                                     <p class="text-white">Kode Kupon</p>

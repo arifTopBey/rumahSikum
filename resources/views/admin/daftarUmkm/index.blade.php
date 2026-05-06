@@ -96,7 +96,34 @@
         .upload-box:hover { background: #f1f5f9; border-color: var(--primary-color); }
 </style>
 
+ @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul class="mb-0">
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+    @endif
 
+    <!-- @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif -->
+
+    @if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+    @endif
+
+    @if (session('warning'))
+    <div class="alert alert-warning">
+        {{ session('warning') }}
+    </div>
+
+    @endif
 
 <header class="reg-header text-center py-5">
     <div class="container">
@@ -105,116 +132,154 @@
     </div>
 </header>
 
-<div class="container mb-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            
-            <div class="px-md-5">
-                <div class="step-indicator">
-                    <div class="step active" id="step-i-1">1</div>
-                    <div class="step" id="step-i-2">2</div>
-                    <div class="step" id="step-i-3">3</div>
-                    <div class="step" id="step-i-4">4</div>
+@if (!$vendorRequest)
+    <div class="container mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                
+                <div class="px-md-5">
+                    <div class="step-indicator">
+                        <div class="step active" id="step-i-1">1</div>
+                        <div class="step" id="step-i-2">2</div>
+                        <div class="step" id="step-i-3">3</div>
+                        <div class="step" id="step-i-4">4</div>
+                    </div>
+                </div>
+
+                <div class="form-container shadow-sm">
+                    <form action="{{ route('user.daftar.umkm.store') }}" method="POST" enctype="multipart/form-data" id="registrationForm">
+                        @csrf
+                        
+                        <div class="step-content" id="step-1">
+                            <h5 class="fw-bold mb-4"><i data-lucide="user" class="me-2 text-primary"></i>Informasi Pemilik Usaha</h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Nama Lengkap Sesuai KTP</label>
+                                    <input type="text" name="name" class="form-control" placeholder="Masukkan nama lengkap" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Nomor WhatsApp</label>
+                                    <input type="number" name="phone" class="form-control" placeholder="0812xxxx" required>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">NIK (Nomor Induk Kependudukan)</label>
+                                    <input type="number" name="identity_number" class="form-control" placeholder="16 Digit NIK" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step-content d-none" id="step-2">
+                            <h5 class="fw-bold mb-4"><i data-lucide="briefcase" class="me-2 text-primary"></i>Profil Bisnis</h5>
+                            <div class="row g-3">
+                                <div class="col-md-12">
+                                    <label class="form-label">Nama Brand / Toko</label>
+                                    <input type="text" name="shop_name" class="form-control" placeholder="Contoh: Kripik Berkah Jaya">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Kategori Usaha</label>
+                                    <select name="kategori_produk_id" class="form-select">
+                                        <option selected disabled>Pilih Kategori</option>
+                                    @foreach ($categories as $category )
+                                        <option value="{{$category->id}}">{{ $category->name }}</option>   
+                                    @endforeach
+                                    
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Provinsi</label>
+                                
+                                    <input type="text" name="provinsi" class="form-control" placeholder="Provinsi">
+
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Kab / Kota</label>
+                                
+                                    <input type="text" name="kab_kota" class="form-control" placeholder="Kab/Kota">
+
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Kecamatan</label>
+                                
+                                    <input type="text" name="kecamatan" class="form-control" placeholder="Kecamatan">
+
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Kelurahan</label>
+                                
+                                    <input type="text" name="kelurahan" class="form-control" placeholder="Kelurahan">
+
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Kode Pos</label>
+                                
+                                    <input type="text" name="kode_pos" class="form-control" placeholder="Kode pos">
+
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Alamat Lengkap Usaha</label>
+                                    <textarea name="shop_address" class="form-control" rows="3" placeholder="Jl. Raya No. XX, Desa XX..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step-content d-none" id="step-3">
+                            <h5 class="fw-bold mb-4"><i data-lucide="file-text" class="me-2 text-primary"></i>Dokumen Pendukung</h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Foto Produk Unggulan</label>
+                                    <div class="upload-box" onclick="document.getElementById('foto_produk').click()">
+                                        <i data-lucide="image" class="text-muted mb-2"></i>
+                                        <p class="small text-muted mb-0" id="produk_label">Klik untuk upload foto produk</p>
+                                        <input type="file" name="store_photo" id="foto_produk" class="d-none" onchange="updateFileName(this, 'produk_label')">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Foto KTP Pemilik</label>
+                                    <div class="upload-box" onclick="document.getElementById('foto_ktp').click()">
+                                        <i data-lucide="camera" class="text-muted mb-2"></i>
+                                        <p class="small text-muted mb-0" id="ktp_label">Pastikan NIK terbaca jelas</p>
+                                        <input type="file" name="identity_photo" id="foto_ktp" class="d-none" onchange="updateFileName(this, 'ktp_label')">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step-content d-none" id="step-4">
+                            <h5 class="fw-bold mb-4"><i data-lucide="check-circle" class="me-2 text-success"></i>Konfirmasi & Kirim</h5>
+                            <div class="alert alert-primary border-0 rounded-4 p-4">
+                                <h6>Pernyataan Kebenaran Data</h6>
+                                <p class="small text-muted mb-3">Dengan menekan tombol kirim, saya menyatakan bahwa data yang saya berikan adalah benar dan bersedia mengikuti aturan dinas terkait.</p>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="agree" required>
+                                    <label class="form-check-label small fw-bold" for="agree">Saya Setuju dengan Syarat & Ketentuan</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-5 pt-4 border-top">
+                            <button type="button" class="btn btn-light rounded-pill px-4" id="prevBtn" onclick="nextPrev(-1)" style="display:none;">Sebelumnya</button>
+                            <button type="button" style="background-color: #a82282; color: white" class="btn rounded-pill px-5 shadow" id="nextBtn"  onclick="nextPrev(1)">Lanjutkan &rarr;</button>
+                        </div>
+                    </form>
                 </div>
             </div>
+        </div>
+    </div>
+@else
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+            <div class="bg-white rounded-2 border shadow px-3 py-3" style="min-height: 400px;">
+                <p class="fw-bold text-muted text-center fs-3">Terima Kasih telah mendaftar, Mohon menunggu Konfirmasi Admin</p>
+                <div class="d-flex justify-content-center">
+                    <img src="{{ asset('image/icon.png') }}" alt="" class="mx-auto mt-3" height="180" width="180">
 
-            <div class="form-container shadow-sm">
-                <form action="" method="POST" enctype="multipart/form-data" id="registrationForm">
-                    @csrf
-                    
-                    <div class="step-content" id="step-1">
-                        <h5 class="fw-bold mb-4"><i data-lucide="user" class="me-2 text-primary"></i>Informasi Pemilik Usaha</h5>
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <label class="form-label">Nama Lengkap Sesuai KTP</label>
-                                <input type="text" name="nama_pemilik" class="form-control" placeholder="Masukkan nama lengkap" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Nomor WhatsApp</label>
-                                <input type="number" name="no_wa" class="form-control" placeholder="0812xxxx" required>
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label">NIK (Nomor Induk Kependudukan)</label>
-                                <input type="number" name="nik" class="form-control" placeholder="16 Digit NIK" required>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="step-content d-none" id="step-2">
-                        <h5 class="fw-bold mb-4"><i data-lucide="briefcase" class="me-2 text-primary"></i>Profil Bisnis</h5>
-                        <div class="row g-3">
-                            <div class="col-md-12">
-                                <label class="form-label">Nama Brand / Toko</label>
-                                <input type="text" name="nama_toko" class="form-control" placeholder="Contoh: Kripik Berkah Jaya">
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Kategori Usaha</label>
-                                <select name="kategori" class="form-select">
-                                    <option selected disabled>Pilih Kategori</option>
-                                    <option>Kuliner</option>
-                                    <option>Fashion</option>
-                                    <option>Kerajinan</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Kecamatan</label>
-                                <select name="kecamatan" class="form-select">
-                                    <option selected disabled>Pilih Kecamatan</option>
-                                    <option>Tigaraksa</option>
-                                    <option>Cikupa</option>
-                                    <option>Kelapa Dua</option>
-                                </select>
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label">Alamat Lengkap Usaha</label>
-                                <textarea name="alamat_usaha" class="form-control" rows="3" placeholder="Jl. Raya No. XX, Desa XX..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="step-content d-none" id="step-3">
-                        <h5 class="fw-bold mb-4"><i data-lucide="file-text" class="me-2 text-primary"></i>Dokumen Pendukung</h5>
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <label class="form-label">Foto Produk Unggulan</label>
-                                <div class="upload-box" onclick="document.getElementById('foto_produk').click()">
-                                    <i data-lucide="image" class="text-muted mb-2"></i>
-                                    <p class="small text-muted mb-0" id="produk_label">Klik untuk upload foto produk</p>
-                                    <input type="file" name="foto_produk" id="foto_produk" class="d-none" onchange="updateFileName(this, 'produk_label')">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Foto KTP Pemilik</label>
-                                <div class="upload-box" onclick="document.getElementById('foto_ktp').click()">
-                                    <i data-lucide="camera" class="text-muted mb-2"></i>
-                                    <p class="small text-muted mb-0" id="ktp_label">Pastikan NIK terbaca jelas</p>
-                                    <input type="file" name="foto_ktp" id="foto_ktp" class="d-none" onchange="updateFileName(this, 'ktp_label')">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="step-content d-none" id="step-4">
-                        <h5 class="fw-bold mb-4"><i data-lucide="check-circle" class="me-2 text-success"></i>Konfirmasi & Kirim</h5>
-                        <div class="alert alert-primary border-0 rounded-4 p-4">
-                            <h6>Pernyataan Kebenaran Data</h6>
-                            <p class="small text-muted mb-3">Dengan menekan tombol kirim, saya menyatakan bahwa data yang saya berikan adalah benar dan bersedia mengikuti aturan dinas terkait.</p>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="agree" required>
-                                <label class="form-check-label small fw-bold" for="agree">Saya Setuju dengan Syarat & Ketentuan</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="d-flex justify-content-between mt-5 pt-4 border-top">
-                        <button type="button" class="btn btn-light rounded-pill px-4" id="prevBtn" onclick="nextPrev(-1)" style="display:none;">Sebelumnya</button>
-                        <button type="button" style="background-color: #a82282; color: white" class="btn rounded-pill px-5 shadow" id="nextBtn"  onclick="nextPrev(1)">Lanjutkan &rarr;</button>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
+@endif
 @endsection
 
 
