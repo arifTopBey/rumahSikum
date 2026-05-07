@@ -227,7 +227,7 @@
                                 </a>
                             </li>
                              <li class="nav-item">
-                                <a href="" class="nav-link {{ Request::is('admin/kategori-produk*') ? 'active' : '' }}">
+                                <a href="{{route('admin.kupon.index')}}" class="nav-link {{ Request::is('admin/kupon*') ? 'active' : '' }}">
                                     <i class="nav-icon bi bi-ticket-perforated-fill"></i>
                                     <p class="text-white">Kode Kupon</p>
                                 </a>
@@ -313,6 +313,35 @@
                         </ul>
                     </li>
 
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="bi bi-person-video2 text-white"></i>
+                            <p class="fs-8 text-white">
+                                Halaman Koperasi
+                                <i class="nav-arrow bi bi-chevron-right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                 <a href="{{ route('admin.koperasi') }}" class="nav-link">
+                                    <i class="nav-icon bi bi-circle"></i>
+                                    <p class="text-white">Daftar Koperasi</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                 <a href="{{ route('admin.koperasi.detail') }}" class="nav-link">
+                                    <i class="nav-icon bi bi-circle"></i>
+                                    <p class="text-white">Detail Koperasi</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                 <a href="{{ route('admin.sertifikat.koperasi') }}" class="nav-link">
+                                    <i class="nav-icon bi bi-circle"></i>
+                                    <p class="text-white">Sertifikat Koperasi</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="bi bi-house-fill text-white"></i>

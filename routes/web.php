@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\KategoriAcaraController;
 use App\Http\Controllers\Admin\KategoriElearningController;
 use App\Http\Controllers\Admin\KategoriPelatihanController;
 use App\Http\Controllers\Admin\KategoriProdukController;
+use App\Http\Controllers\Admin\KuponController;
 use App\Http\Controllers\Admin\PelatihanController;
 use App\Http\Controllers\Admin\UserProfileController;
 use App\Http\Controllers\Admin\WhatappController;
@@ -23,9 +24,9 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataUMKMController;
 use App\Http\Controllers\FrontendController;
 // use App\Http\Controllers\DataUMKMController;
-// use App\Http\Controllers\KoperasiController;
-// use App\Http\Controllers\SertifikatController;
+use App\Http\Controllers\SertifikatController;
 use App\Http\Controllers\IndikatorUsahaLainnyaController;
+use App\Http\Controllers\KoperasiController;
 use App\Http\Controllers\PesananController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProfileController;
@@ -284,7 +285,21 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/admin/banner-ecommerce/delete/{id}', [BannerSliderController::class, 'destroy'])->name('admin.slider.delete');
     Route::put('/admin/banner-ecommerce/update/{id}', [BannerSliderController::class, 'update'])->name('admin.slider.update');
 
+    // Kupon 
+    Route::get('/admin/kupon', [KuponController::class, 'index'])->name('admin.kupon.index');
+    Route::get('/admin/kupon/create', [KuponController::class, 'create'])->name('admin.kupon.create');
+    Route::post('/admin/kupon/store', [KuponController::class, 'store'])->name('admin.kupon.store');
+    Route::get('/admin/kupon/edit/{id}', [KuponController::class, 'edit'])->name('admin.kupon.edit');
+    Route::put('/admin/kupon/update/{id}', [KuponController::class, 'update'])->name('admin.kupon.update');
+    Route::delete('/admin/kupon/delete/{id}', [KuponController::class, 'delete'])->name('admin.kupon.delete');
 
+    // koperasi
+    Route::get('/admin/koperasi', [KoperasiController::class, 'index'])->name('admin.koperasi');
+    Route::get('/admin/detail', [KoperasiController::class, 'show'])->name('admin.koperasi.detail');
+
+    Route::get('/admin/sertifikat-koperasi', [SertifikatController::class, 'index'])->name('admin.sertifikat.koperasi');
+
+    
 });
 
 
