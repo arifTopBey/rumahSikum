@@ -19,4 +19,6 @@ class SeekumSeeder extends Seeder
             'password' => bcrypt('12345678'),
         ]);
     }
+
+    
 }

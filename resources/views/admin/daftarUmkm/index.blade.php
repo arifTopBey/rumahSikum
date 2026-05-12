@@ -265,20 +265,21 @@
             </div>
         </div>
     </div>
-@else
-<div class="container">
-    <div class="row">
-        <div class="col-md-10 mx-auto">
-            <div class="bg-white rounded-2 border shadow px-3 py-3" style="min-height: 400px;">
-                <p class="fw-bold text-muted text-center fs-3">Terima Kasih telah mendaftar, Mohon menunggu Konfirmasi Admin</p>
-                <div class="d-flex justify-content-center">
-                    <img src="{{ asset('image/icon.png') }}" alt="" class="mx-auto mt-3" height="180" width="180">
+@elseif($vendorRequest->status_store === 1)
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 mx-auto">
+                <div class="bg-white rounded-2 border shadow px-3 py-3" style="min-height: 400px;">
+                    <p class="fw-bold text-muted text-center fs-3">Terima Kasih telah mendaftar, Permohonan Telah disetujui 🎉</p>
+                    <div class="d-flex justify-content-center">
+                        <img src="{{ asset('image/icon.png') }}" alt="" class="mx-auto mt-3" height="180" width="180">
 
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+@else
 @endif
 @endsection
 

@@ -333,7 +333,7 @@
            const totalData = @json($identitasUsaha->count());
            const canvas = document.getElementById('businessChart');
 
-           canvas.height = totalData * 8; // ⬅ ini kuncinya
+           canvas.height = totalData * 8; 
         let kecamatan = "";
            const ctx = canvas.getContext('2d');
 

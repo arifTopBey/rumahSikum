@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginSroreRequest;
+use App\Http\Requests\RegisterStoreRequest;
 use App\Interface\AuthInterface;
+use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -29,7 +33,8 @@ class AuthController extends Controller
 
             $request->session()->regenerate();
 
-            return redirect()->route('admin.sebaran.data.umkm');
+            // return redirect()->route('admin.sebaran.data.umkm');
+            return redirect()->route('user.dashboard');
         }
 
         return back()->with('LoginError','Email Atau Password Salah');
@@ -50,6 +55,34 @@ class AuthController extends Controller
 
 
         return redirect()->route('login');
+    }
+
+
+
+
+    public function registerStore(RegisterStoreRequest $request){
+
+        $validated = $request->validated();
+        DB::beginTransaction();
+
+        try{
+
+            $user = new User();
+            $user->name = $validated['name'];
+            $user->email = $validated['email'];
+            $user->status = 'active';
+            $user->user_role = 'user';
+            $user->password = bcrypt($validated['password']);
+            $user->save();
+            DB::commit();
+
+            return redirect()->route('login')->with('success', 'Pendaftaran Berhasil Silahkan Login');
+            
+        }catch(Exception $e){
+            DB::rollBack();
+            return redirect()->route('frontend.register')->with('failed', $e->getMessage());
+
+        }
     }
 
     // login dan logout menggunakan repository

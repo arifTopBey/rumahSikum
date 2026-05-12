@@ -4,10 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Vendor extends Model
+class ProdukPhoto extends Model
 {
-    
-    protected $table = 'vendors'; 
+    protected $table = 'photos_produks'; 
     protected $primaryKey = 'id';
     public $incrementing = true;
     protected $keyType = 'int';
@@ -15,7 +14,7 @@ class Vendor extends Model
 
     protected $guarded = ['id']; 
 
-    public function produk(){
-        return $this->hasMany(VendorProduk::class, 'vendor_id', 'id');
+    public function vendorProduks(){
+        return $this->belongsTo(VendorProduk::class, 'produk_id', 'id');
     }
 }

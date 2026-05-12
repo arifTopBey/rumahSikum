@@ -48,7 +48,7 @@
                                 </div>
                             @endif
     
-                            <form action="" method="POST">
+                            <form action="{{ route('frontend.register.store') }}" method="POST">
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-12 mb-3">
@@ -82,19 +82,19 @@
                                     Daftar Sekarang
                                 </button>
     
-                                <div class="position-relative mb-4">
+                                <!-- <div class="position-relative mb-4">
                                     <hr class="text-muted opacity-25">
                                     <span class="position-absolute top-50 start-50 translate-middle bg-white px-3 text-muted small">Atau daftar dengan</span>
-                                </div>
+                                </div> -->
     
-                                <div class="row g-2">
+                                <!-- <div class="row g-2">
                                     <div class="col-12">
                                         <a href="#" class="social-login">
                                             <img src="{{ asset('image/google.png') }}" width="18" alt="Google">
                                             Google Account
                                         </a>
                                     </div>
-                                </div>
+                                </div> -->
     
                                 <p class="text-center mt-4 text-muted small">
                                     Sudah punya akun? <a href="{{ route('login') }}" class="fw-bold text-decoration-none" style="color: #6B17BF;">Masuk di sini</a>
