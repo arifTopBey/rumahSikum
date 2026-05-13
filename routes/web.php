@@ -17,6 +17,8 @@ use App\Http\Controllers\Admin\KategoriPelatihanController;
 use App\Http\Controllers\Admin\KategoriProdukController;
 use App\Http\Controllers\Admin\KuponController;
 use App\Http\Controllers\Admin\PelatihanController;
+use App\Http\Controllers\Admin\PenggunaController;
+use App\Http\Controllers\Admin\TokoController;
 use App\Http\Controllers\Admin\UserProfileController;
 use App\Http\Controllers\Admin\WhatappController;
 use App\Http\Controllers\AuthController;
@@ -170,7 +172,6 @@ Route::middleware(['auth'])->group(function () {
     });
 
 
-
     Route::middleware(['check_role:admin'])->group(function () {
 
 
@@ -194,7 +195,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/filter-perizinan-usaha', [DataUMKMController::class, 'filterPerizinan'])->name('admin.filter.perizinan.usaha');
         Route::get('/filter-omzet-usaha', [DataUMKMController::class, 'filterOmzet'])->name('admin.filter.omzet.usaha');
         Route::get('/filter-metode-pemasaran-usaha', [DataUMKMController::class, 'filterMetodeUsahaPemasaran'])->name('admin.filter.metode.pemasaran.usaha');
-
         // filter data tabel umkm
 
         Route::get('/sebaran-data-umkm/kbli/{kategori}', [DataUMKMController::class, 'dataKbriKategori']);
@@ -338,6 +338,17 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/admin/banner-ecommerce/create', [BannerSliderController::class, 'store'])->name('admin.slider.store');
         Route::delete('/admin/banner-ecommerce/delete/{id}', [BannerSliderController::class, 'destroy'])->name('admin.slider.delete');
         Route::put('/admin/banner-ecommerce/update/{id}', [BannerSliderController::class, 'update'])->name('admin.slider.update');
+
+        // list toko vendor
+        Route::get('/admin/list-toko', [TokoController::class, 'index'])->name('admin.list.toko.index');
+        Route::get('/admin/list-toko/{id}',  [TokoController::class, 'show'])->name('admin.list.toko.detail'); 
+
+        // list produk semua toko
+        Route::get('/admin/list-produk', [TokoController::class, 'listProduk'])->name('admin.list.produk.index');
+        Route::get('/admin/list-produk/{id}', [TokoController::class, 'listProdukDetail'])->name('admin.list.produk.detail');
+
+        // daftar pengguna
+        Route::get('/admin/daftar-pengguna', [PenggunaController::class, 'index'])->name('admin.daftar.pengguna.index');
     });
 
 });
