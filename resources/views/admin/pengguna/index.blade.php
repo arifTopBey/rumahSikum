@@ -106,7 +106,7 @@
                                     <h6 class="dropdown-header smaller text-muted fw-bold text-uppercase">Opsi Pengguna</h6>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item d-flex align-items-center py-2 px-3" href="#">
+                                    <a class="dropdown-item d-flex align-items-center py-2 px-3" href="{{ route('admin.daftar.pengguna.detail', $user->id) }}">
                                         <i data-lucide="eye" size="16" class="me-3 text-primary"></i>
                                         <span class="small fw-medium">Lihat Detail</span>
                                     </a>

@@ -99,7 +99,7 @@ Route::get('/storage/private/elearning/mentor/{path}', [ElearningController::cla
 Route::get('/storage/private/profile/user/{path}', [UserProfileController::class, 'showFotoProfil'])->where('path', '.*')->name('showFoto.fotoProfile.private');
 Route::get('/storage/private/{path}', [BeritaController::class, 'showFotoBerita'])->where('path', '.*')->name('showFoto.berita.private');
 Route::get('/storage/app/private/{path}', [ElearningController::class, 'showPdfElearning'])->where('path', '.*')->name('showPdf.elearning.private');
-Route::get('/storage/app/{path}', [KategoriProdukController::class, 'showIconKategori'])->where('path', '.*')->name('show.icon.produk.private');
+Route::get('/storage/app/icon/{path}', [KategoriProdukController::class, 'showIconKategori'])->where('path', '.*')->name('show.icon.produk.private');
 Route::get('/storage/app/ktp/{path}', [DaftarUmkmController::class, 'showFotoKtp'])->where('path', '.*')->name('show.ktp.private');
 Route::get('/storage/app/{path}', [\App\Http\Controllers\Vendor\ProdukController::class, 'showThumbnailProduk'])->where('path', '.*')->name('show.thumbnail.produk.private');
 
@@ -349,6 +349,9 @@ Route::middleware(['auth'])->group(function () {
 
         // daftar pengguna
         Route::get('/admin/daftar-pengguna', [PenggunaController::class, 'index'])->name('admin.daftar.pengguna.index');
+        Route::get('/admin/daftar-pengguna/{id}', [PenggunaController::class, 'show'])->name('admin.daftar.pengguna.detail');
+
+
     });
 
 });

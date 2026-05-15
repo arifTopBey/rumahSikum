@@ -496,6 +496,46 @@
                             </a>
                         </li>
                     </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('frontend.acara') }}" class="nav-link">
+                                <i class="nav-icon bi bi-circle"></i>
+                                <p class="text-white">Halaman Acara</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('frontend.berita') }}" class="nav-link">
+                                <i class="nav-icon bi bi-circle"></i>
+                                <p class="text-white">Halaman Berita</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('frontend.pelatihan') }}" class="nav-link">
+                                <i class="nav-icon bi bi-circle"></i>
+                                <p class="text-white">Halaman Pelatihan</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('frontend.eCommerce') }}" class="nav-link">
+                                <i class="nav-icon bi bi-circle"></i>
+                                <p class="text-white">Halaman Marketplace</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('frontend.e-learning') }}" class="nav-link">
+                                <i class="nav-icon bi bi-circle"></i>
+                                <p class="text-white">Halaman Elearning</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
