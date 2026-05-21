@@ -54,6 +54,8 @@ use Maatwebsite\Excel\Facades\Excel;
 //     Route::post('/login', [AuthController::class, 'login'])->name('login.store');
 // });
 
+
+
 Route::get('/list-panel', [FrontendController::class, 'listPanel'])->name('frontend.list.panel');
 Route::get('/e-learning', [FrontendController::class, 'eLearning'])->name('frontend.e-learning');
 Route::get('/e-learning/detail/{id}', [FrontendController::class, 'detailElearning'])->name('frontend.e-learning.detail');
@@ -316,6 +318,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/admin/koperasi', [KoperasiController::class, 'index'])->name('admin.koperasi');
         Route::get('/admin/detail', [KoperasiController::class, 'show'])->name('admin.koperasi.detail');
         Route::get('/admin/sertifikat-koperasi', [SertifikatController::class, 'index'])->name('admin.sertifikat.koperasi');
+        Route::get('/admin/statistik-koperasi', [KoperasiController::class, 'statistikKoperasi'])->name('admin.statistik.koperasi');
+        Route::get('/admin/jenis-koperasi', [KoperasiController::class, 'jenisKoperasi'])->name('admin.jenis.koperasi');
+        Route::get('/admin/kuk-koperasi', [KoperasiController::class, 'kukKoperasi'])->name('admin.kuk.koperasi');
+        Route::get('/admin/grade-koperasi', [KoperasiController::class, 'gradeKoperasi'])->name('admin.grade.koperasi');
+        Route::get('/admin/dashboard-koperasi', [KoperasiController::class, 'dashboardKoperasi'])->name('admin.dashboard.koperasi');
+        Route::get('/admin/grafik-koperasi', [KoperasiController::class, 'grafikKoperasi'])->name('admin.grafik.koperasi');
+        Route::get('/admin/pendirian-koperasi', [KoperasiController::class, 'pendirianKoperasi'])->name('admin.pendirian.koperasi');
 
         // Kupon 
         Route::get('/admin/kupon', [KuponController::class, 'index'])->name('admin.kupon.index');
@@ -330,8 +339,6 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/admin/kategori-produk/store', [KategoriProdukController::class, 'store'])->name('admin.kategori.produk.store');
         Route::put('/admin/kategori-produk/update/{id}', [KategoriProdukController::class, 'update'])->name('admin.kategori.produk.update');
         Route::delete('/admin/kategori-produk/delete/{id}', [KategoriProdukController::class, 'delete'])->name('admin.kategori.produk.delete');
-
-
 
         // banner
         Route::get('/admin/banner-ecommerce', [BannerSliderController::class, 'index'])->name('admin.slider.index');

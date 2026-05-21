@@ -22,28 +22,21 @@
         <a href="" class="brand-link py-3">
             <!--begin::Brand Image-->
             <img src="{{ asset('image/icon.png') }}" alt="AdminLTE Logo" class="brand-image opacity-75 shadow" />
-            <!--end::Brand Image-->
-            <!--begin::Brand Text-->
+           
             <div class="ms-1 py-3">
                 <span class="brand-text fw-bold fs-8 text-white">DINAS KOPERASI DAN USAHA MIKRO</span>
                 <p class="fs-7 text-center fw-light text-white">KABUPATEN TANGERANG</p>
             </div>
-            <!--end::Brand Text-->
+           
         </a>
-        <!--end::Brand Link-->
+       
     </div>
     <!--end::Sidebar Brand-->
     <!--begin::Sidebar Wrapper-->
+
     <div class="sidebar-wrapper">
 
-        {{-- <div class="sidebar-brand">
-            <a href="./index.html" class="brand-link">
-                <!--begin::Brand Image-->
-                <img src="" alt="AdminLTE Logo" class="brand-image rounded-circle opacity-75 shadow" />
-
-                <span class="brand-text fw-light fs-7">Admin</span>
-            </a>
-        </div> --}}
+      
         <nav class="mt-2">
             <!--begin::Sidebar Menu-->
             <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="navigation"
@@ -319,9 +312,51 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
+                                <a href="{{ route('admin.dashboard.koperasi') }}" class="nav-link">
+                                    <i class="nav-icon bi bi-circle"></i>
+                                    <p class="text-white">Dashboard Koperasi</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.grafik.koperasi') }}" class="nav-link">
+                                    <i class="nav-icon bi bi-circle"></i>
+                                    <p class="text-white">Grafik Koperasi</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.pendirian.koperasi') }}" class="nav-link">
+                                    <i class="nav-icon bi bi-circle"></i>
+                                    <p class="text-white">Pendirian Koperasi</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="{{ route('admin.koperasi') }}" class="nav-link">
                                     <i class="nav-icon bi bi-circle"></i>
                                     <p class="text-white">Daftar Koperasi</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.statistik.koperasi') }}" class="nav-link">
+                                    <i class="nav-icon bi bi-circle"></i>
+                                    <p class="text-white">Statistik Koperasi</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.jenis.koperasi') }}" class="nav-link">
+                                    <i class="nav-icon bi bi-circle"></i>
+                                    <p class="text-white">Jenis Koperasi</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.kuk.koperasi') }}" class="nav-link">
+                                    <i class="nav-icon bi bi-circle"></i>
+                                    <p class="text-white">Kuk Koperasi</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('admin.grade.koperasi') }}" class="nav-link">
+                                    <i class="nav-icon bi bi-circle"></i>
+                                    <p class="text-white">Grade Koperasi</p>
                                 </a>
                             </li>
                             <li class="nav-item">
