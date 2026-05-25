@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\PenggunaController;
 use App\Http\Controllers\Admin\TokoController;
 use App\Http\Controllers\Admin\UserProfileController;
 use App\Http\Controllers\Admin\WhatappController;
+use App\Http\Controllers\Admin\WishlistController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataUMKMController;
@@ -61,6 +62,13 @@ Route::get('/e-learning', [FrontendController::class, 'eLearning'])->name('front
 Route::get('/e-learning/detail/{id}', [FrontendController::class, 'detailElearning'])->name('frontend.e-learning.detail');
 Route::get('/e-commerce', [FrontendController::class, 'eCommerce'])->name('frontend.eCommerce');
 Route::get('/e-commerce/produk', [FrontendController::class, 'eCommerceDetail'])->name('frontend.eCommerce.detail');
+Route::get('/e-commerce/kategori-produk', [FrontendController::class, 'kategoriProduk'])->name('frontend.produk.kategori');
+
+// withlist
+Route::get('/e-commerce/wishlist-produk', [WishlistController::class, 'wishListProduk'])->name('frontend.wishlist.produk');
+Route::post('/e-commerce/wishlist-produk/store', [WishlistController::class, 'store'])->name('frontend.wishlist.produk.store');
+Route::delete('/e-commerce/wishlist-produk/delete/{id}', [WishlistController::class, 'delete'])->name('frontend.wishlist.produk.delete');
+
 Route::get('/koperasi', [FrontendController::class, 'koperasi'])->name('frontend.koperasi');
 Route::get('/tambah-umkm', [FrontendController::class, 'tambahUmkm'])->name('frontend.tambah.umkm');
 Route::get('/acara', [FrontendController::class, 'acara'])->name('frontend.acara');

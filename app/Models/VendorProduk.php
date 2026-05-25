@@ -25,5 +25,9 @@ class VendorProduk extends Model
     public function kategori(){
         return $this->belongsTo(KategoriProduk::class, 'kategori_produk_id', 'id');
     }
+
+    public function wishlist(){
+        return $this->hasOne(Wishlist::class, 'produk_id', 'id');
+    }
 }
 

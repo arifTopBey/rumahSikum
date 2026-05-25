@@ -6,6 +6,7 @@ use App\Models\Berita;
 use App\Models\Elearning;
 use App\Models\KategoriPelatihan;
 use App\Models\Pelatihan;
+use App\Models\VendorProduk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -54,7 +55,9 @@ class FrontendController extends Controller
 
     public function eCommerce(){
 
-        return view('frontend.ecommerce.index');
+        $produks = VendorProduk::orderByDesc('id')->get();
+
+        return view('frontend.ecommerce.index', compact('produks'));
     }
 
     public function eCommerceDetail(){
@@ -64,6 +67,11 @@ class FrontendController extends Controller
     public function cartList(){
 
         return view('frontend.ecommerce.cartList');
+    }
+
+    public function kategoriProduk(){
+
+        return view('frontend.ecommerce.kategori.index');
     }
 
     public function koperasi(){
