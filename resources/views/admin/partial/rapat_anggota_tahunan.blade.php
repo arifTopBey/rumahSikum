@@ -13,15 +13,21 @@
                 </tr>
             </thead>
             <tbody>
+                @forelse($koperasi['RAT'] ?? [] as $pad)
                 <tr>
-                    <td class="text-center">2004</td>
-                    <td class="text-center">2005-09-06</td>
-                    <td class="text-center">111111</td>
-                    <td class="text-center">11111</td>
-                    <td class="text-center">Arya</td>
-                    <td class="text-center">Jalan Raya Cadas Kukun </td>
-                    <td class="text-center">33</td>
+                    <td class="text-center">{{ $pad['TahunRAT'] ?? '-' }}</td>
+                    <td class="text-center">{{ $pad['TanggalRAT'] ?? '-' }}</td>
+                    <td class="text-center">{{ $pad['NomorAkta'] ?? '-' }}</td>
+                    <td class="text-center">{{ $pad['TanggalAkta'] ?? '-' }}</td>
+                    <td class="text-center">{{ $pad['NamaNotaris'] ?? '-' }}</td>
+                    <td class="text-center">{{ $pad['AlamatRapat'] ?? '-' }}</td>
+                    <td class="text-center">{{ $pad['JumlahPeserta'] ?? '-' }}</td>
                 </tr>
+                @empty
+                <tr style="width: 100%;">
+                    <td colspan="8" class="text-center text-muted">Tidak ada data rapat anggota tahunan.</td>
+                </tr>
+                @endforelse
             </tbody>
         </table>
     </div>

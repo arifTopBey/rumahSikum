@@ -8,7 +8,7 @@
                     <th style="background-color: #00997a; color: white;">Jabatan</th>
                     <th style="background-color: #00997a; color: white;">Kepengurusan</th>
                     <th style="background-color: #00997a; color: white;">NPWP</th>
-                    <th style="background-color: #00997a; color: white;">No Telpon</th>
+                    <th style="background-color: #00997a; color: white;">KTP</th>
                     <th style="background-color: #00997a; color: white;">Tanggal Mulai</th>
                     <th style="background-color: #00997a; color: white;">Tanggal Selesai</th>
                     <th style="background-color: #00997a; color: white;">Status</th>
@@ -16,18 +16,25 @@
                 </tr>
             </thead>
             <tbody>
+            
+              @forelse($koperasi['Pengurus'] ?? [] as $pad)
                 <tr>
                     <td class="text-center">1</td>
-                    <td class="">Maemunah</td>
-                    <td class="text-center">KETUA</td>
-                    <td class="text-center">Pengurus</td>
-                    <td class="text-center">00000000000</td>
-                    <td class="text-center">088888</td>
-                    <td class="text-center">2008-08-03</td>
-                    <td class="text-center">2008-08-03</td>
-                    <td class="text-center">aktif</td>
-                    <td class="text-center">Pengesahan AHU</td>
+                    <td class="text-center">{{ $pad['Nama'] ?? '-' }}</td>
+                    <td class="text-center">{{ $pad['IdJabatan'] ?? '-' }}</td>
+                    <td class="text-center">{{ $pad['IdStatus'] ?? '-' }}</td>
+                    <td class="text-center">{{ $pad['NPWP'] ?? '-' }}</td>
+                    <td class="text-center">{{ $pad['KTP'] ?? '-' }}</td>
+                    <td class="text-center">{{ $pad['TanggalMulai'] ?? '-' }}</td>
+                    <td class="text-center">{{ $pad['TanggalSelesai'] ?? '-' }}</td>
+                    <td class="text-center">{{ $pad['StatusKepengurusan'] ?? '-' }}</td>
+                    <td class="text-center">{{ $pad['SumberData'] ?? '-' }}</td>
                 </tr>
+                @empty
+                <tr>
+                    <td colspan="12" class="text-center text-muted">Tidak ada data pengurus dan pengawas.</td>
+                </tr>
+                @endforelse
             </tbody>
         </table>
     </div>

@@ -360,12 +360,6 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('admin.koperasi.detail') }}" class="nav-link">
-                                    <i class="nav-icon bi bi-circle"></i>
-                                    <p class="text-white">Detail Koperasi</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
                                 <a href="{{ route('admin.sertifikat.koperasi') }}" class="nav-link">
                                     <i class="nav-icon bi bi-circle"></i>
                                     <p class="text-white">Sertifikat Koperasi</p>
