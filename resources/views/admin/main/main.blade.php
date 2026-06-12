@@ -869,87 +869,7 @@
             });
         </script>
      <!-- usaha berdasarkan cluster -->
-     @elseif(Request::is('usaha-berdasarkan-desil'))
-
-        {{-- pengusaha berdasarkan desil --}}
-        <script>
-            // Pastikan Plugin Datalabels terdaftar jika belum
-            if (typeof ChartDataLabels !== 'undefined') {
-                Chart.register(ChartDataLabels);
-            }
-
-            const ctxDesil = document.getElementById('desilChart').getContext('2d');
-
-            // Data sesuai gambar kedua
-            // const desilLabels = [
-            //     'Desil 1','Desil 2','Desil 3','Desil 4','Desil 5',
-            //     'Desil 6','Desil 7','Desil 8','Desil 9','Desil 10'
-            // ];
-            // const desilValues = [24711, 24185, 23629, 22741, 22575, 22540, 21898, 21156, 20148, 17509];
-
-            const desilChart = new Chart(ctxDesil, {
-                type: 'bar',
-                data: {
-                    labels: @json($labelsDesils),
-                    datasets: [{
-                        data: @json($valuesDesils),
-                        backgroundColor: '#4a6d8c', // Warna biru seragam
-                        barThickness: 12, // Batang lebih ramping sesuai gambar
-                        borderRadius: 2
-                    }]
-                },
-                options: {
-                    indexAxis: 'y',
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    layout: {
-                        padding: {
-                            right: 50,
-                            left: 10
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        datalabels: {
-                            anchor: 'end',
-                            align: 'end',
-                            color: '#000',
-                            font: {
-                                weight: 'bold',
-                                size: 11
-                            },
-                            formatter: (value) => value.toLocaleString('id-ID')
-                        }
-                    },
-                    scales: {
-                        x: {
-                            beginAtZero: true,
-                            grid: {
-                                color: '#f0f0f0'
-                            },
-                            ticks: {
-                                size: 10
-                            }
-                        },
-                        y: {
-                            grid: {
-                                display: false
-                            },
-                            ticks: {
-                                font: {
-                                    size: 10,
-                                    weight: '600'
-                                },
-                                color: '#444'
-                            }
-                        }
-                    }
-                }
-            });
-        </script>
-        {{-- batas pengusaha berdasarkan desil --}}
+     
 
     @elseif(Request::is('usaha-berdasarkan-kbli'))
 
@@ -1428,6 +1348,89 @@
     @else
 
     {{-- batas usaha lainnya --}}
+    @endif
+
+    @if(Request::is('usaha-berdasarkan-desil'))
+
+        {{-- pengusaha berdasarkan desil --}}
+        <script>
+            // Pastikan Plugin Datalabels terdaftar jika belum
+            if (typeof ChartDataLabels !== 'undefined') {
+                Chart.register(ChartDataLabels);
+            }
+
+            const ctxDesil = document.getElementById('desilChart').getContext('2d');
+
+            // Data sesuai gambar kedua
+            // const desilLabels = [
+            //     'Desil 1','Desil 2','Desil 3','Desil 4','Desil 5',
+            //     'Desil 6','Desil 7','Desil 8','Desil 9','Desil 10'
+            // ];
+            // const desilValues = [24711, 24185, 23629, 22741, 22575, 22540, 21898, 21156, 20148, 17509];
+
+            const desilChart = new Chart(ctxDesil, {
+                type: 'bar',
+                data: {
+                    labels: @json($labelsDesils),
+                    datasets: [{
+                        data: @json($valuesDesils),
+                        backgroundColor: '#4a6d8c', // Warna biru seragam
+                        barThickness: 12, // Batang lebih ramping sesuai gambar
+                        borderRadius: 2
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    layout: {
+                        padding: {
+                            right: 50,
+                            left: 10
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        datalabels: {
+                            anchor: 'end',
+                            align: 'end',
+                            color: '#000',
+                            font: {
+                                weight: 'bold',
+                                size: 11
+                            },
+                            formatter: (value) => value.toLocaleString('id-ID')
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            grid: {
+                                color: '#f0f0f0'
+                            },
+                            ticks: {
+                                size: 10
+                            }
+                        },
+                        y: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                font: {
+                                    size: 10,
+                                    weight: '600'
+                                },
+                                color: '#444'
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+        {{-- batas pengusaha berdasarkan desil --}}
     @endif
 
 

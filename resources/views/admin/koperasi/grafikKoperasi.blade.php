@@ -65,6 +65,155 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
 
+        const paletteColors = ['#dc2626', '#a855f7', '#64748b', '#f97316', '#3b82f6', '#10b981', '#ec4899', '#4f46e5'];
+
+        // ==========================================
+        // 1. CHART BENTUK KOPERASI (HORIZONTAL BAR)
+        // ==========================================
+        new Chart(document.getElementById('chartBentukHori'), {
+            type: 'bar',
+            data: {
+                labels: ['Primer Provinsi', 'Sekunder Nasional', 'Sekunder Kabupaten/Kota'],
+                datasets: [
+                    {
+                        label: 'Primer',
+                        data: [
+                            {{ $bentukData['Primer Provinsi']['primer'] }}, 
+                            {{ $bentukData['Sekunder Nasional']['primer'] }}, 
+                            {{ $bentukData['Sekunder Kabupaten/Kota']['primer'] }}
+                        ],
+                        backgroundColor: '#facc15'
+                    },
+                    {
+                        label: 'Sekunder',
+                        data: [
+                            {{ $bentukData['Primer Provinsi']['sekunder'] }}, 
+                            {{ $bentukData['Sekunder Nasional']['sekunder'] }}, 
+                            {{ $bentukData['Sekunder Kabupaten/Kota']['sekunder'] }}
+                        ],
+                        backgroundColor: '#ef4444'
+                    }
+                ]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { boxWidth: 12 } }
+                },
+                scales: {
+                    x: { grid: { color: '#f1f5f9' } },
+                    y: { grid: { display: false } }
+                }
+            }
+        });
+
+        // ==========================================
+        // 2. CHART SEKTOR USAHA (VERTICAL BAR)
+        // ==========================================
+        new Chart(document.getElementById('chartSektorUsaha'), {
+            type: 'bar',
+            data: {
+                labels: {!! json_encode($labelsSektor) !!},
+                datasets: [{
+                    label: 'Sektor Usaha',
+                    data: {!! json_encode($dataSektor) !!},
+                    backgroundColor: paletteColors,
+                    borderRadius: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { grid: { color: '#f1f5f9' } },
+                    x: { grid: { display: false }, ticks: { font: { size: 9 } } }
+                }
+            }
+        });
+
+        // Konfigurasi Standar Ring Chart
+        const doughnutOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '70%',
+            plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } } }
+        };
+
+        // ==========================================
+        // 3. CHART JENIS KOPERASI (PIE)
+        // ==========================================
+        new Chart(document.getElementById('chartJenisKopBottom'), {
+            type: 'pie',
+            data: {
+                labels: {!! json_encode($labelsJenis) !!},
+                datasets: [{
+                    data: {!! json_encode($dataJenis) !!},
+                    backgroundColor: paletteColors
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 9 } } } }
+            }
+        });
+
+        // ==========================================
+        // 4. CHART SIMPAN PINJAM (DOUGHNUT)
+        // ==========================================
+        new Chart(document.getElementById('chartSimpanPinjam'), {
+            type: 'doughnut',
+            data: {
+                labels: ['USP', 'USPPS', 'KSP', 'KSPPS'],
+                datasets: [{
+                    data:[{{ $usp }}, {{ $uspps }}, {{ $ksp }}, {{ $kspps }}],
+                    backgroundColor: ['#2563eb', '#dc2626', '#a3e635', '#0d9488']
+                }]
+            },
+            options: doughnutOptions
+        });
+
+        // ==========================================
+        // 5. CHART POLA PENGELOLAAN (DOUGHNUT)
+        // ==========================================
+        new Chart(document.getElementById('chartPolaPengelolaan'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Konvensional', 'Syariah'],
+                datasets: [{
+                    data: [{{ $polaKonvensional }}, {{ $polaSyariah }}],
+                    backgroundColor: ['#2563eb', '#dc2626']
+                }]
+            },
+            options: doughnutOptions
+        });
+
+        // ==========================================
+        // 6. CHART PENGURUS DAN PENGAWAS (DOUGHNUT)
+        // ==========================================
+        new Chart(document.getElementById('chartPengurusPengawas'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Pengurus', 'Pengawas'],
+                datasets: [{
+                    data: [{{ $totalPengurus }}, {{ $totalPengawas }}],
+                    backgroundColor: ['#ea580c', '#2563eb']
+                }]
+            },
+            options: doughnutOptions
+        });
+
+    });
+</script>
+
+<!-- <script>
+    document.addEventListener("DOMContentLoaded", function() {
+
         // ==========================================
         // 1. CHART BENTUK KOPERASI (HORIZONTAL BAR)
         // ==========================================
@@ -199,5 +348,5 @@
         });
 
     });
-</script>
+</script> -->
 @endsection

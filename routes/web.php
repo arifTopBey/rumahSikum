@@ -326,13 +326,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/admin/koperasi', [KoperasiController::class, 'index'])->name('admin.koperasi');
         Route::get('/admin/koperasi/detail/{nik}', [KoperasiController::class, 'showDetail'])->name('admin.koperasi.detail');
         Route::get('/admin/sertifikat-koperasi', [SertifikatController::class, 'index'])->name('admin.sertifikat.koperasi');
-        Route::get('/admin/statistik-koperasi', [KoperasiController::class, 'statistikKoperasi'])->name('admin.statistik.koperasi');
+        Route::get('/admin/statistik-koperasi', [KoperasiController::class, 'indexStatistikKoperasi'])->name('admin.statistik.koperasi');
         Route::get('/admin/jenis-koperasi', [KoperasiController::class, 'jenisKoperasi'])->name('admin.jenis.koperasi');
         Route::get('/admin/kuk-koperasi', [KoperasiController::class, 'indexKuk'])->name('admin.kuk.koperasi');
-        Route::get('/admin/grade-koperasi', [KoperasiController::class, 'gradeKoperasi'])->name('admin.grade.koperasi');
+        Route::get('/admin/grade-koperasi', [KoperasiController::class, 'indexGrade'])->name('admin.grade.koperasi');
         Route::get('/admin/dashboard-koperasi', [KoperasiController::class, 'getDashboardData'])->name('admin.dashboard.koperasi');
-        Route::get('/admin/grafik-koperasi', [KoperasiController::class, 'grafikKoperasi'])->name('admin.grafik.koperasi');
-        Route::get('/admin/pendirian-koperasi', [KoperasiController::class, 'pendirianKoperasi'])->name('admin.pendirian.koperasi');
+        Route::get('/admin/grafik-koperasi', [KoperasiController::class, 'indexGrafikKoperasi'])->name('admin.grafik.koperasi');
+        Route::get('/admin/pendirian-koperasi', [KoperasiController::class, 'indexPendirianKoperasi'])->name('admin.pendirian.koperasi');
 
         // Kupon 
         Route::get('/admin/kupon', [KuponController::class, 'index'])->name('admin.kupon.index');
