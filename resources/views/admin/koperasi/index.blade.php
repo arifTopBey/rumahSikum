@@ -39,15 +39,6 @@
 <div class="container-fluid mt-4">
     <h4 class="mb-4 text-dark fw-bold">Data Koperasi Wilayah {{ $result['provinsi'] ?? '' }}</h4>
 
-     @if ($errors->any())
-    <div class="alert alert-danger">
-        <ul class="mb-0">
-            @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
     
     <div class="card card-filter p-3 mb-4 shadow-sm border-0">
         <div class="row g-3">

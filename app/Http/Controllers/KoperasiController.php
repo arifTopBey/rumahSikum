@@ -155,7 +155,7 @@ class KoperasiController extends Controller
                 // Misal kita ambil 100 data pertama saja untuk ditamilkan dulu 
                 // (opsional: hapus baris array_slice ini jika nanti ingin memakai DataTables penuh)
                 $allData = $result['data'] ?? [];
-                $result['data'] = array_slice($allData, 0, 100);
+                $result['data'] = array_slice($allData, 0, 500);
                 return view('admin.koperasi.index', compact('result'));
             }
 
@@ -496,10 +496,68 @@ class KoperasiController extends Controller
         ));
     }
 
+    public function indexSertifikatKoperasi()
+{
+    $token = $this->getAccessToken();
+
+    // Mengambil payload utama profile dari cache file
+    $result = Cache::store('file')->remember('ods_full_data_dashboard', 1800, function() use ($token) {
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $token
+        ])->post('https://nik.kop.go.id/odsapi/odsprofile');
+
+        return $response->successful() ? $response->json() : null;
+    });
+
+    if (!$result || !isset($result['data'])) {
+        return back()->with('error', 'Gagal memuat data API.');
+    }
+
+    $now = Carbon::now();
+    $koperasiList = [];
+
+    foreach ($result['data'] as $item) {
+        $tglExpiredStr = $item['Tanggal_Berlaku_Sertifikat'] ?? null;
+        $statusSertifikat = 'Belum Bersertifikat';
+
+        // Tentukan status berdasarkan tanggal validitas expired
+        if (!empty($tglExpiredStr)) {
+            try {
+                $tglExpired = Carbon::parse($tglExpiredStr);
+                $statusSertifikat = $tglExpired->isPast() ? 'Expired' : 'Aktif';
+            } catch (\Exception $e) {
+                $statusSertifikat = 'Expired';
+            }
+        }
+
+        // Kumpulkan data ke array baru dengan format seragam
+        $koperasiList[] = [
+            'nik' => $item['NIK'] ?? '-',
+            'no_bh' => $item['Nomor_Badan_Hukum_Pendirian'] ?? '-',
+            'tgl_bh' => $item['Tanggal_Badan_Hukum_Pendirian'] ?? '-',
+            'nama' => $item['Nama_Koperasi'] ?? '-',
+            'grade' => $item['Grade'] ?? $item['Grade_Sertifikat'] ?? '-',
+            'tgl_terbit' => $item['Tanggal_Sertifikat'] ?? '-',
+            'tgl_cetak' => $item['Tanggal_Cetak_Sertifikat'] ?? '-',
+            'tgl_expired' => $tglExpiredStr ?? '-',
+            'edisi' => $item['Edisi_Cetak'] ?? '1',
+            'status_sertifikat' => $statusSertifikat,
+            'wilayah' => $item['Kabupaten'] ?? $item['Provinsi'] ?? 'Tangerang' // Wilayah penentu filter
+        ];
+    }
+
+    return view('admin.koperasi.sertifikat', compact('koperasiList'));
+}
+
     public function statistikKoperasi()
     {
 
         return view('admin.koperasi.statistikKoperasi');
+    }
+
+     public function sertifikatKoperasi(){
+
+        return view('admin.sertifikat.index');
     }
 
     public function indexStatistikKoperasi()
@@ -635,6 +693,82 @@ class KoperasiController extends Controller
             'tanggalData'
         ));
     }
+
+    public function indexJenisKoperasi()
+{
+    $token = $this->getAccessToken();
+
+    // 1. Ambil data utama profile dari Cache (tahan selama 30 menit agar performa kencang)
+    $result = Cache::store('file')->remember('ods_full_data_dashboard', 1800, function() use ($token) {
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $token
+        ])->post('https://nik.kop.go.id/odsapi/odsprofile');
+
+        return $response->successful() ? $response->json() : null;
+    });
+
+    if (!$result || !isset($result['data'])) {
+        return back()->with('error', 'Gagal mengambil data karakteristik koperasi.');
+    }
+
+    // Ambil data array koperasi
+    $koperasiItems = collect($result['data']);
+    $totalKoperasi = $koperasiItems->count();
+
+    // ==========================================
+    // 2. HITUNG DINAMIS: JENIS KOPERASI
+    // ==========================================
+    $jenisCounts = $koperasiItems->groupBy(function ($item) {
+        return trim($item['Jenis_Koperasi'] ?? 'Lainnya');
+    })->map->count();
+
+    // Pastikan keys utama terdefinisi, jika kosong beri nilai 0
+    $jenisData = [
+        'Produsen' => $jenisCounts->get('Produsen', 0),
+        'Pemasaran' => $jenisCounts->get('Pemasaran', 0),
+        'Konsumen' => $jenisCounts->get('Konsumen', 0),
+        'Jasa' => $jenisCounts->get('Jasa', 0),
+        'Simpan Pinjam' => $jenisCounts->get('Simpan Pinjam', 0),
+        'Kelurahan Merah Putih' => $jenisCounts->get('Kelurahan Merah Putih', 0),
+        'Desa Merah Putih' => $jenisCounts->get('Desa Merah Putih', 0),
+    ];
+
+    // Hitung persentase jenis koperasi
+    $jenisPersen = [];
+    foreach ($jenisData as $key => $value) {
+        $jenisPersen[$key] = $totalKoperasi > 0 ? round(($value / $totalKoperasi) * 100, 2) : 0;
+    }
+
+
+    // ==========================================
+    // 3. HITUNG DINAMIS: BENTUK KOPERASI
+    // ==========================================
+    $bentukCounts = $koperasiItems->groupBy(function ($item) {
+        return trim($item['Bentuk_Koperasi'] ?? 'Lainnya');
+    })->map->count();
+
+    // Pecah data bentuk berdasarkan kombinasi (Primer vs Sekunder) & (Kabupaten/Provinsi/Nasional)
+    $bentukData = [
+        'primer_kab'    => $bentukCounts->get('Primer Kabupaten/Kota', 0),
+        'primer_prov'   => $bentukCounts->get('Primer Provinsi', 0),
+        'primer_nas'    => $bentukCounts->get('Primer Nasional', 0),
+        'sekunder_kab'  => $bentukCounts->get('Sekunder Kabupaten/Kota', 0),
+        'sekunder_prov' => $bentukCounts->get('Sekunder Provinsi', 0),
+        'sekunder_nas'  => $bentukCounts->get('Sekunder Nasional', 0),
+    ];
+
+    // Hitung persentase bentuk koperasi
+    $bentukPersen = [];
+    foreach ($bentukData as $key => $value) {
+        $bentukPersen[$key] = $totalKoperasi > 0 ? round(($value / $totalKoperasi) * 100, 2) : 0;
+    }
+
+    return view('admin.koperasi.jenisKoperasi', compact(
+        'totalKoperasi', 
+        'jenisData', 'jenisPersen', 
+        'bentukData', 'bentukPersen'
+    ));
+}
     public function pendirianKoperasi()
     {
 
