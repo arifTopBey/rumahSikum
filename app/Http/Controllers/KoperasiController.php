@@ -36,160 +36,107 @@ class KoperasiController extends Controller
         }
     }
 
-    public function getDashboardData()
+   public function getDashboardData()
 {
     $token = $this->getAccessToken();
 
-    // 1. Ambil Data Profile (30 Menit Cache)
-    $profileResult = Cache::store('file')->remember('ods_full_data_profile', 1800, function() use ($token) {
-        $response = Http::withHeaders(['Authorization' => 'Bearer ' . $token])
-            ->post('https://nik.kop.go.id/odsapi/odsprofile');
+    // 1. Ambil data Rekap dari API dengan Cache 30 Menit (Hemat Kuota API)
+    $result = Cache::store('file')->remember('ods_data_rekap_dashboard', 1800, function() use ($token) {
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $token
+        ])->post('https://nik.kop.go.id/odsapi/odsrekap', [
+            'tahun' => date('Y') 
+            // 'tahun' => "2026" // Mengambil rekap tahun berjalan otomatis
+        ]);
+
         return $response->successful() ? $response->json() : null;
     });
 
-    // 2. Ambil Data Lembaga / Keanggotaan (30 Menit Cache)
-    $lembagaResult = Cache::store('file')->remember('ods_full_data_lembaga', 1800, function() use ($token) {
-        $response = Http::withHeaders(['Authorization' => 'Bearer ' . $token])
-            ->post('https://nik.kop.go.id/odsapi/odslembaga');
-        return $response->successful() ? $response->json() : null;
-    });
-
-    // 3. Ambil Data Keuangan (30 Menit Cache)
-    $keuanganResult = Cache::store('file')->remember('ods_full_data_keuangan', 1800, function() use ($token) {
-        $response = Http::withHeaders(['Authorization' => 'Bearer ' . $token])
-            ->post('https://nik.kop.go.id/odsapi/odskeuangan');
-        return $response->successful() ? $response->json() : null;
-    });
-
-    if (!$profileResult || !isset($profileResult['data'])) {
-        return back()->with('error', 'Gagal memuat data profile ODS.');
+    // Validasi sesuai dengan hasil dd() Anda yang memiliki $result['data']
+    if (!$result || !isset($result['data']) || !is_array($result['data'])) {
+        return back()->with('error', 'Gagal memuat data rekapitulasi ODS.');
     }
 
-    // --- PROSES MAPPING AGAR PENCARIAN NIK INSTAN (KUNCI EFISIENSI) ---
-    // Ubah data lembaga & keuangan menjadi key-value pair dengan NIK sebagai Key-nya
-    $lembagaMap = [];
-    if ($lembagaResult && isset($lembagaResult['data'])) {
-        foreach ($lembagaResult['data'] as $lem) {
-            if (!empty($lem['NIK'])) {
-                $lembagaMap[$lem['NIK']] = $lem;
-            }
-        }
-    }
+    // Ambil timestamp dari API untuk ditampilkan di Status Data pada View
+    $tanggalData = $result['tanggalData'] ?? date('Y-m-d H:i:s');
 
-    $keuanganMap = [];
-    if ($keuanganResult && isset($keuanganResult['data'])) {
-        foreach ($keuanganResult['data'] as $keu) {
-            if (!empty($keu['NIK'])) {
-                $keuanganMap[$keu['NIK']] = $keu;
-            }
-        }
-    }
-
-    // 4. Inisialisasi variabel Counter & Penampung Dashboard
+    // 2. Inisialisasi variabel penampung widget dashboard
     $koperasiAktif = 0;
     $belumSertifikat = 0;
     $sudahSertifikat = 0;
     $sertifikatAktif = 0;
     $sertifikatExp = 0;
 
-    $totalAnggota = 0; $anggotaPria = 0; $anggotaWanita = 0;
-    $totalKaryawan = 0; $karyawanPria = 0; $karyawanWanita = 0;
-    $totalManajer = 0; $manajerPria = 0; $manajerWanita = 0;
+    $anggotaPria = 0; $anggotaWanita = 0; $totalAnggota = 0;
+    $karyawanPria = 0; $karyawanWanita = 0; $totalKaryawan = 0;
+    $manajerPria = 0; $manajerWanita = 0; $totalManajer = 0;
 
     $totalAsetRaw = 0; $totalVolumeRaw = 0; $totalSHURaw = 0;
+    $modalSendiriRaw = 0; $modalLuarRaw = 0;
+    
     $sudahRAT = 0; $belumRAT = 0;
 
     $gradeData = ['A' => 0, 'B' => 0, 'C1' => 0, 'C2' => 0, 'Non' => 0];
 
-    // 5. Looping Utama Gabungan Data berdasarkan NIK
-    foreach ($profileResult['data'] as $item) {
-        $nik = $item['NIK'] ?? '';
+    // 3. Akumulasikan semua data dari array data (Mendukung indeks 0, 1, 2 dst)
+    foreach ($result['data'] as $item) {
+        // Blok Box Statistik Utama Atas (Nama key disesuaikan dengan hasil dd)
+        $koperasiAktif    += (int)($item['jumlahKoperasiAktif'] ?? 0);
+        $belumSertifikat  += (int)($item['jumlahBelumBersertifikat'] ?? 0);
+        $sudahSertifikat  += (int)($item['jumlahSudahBersertifikat'] ?? 0);
+        $sertifikatAktif  += (int)($item['jumlahSertifikatAktif'] ?? 0);
+        $sertifikatExp    += (int)($item['jumlahSertifikatExpired'] ?? 0);
 
-        // Ambil data komplemen keanggotaan & keuangan jika NIK cocok
-        $dataLembaga = $lembagaMap[$nik] ?? [];
-        $dataKeuangan = $keuanganMap[$nik] ?? [];
-
-        // --- COUNTING DATA PROFILE BASE ---
-        $statusKop = $item['StatusKoperasi'] ?? '';
-        if ($statusKop === 'Aktif') {
-            $koperasiAktif++;
-        }
-
-        $statusSertifikat = $item['Status_Sertifikat'] ?? '';
-        $tglBerlakuSert = $item['Tanggal_Berlaku_Sertifikat'] ?? null;
-        $hasSertifikat = ($statusSertifikat === 'Sertifikat Aktif') || !empty($tglBerlakuSert);
-
-        if ($hasSertifikat) {
-            $sudahSertifikat++;
-            $isExpired = true; 
-            if (!empty($tglBerlakuSert)) {
-                try {
-                    $isExpired = \Carbon\Carbon::parse($tglBerlakuSert)->isPast();
-                } catch (\Exception $e) {
-                    $isExpired = true;
-                }
-            } else {
-                $isExpired = ($statusSertifikat !== 'Sertifikat Aktif');
-            }
-            
-            if ($isExpired) {
-                $sertifikatExp++;
-            } else {
-                $sertifikatAktif++;
-            }
-        } else {
-            $belumSertifikat++;
-        }
-
-        // --- COUNTING DATA LEMBAGA BASE (Berdasarkan key API odslembaga) ---
-        $anggotaPria += (int)($dataLembaga['Anggota_Pria'] ?? $dataLembaga['Anggota_Laki_Laki'] ?? 0);
-        $anggotaWanita += (int)($dataLembaga['Anggota_Wanita'] ?? $dataLembaga['Anggota_Perempuan'] ?? 0);
+        // Blok Ring Demografi (Donut 1, 2, 3)
+        $anggotaPria      += (int)($item['jumlahAnggotaPria'] ?? 0);
+        $anggotaWanita    += (int)($item['jumlahAnggotaWanita'] ?? 0);
         
-        $karyawanPria += (int)($dataLembaga['Karyawan_Pria'] ?? $dataLembaga['Karyawan_Laki_Laki'] ?? 0);
-        $karyawanWanita += (int)($dataLembaga['Karyawan_Wanita'] ?? $dataLembaga['Karyawan_Perempuan'] ?? 0);
+        $karyawanPria     += (int)($item['jumlahKaryawanPria'] ?? 0);
+        $karyawanWanita   += (int)($item['jumlahKaryawanWanita'] ?? 0);
         
-        $manajerPria += (int)($dataLembaga['Manajer_Pria'] ?? $dataLembaga['Manajer_Laki_Laki'] ?? 0);
-        $manajerWanita += (int)($dataLembaga['Manajer_Wanita'] ?? $dataLembaga['Manajer_Perempuan'] ?? 0);
+        $manajerPria      += (int)($item['jumlahManajerPria'] ?? 0);
+        $manajerWanita    += (int)($item['jumlahManajerWanita'] ?? 0);
 
-        // --- COUNTING DATA KEUANGAN BASE (Berdasarkan key API odskeuangan) ---
-        $totalAsetRaw += (float)($dataKeuangan['Aset'] ?? $dataKeuangan['Total_Aset'] ?? 0);
-        $totalVolumeRaw += (float)($dataKeuangan['Volume_Usaha'] ?? $dataKeuangan['Volume'] ?? 0);
-        $totalSHURaw += (float)($dataKeuangan['SHU'] ?? $dataKeuangan['Sisa_Hasil_Usaha'] ?? 0);
+        // Blok Finansial & RAT (Donut 5, 6 & Sidebar Kanan)
+        $totalAsetRaw     += (float)($item['jumlahAset'] ?? 0);
+        $totalVolumeRaw   += (float)($item['jumlahVolumeUsaha'] ?? 0);
+        $totalSHURaw      += (float)($item['jumlahSisaHasilUsaha'] ?? 0);
+        $modalSendiriRaw  += (float)($item['jumlahModalSendiri'] ?? 0);
+        $modalLuarRaw     += (float)($item['jumlahModalLuar'] ?? 0);
 
-        // --- FILTER RAT & GRADE FROM PROFILE/LEMBAGA ---
-        $tglRat = $item['Tanggal_RAT_Terakhir'] ?? null;
-        if (!empty($tglRat)) {
-            $sudahRAT++;
-        } else {
-            $belumRAT++;
-        }
+        $sudahRAT         += (int)($item['jumlahSudahRAT'] ?? 0);
+        $belumRAT         += (int)($item['jumlahBelumRAT'] ?? 0);
 
-        $g = strtoupper($item['Grade'] ?? 'NON');
-        if ($g === 'C') { $g = 'C1'; } 
-
-        if (array_key_exists($g, $gradeData)) {
-            $gradeData[$g]++;
-        } else {
-            $gradeData['Non']++;
-        }
+        // Blok Klasifikasi Grade (Donut 4)
+        $gradeData['A']   += (int)($item['jumlahGradeA'] ?? 0);
+        $gradeData['B']   += (int)($item['jumlahGradeB'] ?? 0);
+        $gradeData['C1']  += (int)($item['jumlahGradeC1'] ?? 0);
+        $gradeData['C2']  += (int)($item['jumlahGradeC2'] ?? 0);
+        $gradeData['Non'] += (int)($item['jumlahGradeLainnya'] ?? 0);
     }
 
-    // 6. Kalkulasi Final Math
-    $totalAnggota = $anggotaPria + $anggotaWanita;
+    // 4. Kalkulasi Nilai Akhir untuk Sidebar dan Donut Chart
+    $totalAnggota  = $anggotaPria + $anggotaWanita;
     $totalKaryawan = $karyawanPria + $karyawanWanita;
-    $totalManajer = $manajerPria + $manajerWanita;
+    $totalManajer  = $manajerPria + $manajerWanita;
 
-    // Konversi nilai mentah (Rupiah) menjadi satuan Miliar
-    $totalAset = $totalAsetRaw > 0 ? round($totalAsetRaw / 1000000000, 2) : 0;
-    $totalVolume = $totalVolumeRaw > 0 ? round($totalVolumeRaw / 1000000000, 2) : 0;
-    $totalSHU = $totalSHURaw > 0 ? round($totalSHURaw / 1000000000, 2) : 0;
+    // Konversi Satuan Rupiah Utuh (Triliun/Miliar) ke format satuan Miliar (dibagi 1 Miliar)
+    $totalAset     = $totalAsetRaw > 0 ? round($totalAsetRaw / 1000000000, 2) : 0;
+    $totalVolume   = $totalVolumeRaw > 0 ? round($totalVolumeRaw / 1000000000, 2) : 0;
+    $totalSHU      = $totalSHURaw > 0 ? round($totalSHURaw / 1000000000, 2) : 0;
+    
+    // Nilai Donut Modal Usaha (Konversi ke Miliar)
+    $modalSendiri  = $modalSendiriRaw > 0 ? round($modalSendiriRaw / 1000000000, 2) : 0;
+    $modalLuar     = $modalLuarRaw > 0 ? round($modalLuarRaw / 1000000000, 2) : 0;
 
     return view('admin.koperasi.dashboardKoperasi', compact(
+        'tanggalData',
         'koperasiAktif', 'belumSertifikat', 'sudahSertifikat', 'sertifikatAktif', 'sertifikatExp',
         'totalAnggota', 'anggotaPria', 'anggotaWanita',
         'totalKaryawan', 'karyawanPria', 'karyawanWanita',
         'totalManajer', 'manajerPria', 'manajerWanita',
         'totalAset', 'totalVolume', 'totalSHU',
+        'modalSendiri', 'modalLuar',
         'sudahRAT', 'belumRAT', 'gradeData'
     ));
 }
@@ -1153,7 +1100,6 @@ class KoperasiController extends Controller
 {
     $token = $this->getAccessToken();
 
-    // 1. Ambil data utama profile dari Cache (tahan selama 30 menit agar performa kencang)
     $result = Cache::store('file')->remember('ods_full_data_dashboard', 1800, function() use ($token) {
         $response = Http::withHeaders([
             'Authorization' => 'Bearer ' . $token
