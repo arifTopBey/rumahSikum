@@ -302,7 +302,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item {{ Request::is('admin/koperasi*') ? 'menu-open' : '' }}">
                         <a href="#" class="nav-link">
                             <i class="bi bi-person-video2 text-white"></i>
                             <p class="fs-8 text-white">
@@ -311,56 +311,56 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="{{ route('admin.dashboard.koperasi') }}" class="nav-link">
+                            <li class="nav-item ">
+                                <a href="{{ route('admin.dashboard.koperasi') }}" class="nav-link {{ Request::is('admin/koperasi/dashboard-koperasi*') ? 'active bg-dark text-white fw-bold' : '' }}">
                                     <i class="nav-icon bi bi-circle"></i>
                                     <p class="text-white">Dashboard Koperasi</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('admin.grafik.koperasi') }}" class="nav-link">
+                                <a href="{{ route('admin.grafik.koperasi') }}" class="nav-link {{ Request::is('admin/koperasi/grafik-koperasi*') ? 'active bg-dark text-white fw-bold' : '' }}">
                                     <i class="nav-icon bi bi-circle"></i>
                                     <p class="text-white">Grafik Koperasi</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('admin.pendirian.koperasi') }}" class="nav-link">
+                                <a href="{{ route('admin.pendirian.koperasi') }}" class="nav-link {{ Request::is('admin/koperasi/pendirian-koperasi*') ? 'active bg-dark text-white fw-bold' : '' }}">
                                     <i class="nav-icon bi bi-circle"></i>
                                     <p class="text-white">Pendirian Koperasi</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('admin.koperasi') }}" class="nav-link">
+                                <a href="{{ route('admin.koperasi') }}" class="nav-link {{ Request::is('admin/koperasi/list*') ? 'active bg-dark text-white fw-bold' : '' }}">
                                     <i class="nav-icon bi bi-circle"></i>
                                     <p class="text-white">Daftar Koperasi</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('admin.statistik.koperasi') }}" class="nav-link">
+                                <a href="{{ route('admin.statistik.koperasi') }}" class="nav-link {{ Request::is('admin/koperasi/statistik-koperasi*') ? 'active bg-dark text-white fw-bold' : '' }}">
                                     <i class="nav-icon bi bi-circle"></i>
                                     <p class="text-white">Statistik Koperasi</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('admin.jenis.koperasi') }}" class="nav-link">
+                                <a href="{{ route('admin.jenis.koperasi') }}" class="nav-link {{ Request::is('admin/koperasi/jenis-koperasi*') ? 'active bg-dark text-white fw-bold' : '' }}">
                                     <i class="nav-icon bi bi-circle"></i>
                                     <p class="text-white">Jenis Koperasi</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('admin.kuk.koperasi') }}" class="nav-link">
+                                <a href="{{ route('admin.kuk.koperasi') }}" class="nav-link {{ Request::is('admin/koperasi/kuk-koperasi*') ? 'active bg-dark text-white fw-bold' : '' }}">
                                     <i class="nav-icon bi bi-circle"></i>
                                     <p class="text-white">Kuk Koperasi</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('admin.grade.koperasi') }}" class="nav-link">
+                                <a href="{{ route('admin.grade.koperasi') }}" class="nav-link {{ Request::is('admin/koperasi/grade-koperasi*') ? 'active bg-dark text-white fw-bold' : '' }}">
                                     <i class="nav-icon bi bi-circle"></i>
                                     <p class="text-white">Grade Koperasi</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('admin.sertifikat.koperasi') }}" class="nav-link">
+                                <a href="{{ route('admin.sertifikat.koperasi') }}" class="nav-link {{ Request::is('admin/koperasi/sertifikat-koperasi*') ? 'active bg-dark text-white fw-bold' : '' }}">
                                     <i class="nav-icon bi bi-circle"></i>
                                     <p class="text-white">Sertifikat Koperasi</p>
                                 </a>

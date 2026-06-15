@@ -37,6 +37,290 @@ class KoperasiController extends Controller
     }
 
     public function getDashboardData()
+{
+    $token = $this->getAccessToken();
+
+    // 1. Ambil Data Profile (30 Menit Cache)
+    $profileResult = Cache::store('file')->remember('ods_full_data_profile', 1800, function() use ($token) {
+        $response = Http::withHeaders(['Authorization' => 'Bearer ' . $token])
+            ->post('https://nik.kop.go.id/odsapi/odsprofile');
+        return $response->successful() ? $response->json() : null;
+    });
+
+    // 2. Ambil Data Lembaga / Keanggotaan (30 Menit Cache)
+    $lembagaResult = Cache::store('file')->remember('ods_full_data_lembaga', 1800, function() use ($token) {
+        $response = Http::withHeaders(['Authorization' => 'Bearer ' . $token])
+            ->post('https://nik.kop.go.id/odsapi/odslembaga');
+        return $response->successful() ? $response->json() : null;
+    });
+
+    // 3. Ambil Data Keuangan (30 Menit Cache)
+    $keuanganResult = Cache::store('file')->remember('ods_full_data_keuangan', 1800, function() use ($token) {
+        $response = Http::withHeaders(['Authorization' => 'Bearer ' . $token])
+            ->post('https://nik.kop.go.id/odsapi/odskeuangan');
+        return $response->successful() ? $response->json() : null;
+    });
+
+    if (!$profileResult || !isset($profileResult['data'])) {
+        return back()->with('error', 'Gagal memuat data profile ODS.');
+    }
+
+    // --- PROSES MAPPING AGAR PENCARIAN NIK INSTAN (KUNCI EFISIENSI) ---
+    // Ubah data lembaga & keuangan menjadi key-value pair dengan NIK sebagai Key-nya
+    $lembagaMap = [];
+    if ($lembagaResult && isset($lembagaResult['data'])) {
+        foreach ($lembagaResult['data'] as $lem) {
+            if (!empty($lem['NIK'])) {
+                $lembagaMap[$lem['NIK']] = $lem;
+            }
+        }
+    }
+
+    $keuanganMap = [];
+    if ($keuanganResult && isset($keuanganResult['data'])) {
+        foreach ($keuanganResult['data'] as $keu) {
+            if (!empty($keu['NIK'])) {
+                $keuanganMap[$keu['NIK']] = $keu;
+            }
+        }
+    }
+
+    // 4. Inisialisasi variabel Counter & Penampung Dashboard
+    $koperasiAktif = 0;
+    $belumSertifikat = 0;
+    $sudahSertifikat = 0;
+    $sertifikatAktif = 0;
+    $sertifikatExp = 0;
+
+    $totalAnggota = 0; $anggotaPria = 0; $anggotaWanita = 0;
+    $totalKaryawan = 0; $karyawanPria = 0; $karyawanWanita = 0;
+    $totalManajer = 0; $manajerPria = 0; $manajerWanita = 0;
+
+    $totalAsetRaw = 0; $totalVolumeRaw = 0; $totalSHURaw = 0;
+    $sudahRAT = 0; $belumRAT = 0;
+
+    $gradeData = ['A' => 0, 'B' => 0, 'C1' => 0, 'C2' => 0, 'Non' => 0];
+
+    // 5. Looping Utama Gabungan Data berdasarkan NIK
+    foreach ($profileResult['data'] as $item) {
+        $nik = $item['NIK'] ?? '';
+
+        // Ambil data komplemen keanggotaan & keuangan jika NIK cocok
+        $dataLembaga = $lembagaMap[$nik] ?? [];
+        $dataKeuangan = $keuanganMap[$nik] ?? [];
+
+        // --- COUNTING DATA PROFILE BASE ---
+        $statusKop = $item['StatusKoperasi'] ?? '';
+        if ($statusKop === 'Aktif') {
+            $koperasiAktif++;
+        }
+
+        $statusSertifikat = $item['Status_Sertifikat'] ?? '';
+        $tglBerlakuSert = $item['Tanggal_Berlaku_Sertifikat'] ?? null;
+        $hasSertifikat = ($statusSertifikat === 'Sertifikat Aktif') || !empty($tglBerlakuSert);
+
+        if ($hasSertifikat) {
+            $sudahSertifikat++;
+            $isExpired = true; 
+            if (!empty($tglBerlakuSert)) {
+                try {
+                    $isExpired = \Carbon\Carbon::parse($tglBerlakuSert)->isPast();
+                } catch (\Exception $e) {
+                    $isExpired = true;
+                }
+            } else {
+                $isExpired = ($statusSertifikat !== 'Sertifikat Aktif');
+            }
+            
+            if ($isExpired) {
+                $sertifikatExp++;
+            } else {
+                $sertifikatAktif++;
+            }
+        } else {
+            $belumSertifikat++;
+        }
+
+        // --- COUNTING DATA LEMBAGA BASE (Berdasarkan key API odslembaga) ---
+        $anggotaPria += (int)($dataLembaga['Anggota_Pria'] ?? $dataLembaga['Anggota_Laki_Laki'] ?? 0);
+        $anggotaWanita += (int)($dataLembaga['Anggota_Wanita'] ?? $dataLembaga['Anggota_Perempuan'] ?? 0);
+        
+        $karyawanPria += (int)($dataLembaga['Karyawan_Pria'] ?? $dataLembaga['Karyawan_Laki_Laki'] ?? 0);
+        $karyawanWanita += (int)($dataLembaga['Karyawan_Wanita'] ?? $dataLembaga['Karyawan_Perempuan'] ?? 0);
+        
+        $manajerPria += (int)($dataLembaga['Manajer_Pria'] ?? $dataLembaga['Manajer_Laki_Laki'] ?? 0);
+        $manajerWanita += (int)($dataLembaga['Manajer_Wanita'] ?? $dataLembaga['Manajer_Perempuan'] ?? 0);
+
+        // --- COUNTING DATA KEUANGAN BASE (Berdasarkan key API odskeuangan) ---
+        $totalAsetRaw += (float)($dataKeuangan['Aset'] ?? $dataKeuangan['Total_Aset'] ?? 0);
+        $totalVolumeRaw += (float)($dataKeuangan['Volume_Usaha'] ?? $dataKeuangan['Volume'] ?? 0);
+        $totalSHURaw += (float)($dataKeuangan['SHU'] ?? $dataKeuangan['Sisa_Hasil_Usaha'] ?? 0);
+
+        // --- FILTER RAT & GRADE FROM PROFILE/LEMBAGA ---
+        $tglRat = $item['Tanggal_RAT_Terakhir'] ?? null;
+        if (!empty($tglRat)) {
+            $sudahRAT++;
+        } else {
+            $belumRAT++;
+        }
+
+        $g = strtoupper($item['Grade'] ?? 'NON');
+        if ($g === 'C') { $g = 'C1'; } 
+
+        if (array_key_exists($g, $gradeData)) {
+            $gradeData[$g]++;
+        } else {
+            $gradeData['Non']++;
+        }
+    }
+
+    // 6. Kalkulasi Final Math
+    $totalAnggota = $anggotaPria + $anggotaWanita;
+    $totalKaryawan = $karyawanPria + $karyawanWanita;
+    $totalManajer = $manajerPria + $manajerWanita;
+
+    // Konversi nilai mentah (Rupiah) menjadi satuan Miliar
+    $totalAset = $totalAsetRaw > 0 ? round($totalAsetRaw / 1000000000, 2) : 0;
+    $totalVolume = $totalVolumeRaw > 0 ? round($totalVolumeRaw / 1000000000, 2) : 0;
+    $totalSHU = $totalSHURaw > 0 ? round($totalSHURaw / 1000000000, 2) : 0;
+
+    return view('admin.koperasi.dashboardKoperasi', compact(
+        'koperasiAktif', 'belumSertifikat', 'sudahSertifikat', 'sertifikatAktif', 'sertifikatExp',
+        'totalAnggota', 'anggotaPria', 'anggotaWanita',
+        'totalKaryawan', 'karyawanPria', 'karyawanWanita',
+        'totalManajer', 'manajerPria', 'manajerWanita',
+        'totalAset', 'totalVolume', 'totalSHU',
+        'sudahRAT', 'belumRAT', 'gradeData'
+    ));
+}
+    public function getDashboardData1()
+{
+    $token = $this->getAccessToken();
+
+    $result = Cache::store('file')->remember('ods_full_data_dashboard', 1800, function() use ($token) {
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $token
+        ])->post('https://nik.kop.go.id/odsapi/odsprofile');
+
+        return $response->successful() ? $response->json() : null;
+    });
+
+    if (!$result || !isset($result['data'])) {
+        return back()->with('error', 'Gagal memuat data dashboard.');
+    }
+
+    // 2. Inisialisasi variabel Counter & Penampung
+    $koperasiAktif = 0;
+    $belumSertifikat = 0;
+    $sudahSertifikat = 0;
+    $sertifikatAktif = 0;
+    $sertifikatExp = 0;
+
+    $totalAnggota = 0; $anggotaPria = 0; $anggotaWanita = 0;
+    $totalKaryawan = 0; $karyawanPria = 0; $karyawanWanita = 0;
+    $totalManajer = 0; $manajerPria = 0; $manajerWanita = 0;
+
+    $totalAsetRaw = 0; $totalVolumeRaw = 0; $totalSHURaw = 0;
+    $sudahRAT = 0; $belumRAT = 0;
+
+    // Tampung pembagian grade koperasi
+    $gradeData = ['A' => 0, 'B' => 0, 'C1' => 0, 'C2' => 0, 'Non' => 0];
+
+    // 3. Looping untuk menghitung agregat data secara aman
+    foreach ($result['data'] as $item) {
+        
+    dd($item);
+        // Pengecekan Status Koperasi (API: StatusKoperasi)
+        $statusKop = $item['StatusKoperasi'] ?? $item['Status_Aktif'] ?? $item['Status'] ?? '';
+        if ($statusKop === 'Aktif') {
+            $koperasiAktif++;
+        }
+
+        // Pengecekan Sertifikasi NIK & Expired (API: Status_Sertifikat / Tanggal_Berlaku_Sertifikat)
+        $statusSertifikat = $item['Status_Sertifikat'] ?? '';
+        $tglBerlakuSert = $item['Tanggal_Berlaku_Sertifikat'] ?? null;
+
+        // Dianggap punya sertifikat jika statusnya "Sertifikat Aktif" atau tanggal berlakunya terisi
+        $hasSertifikat = ($statusSertifikat === 'Sertifikat Aktif') || !empty($tglBerlakuSert);
+
+        if ($hasSertifikat) {
+            $sudahSertifikat++;
+            
+            $isExpired = true; 
+            if (!empty($tglBerlakuSert)) {
+                try {
+                    $isExpired = \Carbon\Carbon::parse($tglBerlakuSert)->isPast();
+                } catch (\Exception $e) {
+                    $isExpired = true;
+                }
+            } else {
+                // Jika tanggalnya kosong tapi status sertifikat bukan aktif, asumsikan expired
+                $isExpired = ($statusSertifikat !== 'Sertifikat Aktif');
+            }
+            
+            if ($isExpired) {
+                $sertifikatExp++;
+            } else {
+                $sertifikatAktif++;
+            }
+        } else {
+            $belumSertifikat++;
+        }
+
+        $anggotaPria += (int)($item['Anggota_Pria'] ?? 0);
+        $anggotaWanita += (int)($item['Anggota_Wanita'] ?? 0);
+        $karyawanPria += (int)($item['Karyawan_Pria'] ?? 0);
+        $karyawanWanita += (int)($item['Karyawan_Wanita'] ?? 0);
+        $manajerPria += (int)($item['Manajer_Pria'] ?? 0);
+        $manajerWanita += (int)($item['Manajer_Wanita'] ?? 0);
+
+        $totalAsetRaw += (float)($item['Aset'] ?? $item['Total_Aset'] ?? 0);
+        $totalVolumeRaw += (float)($item['Volume_Usaha'] ?? 0);
+        $totalSHURaw += (float)($item['SHU'] ?? $item['Sisa_Hasil_Usaha'] ?? 0);
+
+        // Filter RAT (API menggunakan: Tanggal_RAT_Terakhir)
+        $tglRat = $item['Tanggal_RAT_Terakhir'] ?? $item['Tanggal_RAT'] ?? null;
+        $statusRat = $item['Status_RAT'] ?? '';
+
+        if (!empty($tglRat) || $statusRat === 'Sudah') {
+            $sudahRAT++;
+        } else {
+            $belumRAT++;
+        }
+
+        // Klasifikasi Grade
+        $g = strtoupper($item['Grade'] ?? 'NON');
+        // normalisasi penamaan jika di API tertulis C tapi di penampung C1/C2
+        if ($g === 'C') { $g = 'C1'; } 
+
+        if (array_key_exists($g, $gradeData)) {
+            $gradeData[$g]++;
+        } else {
+            $gradeData['Non']++;
+        }
+    }
+
+    // 4. Hitung Total Keseluruhan
+    $totalAnggota = $anggotaPria + $anggotaWanita;
+    $totalKaryawan = $karyawanPria + $karyawanWanita;
+    $totalManajer = $manajerPria + $manajerWanita;
+
+    // Konversi ke Miliar (Mencegah division by zero jika total data 0)
+    $totalAset = $totalAsetRaw > 0 ? round($totalAsetRaw / 1000000000, 2) : 0;
+    $totalVolume = $totalVolumeRaw > 0 ? round($totalVolumeRaw / 1000000000, 2) : 0;
+    $totalSHU = $totalSHURaw > 0 ? round($totalSHURaw / 1000000000, 2) : 0;
+
+    return view('admin.koperasi.dashboardKoperasi', compact(
+        'koperasiAktif', 'belumSertifikat', 'sudahSertifikat', 'sertifikatAktif', 'sertifikatExp',
+        'totalAnggota', 'anggotaPria', 'anggotaWanita',
+        'totalKaryawan', 'karyawanPria', 'karyawanWanita',
+        'totalManajer', 'manajerPria', 'manajerWanita',
+        'totalAset', 'totalVolume', 'totalSHU',
+        'sudahRAT', 'belumRAT', 'gradeData'
+    ));
+}
+
+    public function getDashboardData2()
     {
         $token = $this->getAccessToken();
 
@@ -132,7 +416,121 @@ class KoperasiController extends Controller
     }
 
 
-    public function index()
+    public function getDashboardData3()
+{
+    $token = $this->getAccessToken();
+
+    // 1. Ambil data dari cache/API ODS
+    $result = Cache::store('file')->remember('ods_full_data_dashboard', 1800, function() use ($token) {
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $token
+        ])->post('https://nik.kop.go.id/odsapi/odsprofile');
+
+        return $response->successful() ? $response->json() : null;
+    });
+
+    if (!$result || !isset($result['data'])) {
+        return back()->with('error', 'Gagal memuat data dashboard.');
+    }
+
+    // 2. Inisialisasi variabel Counter & Penampung
+    $koperasiAktif = 0;
+    $belumSertifikat = 0;
+    $sudahSertifikat = 0;
+    $sertifikatAktif = 0;
+    $sertifikatExp = 0;
+
+    $totalAnggota = 0; $anggotaPria = 0; $anggotaWanita = 0;
+    $totalKaryawan = 0; $karyawanPria = 0; $karyawanWanita = 0;
+    $totalManajer = 0; $manajerPria = 0; $manajerWanita = 0;
+
+    $totalAsetRaw = 0; $totalVolumeRaw = 0; $totalSHURaw = 0;
+    $sudahRAT = 0; $belumRAT = 0;
+
+    // Tampung pembagian grade koperasi
+    $gradeData = ['A' => 0, 'B' => 0, 'C1' => 0, 'C2' => 0, 'Non' => 0];
+
+    // 3. Looping untuk menghitung agregat data secara real-time
+    foreach ($result['data'] as $item) {
+        dd($item);
+        // Status Koperasi
+        if ($item['StatusKoperasi']  === 'Aktif') {
+            $koperasiAktif++;
+            // dd($koperasiAktif);
+        }
+
+        // Status Sertifikasi NIK & Expired
+        $hasSertifikat = !empty($item['Nomor_Sertifikat']) || !empty($item['Tanggal_Berlaku_Sertifikat']);
+        if ($hasSertifikat) {
+            $sudahSertifikat++;
+            // Cek kadaluarsa sertifikat
+            $isExpired = true; 
+            if (!empty($item['Tanggal_Berlaku_Sertifikat'])) {
+                $isExpired = \Carbon\Carbon::parse($item['Tanggal_Berlaku_Sertifikat'])->isPast();
+            }
+            
+            if ($isExpired) {
+                $sertifikatExp++;
+            } else {
+                $sertifikatAktif++;
+            }
+        } else {
+            $belumSertifikat++;
+        }
+
+        // Demografi Anggota, Karyawan, Manajer
+        $anggotaPria += (int)($item['Anggota_Pria'] ?? 0);
+        $anggotaWanita += (int)($item['Anggota_Wanita'] ?? 0);
+        $karyawanPria += (int)($item['Karyawan_Pria'] ?? 0);
+        $karyawanWanita += (int)($item['Karyawan_Wanita'] ?? 0);
+        $manajerPria += (int)($item['Manajer_Pria'] ?? 0);
+        $manajerWanita += (int)($item['Manajer_Wanita'] ?? 0);
+
+        // Keuangan (Asumsi data API bernilai Rupiah utuh, kita jumlahkan dulu semuanya)
+        $totalAsetRaw += (float)($item['Aset'] ?? $item['Total_Aset'] ?? 0);
+        $totalVolumeRaw += (float)($item['Volume_Usaha'] ?? 0);
+        $totalSHURaw += (float)($item['SHU'] ?? $item['Sisa_Hasil_Usaha'] ?? 0);
+
+        // Filter RAT
+        if (!empty($item['Tanggal_RAT']) || ($item['Status_RAT'] ?? '') === 'Sudah') {
+            $sudahRAT++;
+        } else {
+            $belumRAT++;
+        }
+
+        // Klasifikasi Grade
+        $g = strtoupper($item['Grade'] ?? 'NON');
+        if (array_key_exists($g, $gradeData)) {
+            $gradeData[$g]++;
+        } else {
+            $gradeData['Non']++;
+        }
+    }
+
+    // dd($koperasiAktif);
+
+    // 4. Hitung Total Keseluruhan untuk Bagian Kanan Card
+    $totalAnggota = $anggotaPria + $anggotaWanita;
+    $totalKaryawan = $karyawanPria + $karyawanWanita;
+    $totalManajer = $manajerPria + $manajerWanita;
+
+    // Konversi Rupiah Utuh ke Satuan Miliar (Dibagi 1 Miliar) dengan pembulatan 2 desimal
+    $totalAset = round($totalAsetRaw / 1000000000, 2);
+    $totalVolume = round($totalVolumeRaw / 1000000000, 2);
+    $totalSHU = round($totalSHURaw / 1000000000, 2);
+
+    return view('admin.koperasi.dashboardKoperasi', compact(
+        'koperasiAktif', 'belumSertifikat', 'sudahSertifikat', 'sertifikatAktif', 'sertifikatExp',
+        'totalAnggota', 'anggotaPria', 'anggotaWanita',
+        'totalKaryawan', 'karyawanPria', 'karyawanWanita',
+        'totalManajer', 'manajerPria', 'manajerWanita',
+        'totalAset', 'totalVolume', 'totalSHU',
+        'sudahRAT', 'belumRAT', 'gradeData'
+    ));
+}
+
+
+    public function index2()
     {
 
         // 1. Ambil token terlebih dahulu
@@ -165,6 +563,63 @@ class KoperasiController extends Controller
             return abort(500, 'Terjadi kesalahan sistem.');
         }
     }
+
+    public function index()
+{
+    $token = $this->getAccessToken();
+
+
+    $result = Cache::store('file')->remember('ods_full_data_dashboard', 1800, function() use ($token) {
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $token
+        ])->post('https://nik.kop.go.id/odsapi/odsprofile');
+
+        return $response->successful() ? $response->json() : null;
+    });
+//     $response = Http::withHeaders([
+//     'Authorization' => 'Bearer ' . $token
+// ])->post('https://nik.kop.go.id/odsapi/odsprofile');
+
+// $result = $response->successful() ? $response->json() : null;
+
+    if (!$result || !isset($result['data'])) {
+        return back()->with('error', 'Gagal memuat data dari API ODS.');
+    }
+
+    $transformedData = [];
+    foreach ($result['data'] as $index => $item) {
+        $tglExpiredStr = $item['Tanggal_Berlaku_Sertifikat'] ?? null;
+        $statusSertifikat = 'Expired'; // Fallback awal jika kosong
+
+        if (!empty($tglExpiredStr)) {
+            try {
+                // Jika tanggal expired belum terlewat, statusnya Aktif
+                $statusSertifikat = Carbon::parse($tglExpiredStr)->isPast() ? 'Expired' : 'Sertifikat Aktif';
+            } catch (\Exception $e) {
+                $statusSertifikat = 'Expired';
+            }
+        }
+
+        $transformedData[] = [
+            'No' => $index + 1,
+            'NIK' => $item['NIK'] ?? '-',
+            'Nomor_Badan_Hukum_Pendirian' => $item['Nomor_Badan_Hukum_Pendirian'] ?? '-',
+            'Tanggal_Badan_Hukum_Pendirian' => $item['Tanggal_Badan_Hukum_Pendirian'] ?? '-',
+            'Nama_Koperasi' => $item['Nama_Koperasi'] ?? '-',
+            'Desa' => $item['Desa'] ?? $item['Kelurahan'] ?? '-',
+            'Kecamatan' => $item['Kecamatan'] ?? '-',
+            'Alamat' => $item['Alamat'] ?? '-',
+            'Jenis_Koperasi' => $item['Jenis_Koperasi'] ?? '-',
+            'Status_Sertifikat' => $statusSertifikat, // Digunakan untuk filter
+            'Kabupaten' => strtoupper($item['Kabupaten'] ?? 'TANGERANG') // Digunakan untuk filter wilayah
+        ];
+    }
+
+    // Bungkus kembali ke dalam variabel $result agar sesuai dengan struktur Blade Anda
+    $result['data'] = $transformedData;
+
+    return view('admin.koperasi.index', compact('result'));
+}
 
     /**
      * Fungsi untuk mengambil dan menampilkan detail satu koperasi berdasarkan NIK

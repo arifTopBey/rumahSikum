@@ -128,7 +128,7 @@
     <div class="row g-4">
         <div class="col-lg-12 px-3 ">
             <div class="profile-card">
-                <h4 class="fw-800 mb-4">Pengaturan Profil</h4>
+                <h4 class="fw-800 mb-4">Pengaturan Profil  test </h4>
 
                 <form action="{{ route('user.profile.update', auth()->user()->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
