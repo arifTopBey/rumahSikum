@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -571,8 +572,11 @@ class KoperasiController extends Controller
     /**
      * Fungsi untuk mengambil dan menampilkan detail satu koperasi berdasarkan NIK
      */
-    public function showDetail($nik)
+    public function showDetail($encryptedNik)
     {
+
+        $nik = Crypt::decryptString($encryptedNik);
+
         $token = $this->getAccessToken();
 
         if (!$token) {

@@ -489,7 +489,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('user.prfile.index', auth()->user()->id) }}" class="nav-link">
+                            <a href="{{ route('user.prfile.index',  Crypt::encryptString(auth()->user()->id)) }}" class="nav-link">
                                 <i class="nav-icon bi bi-person-circle"></i>
                                 <p class="text-white">Profil</p>
                             </a>

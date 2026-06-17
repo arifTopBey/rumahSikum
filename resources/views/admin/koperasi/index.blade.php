@@ -101,7 +101,8 @@
                                 <td class="text-center fw-bold">{{ $koperasi['No'] }}</td>
                                 <td>
                                     <a href="#" class="text-decoration-none fw-bold" style="color: #00997a;">
-                                        {{ $koperasi['NIK'] }}
+                                        {{ substr($koperasi['NIK'], 0, 4) . str_repeat('X', strlen($koperasi['NIK']) - 7) . substr($koperasi['NIK'], -3) }}
+                                        <!-- {{ $koperasi['NIK'] }} -->
                                     </a>
                                 </td>
                                 <td>{{ $koperasi['Nomor_Badan_Hukum_Pendirian'] }}</td>
@@ -114,7 +115,7 @@
                                     <span class="badge bg-secondary px-2 py-1" style="font-size: 0.75rem;">{{ $koperasi['Jenis_Koperasi'] }}</span>
                                 </td>
                                 <td class="text-center">
-                                    <a href="{{ route('admin.koperasi.detail', $koperasi['NIK']) }}" class="btn btn-sm btn-outline-primary px-2" style="border-radius: 6px;">
+                                    <a href="{{ route('admin.koperasi.detail', Crypt::encryptString($koperasi['NIK'])) }}" class="btn btn-sm btn-outline-primary px-2" style="border-radius: 6px;">
                                         <i class="fa fa-eye"> Detail</i>
                                     </a>
                                 </td>

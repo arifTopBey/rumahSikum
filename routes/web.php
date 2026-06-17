@@ -74,7 +74,7 @@ Route::get('/tambah-umkm', [FrontendController::class, 'tambahUmkm'])->name('fro
 Route::get('/acara', [FrontendController::class, 'acara'])->name('frontend.acara');
 Route::get('/acara/detail-acara/{id}', [FrontendController::class, 'detailAcara'])->name('frontend.acara.detail');
 Route::get('/toko', [FrontendController::class, 'toko'])->name('frontend.toko');
-Route::get('/', [FrontendController::class, 'index'])->name('frontend.index');
+Route::get('/', [FrontendController::class, 'index'])->name('frontend.index')->middleware('security_header');
 Route::get('/pelatihan', [FrontendController::class, 'pelatihan'])->name('frontend.pelatihan');
 Route::get('/pelatihan/detail-pelatihan/{id}', [FrontendController::class, 'detailPelatihan'])->name('frontend.pelatihan.detail');
 Route::get('/informasi-bpom', [FrontendController::class, 'informasiBPOM'])->name('frontend.informasi.bpom');

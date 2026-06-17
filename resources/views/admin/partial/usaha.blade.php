@@ -14,7 +14,7 @@
             <tbody>
              @forelse($koperasi['IndikatorUsaha'] ?? [] as $cert)
                 <tr>
-                    <td class="text-center">{{ number_format($cert['TahunUsaha'] ?? 0) }}</td>
+                    <td class="text-center">{{ $cert['TahunUsaha'] ?? 0 }}</td>
                     <td class="text-center">{{ number_format($cert['ModalSendiri'] ?? 0) }}</td>
                     <td class="text-center">{{ number_format($cert['ModalLuar'] ?? 0) }}</td>
                     <td class="text-center">{{ number_format($cert['Aset'] ?? 0) }}</td>

@@ -2,270 +2,281 @@
 
 @section('content')
 
-<div class="container mt-4">
+    <div class="container mt-4">
 
-    <a href="{{ route('admin.koperasi') }}" class="btn btn-primary text-white">Kembali</a>
+        <a href="{{ route('admin.koperasi') }}" class="btn btn-primary text-white">Kembali</a>
 
-    <div class="d-flex px-2">
-        <img width="40" height="40" src="{{ asset('image/Koperasi.png') }}" alt="" class="my-auto me-2">
-        <h5 class="my-5">KOPERASI</h5>
-    </div>
-    
-    <style>
-        .data-container .row:nth-child(even) {
-            background-color: #dadddd;
-        }
-    </style>
-    
-    <div class="card-detail px-3">
-        <div style="background: #00997a" class="row text-white py-2">
-            <div class="col-md-4">
-                <span>NIK</span>
+        <div class="d-flex px-2">
+            <img width="40" height="40" src="{{ asset('image/Koperasi.png') }}" alt="" class="my-auto me-2">
+            <h5 class="my-5">KOPERASI</h5>
+        </div>
+
+        <style>
+            .data-container .row:nth-child(even) {
+                background-color: #dadddd;
+            }
+        </style>
+
+        <div class="card-detail px-3">
+            <div style="background: #00997a" class="row text-white py-2">
+                <div class="col-md-4">
+                    <span>NIK</span>
+                </div>
+                <div class="col-md-8">
+                    <!-- <span>{{ $koperasi['NIK'] ?? '-' }}</span> -->
+                    <span>{{ substr($koperasi['NIK'], 0, 4) . str_repeat('X', strlen($koperasi['NIK']) - 7) . substr($koperasi['NIK'], -3 ?? '-') }}</span>
+                </div>
             </div>
-            <div class="col-md-8">
-                <span>{{ $koperasi['NIK'] ?? '-' }}</span>
+
+            <div class="data-container">
+                <div class="row py-2">
+                    <div class="col-md-4 label-title">
+                        <p>Koperasi</p>
+                    </div>
+                    <div class="col-md-8 value-text">
+                        <p class="fw-bold">{{ $koperasi['Nama_Koperasi'] ?? '-' }}</p>
+                    </div>
+                </div>
+
+                <div class="row py-2">
+                    <div class="col-md-4 label-title">
+                        <p>Nomor Badan Hukum Pendirian</p>
+                    </div>
+                    <div class="col-md-8 value-text">
+                        <p>{{ $koperasi['Nomor_Badan_Hukum_Pendirian'] ?? '-' }}</p>
+                    </div>
+                </div>
+
+                <div class="row py-2">
+                    <div class="col-md-4 label-title">
+                        <p>Tanggal Badan Hukum Pendirian</p>
+                    </div>
+                    <div class="col-md-8 value-text">
+                        <p>{{ $koperasi['Tanggal_Badan_Hukum_Pendirian'] ?? '-' }}</p>
+                    </div>
+                </div>
+
+                <div class="row py-2">
+                    <div class="col-md-4 label-title">
+                        <p>Nomor Perubahan Anggaran Dasar (Terbaru)</p>
+                    </div>
+                    <div class="col-md-8 value-text">
+                        {{-- Mengambil index ke-0 dari array PAD jika ada --}}
+                        <p>{{ $koperasi['PAD'][0]['NomorPAD'] ?? '-' }}</p>
+                    </div>
+                </div>
+
+                <div class="row py-2">
+                    <div class="col-md-4 label-title">
+                        <p>Tanggal Perubahan Anggaran Dasar (Terbaru)</p>
+                    </div>
+                    <div class="col-md-8 value-text">
+                        <p>{{ $koperasi['PAD'][0]['TanggalPAD'] ?? '-' }}</p>
+                    </div>
+                </div>
+
+                <div class="row py-2">
+                    <div class="col-md-4 label-title">
+                        <p>Tanggal Rat Terakhir</p>
+                    </div>
+                    <div class="col-md-8 value-text">
+                        <p>{{ $koperasi['Tanggal_RAT_Terakhir'] ?? '-' }}</p>
+                    </div>
+                </div>
+
+                <div class="row py-2">
+                    <div class="col-md-4 label-title">
+                        <p>NPWP</p>
+                    </div>
+                    <!-- <div class="col-md-8 value-text">
+                        <p>{{ $koperasi['NPWP'] ?? '-' }}</p>
+                    </div> -->
+                    <div class="col-md-8 value-text">
+                        <p>
+
+                            {{
+                                !empty($koperasi['NPWP'])
+                                ? str_repeat('X', strlen($koperasi['NPWP']) - 8) . substr($koperasi['NPWP'], -8)
+                                : '-'
+                            }}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row py-2">
+                    <div class="col-md-4 label-title">
+                        <p>Alamat</p>
+                    </div>
+                    <div class="col-md-8 value-text">
+                        <p>{{ $koperasi['Alamat'] ?? '-' }}</p>
+                    </div>
+                </div>
+
+                <div class="row py-2">
+                    <div class="col-md-4 label-title">
+                        <p>Desa / Kelurahan</p>
+                    </div>
+                    <div class="col-md-8 value-text">
+                        <p>{{ $koperasi['Desa'] ?? $koperasi['Kelurahan'] ?? '-' }}</p>
+                    </div>
+                </div>
+
+                <div class="row py-2">
+                    <div class="col-md-4 label-title">
+                        <p>Kecamatan</p>
+                    </div>
+                    <div class="col-md-8 value-text">
+                        <p>{{ $koperasi['Kecamatan'] ?? '-' }}</p>
+                    </div>
+                </div>
+
+                <div class="row py-2">
+                    <div class="col-md-4 label-title">
+                        <p>Kabupaten</p>
+                    </div>
+                    <div class="col-md-8 value-text">
+                        <p>{{ $koperasi['Kabupaten'] ?? '-' }}</p>
+                    </div>
+                </div>
+
+                <div class="row py-2">
+                    <div class="col-md-4 label-title">
+                        <p>Provinsi</p>
+                    </div>
+                    <div class="col-md-8 value-text">
+                        <p>{{ $koperasi['Provinsi'] ?? '-' }}</p>
+                    </div>
+                </div>
+
+                <div class="row py-2">
+                    <div class="col-md-4 label-title">
+                        <p>Bentuk Koperasi</p>
+                    </div>
+                    <div class="col-md-8 value-text">
+                        <p>{{ $koperasi['Bentuk_Koperasi'] ?? '-' }}</p>
+                    </div>
+                </div>
+
+                <div class="row py-2">
+                    <div class="col-md-4 label-title">
+                        <p>Jenis Koperasi</p>
+                    </div>
+                    <div class="col-md-8 value-text">
+                        <p>{{ $koperasi['Jenis_Koperasi'] ?? '-' }}</p>
+                    </div>
+                </div>
+
+                <div class="row py-2">
+                    <div class="col-md-4 label-title">
+                        <p>Sektor Usaha</p>
+                    </div>
+                    <div class="col-md-8 value-text">
+                        <p>{{ $koperasi['Sektor_Usaha'] ?? '-' }}</p>
+                    </div>
+                </div>
+
+                <div class="row py-2">
+                    <div class="col-md-4 label-title">
+                        <p>Kelompok Koperasi</p>
+                    </div>
+                    <div class="col-md-8 value-text">
+                        <p>{{ $koperasi['Kelompok_Koperasi'] ?? '-' }}</p>
+                    </div>
+                </div>
+
+                <div class="row py-2">
+                    <div class="col-md-4 label-title">
+                        <p>Pola Pengelolaan</p>
+                    </div>
+                    <div class="col-md-8 value-text">
+                        <p>{{ $koperasi['Pola_Pengelolaan'] ?? '-' }}</p>
+                    </div>
+                </div>
+
+                <div class="row py-2">
+                    <div class="col-md-4 label-title">
+                        <p>Grade</p>
+                    </div>
+                    <div class="col-md-8 value-text">
+                        <p><span class="badge bg-success fs-6">{{ $koperasi['Grade'] ?? '-' }}</span></p>
+                    </div>
+                </div>
+
+                <div class="row py-2">
+                    <div class="col-md-4 label-title">
+                        <p>Kuk</p>
+                    </div>
+                    <div class="col-md-8 value-text">
+                        <p>{{ $koperasi['KUK'] ?? '-' }}</p>
+                    </div>
+                </div>
+
+                <div class="row py-2">
+                    <div class="col-md-4 label-title">
+                        <p>Kesehatan Koperasi</p>
+                    </div>
+                    <div class="col-md-8 value-text">
+                        <p>{{ $koperasi['Status_Sertifikat'] ?? '-' }}</p>
+                    </div>
+                </div>
+
+                <div class="row py-2">
+                    <div class="col-md-4 label-title">
+                        <p>Status</p>
+                    </div>
+                    <div class="col-md-8 value-text">
+                        <p>{{ $koperasi['StatusKoperasi'] ?? $koperasi['Status Koperasi'] ?? 'Aktif' }}</p>
+                    </div>
+                </div>
             </div>
         </div>
-        
-        <div class="data-container">
-            <div class="row py-2">
-                <div class="col-md-4 label-title">
-                    <p>Koperasi</p>
-                </div>
-                <div class="col-md-8 value-text">
-                    <p class="fw-bold">{{ $koperasi['Nama_Koperasi'] ?? '-' }}</p>
-                </div>
-            </div>
-            
-            <div class="row py-2">
-                <div class="col-md-4 label-title">
-                    <p>Nomor Badan Hukum Pendirian</p>
-                </div>
-                <div class="col-md-8 value-text">
-                    <p>{{ $koperasi['Nomor_Badan_Hukum_Pendirian'] ?? '-' }}</p>
-                </div>
-            </div>
-            
-            <div class="row py-2">
-                <div class="col-md-4 label-title">
-                    <p>Tanggal Badan Hukum Pendirian</p>
-                </div>
-                <div class="col-md-8 value-text">
-                    <p>{{ $koperasi['Tanggal_Badan_Hukum_Pendirian'] ?? '-' }}</p>
-                </div>
-            </div>
-            
-            <div class="row py-2">
-                <div class="col-md-4 label-title">
-                    <p>Nomor Perubahan Anggaran Dasar (Terbaru)</p>
-                </div>
-                <div class="col-md-8 value-text">
-                    {{-- Mengambil index ke-0 dari array PAD jika ada --}}
-                    <p>{{ $koperasi['PAD'][0]['NomorPAD'] ?? '-' }}</p>
-                </div>
-            </div>
-            
-            <div class="row py-2">
-                <div class="col-md-4 label-title">
-                    <p>Tanggal Perubahan Anggaran Dasar (Terbaru)</p>
-                </div>
-                <div class="col-md-8 value-text">
-                    <p>{{ $koperasi['PAD'][0]['TanggalPAD'] ?? '-' }}</p>
-                </div>
-            </div>
-            
-            <div class="row py-2">
-                <div class="col-md-4 label-title">
-                    <p>Tanggal Rat Terakhir</p>
-                </div>
-                <div class="col-md-8 value-text">
-                    <p>{{ $koperasi['Tanggal_RAT_Terakhir'] ?? '-' }}</p>
-                </div>
-            </div>
-            
-            <div class="row py-2">
-                <div class="col-md-4 label-title">
-                    <p>NPWP</p>
-                </div>
-                <div class="col-md-8 value-text">
-                    <p>{{ $koperasi['NPWP'] ?? '-' }}</p>
-                </div>
-            </div>
-            
-            <div class="row py-2">
-                <div class="col-md-4 label-title">
-                    <p>Alamat</p>
-                </div>
-                <div class="col-md-8 value-text">
-                    <p>{{ $koperasi['Alamat'] ?? '-' }}</p>
-                </div>
-            </div>
-            
-            <div class="row py-2">
-                <div class="col-md-4 label-title">
-                    <p>Desa / Kelurahan</p>
-                </div>
-                <div class="col-md-8 value-text">
-                    <p>{{ $koperasi['Desa'] ?? $koperasi['Kelurahan'] ?? '-' }}</p>
-                </div>
-            </div>
-            
-            <div class="row py-2">
-                <div class="col-md-4 label-title">
-                    <p>Kecamatan</p>
-                </div>
-                <div class="col-md-8 value-text">
-                    <p>{{ $koperasi['Kecamatan'] ?? '-' }}</p>
-                </div>
-            </div>
-            
-            <div class="row py-2">
-                <div class="col-md-4 label-title">
-                    <p>Kabupaten</p>
-                </div>
-                <div class="col-md-8 value-text">
-                    <p>{{ $koperasi['Kabupaten'] ?? '-' }}</p>
-                </div>
-            </div>
-            
-            <div class="row py-2">
-                <div class="col-md-4 label-title">
-                    <p>Provinsi</p>
-                </div>
-                <div class="col-md-8 value-text">
-                    <p>{{ $koperasi['Provinsi'] ?? '-' }}</p>
-                </div>
-            </div>
-            
-            <div class="row py-2">
-                <div class="col-md-4 label-title">
-                    <p>Bentuk Koperasi</p>
-                </div>
-                <div class="col-md-8 value-text">
-                    <p>{{ $koperasi['Bentuk_Koperasi'] ?? '-' }}</p>
-                </div>
-            </div>
-            
-            <div class="row py-2">
-                <div class="col-md-4 label-title">
-                    <p>Jenis Koperasi</p>
-                </div>
-                <div class="col-md-8 value-text">
-                    <p>{{ $koperasi['Jenis_Koperasi'] ?? '-' }}</p>
-                </div>
-            </div>
-            
-            <div class="row py-2">
-                <div class="col-md-4 label-title">
-                    <p>Sektor Usaha</p>
-                </div>
-                <div class="col-md-8 value-text">
-                    <p>{{ $koperasi['Sektor_Usaha'] ?? '-' }}</p>
-                </div>
-            </div>
-            
-            <div class="row py-2">
-                <div class="col-md-4 label-title">
-                    <p>Kelompok Koperasi</p>
-                </div>
-                <div class="col-md-8 value-text">
-                    <p>{{ $koperasi['Kelompok_Koperasi'] ?? '-' }}</p>
-                </div>
-            </div>
-            
-            <div class="row py-2">
-                <div class="col-md-4 label-title">
-                    <p>Pola Pengelolaan</p>
-                </div>
-                <div class="col-md-8 value-text">
-                    <p>{{ $koperasi['Pola_Pengelolaan'] ?? '-' }}</p>
-                </div>
-            </div>
-            
-            <div class="row py-2">
-                <div class="col-md-4 label-title">
-                    <p>Grade</p>
-                </div>
-                <div class="col-md-8 value-text">
-                    <p><span class="badge bg-success fs-6">{{ $koperasi['Grade'] ?? '-' }}</span></p>
-                </div>
-            </div>
-            
-            <div class="row py-2">
-                <div class="col-md-4 label-title">
-                    <p>Kuk</p>
-                </div>
-                <div class="col-md-8 value-text">
-                    <p>{{ $koperasi['KUK'] ?? '-' }}</p>
-                </div>
-            </div>
-            
-            <div class="row py-2">
-                <div class="col-md-4 label-title">
-                    <p>Kesehatan Koperasi</p>
-                </div>
-                <div class="col-md-8 value-text">
-                    <p>{{ $koperasi['Status_Sertifikat'] ?? '-' }}</p>
-                </div>
-            </div>
-            
-            <div class="row py-2">
-                <div class="col-md-4 label-title">
-                    <p>Status</p>
-                </div>
-                <div class="col-md-8 value-text">
-                    <p>{{ $koperasi['StatusKoperasi'] ?? $koperasi['Status Koperasi'] ?? 'Aktif' }}</p>
-                </div>
-            </div>
+
+        <div class="container mt-5">
+            <h5>Perubahan Anggaran Dasar</h5>
+            @include('admin.partial.perubahan_anggaran_dasar')
         </div>
-    </div>
 
-    <div class="container mt-5">
-        <h5>Perubahan Anggaran Dasar</h5>
-        @include('admin.partial.perubahan_anggaran_dasar')
-    </div>
+        <div class="container mt-5">
+            <h5>Sertifikat</h5>
+            @include('admin.partial.sertifikat')
+        </div>
 
-    <div class="container mt-5">
-        <h5>Sertifikat</h5>
-        @include('admin.partial.sertifikat')
-    </div>
+        <div class="container mt-5">
+            <h5>SEKTOR USAHA UTAMA</h5>
+            @include('admin.partial.sektor_usaha_pertama')
+        </div>
 
-    <div class="container mt-5">
-        <h5>SEKTOR USAHA UTAMA</h5>
-        @include('admin.partial.sektor_usaha_pertama')
-    </div>
+        <!-- <div class="container mt-5">
+            <h5 class="mb-3">SEKTOR USAHA TAMBAHAN</h5>
+            @include('admin.partial.sektor_usaha_tambahan')
+        </div> -->
 
-    <!-- <div class="container mt-5">
-        <h5 class="mb-3">SEKTOR USAHA TAMBAHAN</h5>
-        @include('admin.partial.sektor_usaha_tambahan')
-    </div> -->
-    
-    <div class="container mt-5">
-        <h5 class="mb-3">PENGAWASAN - PENGURUSAN</h5>
-        @include('admin.partial.pengurus_pengawas')
-    </div>
+        <div class="container mt-5">
+            <h5 class="mb-3">PENGAWASAN - PENGURUSAN</h5>
+            @include('admin.partial.pengurus_pengawas')
+        </div>
 
-    <!-- <div class="container mt-5">
-        <h5 class="mb-3">MODAL KOPERASI</h5>
-        @include('admin.partial.modal_koperasi')
-    </div> -->
-    <div class="container mt-5">
-        <h5 class="mb-3">RAPAT ANGGOTA TAHUNAN</h5>
-        @include('admin.partial.rapat_anggota_tahunan')
-    </div>
-    <div class="container mt-5">
-        <h5 class="mb-3">KELEMBAGAAN</h5>
-        @include('admin.partial.kelembagaan')
-    </div>
-    <div class="container mt-5">
-        <h5 class="mb-3">INDIKATOR USAHA</h5>
-        @include('admin.partial.usaha')
-    </div>
-    <!-- <div class="container mt-5">
-        <h5 class="mb-3">PERIZINAN</h5>
-        @include('admin.partial.perizinan')
-    </div> -->
+        <!-- <div class="container mt-5">
+            <h5 class="mb-3">MODAL KOPERASI</h5>
+            @include('admin.partial.modal_koperasi')
+        </div> -->
+        <div class="container mt-5">
+            <h5 class="mb-3">RAPAT ANGGOTA TAHUNAN</h5>
+            @include('admin.partial.rapat_anggota_tahunan')
+        </div>
+        <div class="container mt-5">
+            <h5 class="mb-3">KELEMBAGAAN</h5>
+            @include('admin.partial.kelembagaan')
+        </div>
+        <div class="container mt-5">
+            <h5 class="mb-3">INDIKATOR USAHA</h5>
+            @include('admin.partial.usaha')
+        </div>
+        <!-- <div class="container mt-5">
+            <h5 class="mb-3">PERIZINAN</h5>
+            @include('admin.partial.perizinan')
+        </div> -->
 
-</div>
+    </div>
 
 @endsection
