@@ -37,7 +37,131 @@ class KoperasiController extends Controller
         }
     }
 
-   public function getDashboardData()
+ public function getDashboardData()
+{
+    $token = $this->getAccessToken();
+
+    // 1. Validasi awal: Jika token dari login saja sudah kosong, hentikan proses
+    if (empty($token)) {
+        Log::error('Dashboard ODS Error: Token Access kosong / gagal digenerate.');
+        return back()->with('error', 'Gagal melakukan autentikasi ke server ODS Kemenkop (Token Kosong).');
+    }
+
+    // Force hapus cache lama setiap reload untuk mempermudah debugging saat ini
+    Cache::store('file')->forget('ods_data_rekap_dashboard');
+
+    // 2. Ambil data Rekap dari API dengan proteksi kegagalan SSL & Timeout
+    $result = Cache::store('file')->remember('ods_data_rekap_dashboard', 1800, function() use ($token) {
+        try {
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $token
+            ])
+            ->timeout(15) // Batasi waktu tunggu maksimal 15 detik
+            ->withoutVerifying() // BYPASS SSL: Mengantisipasi error cURL lokal di Windows/Laragon
+            ->post('https://nik.kop.go.id/odsapi/odsrekap', [
+                'tahun' => "2024" 
+            ]);
+
+            if ($response->successful()) {
+                return $response->json();
+            }
+
+            // Catat ke log jika HTTP status bukan 2xx (misal 401, 403, 500)
+            Log::error('API ODS Rekap Gagal. Status: ' . $response->status() . ' | Response: ' . $response->body());
+            return null;
+
+        } catch (\Exception $e) {
+            // Catat jika ada error koneksi / timeout / network crash
+            Log::error('API ODS Rekap Exception: ' . $e->getMessage());
+            return null;
+        }
+    });
+
+    // 3. Validasi super aman: Jika data null, jangan crash, tapi infokan pesan log terakhir
+    if (!$result || !isset($result['data'])) {
+        return back()->with('error', 'Gagal memuat data rekapitulasi. Server ODS Kemenkop sedang sibuk atau menolak koneksi. Silakan periksa file storage/logs/laravel.log.');
+    }
+
+    // Ambil timestamp dari API jika tersedia
+    $tanggalData = $result['tanggalData'] ?? date('Y-m-d H:i:s');
+
+    // Inisialisasi variabel penampung widget dashboard
+    $koperasiAktif = 0; $belumSertifikat = 0; $sudahSertifikat = 0; $sertifikatAktif = 0; $sertifikatExp = 0;
+    $anggotaPria = 0; $anggotaWanita = 0;
+    $karyawanPria = 0; $karyawanWanita = 0;
+    $manajerPria = 0; $manajerWanita = 0;
+    $totalAsetRaw = 0; $totalVolumeRaw = 0; $totalSHURaw = 0;
+    $modalSendiriRaw = 0; $modalLuarRaw = 0;
+    $sudahRAT = 0; $belumRAT = 0;
+
+    $gradeData = ['A' => 0, 'B' => 0, 'C1' => 0, 'C2' => 0, 'Non' => 0];
+
+    // Pecah data berdasarkan struktur pembungkus asli 'jenisKoperasi'
+    $dataItems = [];
+    if (is_array($result['data'])) {
+        if (isset($result['data']['jenisKoperasi'])) {
+            $dataItems = $result['data']['jenisKoperasi'];
+        } else {
+            $dataItems = $result['data'];
+        }
+    }
+
+    // Akumulasikan semua data dari array data
+    foreach ($dataItems as $item) {
+        $koperasiAktif    += (int)($item['jumlahKoperasiAktif'] ?? $item['jumlah KoperasiAktif'] ?? 0);
+        $belumSertifikat  += (int)($item['jumlahBelumBersertifikat'] ?? $item['jumlahBelumBersertifikat'] ?? 0);
+        $sudahSertifikat  += (int)($item['jumlahSudahBersertifikat'] ?? $item['jumlahSudah Bersertifikat'] ?? 0);
+        $sertifikatAktif  += (int)($item['jumlahSertifikatAktif'] ?? $item['jumlahSertifikatAktif'] ?? 0);
+        $sertifikatExp    += (int)($item['jumlahSertifikatExpired'] ?? $item['jumlahSertifikatExpired'] ?? 0);
+
+        $anggotaPria      += (int)($item['jumlahAnggotaPria'] ?? $item['jumlahAnggotaPria'] ?? 0);
+        $anggotaWanita    += (int)($item['jumlahAnggotaWanita'] ?? $item['jumlahAnggota Wanita'] ?? 0);
+        
+        $karyawanPria     += (int)($item['jumlahKaryawanPria'] ?? 0);
+        $karyawanWanita   += (int)($item['jumlahKaryawanWanita'] ?? 0);
+        
+        $manajerPria      += (int)($item['jumlahManajerPria'] ?? 0);
+        $manajerWanita    += (int)($item['jumlahManajerWanita'] ?? 0);
+
+        $totalAsetRaw     += (float)($item['jumlahAset'] ?? $item['jumlahAset'] ?? 0);
+        $totalVolumeRaw   += (float)($item['jumlahVolumeUsaha'] ?? $item['jumlahVolumeUsaha'] ?? 0);
+        $totalSHURaw      += (float)($item['jumlahSisaHasilUsaha'] ?? $item['jumlahSisaHasilUsaha'] ?? 0);
+        $modalSendiriRaw  += (float)($item['jumlahModalSendiri'] ?? 0);
+        $modalLuarRaw     += (float)($item['jumlahModalLuar'] ?? 0);
+
+        $sudahRAT         += (int)($item['jumlahSudahRAT'] ?? $item['jumlahSudahRAT'] ?? 0);
+        $belumRAT         += (int)($item['jumlahBelumRAT'] ?? $item['jumlahBelumRAT'] ?? 0);
+
+        $gradeData['A']   += (int)($item['jumlahGradeA'] ?? 0);
+        $gradeData['B']   += (int)($item['jumlahGradeB'] ?? 0);
+        $gradeData['C1']  += (int)($item['jumlahGradeC1'] ?? 0);
+        $gradeData['C2']  += (int)($item['jumlahGradeC2'] ?? 0);
+        $gradeData['Non'] += (int)($item['jumlahGradeLainnya'] ?? 0);
+    }
+
+    $totalAnggota  = $anggotaPria + $anggotaWanita;
+    $totalKaryawan = $karyawanPria + $karyawanWanita;
+    $totalManajer  = $manajerPria + $manajerWanita;
+
+    $totalAset     = $totalAsetRaw > 0 ? round($totalAsetRaw / 1000000000, 2) : 0;
+    $totalVolume   = $totalVolumeRaw > 0 ? round($totalVolumeRaw / 1000000000, 2) : 0;
+    $totalSHU      = $totalSHURaw > 0 ? round($totalSHURaw / 1000000000, 2) : 0;
+    
+    $modalSendiri  = $modalSendiriRaw > 0 ? round($modalSendiriRaw / 1000000000, 2) : 0;
+    $modalLuar     = $modalLuarRaw > 0 ? round($modalLuarRaw / 1000000000, 2) : 0;
+
+    return view('admin.koperasi.dashboardKoperasi', compact(
+        'tanggalData',
+        'koperasiAktif', 'belumSertifikat', 'sudahSertifikat', 'sertifikatAktif', 'sertifikatExp',
+        'totalAnggota', 'anggotaPria', 'anggotaWanita',
+        'totalKaryawan', 'karyawanPria', 'karyawanWanita',
+        'totalManajer', 'manajerPria', 'manajerWanita',
+        'totalAset', 'totalVolume', 'totalSHU',
+        'modalSendiri', 'modalLuar',
+        'sudahRAT', 'belumRAT', 'gradeData'
+    ));
+}
+ public function getDashboardData4()
 {
     $token = $this->getAccessToken();
 
@@ -177,7 +301,6 @@ class KoperasiController extends Controller
     // 3. Looping untuk menghitung agregat data secara aman
     foreach ($result['data'] as $item) {
         
-    dd($item);
         // Pengecekan Status Koperasi (API: StatusKoperasi)
         $statusKop = $item['StatusKoperasi'] ?? $item['Status_Aktif'] ?? $item['Status'] ?? '';
         if ($statusKop === 'Aktif') {
@@ -600,7 +723,6 @@ class KoperasiController extends Controller
                 $koperasi = $result['data'][0] ?? null;
 
                 if (!$koperasi) {
-                    dd($result);
                     return back()->with('error', 'Detail data koperasi tidak ditemukan.');
                 }
 
@@ -1179,6 +1301,7 @@ class KoperasiController extends Controller
 
         return view('admin.koperasi.pendirian');
     }
+
 
     public function jenisKoperasi()
     {

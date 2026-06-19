@@ -116,12 +116,72 @@
             </div>
         </div>
     </div>
+
+    <div id="demografiTableContainer" class="card border-0 p-4 mt-4 shadow-sm d-none" style="border-radius: 12px; background: white;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="fw-bold m-0 text-dark"><span id="selectedDemografiTitle">-</span></h5>
+            <button class="btn btn-sm btn-secondary" onclick="document.getElementById('demografiTableContainer').classList.add('d-none')">Tutup Tabel</button>
+        </div>
+        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+            <table class="table table-bordered table-striped table-hover align-middle" style="font-size: 0.85rem;">
+                <thead class="table-dark sticky-top">
+                    <tr>
+                        <th class="text-center" style="width: 5px;">No</th>
+                        <th>NIK</th>
+                        <th>Nama Koperasi</th>
+                        <th>Wilayah / Alamat</th>
+                        <th class="text-center">Jumlah Kontribusi</th>
+                        <th class="text-center">Status</th>
+                         <th class="text-center">Detail</th>
+
+                    </tr>
+                </thead>
+                <tbody id="demografiTableBody">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
+
+        function loadDemografiDetail(type, gender) {
+            const container = document.getElementById('demografiTableContainer');
+            const tableBody = document.getElementById('demografiTableBody');
+            const titleSpan = document.getElementById('selectedDemografiTitle');
+
+            container.classList.remove('d-none');
+            tableBody.innerHTML = '<tr><td colspan="6" class="text-center py-3"><div class="spinner-border spinner-border-sm text-primary"></div> Memuat data koperasi...</td></tr>';
+            titleSpan.innerText = "Daftar Koperasi: " + type + " " + gender;
+
+            container.scrollIntoView({ behavior: 'smooth' });
+
+            fetch("{{ route('koperasi.getDemografiDetail') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                },
+                body: JSON.stringify({ type: type, gender: gender })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                tableBody.innerHTML = data.html;
+                titleSpan.innerText = data.title;
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                tableBody.innerHTML = '<tr><td colspan="6" class="text-center text-danger">Gagal memuat data detail.</td></tr>';
+            });
+        }
+
+
+
         const chartOptions = {
             responsive: true,
             maintainAspectRatio: false,
@@ -141,7 +201,16 @@
                     borderWidth: 1
                 }]
             },
-            options: chartOptions
+            options: {
+                ...chartOptions,
+                onClick: (e, activeEls, chart) => {
+                    if (activeEls.length > 0) {
+                        const dataIndex = activeEls[0].index;
+                        const gender = chart.data.labels[dataIndex]; // 'Pria' atau 'Wanita'
+                        loadDemografiDetail('Anggota', gender);
+                    }
+                }
+            }
         });
 
         // 2. Chart Karyawan Dinamis
@@ -155,7 +224,16 @@
                     borderWidth: 1
                 }]
             },
-            options: chartOptions
+            options: {
+                 ...chartOptions,
+                 onClick: (e, activeEls, chart) => {
+                    if (activeEls.length > 0) {
+                        const dataIndex = activeEls[0].index;
+                        const gender = chart.data.labels[dataIndex];
+                        loadDemografiDetail('Karyawan', gender);
+                    }
+                }
+            }
         });
 
         // 3. Chart Manajer Dinamis
@@ -169,7 +247,16 @@
                     borderWidth: 1
                 }]
             },
-            options: chartOptions
+            options: {
+                ...chartOptions,
+                onClick: (e, activeEls, chart) => {
+                    if (activeEls.length > 0) {
+                        const dataIndex = activeEls[0].index;
+                        const gender = chart.data.labels[dataIndex];
+                        loadDemografiDetail('Manajer', gender);
+                    }
+                }
+            }
         });
     });
 </script>

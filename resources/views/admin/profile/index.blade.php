@@ -7,6 +7,22 @@
         background-color: #f4f7fe;
     }
 
+    /* style toggel password */
+     .toggle-password {
+        border-radius: 0 15px 15px 0;
+        border: 1px solid #e2e8f0;
+        background: #f8fafc;
+    }
+
+    .toggle-password:hover {
+        background: #eef2ff;
+    }
+
+    .input-group .form-control-custom {
+        border-radius: 15px 0 0 15px;
+    }
+    /* style toggle password */
+
     .account-wrapper {
         margin-top: 120px;
         margin-bottom: 100px;
@@ -187,19 +203,48 @@
                         </div>
                         <div class="col-md-12 mb-3">
                             <label class="form-label-custom">Password Saat ini</label>
-                            <input type="password" name="current_password" class="form-control form-control-custom" placeholder="Masukan Password saat Ini">
+
+                            <div class="input-group">
+                                <input
+                                    type="password"
+                                    id="currentPassword"
+                                    name="current_password"
+                                    class="form-control form-control-custom"
+                                    placeholder="Masukan Password saat Ini">
+
+                                <button class="btn btn-outline-secondary toggle-password"
+                                    type="button"
+                                    data-target="currentPassword">
+                                    <i data-lucide="eye"></i>
+                                </button>
+                            </div>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label-custom">
                                 Password Baru (Kosongkan jika tidak ganti)
                             </label>
 
-                            <input
+                            <!-- <input
                                 type="password"
                                 id="newPassword"
                                 name="password"
                                 class="form-control form-control-custom"
-                                placeholder="Masukan password baru">
+                                placeholder="Masukan password baru"> -->
+
+                            <div class="input-group">
+                                <input
+                                    type="password"
+                                    id="newPassword"
+                                    name="password"
+                                    class="form-control form-control-custom"
+                                    placeholder="Masukan password baru">
+
+                                <button class="btn btn-outline-secondary toggle-password"
+                                    type="button"
+                                    data-target="newPassword">
+                                    <i data-lucide="eye"></i>
+                                </button>
+                            </div>
 
                             <div id="passwordStrengthWrapper"
                                 class="mt-3"
@@ -256,11 +301,26 @@
                                 Konfirmasi Password Baru
                             </label>
 
-                            <input
+                            <!-- <input
                                 type="password"
                                 name="password_confirmation"
                                 class="form-control form-control-custom"
-                                placeholder="Konfirmasi Password baru">
+                                placeholder="Konfirmasi Password baru"> -->
+
+                            <div class="input-group">
+                                <input
+                                    type="password"
+                                    id="confirmPassword"
+                                    name="password_confirmation"
+                                    class="form-control form-control-custom"
+                                    placeholder="Konfirmasi Password baru">
+
+                                <button class="btn btn-outline-secondary toggle-password"
+                                    type="button"
+                                    data-target="confirmPassword">
+                                    <i data-lucide="eye"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
 
@@ -410,5 +470,30 @@
 
     });
 </script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
 
+    document.querySelectorAll('.toggle-password').forEach(button => {
+
+        button.addEventListener('click', function() {
+
+            const targetId = this.getAttribute('data-target');
+            const input = document.getElementById(targetId);
+            const icon = this.querySelector('i');
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.setAttribute('data-lucide', 'eye-off');
+            } else {
+                input.type = 'password';
+                icon.setAttribute('data-lucide', 'eye');
+            }
+
+            lucide.createIcons();
+        });
+
+    });
+
+});
+</script>
 @endsection

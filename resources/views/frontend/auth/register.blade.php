@@ -12,6 +12,8 @@
     <title>Register Akun</title>
 
     <link rel="stylesheet" href="{{ asset('css/register.css') }}">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
 
 
 </head>
@@ -42,13 +44,13 @@
                             </div>
 
                             @if ($errors->any())
-                                <div class="alert alert-danger border-0 rounded-4 small">
-                                    <ul class="mb-0">
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
+                            <div class="alert alert-danger border-0 rounded-4 small">
+                                <ul class="mb-0">
+                                    @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
                             @endif
 
                             <form action="{{ route('frontend.register.store') }}" method="POST">
@@ -83,8 +85,22 @@
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label small fw-bold">Password</label>
 
-                                        <input type="password" id="password" name="password" class="form-control"
-                                            placeholder="••••••••" required>
+                                        <div class="input-group">
+                                            <input
+                                                type="password"
+                                                id="password"
+                                                name="password"
+                                                class="form-control"
+                                                placeholder="••••••••"
+                                                required>
+
+                                            <button
+                                                type="button"
+                                                class="btn btn-outline-secondary toggle-password"
+                                                data-target="password">
+                                                <i data-lucide="eye"></i>
+                                            </button>
+                                        </div>
 
                                         <!-- Password Strength Area -->
                                         <div id="passwordStrengthWrapper" class="mt-2" style="display:none;">
@@ -126,8 +142,23 @@
 
                                     <div class="col-md-6 mb-4">
                                         <label class="form-label small fw-bold">Konfirmasi Password</label>
-                                        <input type="password" name="password" class="form-control"
-                                            placeholder="••••••••" required>
+
+                                        <div class="input-group">
+                                            <input
+                                                type="password"
+                                                id="password_confirmation"
+                                                name="password_confirmation"
+                                                class="form-control"
+                                                placeholder="••••••••"
+                                                required>
+
+                                            <button
+                                                type="button"
+                                                class="btn btn-outline-secondary toggle-password"
+                                                data-target="password_confirmation">
+                                                <i data-lucide="eye"></i>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -166,14 +197,14 @@
     </script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
 
             const passwordInput = document.getElementById('password');
             const strengthBar = document.getElementById('strengthBar');
             const strengthText = document.getElementById('strengthText');
             const passwordWrapper = document.getElementById('passwordStrengthWrapper');
 
-            passwordInput.addEventListener('input', function () {
+            passwordInput.addEventListener('input', function() {
 
                 const password = this.value;
                 if (password.length > 0) {
@@ -263,6 +294,33 @@
                     element.innerHTML = element.innerHTML.replace('✅', '❌');
                 }
             }
+
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            document.querySelectorAll('.toggle-password').forEach(button => {
+
+                button.addEventListener('click', function() {
+
+                    const targetId = this.dataset.target;
+                    const input = document.getElementById(targetId);
+                    const icon = this.querySelector('i');
+
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        icon.setAttribute('data-lucide', 'eye-off');
+                    } else {
+                        input.type = 'password';
+                        icon.setAttribute('data-lucide', 'eye');
+                    }
+
+                    lucide.createIcons();
+                });
+
+            });
 
         });
     </script>

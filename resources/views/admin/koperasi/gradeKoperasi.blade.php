@@ -77,6 +77,29 @@
             </div>
         </div>
     </div>
+
+    <div id="gradeTableContainer" class="card border-0 p-4 mt-4 shadow-sm d-none" style="border-radius: 12px; background: white;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="fw-bold m-0 text-dark"><span id="selectedGradeTitle">-</span></h5>
+            <button class="btn btn-sm btn-secondary" onclick="document.getElementById('gradeTableContainer').classList.add('d-none')">Tutup Tabel</button>
+        </div>
+        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+            <table class="table table-bordered table-striped table-hover align-middle" style="font-size: 0.85rem;">
+                <thead class="table-dark sticky-top">
+                    <tr>
+                        <th class="text-center" style="width: 5px;">No</th>
+                        <th>NIK</th>
+                        <th>Nama Koperasi</th>
+                        <th>Wilayah / Alamat</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Detail</th>
+                    </tr>
+                </thead>
+                <tbody id="gradeTableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -84,12 +107,46 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         
+
+
+        function loadGradeDetail(gradeCode) {
+            const container = document.getElementById('gradeTableContainer');
+            const tableBody = document.getElementById('gradeTableBody');
+            const titleSpan = document.getElementById('selectedGradeTitle');
+
+            // Munculkan kontainer loader awal
+            container.classList.remove('d-none');
+            tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-3"><div class="spinner-border spinner-border-sm text-primary"></div> Memuat data koperasi...</td></tr>';
+            
+            // Lakukan scroll halus ke arah tabel
+            container.scrollIntoView({ behavior: 'smooth' });
+
+            // Request ke Controller Laravel
+            fetch("{{ route('koperasi.getGradeDetail') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                },
+                body: JSON.stringify({ grade: gradeCode })
+            })
+            .then(response => response.json())
+            .then(data => {
+                tableBody.innerHTML = data.html;
+                titleSpan.innerText = data.title;
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                tableBody.innerHTML = '<tr><td colspan="5" class="text-center text-danger">Gagal memuat data detail grade.</td></tr>';
+            });
+        }
+
+
         // Buat mapping data dinamis dari Controller
         const labelsData = ['Grade A', 'Grade B', 'Grade C1', 'Grade C2', 'Grade C3'];
         const valuesData = [{{ $pctA }}, {{ $pctB }}, {{ $pctC1 }}, {{ $pctC2 }}, {{ $pctC3 }}];
         const colorsData = ['#10b981', '#7091c4', '#4b9e24', '#7a587a', '#2d4b82'];
 
-        // Filter data: Jika nilai persentase 0, hilangkan dari chart agar legenda/potongan tidak menumpuk
         const filteredLabels = [];
         const filteredValues = [];
         const filteredColors = [];
@@ -114,6 +171,17 @@
                 }]
             },
             options: {
+                onClick: (e, activeEls, chart) => {
+                    if (activeEls.length > 0) {
+                        const dataIndex = activeEls[0].index;
+                        const rawLabel = chart.data.labels[dataIndex]; // Ambil nama label (misal: 'Grade B')
+                        
+                        // Ambil kode grade murni dengan menghapus kata 'Grade ' (misal menjadi 'B' atau 'C1')
+                        const gradeCode = rawLabel.replace('Grade ', '').trim();
+                        
+                        loadGradeDetail(gradeCode);
+                    }
+                },
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {

@@ -58,11 +58,69 @@
         </div>
     </div>
 
+
+    <div id="detailTableContainer" class="card border-0 p-4 mt-4 shadow-sm d-none" style="border-radius: 12px; background: white;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="fw-bold m-0 text-dark">Daftar Koperasi: <span id="selectedCategoryName" class="text-primary">-</span></h5>
+            <button class="btn btn-sm btn-secondary" onclick="document.getElementById('detailTableContainer').classList.add('d-none')">Tutup Tabel</button>
+        </div>
+        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+            <table class="table table-bordered table-striped table-hover align-middle" style="font-size: 0.85rem;">
+                <thead class="table-dark sticky-top">
+                    <tr>
+                        <th class="text-center" style="width: 5px;">No</th>
+                        <th>NIK</th>
+                        <th>Nama Koperasi</th>
+                        <th>Wilayah/Alamat</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Detail</th>
+
+                    </tr>
+                </thead>
+                <tbody id="detailTableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
+
+    function loadKoperasiDetail(type, value, datasetLabel = '') {
+        const container = document.getElementById('detailTableContainer');
+        const tableBody = document.getElementById('detailTableBody');
+        const titleSpan = document.getElementById('selectedCategoryName');
+
+        container.classList.remove('d-none');
+        tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-3"><div class="spinner-border spinner-border-sm text-primary"></div> Memuat data...</td></tr>';
+        titleSpan.innerText = value + (datasetLabel ? ' [' + datasetLabel + ']' : '');
+
+        // Scroll otomatis ke area tabel agar user tahu tabel sudah muncul
+        container.scrollIntoView({ behavior: 'smooth' });
+
+        fetch("{{ route('koperasi.getListByChart') }}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": "{{ csrf_token() }}"
+            },
+            body: JSON.stringify({ type: type, value: value, datasetLabel: datasetLabel })
+        })
+        .then(response => response.json())
+        .then(data => {
+            tableBody.innerHTML = data.html;
+            titleSpan.innerText = data.title;
+        })
+        .catch(error => {
+            console.log("Error:", error);
+            tableBody.innerHTML = '<tr><td colspan="5" class="text-center text-danger">Gagal memuat data detail.</td></tr>';
+        });
+    }
+
+
     document.addEventListener("DOMContentLoaded", function() {
 
         const paletteColors = ['#dc2626', '#a855f7', '#64748b', '#f97316', '#3b82f6', '#10b981', '#ec4899', '#4f46e5'];
@@ -105,8 +163,18 @@
                 scales: {
                     x: { grid: { color: '#f1f5f9' } },
                     y: { grid: { display: false } }
+                },
+               
+                onClick: (e, activeEls, chart) => {
+                        if (activeEls.length > 0) {
+                            const dataIndex = activeEls[0].index;
+                            const datasetIndex = activeEls[0].datasetIndex;
+                            const label = chart.data.labels[dataIndex];
+                            const datasetLabel = chart.data.datasets[datasetIndex].label; // 'Primer' atau 'Sekunder'
+                            loadKoperasiDetail('Bentuk_Koperasi', label, datasetLabel);
+                        }
                 }
-            }
+            },
         });
 
         // ==========================================
@@ -132,6 +200,13 @@
                 scales: {
                     y: { grid: { color: '#f1f5f9' } },
                     x: { grid: { display: false }, ticks: { font: { size: 9 } } }
+                },
+                onClick: (e, activeEls, chart) => {
+                    if (activeEls.length > 0) {
+                        const dataIndex = activeEls[0].index;
+                        const label = chart.data.labels[dataIndex];
+                        loadKoperasiDetail('Sektor_Usaha', label);
+                    }
                 }
             }
         });
@@ -159,7 +234,14 @@
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 9 } } } }
+                plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 9 } } } },
+                onClick: (e, activeEls, chart) => {
+                    if (activeEls.length > 0) {
+                        const dataIndex = activeEls[0].index;
+                        const label = chart.data.labels[dataIndex];
+                        loadKoperasiDetail('Jenis_Koperasi', label);
+                    }
+                }
             }
         });
 
@@ -190,7 +272,19 @@
                     backgroundColor: ['#2563eb', '#dc2626']
                 }]
             },
-            options: doughnutOptions
+            options:    {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '70%',
+                plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } } },
+                onClick: (e, activeEls, chart) => {
+                    if (activeEls.length > 0) {
+                        const dataIndex = activeEls[0].index;
+                        const label = chart.data.labels[dataIndex];
+                        loadKoperasiDetail('Pola_Pengelolaan', label);
+                    }
+                }
+            }
         });
 
         // ==========================================

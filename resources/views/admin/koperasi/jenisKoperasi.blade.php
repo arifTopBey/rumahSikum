@@ -66,12 +66,68 @@
             </div>
         </div>
     </div>
+
+    <div id="karakteristikTableContainer" class="card border-0 p-4 mt-4 shadow-sm d-none" style="border-radius: 12px; background: white;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="fw-bold m-0 text-dark"><span id="selectedKarakteristikTitle">-</span></h5>
+            <button class="btn btn-sm btn-secondary" onclick="document.getElementById('karakteristikTableContainer').classList.add('d-none')">Tutup Tabel</button>
+        </div>
+        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+            <table class="table table-bordered table-striped table-hover align-middle" style="font-size: 0.85rem;">
+                <thead class="table-dark sticky-top">
+                    <tr>
+                        <th class="text-center" style="width: 5px;">No</th>
+                        <th>NIK</th>
+                        <th>Nama Koperasi</th>
+                        <th>Wilayah / Alamat</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Detail</th>
+
+                    </tr>
+                </thead>
+                <tbody id="karakteristikTableBody">
+                    </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
+
+
+
+
+        function loadKarakteristikDetail(type, value, datasetLabel = '') {
+            const container = document.getElementById('karakteristikTableContainer');
+            const tableBody = document.getElementById('karakteristikTableBody');
+            const titleSpan = document.getElementById('selectedKarakteristikTitle');
+
+            container.classList.remove('d-none');
+            tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-3"><div class="spinner-border spinner-border-sm text-primary"></div> Memuat data koperasi...</td></tr>';
+            
+            container.scrollIntoView({ behavior: 'smooth' });
+
+            fetch("{{ route('koperasi.getKarakteristikDetail') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                },
+                body: JSON.stringify({ type: type, value: value, datasetLabel: datasetLabel })
+            })
+            .then(response => response.json())
+            .then(data => {
+                tableBody.innerHTML = data.html;
+                titleSpan.innerText = data.title;
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                tableBody.innerHTML = '<tr><td colspan="5" class="text-center text-danger">Gagal memuat data detail.</td></tr>';
+            });
+        }
 
         const chartOptions = {
             responsive: true,
@@ -100,7 +156,16 @@
                     borderWidth: 1
                 }]
             },
-            options: chartOptions
+            options: {
+                ...chartOptions,
+                onClick: (e, activeEls, chart) => {
+                    if (activeEls.length > 0) {
+                        const dataIndex = activeEls[0].index;
+                        const labelJenis = chart.data.labels[dataIndex]; // Mendapatkan nama jenis (misal: 'Simpan Pinjam')
+                        loadKarakteristikDetail('Jenis', labelJenis);
+                    }
+                }
+            }
         });
 
         // Tentukan batas atas grafik balok otomatis (maksimum data + padding space)
@@ -128,6 +193,17 @@
                 ]
             },
             options: {
+                onClick: (e, activeEls, chart) => {
+                    if (activeEls.length > 0) {
+                        const elementIndex = activeEls[0].index;
+                        const datasetIndex = activeEls[0].datasetIndex;
+
+                        const labelBentuk = chart.data.labels[elementIndex]; // 'Kabupaten/Kota', 'Provinsi', atau 'Nasional'
+                        const datasetLabel = chart.data.datasets[datasetIndex].label; // 'Primer' atau 'Sekunder'
+
+                        loadKarakteristikDetail('Bentuk', labelBentuk, datasetLabel);
+                    }
+                },
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {

@@ -78,11 +78,64 @@
             </div>
         </div>
     </div>
+
+    <div id="kukTableContainer" class="card border-0 p-4 mt-4 shadow-sm d-none" style="border-radius: 12px; background: white;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="fw-bold m-0 text-dark"><span id="selectedKukTitle">-</span></h5>
+            <button class="btn btn-sm btn-secondary" onclick="document.getElementById('kukTableContainer').classList.add('d-none')">Tutup Tabel</button>
+        </div>
+        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
+            <table class="table table-bordered table-striped table-hover align-middle" style="font-size: 0.85rem;">
+                <thead class="table-dark sticky-top">
+                    <tr>
+                        <th class="text-center" style="width: 5px;">No</th>
+                        <th>NIK</th>
+                        <th>Nama Koperasi</th>
+                        <th>Wilayah / Alamat</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Detail</th>
+
+                    </tr>
+                </thead>
+                <tbody id="kukTableBody">
+                    </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
+
+        function loadKukDetail(kukLevel) {
+            const container = document.getElementById('kukTableContainer');
+            const tableBody = document.getElementById('kukTableBody');
+            const titleSpan = document.getElementById('selectedKukTitle');
+
+            container.classList.remove('d-none');
+            tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-3"><div class="spinner-border spinner-border-sm text-primary"></div> Memuat data koperasi...</td></tr>';
+            
+            container.scrollIntoView({ behavior: 'smooth' });
+
+            fetch("{{ route('koperasi.getKukDetail') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                },
+                body: JSON.stringify({ kuk: kukLevel })
+            })
+            .then(response => response.json())
+            .then(data => {
+                tableBody.innerHTML = data.html;
+                titleSpan.innerText = data.title;
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                tableBody.innerHTML = '<tr><td colspan="5" class="text-center text-danger">Gagal memuat data detail.</td></tr>';
+            });
+        }
 
         // Ambil data persentase dari Laravel Controller
        const dataKuk = [{{ $pctKuk1 }}, {{ $pctKuk2 }}, {{ $pctKuk3 }}, {{ $pctKuk4 }}];
@@ -98,6 +151,17 @@
                 }]
             },
             options: {
+                onClick: (e, activeEls, chart) => {
+                    if (activeEls.length > 0) {
+                        const dataIndex = activeEls[0].index;
+                        
+                        // Ekstrak angka saja dari label (misal dari 'KUK 1' menjadi '1')
+                        const rawLabel = chart.data.labels[dataIndex]; 
+                        const kukLevel = rawLabel.replace('KUK ', '').trim();
+                        
+                        loadKukDetail(kukLevel);
+                    }
+                },
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {

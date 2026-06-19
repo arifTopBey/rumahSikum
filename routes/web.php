@@ -25,6 +25,7 @@ use App\Http\Controllers\Admin\WishlistController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataUMKMController;
+use App\Http\Controllers\Filter\KoperasiFilterController;
 use App\Http\Controllers\FrontendController;
 // use App\Http\Controllers\DataUMKMController;
 use App\Http\Controllers\SertifikatController;
@@ -55,66 +56,10 @@ use Maatwebsite\Excel\Facades\Excel;
 //     Route::post('/login', [AuthController::class, 'login'])->name('login.store');
 // });
 
+Route::middleware(['security_header'])->group(function () {
 
 
-Route::get('/list-panel', [FrontendController::class, 'listPanel'])->name('frontend.list.panel');
-Route::get('/e-learning', [FrontendController::class, 'eLearning'])->name('frontend.e-learning');
-Route::get('/e-learning/detail/{id}', [FrontendController::class, 'detailElearning'])->name('frontend.e-learning.detail');
-Route::get('/e-commerce', [FrontendController::class, 'eCommerce'])->name('frontend.eCommerce');
-Route::get('/e-commerce/produk', [FrontendController::class, 'eCommerceDetail'])->name('frontend.eCommerce.detail');
-Route::get('/e-commerce/kategori-produk', [FrontendController::class, 'kategoriProduk'])->name('frontend.produk.kategori');
-
-// withlist
-Route::get('/e-commerce/wishlist-produk', [WishlistController::class, 'wishListProduk'])->name('frontend.wishlist.produk');
-Route::post('/e-commerce/wishlist-produk/store', [WishlistController::class, 'store'])->name('frontend.wishlist.produk.store');
-Route::delete('/e-commerce/wishlist-produk/delete/{id}', [WishlistController::class, 'delete'])->name('frontend.wishlist.produk.delete');
-
-Route::get('/koperasi', [FrontendController::class, 'koperasi'])->name('frontend.koperasi');
-Route::get('/tambah-umkm', [FrontendController::class, 'tambahUmkm'])->name('frontend.tambah.umkm');
-Route::get('/acara', [FrontendController::class, 'acara'])->name('frontend.acara');
-Route::get('/acara/detail-acara/{id}', [FrontendController::class, 'detailAcara'])->name('frontend.acara.detail');
-Route::get('/toko', [FrontendController::class, 'toko'])->name('frontend.toko');
-Route::get('/', [FrontendController::class, 'index'])->name('frontend.index')->middleware('security_header');
-Route::get('/pelatihan', [FrontendController::class, 'pelatihan'])->name('frontend.pelatihan');
-Route::get('/pelatihan/detail-pelatihan/{id}', [FrontendController::class, 'detailPelatihan'])->name('frontend.pelatihan.detail');
-Route::get('/informasi-bpom', [FrontendController::class, 'informasiBPOM'])->name('frontend.informasi.bpom');
-Route::get('edukasi-keuangan', [FrontendController::class, 'edukasiKeuangan'])->name('frontend.edukasi.keuangan');
-Route::get('edukasi-keuangan/detail-edukasi', [FrontendController::class, 'detailEdukasiKeuangan'])->name('frontend.edukasi.keuangan.detail');
-Route::get('/pelatihan/daftar-pelatihan', [FrontendController::class, 'daftarPelatihan'])->name('frontend.daftar.pelatihan');
-// nanti pake setelah login bisa akses halaman ini
-Route::get('/cart-list', [FrontendController::class, 'cartList'])->name('frontend.cart.list');
-// nanti memakai id user untuk profile
-Route::get('/profile', [ProfileController::class, 'index'])->name('frontend.profile.index');
-// nanti memakai id user untuk pesanan
-Route::get('/pesanan', [PesananController::class, 'index'])->name('frontend.pesanan.index');
-
-Route::get('/alamat-saya', [FrontendController::class, 'alamatSaya'])->name('frontend.alamat.saya');
-// nanti pakai id user untuk checkout
-Route::get('/checkout', [FrontendController::class, 'checkout'])->name('frontend.checkout');
-// ulasan nanti pakai id 
-Route::get('/ulasan', [FrontendController::class, 'ulasan'])->name('frontend.ulasan');
-// nanti memakai id transaksi untuk detail transaksi
-Route::get('/transaksi-detail', [FrontendController::class, 'transaksiDetail'])->name('frontend.transaksi.detail');
-
-Route::get('/berita', [FrontendController::class, 'berita'])->name('frontend.berita');
-Route::get('/berita/detail-berita/{id}', [FrontendController::class, 'detailBerita'])->name('frontend.berita.detail');
-// Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
-
-
-// akses media private
-Route::get('/storage/private/acara/{path}', [AcaraController::class, 'showFotoAcara'])->where('path', '.*')->name('showFoto.acara.private');
-Route::get('/storage/private/pelatihan/{path}', [PelatihanController::class, 'showFotoPelatihan'])->where('path', '.*')->name('showFoto.pelatihan.private');
-Route::get('/storage/private/elearning/thumbnail/{path}', [ElearningController::class, 'showFotoThumbnail'])->where('path', '.*')->name('showFoto.elearning.thumnail.private');
-Route::get('/storage/private/elearning/mentor/{path}', [ElearningController::class, 'showFotoMentor'])->where('path', '.*')->name('showFoto.elearning.mentor.private');
-Route::get('/storage/private/profile/user/{path}', [UserProfileController::class, 'showFotoProfil'])->where('path', '.*')->name('showFoto.fotoProfile.private');
-Route::get('/storage/private/{path}', [BeritaController::class, 'showFotoBerita'])->where('path', '.*')->name('showFoto.berita.private');
-Route::get('/storage/app/private/{path}', [ElearningController::class, 'showPdfElearning'])->where('path', '.*')->name('showPdf.elearning.private');
-Route::get('/storage/app/icon/{path}', [KategoriProdukController::class, 'showIconKategori'])->where('path', '.*')->name('show.icon.produk.private');
-Route::get('/storage/app/ktp/{path}', [DaftarUmkmController::class, 'showFotoKtp'])->where('path', '.*')->name('show.ktp.private');
-Route::get('/storage/app/{path}', [\App\Http\Controllers\Vendor\ProdukController::class, 'showThumbnailProduk'])->where('path', '.*')->name('show.thumbnail.produk.private');
-
-
-Route::middleware(['guest'])->group(function () {
+    Route::middleware(['guest'])->group(function () {
 
     Route::get('/login', [AuthController::class, 'index'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.store');
@@ -129,11 +74,74 @@ Route::middleware(['guest'])->group(function () {
     Route::get('/saldo-penarikan', [\App\Http\Controllers\Dashboard\SaldoPenarikanController::class, 'index'])->name('dashboard.saldo.penarikan.index');
     Route::get('/promosi', [\App\Http\Controllers\Dashboard\PromosiController::class, 'index'])->name('dashboard.promosi.index');
     Route::get('/pengaturan', [\App\Http\Controllers\Dashboard\PengaturanController::class, 'index'])->name('dashboard.pengaturan.index');
-
 });
 
 
-Route::middleware(['auth'])->group(function () {
+    Route::get('/list-panel', [FrontendController::class, 'listPanel'])->name('frontend.list.panel');
+    Route::get('/e-learning', [FrontendController::class, 'eLearning'])->name('frontend.e-learning');
+    Route::get('/e-learning/detail/{id}', [FrontendController::class, 'detailElearning'])->name('frontend.e-learning.detail');
+    Route::get('/e-commerce', [FrontendController::class, 'eCommerce'])->name('frontend.eCommerce');
+    Route::get('/e-commerce/produk', [FrontendController::class, 'eCommerceDetail'])->name('frontend.eCommerce.detail');
+    Route::get('/e-commerce/kategori-produk', [FrontendController::class, 'kategoriProduk'])->name('frontend.produk.kategori');
+
+    // withlist
+    Route::get('/e-commerce/wishlist-produk', [WishlistController::class, 'wishListProduk'])->name('frontend.wishlist.produk');
+    Route::post('/e-commerce/wishlist-produk/store', [WishlistController::class, 'store'])->name('frontend.wishlist.produk.store');
+    Route::delete('/e-commerce/wishlist-produk/delete/{id}', [WishlistController::class, 'delete'])->name('frontend.wishlist.produk.delete');
+
+    Route::get('/koperasi', [FrontendController::class, 'koperasi'])->name('frontend.koperasi');
+    Route::get('/tambah-umkm', [FrontendController::class, 'tambahUmkm'])->name('frontend.tambah.umkm');
+    Route::get('/acara', [FrontendController::class, 'acara'])->name('frontend.acara');
+    Route::get('/acara/detail-acara/{id}', [FrontendController::class, 'detailAcara'])->name('frontend.acara.detail');
+    Route::get('/toko', [FrontendController::class, 'toko'])->name('frontend.toko');
+    Route::get('/', [FrontendController::class, 'index'])->name('frontend.index');
+    Route::get('/pelatihan', [FrontendController::class, 'pelatihan'])->name('frontend.pelatihan');
+    Route::get('/pelatihan/detail-pelatihan/{id}', [FrontendController::class, 'detailPelatihan'])->name('frontend.pelatihan.detail');
+    Route::get('/informasi-bpom', [FrontendController::class, 'informasiBPOM'])->name('frontend.informasi.bpom');
+    Route::get('edukasi-keuangan', [FrontendController::class, 'edukasiKeuangan'])->name('frontend.edukasi.keuangan');
+    Route::get('edukasi-keuangan/detail-edukasi', [FrontendController::class, 'detailEdukasiKeuangan'])->name('frontend.edukasi.keuangan.detail');
+    Route::get('/pelatihan/daftar-pelatihan', [FrontendController::class, 'daftarPelatihan'])->name('frontend.daftar.pelatihan');
+    // nanti pake setelah login bisa akses halaman ini
+    Route::get('/cart-list', [FrontendController::class, 'cartList'])->name('frontend.cart.list');
+    // nanti memakai id user untuk profile
+    Route::get('/profile', [ProfileController::class, 'index'])->name('frontend.profile.index');
+    // nanti memakai id user untuk pesanan
+    Route::get('/pesanan', [PesananController::class, 'index'])->name('frontend.pesanan.index');
+
+    Route::get('/alamat-saya', [FrontendController::class, 'alamatSaya'])->name('frontend.alamat.saya');
+    // nanti pakai id user untuk checkout
+    Route::get('/checkout', [FrontendController::class, 'checkout'])->name('frontend.checkout');
+    // ulasan nanti pakai id 
+    Route::get('/ulasan', [FrontendController::class, 'ulasan'])->name('frontend.ulasan');
+    // nanti memakai id transaksi untuk detail transaksi
+    Route::get('/transaksi-detail', [FrontendController::class, 'transaksiDetail'])->name('frontend.transaksi.detail');
+
+    Route::get('/berita', [FrontendController::class, 'berita'])->name('frontend.berita');
+    Route::get('/berita/detail-berita/{id}', [FrontendController::class, 'detailBerita'])->name('frontend.berita.detail');
+    // Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+
+
+    // akses media private
+    Route::get('/storage/private/acara/{path}', [AcaraController::class, 'showFotoAcara'])->where('path', '.*')->name('showFoto.acara.private');
+    Route::get('/storage/private/pelatihan/{path}', [PelatihanController::class, 'showFotoPelatihan'])->where('path', '.*')->name('showFoto.pelatihan.private');
+    Route::get('/storage/private/elearning/thumbnail/{path}', [ElearningController::class, 'showFotoThumbnail'])->where('path', '.*')->name('showFoto.elearning.thumnail.private');
+    Route::get('/storage/private/elearning/mentor/{path}', [ElearningController::class, 'showFotoMentor'])->where('path', '.*')->name('showFoto.elearning.mentor.private');
+    Route::get('/storage/private/profile/user/{path}', [UserProfileController::class, 'showFotoProfil'])->where('path', '.*')->name('showFoto.fotoProfile.private');
+    Route::get('/storage/private/{path}', [BeritaController::class, 'showFotoBerita'])->where('path', '.*')->name('showFoto.berita.private');
+    Route::get('/storage/app/private/{path}', [ElearningController::class, 'showPdfElearning'])->where('path', '.*')->name('showPdf.elearning.private');
+    Route::get('/storage/app/icon/{path}', [KategoriProdukController::class, 'showIconKategori'])->where('path', '.*')->name('show.icon.produk.private');
+    Route::get('/storage/app/ktp/{path}', [DaftarUmkmController::class, 'showFotoKtp'])->where('path', '.*')->name('show.ktp.private');
+    Route::get('/storage/app/{path}', [\App\Http\Controllers\Vendor\ProdukController::class, 'showThumbnailProduk'])->where('path', '.*')->name('show.thumbnail.produk.private');
+});
+
+
+
+
+
+
+
+
+Route::middleware(['auth', 'security_header'])->group(function () {
 
 
 
@@ -178,7 +186,6 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/vendor/produks/update/{id}', [VendorProdukController::class, 'update'])->name('vendor.produk.update');
 
         Route::get('/vendor/profile', [ProfileVendorController::class, 'index'])->name('vendor.profile.index');
-        
     });
 
 
@@ -334,6 +341,15 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/admin/koperasi/grafik-koperasi', [KoperasiController::class, 'indexGrafikKoperasi'])->name('admin.grafik.koperasi');
         Route::get('/admin/koperasi/pendirian-koperasi', [KoperasiController::class, 'indexPendirianKoperasi'])->name('admin.pendirian.koperasi');
 
+        // filter koperasi
+        Route::post('/admin/koperasi/get-list-by-chart', [KoperasiFilterController::class, 'getListByChart'])->name('koperasi.getListByChart');
+        Route::post('/admin/koperasi/get-pendirian-detail', [KoperasiFilterController::class, 'getPendirianDetail'])->name('koperasi.getPendirianDetail');
+        Route::post('/admin/koperasi/get-demografi-detail', [KoperasiFilterController::class, 'getDemografiDetail'])->name('koperasi.getDemografiDetail');
+        Route::post('/admin/koperasi/get-karakteristik-detail', [KoperasiFilterController::class, 'getKarakteristikDetail'])->name('koperasi.getKarakteristikDetail');
+        Route::post('/admin/koperasi/get-kuk-detail', [KoperasiFilterController::class, 'getKukDetail'])->name('koperasi.getKukDetail');
+        Route::post('/admin/koperasi/get-grade-detail', [KoperasiFilterController::class, 'getGradeDetail'])->name('koperasi.getGradeDetail');
+
+
         // Kupon 
         Route::get('/admin/kupon', [KuponController::class, 'index'])->name('admin.kupon.index');
         Route::get('/admin/kupon/create', [KuponController::class, 'create'])->name('admin.kupon.create');
@@ -356,7 +372,7 @@ Route::middleware(['auth'])->group(function () {
 
         // list toko vendor
         Route::get('/admin/list-toko', [TokoController::class, 'index'])->name('admin.list.toko.index');
-        Route::get('/admin/list-toko/{id}',  [TokoController::class, 'show'])->name('admin.list.toko.detail'); 
+        Route::get('/admin/list-toko/{id}',  [TokoController::class, 'show'])->name('admin.list.toko.detail');
 
         // list produk semua toko
         Route::get('/admin/list-produk', [TokoController::class, 'listProduk'])->name('admin.list.produk.index');
@@ -365,12 +381,5 @@ Route::middleware(['auth'])->group(function () {
         // daftar pengguna
         Route::get('/admin/daftar-pengguna', [PenggunaController::class, 'index'])->name('admin.daftar.pengguna.index');
         Route::get('/admin/daftar-pengguna/{id}', [PenggunaController::class, 'show'])->name('admin.daftar.pengguna.detail');
-
-
     });
-
 });
-
-
-
-

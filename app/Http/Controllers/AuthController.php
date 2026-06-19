@@ -10,6 +10,8 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -20,12 +22,25 @@ class AuthController extends Controller
     //     $this->authRepository = $authRepository;
     // }
 
-    public function index()
+    public function index(Request $request)
     {
-        return view('frontend.auth.index');
+         $throttleKey = '';
+
+        if ($request->old('email')) {
+            $throttleKey = strtolower($request->old('email')) . '|' . $request->ip();
+        }
+
+        $lockoutSeconds = 0;
+
+        if ($throttleKey && RateLimiter::tooManyAttempts($throttleKey, 5)) {
+            $lockoutSeconds = RateLimiter::availableIn($throttleKey);
+        }
+
+        return view('frontend.auth.index', compact('lockoutSeconds'));
     }
 
-    public function login(LoginSroreRequest $request){
+    public function login2(LoginSroreRequest $request)
+    {
 
         $validated = $request->validated();
 
@@ -37,8 +52,45 @@ class AuthController extends Controller
             return redirect()->route('user.dashboard');
         }
 
-        return back()->with('LoginError','Email Atau Password Salah');
+        return back()->with('LoginError', 'Email Atau Password Salah');
+    }
+    public function login(LoginSroreRequest $request)
+    {
+        $validated = $request->validated();
 
+        // Key unik berdasarkan email dan IP
+        $throttleKey = Str::lower($request->email) . '|' . $request->ip();
+
+        // Maksimal 5 percobaan login
+        if (RateLimiter::tooManyAttempts($throttleKey, 3)) {
+
+            $seconds = RateLimiter::availableIn($throttleKey);
+
+            return back()
+                ->withErrors([
+                    'email' => "Terlalu banyak percobaan login. Coba lagi dalam {$seconds} detik."
+                ])
+                ->with('lockout_seconds', $seconds)
+                ->withInput($request->only('email'));
+        }
+
+        if (Auth::attempt($validated)) {
+
+            $request->session()->regenerate();
+
+            RateLimiter::clear($throttleKey);
+
+            return redirect()->route('user.dashboard');
+        }
+
+        // Tambah hitungan gagal login
+        RateLimiter::hit($throttleKey, 300); 
+
+        return back()
+            ->withErrors([
+                'email' => 'Email atau password salah.'
+            ])
+            ->withInput($request->only('email'));
     }
 
     public function register()
@@ -46,7 +98,8 @@ class AuthController extends Controller
         return view('frontend.auth.register');
     }
 
-    public function logout(Request $request){
+    public function logout(Request $request)
+    {
 
         Auth::logout();
 
@@ -56,16 +109,13 @@ class AuthController extends Controller
 
         return redirect()->route('login');
     }
-
-
-
-
-    public function registerStore(RegisterStoreRequest $request){
+    public function registerStore(RegisterStoreRequest $request)
+    {
 
         $validated = $request->validated();
         DB::beginTransaction();
 
-        try{
+        try {
 
             $user = new User();
             $user->name = $validated['name'];
@@ -77,11 +127,9 @@ class AuthController extends Controller
             DB::commit();
 
             return redirect()->route('login')->with('success', 'Pendaftaran Berhasil Silahkan Login');
-            
-        }catch(Exception $e){
+        } catch (Exception $e) {
             DB::rollBack();
             return redirect()->route('frontend.register')->with('failed', $e->getMessage());
-
         }
     }
 

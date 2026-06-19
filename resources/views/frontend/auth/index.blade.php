@@ -90,8 +90,10 @@
 <body>
     <div class="container">
         <div class="row justify-content-center">
+
             <div class="col-lg-10">
                 <div class="card login-card shadow-lg">
+
                     <div class="row g-0">
                         <div class="col-md-6 d-none d-md-flex login-info-section">
                             <img src="{{ asset('image/icon.png') }}" alt="Logo"
@@ -109,21 +111,28 @@
                         </div>
 
                         <div class="col-md-6 bg-white p-4 p-lg-5">
+
                             <div class="text-center d-md-none mb-4">
                                 <img src="{{ asset('image/icon.png') }}" width="50" alt="Logo">
                             </div>
 
+
                             <h4 class="fw-bold text-dark mb-2">Login Dashboard</h4>
                             <p class="text-muted mb-4 small text-uppercase fw-semibold">Gunakan akun resmi Anda</p>
 
+                            @if (session('LoginError'))
+                            <div class="alert alert-modern mb-4">
+                                {{ session('LoginError') }}
+                            </div>
+                            @endif
                             @if ($errors->any())
-                                <div class="alert alert-modern mb-4">
-                                    <ul class="mb-0 ps-3">
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
+                            <div class="alert alert-modern mb-4">
+                                <ul class="mb-0 ps-3">
+                                    @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
                             @endif
 
                             <form action="{{ route('login.store') }}" method="post">
@@ -147,8 +156,8 @@
                                         👁️
                                     </span>
                                 </div>
-
-                                <button class="btn btn-primary btn-login w-100 text-white shadow-sm mb-3" type="submit">
+                                <div id="countdownMessage" class="text-danger small mb-2"></div>
+                                <button id="loginButton" class="btn btn-primary btn-login w-100 text-white shadow-sm mb-3" type="submit">
                                     Sign In to Dashboard
                                 </button>
 
@@ -168,18 +177,18 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-    function togglePassword() {
-        const passwordInput = document.getElementById("password");
+        function togglePassword() {
+            const passwordInput = document.getElementById("password");
 
-        if (passwordInput.type === "password") {
-            passwordInput.type = "text";
-        } else {
-            passwordInput.type = "password";
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+            } else {
+                passwordInput.type = "password";
+            }
         }
-    }
-</script>
+    </script>
 
-  {{-- delete cdn --}}
+    {{-- delete cdn --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         function confirmDelete(id, name) {
@@ -199,18 +208,60 @@
                 }
             })
         }
-
     </script>
     @if(session('success'))
-        <script>
-            Swal.fire({
-                title: 'Berhasil!',
-                text: "{{ session('success') }}",
-                icon: 'success',
-                timer: 4000, // Hilang otomatis dalam 3 detik
-                showConfirmButton: false
-            });
-        </script>
+    <script>
+        Swal.fire({
+            title: 'Berhasil!',
+            text: "{{ session('success') }}",
+            icon: 'success',
+            timer: 4000, // Hilang otomatis dalam 3 detik
+            showConfirmButton: false
+        });
+    </script>
+    @endif
+    @if(session('lockout_seconds'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            let seconds = {{session('lockout_seconds')}};
+
+            const loginButton = document.getElementById('loginButton');
+            const countdownMessage = document.getElementById('countdownMessage');
+
+            // Disable tombol
+            loginButton.disabled = true;
+            loginButton.style.background = '#9ca3af';
+            loginButton.style.cursor = 'not-allowed';
+            loginButton.style.opacity = '0.8';
+
+            function updateCountdown() {
+
+                let minutes = Math.floor(seconds / 60);
+                let remainingSeconds = seconds % 60;
+
+                countdownMessage.innerHTML =
+                    `Terlalu banyak percobaan login. Silakan coba lagi dalam ${minutes}:${remainingSeconds.toString().padStart(2,'0')}`;
+
+                if (seconds <= 0) {
+
+                    loginButton.disabled = false;
+                    loginButton.style.background = '';
+                    loginButton.style.cursor = '';
+                    loginButton.style.opacity = '';
+
+                    countdownMessage.innerHTML = '';
+
+                    return;
+                }
+
+                seconds--;
+                setTimeout(updateCountdown, 1000);
+            }
+
+            updateCountdown();
+        });
+    </script>
     @endif
 </body>
 
