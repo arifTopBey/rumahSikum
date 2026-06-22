@@ -15,7 +15,7 @@ class KoperasiFilterController extends Controller
     {
         $type = $request->input('type');       // Contoh: 'Sektor_Usaha', 'Jenis_Koperasi', 'Bentuk_Koperasi', 'Pola_Pengelolaan'
         $value = $request->input('value');     // Contoh: 'Konsumen', 'JASA LAINNYA', dll.
-        $datasetLabel = $request->input('datasetLabel'); // Digunakan khusus untuk membedakan Primer/Sekunder di Chart Bentuk
+        $datasetLabel = $request->input('datasetLabel'); 
 
         $token = $this->getAccessToken();
         $result = Cache::store('file')->get('ods_full_data_dashboard');

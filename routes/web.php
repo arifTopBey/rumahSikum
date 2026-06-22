@@ -1,5 +1,6 @@
 <?php
 
+use App\Exports\Koperasi\GrafikKoperasiExport;
 use App\Exports\UmkmNibExport;
 use App\Exports\UmkmWilayahExport;
 use App\Http\Controllers\Admin\AcaraController;
@@ -30,6 +31,7 @@ use App\Http\Controllers\FrontendController;
 // use App\Http\Controllers\DataUMKMController;
 use App\Http\Controllers\SertifikatController;
 use App\Http\Controllers\IndikatorUsahaLainnyaController;
+use App\Http\Controllers\Koperasi\GrafikExportController;
 use App\Http\Controllers\KoperasiController;
 use App\Http\Controllers\PesananController;
 use App\Http\Controllers\ProdukController;
@@ -349,6 +351,13 @@ Route::middleware(['auth', 'security_header'])->group(function () {
         Route::post('/admin/koperasi/get-kuk-detail', [KoperasiFilterController::class, 'getKukDetail'])->name('koperasi.getKukDetail');
         Route::post('/admin/koperasi/get-grade-detail', [KoperasiFilterController::class, 'getGradeDetail'])->name('koperasi.getGradeDetail');
 
+
+        // ekport Koperasi
+        Route::post('/koperasi/export-excel', [GrafikExportController::class, 'exportExcelByChart'])->name('koperasi.export.grafik.koperasi');
+        Route::post('/koperasi/export-excel-pendirian', [GrafikExportController::class, 'exportExcelPendirian'])->name('koperasi.exportExcelPendirian');
+        Route::post('/koperasi/export-excel-karakteristik', [GrafikExportController::class, 'exportExcelKarakteristik'])->name('koperasi.exportExcelKarakteristik');
+        Route::post('/koperasi/export-excel-kuk', [GrafikExportController::class, 'exportExcelKuk'])->name('koperasi.exportExcelKuk');
+        Route::post('/koperasi/export-excel-grade', [GrafikExportController::class, 'exportExcelGrade'])->name('koperasi.exportExcelGrade');
 
         // Kupon 
         Route::get('/admin/kupon', [KuponController::class, 'index'])->name('admin.kupon.index');

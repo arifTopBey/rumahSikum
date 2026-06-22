@@ -51,9 +51,22 @@
 
         <div id="pendirianTableContainer" class="card border-0 p-4 mt-4 shadow-sm d-none" style="border-radius: 12px; background: white;">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="fw-bold m-0 text-dark">Detail Data: <span id="selectedCategoryName" class="text-primary">-</span></h5>
+        <h5 class="fw-bold m-0 text-dark">Detail Data: <span id="selectedCategoryName" class="text-primary">-</span></h5>
+        <div class="d-flex gap-2">
+            
+            <form action="{{ route('koperasi.exportExcelPendirian') }}" method="POST" id="formExportPendirian">
+                @csrf
+                <input type="hidden" name="type" id="exportPendirianType">
+                <input type="hidden" name="year" id="exportPendirianYear">
+                <input type="hidden" name="value" id="exportPendirianValue">
+                <button type="submit" class="btn btn-sm btn-success">
+                    <i class="bi bi-file-earmark-excel"></i> Export Excel
+                </button>
+            </form>
+
             <button class="btn btn-sm btn-secondary" onclick="document.getElementById('pendirianTableContainer').classList.add('d-none')">Tutup Tabel</button>
         </div>
+    </div>
         <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
             <table class="table table-bordered table-striped table-hover align-middle" style="font-size: 0.85rem;">
                 <thead class="table-dark sticky-top">
@@ -80,10 +93,43 @@
     <script>
     document.addEventListener("DOMContentLoaded", function() {
 
+        // function loadPendirianDetail(type, year, value = '') {
+        //     const container = document.getElementById('pendirianTableContainer');
+        //     const tableBody = document.getElementById('pendirianTableBody');
+        //     const titleSpan = document.getElementById('selectedCategoryName');
+
+        //     container.classList.remove('d-none');
+        //     tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-3"><div class="spinner-border spinner-border-sm text-primary"></div> Memuat detail data...</td></tr>';
+            
+        //     container.scrollIntoView({ behavior: 'smooth' });
+
+        //     fetch("{{ route('koperasi.getPendirianDetail') }}", {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //             "X-CSRF-TOKEN": "{{ csrf_token() }}"
+        //         },
+        //         body: JSON.stringify({ type: type, year: year, value: value })
+        //     })
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         tableBody.innerHTML = data.html;
+        //         titleSpan.innerText = data.title;
+        //     })
+        //     .catch(error => {
+        //         console.error("Error:", error);
+        //         tableBody.innerHTML = '<tr><td colspan="5" class="text-center text-danger">Gagal memuat data detail.</td></tr>';
+        //     });
+        // }
+
         function loadPendirianDetail(type, year, value = '') {
             const container = document.getElementById('pendirianTableContainer');
             const tableBody = document.getElementById('pendirianTableBody');
             const titleSpan = document.getElementById('selectedCategoryName');
+
+            document.getElementById('exportPendirianType').value = type;
+            document.getElementById('exportPendirianYear').value = year;
+            document.getElementById('exportPendirianValue').value = value;
 
             container.classList.remove('d-none');
             tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-3"><div class="spinner-border spinner-border-sm text-primary"></div> Memuat detail data...</td></tr>';
@@ -107,7 +153,7 @@
                 console.error("Error:", error);
                 tableBody.innerHTML = '<tr><td colspan="5" class="text-center text-danger">Gagal memuat data detail.</td></tr>';
             });
-        }
+}
 
 
         const barColors = ['#4f46e5', '#b91c1c', '#a3e635', '#2dd4bf', '#7c3aed', '#5cadd3', '#f97316'];

@@ -62,7 +62,23 @@
     <div id="detailTableContainer" class="card border-0 p-4 mt-4 shadow-sm d-none" style="border-radius: 12px; background: white;">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h5 class="fw-bold m-0 text-dark">Daftar Koperasi: <span id="selectedCategoryName" class="text-primary">-</span></h5>
-            <button class="btn btn-sm btn-secondary" onclick="document.getElementById('detailTableContainer').classList.add('d-none')">Tutup Tabel</button>
+            <!-- <div class="d-flex gap-2">
+                <a class="btn btn-sm btn-success">Export Excel</a>
+                <button class="btn btn-sm btn-secondary" onclick="document.getElementById('detailTableContainer').classList.add('d-none')">Tutup Tabel</button>
+            </div> -->
+            <div class="d-flex gap-2">
+                <form action="{{ route('koperasi.export.grafik.koperasi') }}" method="POST" id="formExportExcel">
+                        @csrf
+                        <input type="hidden" name="type" id="exportType">
+                        <input type="hidden" name="value" id="exportValue">
+                        <input type="hidden" name="datasetLabel" id="exportDatasetLabel">
+                        <button type="submit" class="btn btn-sm btn-success">
+                            <i class="bi bi-file-earmark-excel"></i> Export Excel
+                        </button>
+                </form>
+    
+                <button class="btn btn-sm btn-secondary" onclick="document.getElementById('detailTableContainer').classList.add('d-none')">Tutup Tabel</button>
+            </div>
         </div>
         <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
             <table class="table table-bordered table-striped table-hover align-middle" style="font-size: 0.85rem;">
@@ -89,36 +105,70 @@
 
 <script>
 
+    // function loadKoperasiDetail(type, value, datasetLabel = '') {
+    //     const container = document.getElementById('detailTableContainer');
+    //     const tableBody = document.getElementById('detailTableBody');
+    //     const titleSpan = document.getElementById('selectedCategoryName');
+
+    //     container.classList.remove('d-none');
+    //     tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-3"><div class="spinner-border spinner-border-sm text-primary"></div> Memuat data...</td></tr>';
+    //     titleSpan.innerText = value + (datasetLabel ? ' [' + datasetLabel + ']' : '');
+
+    //     container.scrollIntoView({ behavior: 'smooth' });
+
+    //     fetch("{{ route('koperasi.getListByChart') }}", {
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //             "X-CSRF-TOKEN": "{{ csrf_token() }}"
+    //         },
+    //         body: JSON.stringify({ type: type, value: value, datasetLabel: datasetLabel })
+    //     })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         tableBody.innerHTML = data.html;
+    //         titleSpan.innerText = data.title;
+    //     })
+    //     .catch(error => {
+    //         console.log("Error:", error);
+    //         tableBody.innerHTML = '<tr><td colspan="5" class="text-center text-danger">Gagal memuat data detail.</td></tr>';
+    //     });
+    // }
+
     function loadKoperasiDetail(type, value, datasetLabel = '') {
-        const container = document.getElementById('detailTableContainer');
-        const tableBody = document.getElementById('detailTableBody');
-        const titleSpan = document.getElementById('selectedCategoryName');
+    const container = document.getElementById('detailTableContainer');
+    const tableBody = document.getElementById('detailTableBody');
+    const titleSpan = document.getElementById('selectedCategoryName');
 
-        container.classList.remove('d-none');
-        tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-3"><div class="spinner-border spinner-border-sm text-primary"></div> Memuat data...</td></tr>';
-        titleSpan.innerText = value + (datasetLabel ? ' [' + datasetLabel + ']' : '');
+    // ISI INPUT TERSEMBUNYI UNTUK FORM EXCEL
+    document.getElementById('exportType').value = type;
+    document.getElementById('exportValue').value = value;
+    document.getElementById('exportDatasetLabel').value = datasetLabel;
 
-        // Scroll otomatis ke area tabel agar user tahu tabel sudah muncul
-        container.scrollIntoView({ behavior: 'smooth' });
+    container.classList.remove('d-none');
+    tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-3"><div class="spinner-border spinner-border-sm text-primary"></div> Memuat data...</td></tr>';
+    titleSpan.innerText = value + (datasetLabel ? ' [' + datasetLabel + ']' : '');
 
-        fetch("{{ route('koperasi.getListByChart') }}", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-TOKEN": "{{ csrf_token() }}"
-            },
-            body: JSON.stringify({ type: type, value: value, datasetLabel: datasetLabel })
-        })
-        .then(response => response.json())
-        .then(data => {
-            tableBody.innerHTML = data.html;
-            titleSpan.innerText = data.title;
-        })
-        .catch(error => {
-            console.log("Error:", error);
-            tableBody.innerHTML = '<tr><td colspan="5" class="text-center text-danger">Gagal memuat data detail.</td></tr>';
-        });
-    }
+    container.scrollIntoView({ behavior: 'smooth' });
+
+    fetch("{{ route('koperasi.getListByChart') }}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+        },
+        body: JSON.stringify({ type: type, value: value, datasetLabel: datasetLabel })
+    })
+    .then(response => response.json())
+    .then(data => {
+        tableBody.innerHTML = data.html;
+        titleSpan.innerText = data.title;
+    })
+    .catch(error => {
+        console.log("Error:", error);
+        tableBody.innerHTML = '<tr><td colspan="5" class="text-center text-danger">Gagal memuat data detail.</td></tr>';
+    });
+}
 
 
     document.addEventListener("DOMContentLoaded", function() {

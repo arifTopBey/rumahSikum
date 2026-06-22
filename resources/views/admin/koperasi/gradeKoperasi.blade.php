@@ -79,10 +79,21 @@
     </div>
 
     <div id="gradeTableContainer" class="card border-0 p-4 mt-4 shadow-sm d-none" style="border-radius: 12px; background: white;">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="fw-bold m-0 text-dark"><span id="selectedGradeTitle">-</span></h5>
+       <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold m-0 text-dark"><span id="selectedGradeTitle">-</span></h5>
+        
+        <div class="d-flex gap-2">
+            <form action="{{ route('koperasi.exportExcelGrade') }}" method="POST" id="formExportGrade">
+                @csrf
+                <input type="hidden" name="grade" id="exportGradeCode">
+                <button type="submit" class="btn btn-sm btn-success">
+                    <i class="bi bi-file-earmark-excel"></i> Export Excel
+                </button>
+            </form>
+
             <button class="btn btn-sm btn-secondary" onclick="document.getElementById('gradeTableContainer').classList.add('d-none')">Tutup Tabel</button>
         </div>
+    </div>
         <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
             <table class="table table-bordered table-striped table-hover align-middle" style="font-size: 0.85rem;">
                 <thead class="table-dark sticky-top">
@@ -105,41 +116,77 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
+
     document.addEventListener("DOMContentLoaded", function() {
         
 
 
-        function loadGradeDetail(gradeCode) {
-            const container = document.getElementById('gradeTableContainer');
-            const tableBody = document.getElementById('gradeTableBody');
-            const titleSpan = document.getElementById('selectedGradeTitle');
+        // function loadGradeDetail(gradeCode) {
+        //     const container = document.getElementById('gradeTableContainer');
+        //     const tableBody = document.getElementById('gradeTableBody');
+        //     const titleSpan = document.getElementById('selectedGradeTitle');
 
-            // Munculkan kontainer loader awal
-            container.classList.remove('d-none');
-            tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-3"><div class="spinner-border spinner-border-sm text-primary"></div> Memuat data koperasi...</td></tr>';
+        //     // Munculkan kontainer loader awal
+        //     container.classList.remove('d-none');
+        //     tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-3"><div class="spinner-border spinner-border-sm text-primary"></div> Memuat data koperasi...</td></tr>';
             
-            // Lakukan scroll halus ke arah tabel
-            container.scrollIntoView({ behavior: 'smooth' });
+        //     // Lakukan scroll halus ke arah tabel
+        //     container.scrollIntoView({ behavior: 'smooth' });
 
-            // Request ke Controller Laravel
-            fetch("{{ route('koperasi.getGradeDetail') }}", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                },
-                body: JSON.stringify({ grade: gradeCode })
-            })
-            .then(response => response.json())
-            .then(data => {
-                tableBody.innerHTML = data.html;
-                titleSpan.innerText = data.title;
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                tableBody.innerHTML = '<tr><td colspan="5" class="text-center text-danger">Gagal memuat data detail grade.</td></tr>';
-            });
-        }
+        //     // Request ke Controller Laravel
+        //     fetch("{{ route('koperasi.getGradeDetail') }}", {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //             "X-CSRF-TOKEN": "{{ csrf_token() }}"
+        //         },
+        //         body: JSON.stringify({ grade: gradeCode })
+        //     })
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         tableBody.innerHTML = data.html;
+        //         titleSpan.innerText = data.title;
+        //     })
+        //     .catch(error => {
+        //         console.error("Error:", error);
+        //         tableBody.innerHTML = '<tr><td colspan="5" class="text-center text-danger">Gagal memuat data detail grade.</td></tr>';
+        //     });
+        // }
+
+        function loadGradeDetail(gradeCode) {
+    const container = document.getElementById('gradeTableContainer');
+    const tableBody = document.getElementById('gradeTableBody');
+    const titleSpan = document.getElementById('selectedGradeTitle');
+
+    // SALIN PARAMETER KODE GRADE KE DALAM INPUT ELEMEN FORM EXPORT
+    document.getElementById('exportGradeCode').value = gradeCode;
+
+    // Munculkan kontainer loader awal
+    container.classList.remove('d-none');
+    tableBody.innerHTML = '<tr><td colspan="5" class="text-center py-3"><div class="spinner-border spinner-border-sm text-primary"></div> Memuat data koperasi...</td></tr>';
+    
+    // Lakukan scroll halus ke arah tabel
+    container.scrollIntoView({ behavior: 'smooth' });
+
+    // Request ke Controller Laravel
+    fetch("{{ route('koperasi.getGradeDetail') }}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": "{{ csrf_token() }}"
+        },
+        body: JSON.stringify({ grade: gradeCode })
+    })
+    .then(response => response.json())
+    .then(data => {
+        tableBody.innerHTML = data.html;
+        titleSpan.innerText = data.title;
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        tableBody.innerHTML = '<tr><td colspan="5" class="text-center text-danger">Gagal memuat data detail grade.</td></tr>';
+    });
+}
 
 
         // Buat mapping data dinamis dari Controller
