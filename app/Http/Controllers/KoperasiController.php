@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+
+use Illuminate\Support\Str;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+// use Illuminate\Support\Facades\Crypt;
 
 class KoperasiController extends Controller
 {
@@ -1330,5 +1336,138 @@ class KoperasiController extends Controller
     {
 
         return view('admin.koperasi.dashboardKoperasi');
+    }
+
+
+    public function exportDashboardChartExcel(Request $request)
+{
+    $chart = $request->input('chart');
+    $segment = $request->input('segment');
+
+    $result = Cache::store('file')->get('ods_full_data_dashboard');
+    if (!$result || !isset($result['data'])) {
+        return back()->with('error', 'Gagal mengekspor data, cache tidak ditemukan.');
+    }
+
+    $collection = collect($result['data']);
+    Log::info('Data OSD', $collection->first());
+    $filtered = $this->filterDashboardData($collection, $chart, $segment);
+
+    $spreadsheet = new Spreadsheet();
+    $sheet = $spreadsheet->getActiveSheet();
+
+    $sheet->setCellValue('A1', 'LAPORAN BREAKDOWN DASHBOARD KOPERASI');
+    $sheet->setCellValue('A2', 'Kategori Grafik: ' . $chart);
+    $sheet->setCellValue('A3', 'Segmen Data: ' . $segment);
+    $sheet->setCellValue('A4', 'Waktu Unduh: ' . date('Y-m-d H:i:s'));
+
+    $sheet->setCellValue('A6', 'No');
+    $sheet->setCellValue('B6', 'NIK');
+    $sheet->setCellValue('C6', 'Nama Koperasi');
+    $sheet->setCellValue('D6', 'Kecamatan');
+    $sheet->setCellValue('E6', 'Kabupaten');
+    $sheet->setCellValue('F6', 'Bentuk Koperasi');
+    $sheet->setCellValue('G6', 'Jenis Koperasi');
+    $sheet->setCellValue('H6', 'Grade');
+    $sheet->setCellValue('I6', 'Status');
+
+    $sheet->getStyle('A6:I6')->getFont()->setBold(true);
+
+    $row = 7; $no = 1;
+    foreach ($filtered as $kop) {
+        $sheet->setCellValue('A' . $row, $no++);
+        $sheet->setCellValueExplicit('B' . $row, $kop['NIK'] ?? '-', \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+        $sheet->setCellValue('C' . $row, $kop['Nama_Koperasi'] ?? '-');
+        $sheet->setCellValue('D' . $row, $kop['Kecamatan'] ?? '-');
+        $sheet->setCellValue('E' . $row, $kop['Kabupaten'] ?? '-');
+        $sheet->setCellValue('F' . $row, $kop['Bentuk_Koperasi'] ?? '-');
+        $sheet->setCellValue('G' . $row, $kop['Jenis_Koperasi'] ?? '-');
+        $sheet->setCellValue('H' . $row, $kop['Grade'] ?? '-');
+        $sheet->setCellValue('I' . $row, $kop['StatusKoperasi'] ?? $kop['Status Koperasi'] ?? 'Aktif');
+        $row++;
+    }
+
+    foreach (range('A', 'I') as $col) {
+        $sheet->getColumnDimension($col)->setAutoSize(true);
+    }
+
+    $filename = "Breakdown_" . str_replace(' ', '_', $chart) . "_" . str_replace(' ', '_', $segment) . "_" . date('Ymd_His') . ".xlsx";
+
+    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    header('Content-Disposition: attachment;filename="' . $filename . '"');
+    header('Cache-Control: max-age=0');
+
+    $writer = new Xlsx($spreadsheet);
+    $writer->save('php://output');
+    exit;
+}
+
+// Fungsi Helper khusus penyaringan data profil berdasarkan tipe grafik dashboard
+private function filterDashboardData($collection, $chart, $segment)
+{
+    return $collection->filter(function ($item) use ($chart, $segment) {
+        // Filter Dasar: Pastikan koperasi Aktif
+        $status = $item['StatusKoperasi'] ?? $item['Status Koperasi'] ?? '';
+        if (Str::upper((trim($status))) !== 'AKTIF') return false;
+
+        switch ($chart) {
+            case 'Grade':
+                $grade = trim($item['Grade'] ?? $item['Grade_Sertifikat'] ?? 'Non');
+                if ($segment === 'Non Grade') return in_array($grade, ['', '-', 'Non']);
+                return "Grade " . $grade === $segment;
+
+            case 'RAT':
+                $tglRat = $item['Tanggal_RAT_Terakhir'] ?? null;
+                return ($segment === 'Sudah RAT') ? !empty($tglRat) : empty($tglRat);
+
+            case 'Anggota':
+            case 'Karyawan':
+            case 'Manajer':
+            default:
+                // Fallback untuk modal/SDM: tampilkan semua koperasi pembentuk aktif wilayah tersebut
+                return true;
+        }
+    });
+    }
+
+    public function getDashboardChartDetail(Request $request)
+{
+    $chart = $request->input('chart');  // 'Anggota', 'Karyawan', 'Manajer', 'Grade', 'RAT'
+    $segment = $request->input('segment'); // 'Pria', 'Wanita', 'Grade A', 'Sudah RAT', dll
+
+    $result = Cache::store('file')->get('ods_full_data_dashboard');
+    if (!$result || !isset($result['data'])) {
+        return response()->json(['html' => '<tr><td colspan="6" class="text-center text-danger">Gagal memuat cache data profil.</td></tr>']);
+    }
+
+    $collection = collect($result['data']);
+
+    $filtered = $this->filterDashboardData($collection, $chart, $segment);
+
+    $title = "Detail Data: " . $chart . " (" . $segment . ")";
+    $html = '';
+
+    if ($filtered->isEmpty()) {
+        $html .= '<tr><td colspan="6" class="text-center text-muted">Tidak ada data koperasi yang sesuai kriteria.</td></tr>';
+    } else {
+        $no = 1;
+        foreach ($filtered as $kop) {
+            $statusStr = $kop['StatusKoperasi'] ?? $kop['Status Koperasi'] ?? 'Aktif';
+            $badgeColor = strtoupper(trim($statusStr)) === 'AKTIF' ? 'bg-success' : 'bg-danger';
+
+            $html .= '<tr>
+                <td class="text-center">' . $no++ . '</td>
+                <td>' . e($kop['NIK'] ?? '-') . '</td>
+                <td><strong>' . e($kop['Nama_Koperasi'] ?? '-') . '</strong></td>
+                <td>' . e($kop['Kecamatan'] ?? '-') . '</td>
+                <td class="text-center"><span class="badge ' . $badgeColor . '">' . e($statusStr) . '</span></td>
+                <td class="text-center">
+                    <a href="' . route('admin.koperasi.detail', Crypt::encryptString($kop['NIK'])) . '" class="btn btn-sm btn-outline-primary py-0 px-2">Detail</a>
+                </td>
+            </tr>';
+        }
+    }
+
+    return response()->json(['title' => $title, 'html' => $html]);
     }
 }

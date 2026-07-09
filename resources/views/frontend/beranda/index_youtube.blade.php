@@ -4,20 +4,12 @@
     @php
         // Ambil data video pertama yang tersedia dari database
         $currentVideo = $videoProfil ?? null;
-        $embedUrl = null;
-        $localUrl = null;
-        $activeType = $currentVideo ? $currentVideo->status : null;
+        $embedUrl = "https://www.youtube.com/embed/dQw4w9WgXcQ?enablejsapi=1"; 
 
         if ($currentVideo) {
-            if ($activeType == '1' && $currentVideo->video_youtube) {
-                // Konversi URL YouTube biasa ke format EMBED
-                $url = $currentVideo->video_youtube;
-                if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/\s]{11})%i', $url, $match)) {
-                    $embedUrl = "https://www.youtube.com/embed/" . $match[1] . "?enablejsapi=1";
-                }
-            } elseif ($activeType == '0' && $currentVideo->video_local) {
-                // Arahkan ke path storage lokal
-                $localUrl = asset('storage/' . $currentVideo->video_local);
+            $url = $currentVideo->video_youtube;
+            if (preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/\s]{11})%i', $url, $match)) {
+                $embedUrl = "https://www.youtube.com/embed/" . $match[1] . "?enablejsapi=1";
             }
         }
     @endphp
@@ -32,7 +24,8 @@
                     <div class="d-flex gap-3">
                         <a href="{{ route('frontend.eCommerce') }}" style="background-color: #a82282;" class="btn text-white btn-lg rounded-pill px-5">Jelajahi Produk</a>
                         
-                        @if(($activeType == '1' && $embedUrl) || ($activeType == '0' && $localUrl))
+                        <!-- Tombol Video Profil hanya muncul jika ada data video di database -->
+                        @if($currentVideo)
                         <button class="btn btn-outline-dark btn-lg rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#videoProfilModal">
                             <i data-lucide="play-circle" class="me-2"></i>Video Profil
                         </button>
@@ -67,7 +60,8 @@
         </div>
     </section>
 
-    @if(($activeType == 1 && $embedUrl) || ($activeType == 0 && $localUrl))
+    <!-- MODAL VIDEO PROFIL -->
+    @if($currentVideo)
         <div class="modal fade" id="videoProfilModal" tabindex="-1" aria-labelledby="videoProfilModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content bg-dark border-0 text-white">
@@ -77,14 +71,8 @@
                     </div>
                     <div class="modal-body p-3">
                         <div class="ratio ratio-16x9">
-                            @if($activeType == 1)
-                                <iframe id="videoIframe" src="{{ $embedUrl }}" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                            @else
-                                <video id="videoLocal" controls class="w-100 h-100 rounded-2">
-                                    <source src="{{ $localUrl }}" type="video/mp4">
-                                    Browser Anda tidak mendukung pemutaran video.
-                                </video>
-                            @endif
+                            <!-- Src menggunakan $embedUrl hasil konversi otomatis -->
+                            <iframe id="videoIframe" src="{{ $embedUrl }}" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                         </div>
                     </div>
                 </div>
@@ -96,27 +84,19 @@
         document.addEventListener('DOMContentLoaded', function () {
             var videoModal = document.getElementById('videoProfilModal');
             var videoIframe = document.getElementById('videoIframe');
-            var videoLocal = document.getElementById('videoLocal');
             
-            if (videoModal) {
-                var videoSrc = videoIframe ? videoIframe.getAttribute('src') : '';
+            if (videoModal && videoIframe) {
+                // Simpan URL asli yang dinamis dari PHP
+                var videoSrc = videoIframe.getAttribute('src');
 
-                // Logika saat modal di-close / ditutup
+                // Saat modal ditutup, kosongkan src agar video YouTube berhenti berputar di latar belakang
                 videoModal.addEventListener('hide.bs.modal', function () {
-                    if (videoIframe) {
-                        videoIframe.setAttribute('src', ''); // Hentikan Youtube
-                    }
-                    if (videoLocal) {
-                        videoLocal.pause(); // Jeda video lokal agar suaranya mati
-                        videoLocal.currentTime = 0; // Kembalikan ke detik awal
-                    }
+                    videoIframe.setAttribute('src', '');
                 });
 
-                // Logika saat modal di-buka kembali
+                // Saat modal dibuka kembali, pasang lagi src video aslinya agar dapat diputar ulang
                 videoModal.addEventListener('show.bs.modal', function () {
-                    if (videoIframe) {
-                        videoIframe.setAttribute('src', videoSrc);
-                    }
+                    videoIframe.setAttribute('src', videoSrc);
                 });
             }
         });

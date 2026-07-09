@@ -66,6 +66,7 @@
     </div>
 
     <div class="row mb-3">
+       <div class="row mb-3 align-items-end">
         <div class="col-md-5">
             <label class="form-label fw-bold text-secondary">Pencarian Cepat</label>
             <div class="input-group mb-1">
@@ -74,6 +75,18 @@
             </div>
             <small class="text-muted">* Mendukung sortir kolom tabel & paginasi otomatis</small>
         </div>
+        
+        <div class="col-md-7 text-md-end mt-2 mt-md-0">
+            <form action="{{ route('koperasi.exportExcelUtama') }}" method="POST" id="form-export-utama" class="d-inline">
+                @csrf
+                <input type="hidden" name="wilayah" id="export-input-wilayah">
+                <input type="hidden" name="sertifikat" id="export-input-sertifikat">
+                <button type="submit" class="btn btn-success px-4" style="border-radius: 8px;">
+                    <i class="fa fa-file-excel"></i> Export Excel
+                </button>
+            </form>
+        </div>
+    </div>
     </div>
 
     <div class="row">

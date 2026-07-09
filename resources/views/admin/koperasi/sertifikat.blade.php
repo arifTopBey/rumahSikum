@@ -28,7 +28,7 @@
             </div>
         </div>
 
-        <div class="row mb-3">
+       <div class="row mb-3 align-items-end">
             <div class="col-md-5">
                 <label class="form-label fw-semibold text-muted">Sertifikat</label>
                 <div class="input-group">
@@ -36,6 +36,17 @@
                     <button id="btnCariKoperasi" class="btn btn-primary px-3" style="border-radius: 0 8px 8px 0; background-color: #00997a; border-color: #00997a;">Cari Koperasi</button>
                 </div>
                 <small class="text-muted d-block mt-1">* Klik NIK untuk melihat Sertifikat</small>
+            </div>
+
+            <div class="col-md-7 text-md-end mt-2 mt-md-0">
+                <form action="{{ route('koperasi.exportExcelSertifikat') }}" method="POST" id="formExportSertifikat" class="d-inline">
+                    @csrf
+                    <input type="hidden" name="wilayah" id="exportInputWilayah">
+                    <input type="hidden" name="status" id="exportInputStatus">
+                    <button type="submit" class="btn btn-success px-4" style="border-radius: 8px;">
+                        <i class="fa fa-file-excel"></i> Export Excel
+                    </button>
+                </form>
             </div>
         </div>
 

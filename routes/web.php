@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\KategoriProdukController;
 use App\Http\Controllers\Admin\KuponController;
 use App\Http\Controllers\Admin\PelatihanController;
 use App\Http\Controllers\Admin\PenggunaController;
+use App\Http\Controllers\Admin\ProfileBerandaController;
 use App\Http\Controllers\Admin\TokoController;
 use App\Http\Controllers\Admin\UserProfileController;
 use App\Http\Controllers\Admin\WhatappController;
@@ -218,6 +219,17 @@ Route::middleware(['auth', 'security_header'])->group(function () {
 
         Route::get('/sebaran-data-umkm/kbli/{kategori}', [DataUMKMController::class, 'dataKbriKategori']);
 
+
+
+
+    //    video profil beranda
+        Route::get('/admin/profil-beranda', [ProfileBerandaController::class,'index'])->name('admin.profil-beranda.index');
+        Route::get('/admin/profil-beranda/create', [ProfileBerandaController::class,'create'])->name('admin.profil-beranda.create');
+        Route::post('/admin/profil-beranda/store', [ProfileBerandaController::class,'store'])->name('admin.profil-beranda.store');
+        Route::get('/admin/profil-beranda/edit/{id}', [ProfileBerandaController::class,'edit'])->name('admin.profil-beranda.edit');
+        Route::put('/admin/profil-beranda/{id}', [ProfileBerandaController::class,'update'])->name('admin.profil-beranda.update');
+        Route::delete('/admin/profil-beranda/{id}', [ProfileBerandaController::class,'destroy'])->name('admin.profil-beranda.destroy');
+
         // kategori berita
         Route::get('/admin/kategori-berita', [\App\Http\Controllers\Admin\KategoriBeritaController::class, 'index'])->name('admin.kategori.berita.index');
         Route::get('/admin/kategori-berita/create', [\App\Http\Controllers\Admin\KategoriBeritaController::class, 'create'])->name('admin.kategori.berita.create');
@@ -236,6 +248,7 @@ Route::middleware(['auth', 'security_header'])->group(function () {
         Route::get('/admin/berita/{id}/edit', [BeritaController::class, 'edit'])->name('admin.berita.edit');
         Route::put('/admin/berita/{id}', [BeritaController::class, 'update'])->name('admin.berita.update');
         Route::delete('/admin/berita/{id}', [BeritaController::class, 'destroy'])->name('admin.berita.destroy');
+
 
 
         // kategori acara admin
@@ -287,6 +300,9 @@ Route::middleware(['auth', 'security_header'])->group(function () {
         Route::get('/admin/elearning/edit/{id}', [ElearningController::class, 'edit'])->name('admin.elearning.edit');
         Route::put('/admin/elearning/update/{id}', [ElearningController::class, 'update'])->name('admin.elearning.update');
         Route::delete('/admin/elearning/delete/{id}', [ElearningController::class, 'destroy'])->name('admin.elearning.delete');
+
+
+        
 
         // Route Export Excel
         Route::get('/export-pertumbuhan-usaha', [ExportController::class, 'exportPertumbuhan'])->name('admin.export.pertumbuhan.usaha');
@@ -343,8 +359,10 @@ Route::middleware(['auth', 'security_header'])->group(function () {
         Route::get('/admin/koperasi/grafik-koperasi', [KoperasiController::class, 'indexGrafikKoperasi'])->name('admin.grafik.koperasi');
         Route::get('/admin/koperasi/pendirian-koperasi', [KoperasiController::class, 'indexPendirianKoperasi'])->name('admin.pendirian.koperasi');
 
+
         // filter koperasi
         Route::post('/admin/koperasi/get-list-by-chart', [KoperasiFilterController::class, 'getListByChart'])->name('koperasi.getListByChart');
+        Route::get('/admin/dashboard-koperasi/detail', [KoperasiController::class, 'getDashboardChartDetail'])->name('dashboard.chart.detail');
         Route::post('/admin/koperasi/get-pendirian-detail', [KoperasiFilterController::class, 'getPendirianDetail'])->name('koperasi.getPendirianDetail');
         Route::post('/admin/koperasi/get-demografi-detail', [KoperasiFilterController::class, 'getDemografiDetail'])->name('koperasi.getDemografiDetail');
         Route::post('/admin/koperasi/get-karakteristik-detail', [KoperasiFilterController::class, 'getKarakteristikDetail'])->name('koperasi.getKarakteristikDetail');
@@ -358,6 +376,9 @@ Route::middleware(['auth', 'security_header'])->group(function () {
         Route::post('/koperasi/export-excel-karakteristik', [GrafikExportController::class, 'exportExcelKarakteristik'])->name('koperasi.exportExcelKarakteristik');
         Route::post('/koperasi/export-excel-kuk', [GrafikExportController::class, 'exportExcelKuk'])->name('koperasi.exportExcelKuk');
         Route::post('/koperasi/export-excel-grade', [GrafikExportController::class, 'exportExcelGrade'])->name('koperasi.exportExcelGrade');
+        Route::post('/koperasi/export-excel-utama', [GrafikExportController::class, 'exportExcelUtama'])->name('koperasi.exportExcelUtama');
+        Route::post('/admin/sertifikat/export-excel', [GrafikExportController::class, 'exportExcelSertifikat'])->name('koperasi.exportExcelSertifikat');
+        Route::post('/admin/dashboard-koperasi/export', [KoperasiController::class, 'exportDashboardChartExcel'])->name('dashboard.chart.export');
 
         // Kupon 
         Route::get('/admin/kupon', [KuponController::class, 'index'])->name('admin.kupon.index');
@@ -390,5 +411,7 @@ Route::middleware(['auth', 'security_header'])->group(function () {
         // daftar pengguna
         Route::get('/admin/daftar-pengguna', [PenggunaController::class, 'index'])->name('admin.daftar.pengguna.index');
         Route::get('/admin/daftar-pengguna/{id}', [PenggunaController::class, 'show'])->name('admin.daftar.pengguna.detail');
+
+
     });
 });

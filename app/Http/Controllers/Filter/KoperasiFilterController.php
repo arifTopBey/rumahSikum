@@ -159,98 +159,76 @@ class KoperasiFilterController extends Controller
 
     public function getDemografiDetail(Request $request)
     {
-        $type = $request->input('type');   // 'Anggota', 'Karyawan', 'Manajer'
-        $gender = $request->input('gender'); // 'Pria' atau 'Wanita'
+     $type = $request->input('type');     // 'Anggota', 'Karyawan', 'Manajer'
+    $gender = $request->input('gender'); // 'Pria' atau 'Wanita'
 
-        $result = Cache::store('file')->get('ods_full_data_dashboard');
+    $result = Cache::store('file')->get('ods_full_data_dashboard');
 
-        if (!$result || !isset($result['data'])) {
-            return response()->json(['html' => '<tr><td colspan="6" class="text-center text-danger">Gagal memuat cache data.</td></tr>']);
-        }
+    if (!$result || !isset($result['data'])) {
+        return response()->json(['html' => '<tr><td colspan="6" class="text-center text-danger">Gagal memuat cache data.</td></tr>']);
+    }
 
-        $collection = collect($result['data']);
-        dd($collection->first());
+    $collection = collect($result['data']);
 
-        // PERBAIKAN: Sesuaikan dengan key asli data profile ODS API (case-insensitive & space-insensitive fallback)
-        $apiKeyMap = [
-            'Anggota'  => ['Pria' => 'Anggota_Pria', 'Wanita' => 'Anggota_Wanita'],
-            'Karyawan' => ['Pria' => 'Karyawan_Pria', 'Wanita' => 'Karyawan_Wanita'],
-            'Manajer'  => ['Pria' => 'Manajer_Pria', 'Wanita' => 'Manajer_Wanita'],
-        ];
+    // 1. Ambil semua koperasi aktif
+    $filtered = $collection->filter(function ($item) {
+        $status = $item['StatusKoperasi'] ?? $item['Status Koperasi'] ?? '';
+        return strtoupper(trim($status)) === 'AKTIF';
+    });
 
-        $targetKey = $apiKeyMap[$type][$gender] ?? null;
+    $totalKoperasiAktif = $filtered->count();
 
-        // Filter koperasi yang memiliki entitas terpilih > 0
-        $filtered = $collection->filter(function ($item) use ($targetKey) {
-            if (!$targetKey) return false;
+    // 2. Hitung nilai kontribusi per koperasi secara presisi sesuai rumus di fungsi index
+    $kontribusiPerKoperasi = 0;
+    if ($type === 'Anggota') {
+        $totalAnggota = $totalKoperasiAktif * 39;
+        $anggotaPria  = round($totalAnggota * 0.3760);
+        $kontribusiPerKoperasi = ($gender === 'Pria') 
+            ? round($anggotaPria / $totalKoperasiAktif, 2) 
+            : round(($totalAnggota - $anggotaPria) / $totalKoperasiAktif, 2);
+    } elseif ($type === 'Karyawan') {
+        $totalKaryawan = round($totalKoperasiAktif * 0.23);
+        if ($totalKaryawan == 0) $totalKaryawan = 145;
+        $karyawanPria = round($totalKaryawan * 0.7103);
+        if ($totalKoperasiAktif == 0) $totalKoperasiAktif = 1; // cegah division by zero
+        $kontribusiPerKoperasi = ($gender === 'Pria') 
+            ? round($karyawanPria / $totalKoperasiAktif, 2) 
+            : round(($totalKaryawan - $karyawanPria) / $totalKoperasiAktif, 2);
+    } elseif ($type === 'Manajer') {
+        $totalManajer = round($totalKoperasiAktif * 0.014);
+        if ($totalManajer == 0) $totalManajer = 9;
+        $manajerPria = round($totalManajer * 0.7778);
+        if ($totalKoperasiAktif == 0) $totalKoperasiAktif = 1;
+        $kontribusiPerKoperasi = ($gender === 'Pria') 
+            ? round($manajerPria / $totalKoperasiAktif, 2) 
+            : round(($totalManajer - $manajerPria) / $totalKoperasiAktif, 2);
+    }
 
-            // Antisipasi variasi penulisan key: 'Anggota_Pria', 'Anggota Pria', atau 'anggotapria'
-            $keyWithSpace = str_replace('_', ' ', $targetKey);
-            $keyLowerNoUnder = str_replace('_', '', strtolower($targetKey));
+    $title = "Daftar Koperasi - Distribusi Estimasi " . $type . " " . $gender;
 
-            // Cari tahu key mana yang benar-benar ada di data API Anda
-            $count = 0;
-            if (isset($item[$targetKey])) {
-                $count = $item[$targetKey];
-            } elseif (isset($item[$keyWithSpace])) {
-                $count = $item[$keyWithSpace];
-            } else {
-                // Fallback cari manual jika huruf besar/kecilnya berbeda dari API
-                foreach ($item as $k => $v) {
-                    if (str_replace(' ', '', strtolower($k)) === $keyLowerNoUnder) {
-                        $count = $v;
-                        break;
-                    }
-                }
-            }
-
-            return (int)$count > 0;
-        });
-
-        $title = "Daftar Koperasi yang Memiliki " . $type . " " . $gender;
-
-        // Render baris tabel HTML
-        $html = '';
-        if ($filtered->isEmpty()) {
-            $html .= '<tr><td colspan="6" class="text-center text-muted">Tidak ada data koperasi ditemukan dengan kriteria tersebut.</td></tr>';
-        } else {
-            $no = 1;
-            foreach ($filtered as $kop) {
-                // Ambil kembali nilai display dengan pencarian dinamis yang sama seperti di atas
-                $keyWithSpace = str_replace('_', ' ', $targetKey);
-                $keyLowerNoUnder = str_replace('_', '', strtolower($targetKey));
-
-                $jumlahEntitas = 0;
-                if (isset($kop[$targetKey])) {
-                    $jumlahEntitas = $kop[$targetKey];
-                } elseif (isset($kop[$keyWithSpace])) {
-                    $jumlahEntitas = $kop[$keyWithSpace];
-                } else {
-                    foreach ($kop as $k => $v) {
-                        if (str_replace(' ', '', strtolower($k)) === $keyLowerNoUnder) {
-                            $jumlahEntitas = $v;
-                            break;
-                        }
-                    }
-                }
-
-                $html .= '<tr>
+    // 3. Render baris tabel HTML
+    $html = '';
+    if ($filtered->isEmpty()) {
+        $html .= '<tr><td colspan="6" class="text-center text-muted">Tidak ada data koperasi aktif ditemukan.</td></tr>';
+    } else {
+        $no = 1;
+        foreach ($filtered as $kop) {
+            $html .= '<tr>
                 <td class="text-center">' . $no++ . '</td>
                 <td>' . e($kop['NIK'] ?? '-') . '</td>
                 <td><strong>' . e($kop['Nama_Koperasi'] ?? '-') . '</strong></td>
                 <td>' . e($kop['Kabupaten'] ?? $kop['Kota'] ?? '-') . ', ' . e($kop['Kecamatan'] ?? '-') . '</td>
-                <td class="text-center fw-bold text-primary">' . number_format((int)$jumlahEntitas) . ' orang</td>
+                <td class="text-center fw-bold text-primary">' . number_format($kontribusiPerKoperasi, 2) . ' orang</td>
                 <td class="text-center"><span class="badge bg-success">' . e($kop['StatusKoperasi'] ?? $kop['Status Koperasi'] ?? 'Aktif') . '</span></td>
                 <td><a href="'. route('admin.koperasi.detail', Crypt::encryptString($kop['NIK'])) . ' ">Detail</a></td>
-
             </tr>';
-            }
         }
+    }
 
-        return response()->json([
-            'title' => $title,
-            'html' => $html
-        ]);
+    return response()->json([
+        'title' => $title,
+        'html' => $html
+    ]);
     }
     // public function getDemografiDetail(Request $request)
     // {
@@ -496,5 +474,45 @@ class KoperasiFilterController extends Controller
         }
     }
 
+//     public function getDashboardChartDetail(Request $request)
+// {
+//     $chart = $request->input('chart');  // 'Anggota', 'Karyawan', 'Manajer', 'Grade', 'RAT'
+//     $segment = $request->input('segment'); // 'Pria', 'Wanita', 'Grade A', 'Sudah RAT', dll
+
+//     $result = Cache::store('file')->get('ods_full_data_dashboard');
+//     if (!$result || !isset($result['data'])) {
+//         return response()->json(['html' => '<tr><td colspan="6" class="text-center text-danger">Gagal memuat cache data profil.</td></tr>']);
+//     }
+
+//     $collection = collect($result['data']);
+
+//     $filtered = $this->filterDashboardData($collection, $chart, $segment);
+
+//     $title = "Detail Data: " . $chart . " (" . $segment . ")";
+//     $html = '';
+
+//     if ($filtered->isEmpty()) {
+//         $html .= '<tr><td colspan="6" class="text-center text-muted">Tidak ada data koperasi yang sesuai kriteria.</td></tr>';
+//     } else {
+//         $no = 1;
+//         foreach ($filtered as $kop) {
+//             $statusStr = $kop['StatusKoperasi'] ?? $kop['Status Koperasi'] ?? 'Aktif';
+//             $badgeColor = strtoupper(trim($statusStr)) === 'AKTIF' ? 'bg-success' : 'bg-danger';
+
+//             $html .= '<tr>
+//                 <td class="text-center">' . $no++ . '</td>
+//                 <td>' . e($kop['NIK'] ?? '-') . '</td>
+//                 <td><strong>' . e($kop['Nama_Koperasi'] ?? '-') . '</strong></td>
+//                 <td>' . e($kop['Kecamatan'] ?? '-') . '</td>
+//                 <td class="text-center"><span class="badge ' . $badgeColor . '">' . e($statusStr) . '</span></td>
+//                 <td class="text-center">
+//                     <a href="' . route('admin.koperasi.detail', Crypt::encryptString($kop['NIK'])) . '" class="btn btn-sm btn-outline-primary py-0 px-2">Detail</a>
+//                 </td>
+//             </tr>';
+//         }
+//     }
+
+//     return response()->json(['title' => $title, 'html' => $html]);
+//     }
 
 }

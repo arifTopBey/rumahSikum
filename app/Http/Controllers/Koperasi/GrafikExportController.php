@@ -433,5 +433,237 @@ public function exportExcelGrade(Request $request)
     exit;
 }
 
+public function exportExcelUtama(Request $request)
+{
+    $filterWilayah = $request->input('wilayah'); // 'KAB. TANGERANG' atau 'KOTA TANGERANG'
+    $filterSertifikat = $request->input('sertifikat'); // 'Sertifikat Aktif' atau 'Expired'
+
+    // 1. Ambil data asli dari cache lokal
+    $result = Cache::store('file')->get('ods_full_data_dashboard');
+
+    if (!$result || !isset($result['data'])) {
+        return back()->with('error', 'Gagal mengekspor data, cache tidak ditemukan.');
+    }
+
+    $collection = collect($result['data']);
+
+    // 2. Lakukan transformasi & filtering data persis seperti di index utama
+    $transformed = $collection->map(function ($item, $index) {
+        $tglExpiredStr = $item['Tanggal_Berlaku_Sertifikat'] ?? null;
+        $statusSertifikat = 'Expired';
+
+        if (!empty($tglExpiredStr)) {
+            try {
+                $statusSertifikat = \Carbon\Carbon::parse($tglExpiredStr)->isPast() ? 'Expired' : 'Sertifikat Aktif';
+            } catch (\Exception $e) {
+                $statusSertifikat = 'Expired';
+            }
+        }
+
+        return [
+            'No' => $index + 1,
+            'NIK' => $item['NIK'] ?? '-',
+            'Nomor_Badan_Hukum_Pendirian' => $item['Nomor_Badan_Hukum_Pendirian'] ?? '-',
+            'Tanggal_Badan_Hukum_Pendirian' => $item['Tanggal_Badan_Hukum_Pendirian'] ?? '-',
+            'Nama_Koperasi' => $item['Nama_Koperasi'] ?? '-',
+            'Desa' => $item['Desa'] ?? $item['Kelurahan'] ?? '-',
+            'Kecamatan' => $item['Kecamatan'] ?? '-',
+            'Alamat' => $item['Alamat'] ?? '-',
+            'Jenis_Koperasi' => $item['Jenis_Koperasi'] ?? '-',
+            'Status_Sertifikat' => $statusSertifikat,
+            'Kabupaten' => strtoupper($item['Kabupaten'] ?? 'TANGERANG')
+        ];
+    });
+
+    // Jalankan penyaringan jika filter dipilih pengguna
+    if (!empty($filterWilayah)) {
+        $transformed = $transformed->filter(function ($item) use ($filterWilayah) {
+            return $item['Kabupaten'] === strtoupper($filterWilayah);
+        });
+    }
+
+    if (!empty($filterSertifikat)) {
+        $transformed = $transformed->filter(function ($item) use ($filterSertifikat) {
+            return $item['Status_Sertifikat'] === $filterSertifikat;
+        });
+    }
+
+    // 3. Proses Pembuatan Spreadsheet Excel
+    $spreadsheet = new Spreadsheet();
+    $sheet = $spreadsheet->getActiveSheet();
+
+    // Informasi Header Dokumen
+    $sheet->setCellValue('A1', 'DATA REKAPITULASI KOPERASI WILAYAH');
+    $sheet->setCellValue('A2', 'Filter Wilayah: ' . ($filterWilayah ?: 'Semua Wilayah'));
+    $sheet->setCellValue('A3', 'Filter Sertifikat: ' . ($filterSertifikat ?: 'Semua Status'));
+    $sheet->setCellValue('A4', 'Waktu Cetak: ' . date('Y-m-d H:i:s'));
+
+    // Label Kolom Header Tabel
+    $sheet->setCellValue('A6', 'No');
+    $sheet->setCellValue('B6', 'NIK');
+    $sheet->setCellValue('C6', 'Nomor Badan Hukum');
+    $sheet->setCellValue('D6', 'Tanggal BH');
+    $sheet->setCellValue('E6', 'Nama Koperasi');
+    $sheet->setCellValue('F6', 'Desa / Kelurahan');
+    $sheet->setCellValue('G6', 'Kecamatan');
+    $sheet->setCellValue('H6', 'Alamat');
+    $sheet->setCellValue('I6', 'Jenis Koperasi');
+    $sheet->setCellValue('J6', 'Status Sertifikat');
+
+    $sheet->getStyle('A6:J6')->getFont()->setBold(true);
+
+    // Mengisi baris demi baris data
+    $rowNumber = 7;
+    $no = 1;
+    foreach ($transformed as $kop) {
+        $sheet->setCellValue('A' . $rowNumber, $no++);
+        $sheet->setCellValueExplicit('B' . $rowNumber, $kop['NIK'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+        $sheet->setCellValue('C' . $rowNumber, $kop['Nomor_Badan_Hukum_Pendirian']);
+        $sheet->setCellValue('D' . $rowNumber, $kop['Tanggal_Badan_Hukum_Pendirian']);
+        $sheet->setCellValue('E' . $rowNumber, $kop['Nama_Koperasi']);
+        $sheet->setCellValue('F' . $rowNumber, $kop['Desa']);
+        $sheet->setCellValue('G' . $rowNumber, $kop['Kecamatan']);
+        $sheet->setCellValue('H' . $rowNumber, $kop['Alamat']);
+        $sheet->setCellValue('I' . $rowNumber, $kop['Jenis_Koperasi']);
+        $sheet->setCellValue('J' . $rowNumber, $kop['Status_Sertifikat']);
+        $rowNumber++;
+    }
+
+    // Mengatur lebar kolom otomatis pas teks
+    foreach (range('A', 'J') as $col) {
+        $sheet->getColumnDimension($col)->setAutoSize(true);
+    }
+
+    $filename = "Data_Koperasi_Export_" . date('Ymd_His') . ".xlsx";
+
+    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    header('Content-Disposition: attachment;filename="' . $filename . '"');
+    header('Cache-Control: max-age=0');
+
+    $writer = new Xlsx($spreadsheet);
+    $writer->save('php://output');
+    exit;
+}
+public function exportExcelSertifikat(Request $request)
+{
+    $filterWilayah = $request->input('wilayah'); // 'KAB. TANGERANG' dll
+    $filterStatus = $request->input('status');   // 'Aktif' atau 'Expired'
+
+    // 1. Ambil payload utama dari cache lokal file
+    $result = Cache::store('file')->get('ods_full_data_dashboard');
+
+    if (!$result || !isset($result['data'])) {
+        return back()->with('error', 'Gagal mengekspor data, cache tidak ditemukan.');
+    }
+
+    $collection = collect($result['data']);
+
+    // 2. Transformasikan data persis dengan logika indexSertifikatKoperasi
+    $transformed = $collection->map(function ($item) {
+        $tglExpiredStr = $item['Tanggal_Berlaku_Sertifikat'] ?? null;
+        $statusSertifikat = 'Belum Bersertifikat';
+
+        if (!empty($tglExpiredStr)) {
+            try {
+                $tglExpired = \Carbon\Carbon::parse($tglExpiredStr);
+                $statusSertifikat = $tglExpired->isPast() ? 'Expired' : 'Aktif';
+            } catch (\Exception $e) {
+                $statusSertifikat = 'Expired';
+            }
+        }
+
+        return [
+            'nik' => $item['NIK'] ?? '-',
+            'no_bh' => $item['Nomor_Badan_Hukum_Pendirian'] ?? '-',
+            'tgl_bh' => $item['Tanggal_Badan_Hukum_Pendirian'] ?? '-',
+            'nama' => $item['Nama_Koperasi'] ?? '-',
+            'grade' => $item['Grade'] ?? $item['Grade_Sertifikat'] ?? '-',
+            'tgl_terbit' => $item['Tanggal_Sertifikat'] ?? '-',
+            'tgl_cetak' => $item['Tanggal_Cetak_Sertifikat'] ?? '-',
+            'tgl_expired' => $tglExpiredStr ?? '-',
+            'edisi' => $item['Edisi_Cetak'] ?? '1',
+            'status_sertifikat' => $statusSertifikat,
+            'wilayah' => strtoupper($item['Kabupaten'] ?? $item['Provinsi'] ?? 'TANGERANG')
+        ];
+    });
+
+    // 3. Terapkan Penyaringan Filter Sesuai Request Pilihan Pengguna
+    if (!empty($filterWilayah)) {
+        $transformed = $transformed->filter(function ($item) use ($filterWilayah) {
+            return $item['wilayah'] === strtoupper($filterWilayah);
+        });
+    }
+
+    if (!empty($filterStatus)) {
+        $transformed = $transformed->filter(function ($item) use ($filterStatus) {
+            return $item['status_sertifikat'] === $filterStatus;
+        });
+    }
+
+    // 4. Mulai Menyusun Dokumen Spreadsheet Excel
+    $spreadsheet = new Spreadsheet();
+    $sheet = $spreadsheet->getActiveSheet();
+
+    // Informasi Header Laporan
+    $sheet->setCellValue('A1', 'LAPORAN DATA SERTIFIKAT KOPERASI');
+    $sheet->setCellValue('A2', 'Filter Wilayah: ' . ($filterWilayah ?: 'Semua Wilayah'));
+    $sheet->setCellValue('A3', 'Filter Status: ' . ($filterStatus ?: 'Semua Status'));
+    $sheet->setCellValue('A4', 'Tanggal Unduh: ' . date('Y-m-d H:i:s'));
+
+    // Label Kolom Header Tabel
+    $sheet->setCellValue('A6', 'No');
+    $sheet->setCellValue('B6', 'NIK');
+    $sheet->setCellValue('C6', 'Nomor Badan Hukum');
+    $sheet->setCellValue('D6', 'Tanggal Badan Hukum');
+    $sheet->setCellValue('E6', 'Nama Koperasi');
+    $sheet->setCellValue('F6', 'Grade');
+    $sheet->setCellValue('G6', 'Tanggal Diterbitkan');
+    $sheet->setCellValue('H6', 'Tanggal Cetak');
+    $sheet->setCellValue('I6', 'Tanggal Expired');
+    $sheet->setCellValue('J6', 'Edisi Cetak');
+    $sheet->setCellValue('K6', 'Status Sertifikat');
+
+    // Tebalkan teks header tabel (A6 sampai K6)
+    $sheet->getStyle('A6:K6')->getFont()->setBold(true);
+
+    // Isi Baris-Baris Data Koperasi
+    $rowNumber = 7;
+    $no = 1;
+    foreach ($transformed as $kop) {
+        $sheet->setCellValue('A' . $rowNumber, $no++);
+        // NIK harus Explicit String agar angka 0 di depan tidak hilang
+        $sheet->setCellValueExplicit('B' . $rowNumber, $kop['nik'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+        $sheet->setCellValue('C' . $rowNumber, $kop['no_bh']);
+        $sheet->setCellValue('D' . $rowNumber, $kop['tgl_bh']);
+        $sheet->setCellValue('E' . $rowNumber, $kop['nama']);
+        $sheet->setCellValue('F' . $rowNumber, $kop['grade']);
+        $sheet->setCellValue('G' . $rowNumber, $kop['tgl_terbit']);
+        $sheet->setCellValue('H' . $rowNumber, $kop['tgl_cetak']);
+        $sheet->setCellValue('I' . $rowNumber, $kop['tgl_expired']);
+        $sheet->setCellValue('J' . $rowNumber, $kop['edisi']);
+        $sheet->setCellValue('K' . $rowNumber, $kop['status_sertifikat']);
+        $rowNumber++;
+    }
+
+    // Mengatur lebar kolom otomatis pas sesuai isi teks
+    foreach (range('A', 'K') as $col) {
+        $sheet->getColumnDimension($col)->setAutoSize(true);
+    }
+
+    $filename = "Data_Sertifikat_Koperasi_" . date('Ymd_His') . ".xlsx";
+
+    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    header('Content-Disposition: attachment;filename="' . $filename . '"');
+    header('Cache-Control: max-age=0');
+
+    $writer = new Xlsx($spreadsheet);
+    $writer->save('php://output');
+    exit;
+}
+
+
+
+
+
 
 }

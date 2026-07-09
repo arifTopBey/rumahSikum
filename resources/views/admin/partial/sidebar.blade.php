@@ -104,6 +104,13 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
+                                <a href="{{ route('admin.profil-beranda.index') }}"
+                                    class="nav-link {{ Request::is('admin/profil-beranda*') ? 'active' : '' }}">
+                                    <i class="nav-icon bi bi-circle"></i>
+                                    <p class="text-white">Profil Beranda</p>
+                                </a>
+                            </li>
+                             <li class="nav-item">
                                 <a href="{{ route('admin.kategori.berita.index') }}"
                                     class="nav-link {{ Request::is('admin/kategori/berita*') ? 'active' : '' }}">
                                     <i class="nav-icon bi bi-circle"></i>

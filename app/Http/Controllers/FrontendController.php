@@ -6,6 +6,7 @@ use App\Models\Berita;
 use App\Models\Elearning;
 use App\Models\KategoriPelatihan;
 use App\Models\Pelatihan;
+use App\Models\ProfilBeranda;
 use App\Models\VendorProduk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,6 +17,7 @@ class FrontendController extends Controller
 
         // Menghitung total seluruh UMKM dari tabel identitasusaha
         $totalUMKM = DB::table('identitasusaha')->count();
+        $videoProfil = ProfilBeranda::latest()->first();
 
         // Menghitung jumlah kecamatan yang unik (distinct)
         $jumlahKecamatan = DB::table('identitasusaha')
@@ -24,7 +26,7 @@ class FrontendController extends Controller
             ->distinct('kecamatan')
             ->count('kecamatan');
 
-        return view('frontend.beranda.index', compact('totalUMKM', 'jumlahKecamatan'));
+        return view('frontend.beranda.index', compact('totalUMKM', 'jumlahKecamatan', 'videoProfil'));
     }
 
     public function listPanel(){

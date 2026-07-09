@@ -21,7 +21,7 @@
     </div>
 
     <div class="mb-3">
-        <small class="fw-bold text-dark" style="font-size: 0.85rem;">Status Data : 2026-01-25 00:23:29.060 : 1</small>
+        <small class="fw-bold text-dark" style="font-size: 0.85rem;">Status Data : {{ $tanggalData }}</small>
     </div>
 
     <div class="row g-2 mb-4 text-white text-center fw-semibold" style="font-size: 0.85rem;">
@@ -64,42 +64,42 @@
 
                     <div class="text-center d-flex flex-column align-items-center">
                         <span class="fw-bold text-secondary mb-3" style="font-size: 0.9rem;">Anggota</span>
-                        <div style="position: relative; height: 140px; width: 140px;">
+                        <div style="position: relative; height: 140px; width: 140px; cursor: pointer;">
                             <canvas id="donutAnggota"></canvas>
                         </div>
                     </div>
 
                     <div class="text-center d-flex flex-column align-items-center">
                         <span class="fw-bold text-secondary mb-3" style="font-size: 0.9rem;">Karyawan</span>
-                        <div style="position: relative; height: 140px; width: 140px;">
+                        <div style="position: relative; height: 140px; width: 140px; cursor: pointer;">
                             <canvas id="donutKaryawan"></canvas>
                         </div>
                     </div>
 
                     <div class="text-center d-flex flex-column align-items-center">
                         <span class="fw-bold text-secondary mb-3" style="font-size: 0.9rem;">Manajer</span>
-                        <div style="position: relative; height: 140px; width: 140px;">
+                        <div style="position: relative; height: 140px; width: 140px; cursor: pointer;">
                             <canvas id="donutManajer"></canvas>
                         </div>
                     </div>
 
                     <div class="text-center d-flex flex-column align-items-center mt-4">
                         <span class="fw-bold text-secondary mb-3" style="font-size: 0.9rem;">Grade</span>
-                        <div style="position: relative; height: 140px; width: 140px;">
+                        <div style="position: relative; height: 140px; width: 140px; cursor: pointer;">
                             <canvas id="donutGrade"></canvas>
                         </div>
                     </div>
 
                     <div class="text-center d-flex flex-column align-items-center mt-4">
                         <span class="fw-bold text-secondary mb-3" style="font-size: 0.9rem;">RAT</span>
-                        <div style="position: relative; height: 140px; width: 140px;">
+                        <div style="position: relative; height: 140px; width: 140px; cursor: pointer;">
                             <canvas id="donutRAT"></canvas>
                         </div>
                     </div>
 
                     <div class="text-center d-flex flex-column align-items-center mt-4">
                         <span class="fw-bold text-secondary mb-3" style="font-size: 0.9rem;">Modal Usaha (dalam Miliar)</span>
-                        <div style="position: relative; height: 140px; width: 140px;">
+                        <div style="position: relative; height: 140px; width: 140px; cursor: pointer;">
                             <canvas id="donutModal"></canvas>
                         </div>
                     </div>
@@ -109,7 +109,6 @@
         </div>
 
         <div class="col-lg-3 d-flex flex-column justify-content-between gap-2">
-
             <div class="d-flex flex-column gap-2 mb-1">
                 <div class="card border-0 p-2 text-center shadow-sm" style="background-color: #f1f5f9; border-radius: 6px;">
                     <small class="text-muted fw-semibold" style="font-size: 0.75rem;">Anggota</small>
@@ -139,26 +138,115 @@
                     <div class="fw-bold text-dark" style="font-size: 1.1rem;">{{ number_format($totalSHU, 2) }} Miliar</div>
                 </div>
             </div>
+        </div>
+    </div>
 
+    <div id="dashboardTableContainer" class="card border-0 p-4 mt-4 shadow-sm d-none" style="border-radius: 12px; background: white;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="fw-bold m-0 text-dark"><span id="selectedChartTitle">Detail Koperasi</span></h5>
+            
+            <div class="d-flex gap-2">
+                <form action="{{ route('dashboard.chart.export') }}" method="POST" id="formExportChart">
+                    @csrf
+                    <input type="hidden" name="chart" id="exportChartName">
+                    <input type="hidden" name="segment" id="exportSegmentName">
+                    <button type="submit" class="btn btn-sm btn-success px-3" style="border-radius: 6px;">
+                        <i class="fa fa-file-excel"></i> Export Excel
+                    </button>
+                </form>
+                <button class="btn btn-sm btn-secondary" style="border-radius: 6px;" onclick="document.getElementById('dashboardTableContainer').classList.add('d-none')">Tutup Tabel</button>
+            </div>
+        </div>
+        <div class="table-responsive" style="max-height: 450px; overflow-y: auto;">
+            <table class="table table-bordered table-striped table-hover align-middle mb-0" style="font-size: 0.85rem;">
+                <thead class="table-dark sticky-top">
+                    <tr>
+                        <th class="text-center" style="width: 5%;">No</th>
+                        <th style="width: 20%;">NIK</th>
+                        <th style="width: 40%;">Nama Koperasi</th>
+                        <th style="width: 20%;">Kecamatan</th>
+                        <th class="text-center" style="width: 15%;">Status</th>
+                        <th class="text-center" style="width: 10%;">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="dashboardTableBody">
+                    </tbody>
+            </table>
         </div>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
+    // Fungsi Global Loader Data Detail ke Komponen Tabel Bawah Halaman
+    function loadDashboardDetail(chartName, segmentName) {
+        const container = document.getElementById('dashboardTableContainer');
+        const tableBody = document.getElementById('dashboardTableBody');
+        const titleSpan = document.getElementById('selectedChartTitle');
+
+        // Salin parameter ke Form Export Excel Tersembunyi
+        document.getElementById('exportChartName').value = chartName;
+        document.getElementById('exportSegmentName').value = segmentName;
+
+        // Tampilkan kontainer tabel & set tulisan loading awal
+        container.classList.remove('d-none');
+        titleSpan.innerText = "Detail Data: " + chartName + " (" + segmentName + ")";
+        tableBody.innerHTML = '<tr><td colspan="6" class="text-center py-4"><div class="spinner-border spinner-border-sm text-success" role="status"></div> Memuat data koperasi dari server...</td></tr>';
+        
+        // Scroll halaman secara smooth mengarah ke tabel detail di bawah
+        container.scrollIntoView({ behavior: 'smooth' });
+
+        // Request Fetch AJAX Data ke Backend Laravel Controller
+        const url = "{{ route('dashboard.chart.detail') }}?chart=" + encodeURIComponent(chartName) + "&segment=" + encodeURIComponent(segmentName);
+        
+        fetch(url, {
+            method: "GET",
+            headers: {
+                "X-Requested-With": "XMLHttpRequest"
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            tableBody.innerHTML = data.html;
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            tableBody.innerHTML = '<tr><td colspan="6" class="text-center text-danger">Gagal memuat baris data detail chart.</td></tr>';
+        });
+    }
+
     document.addEventListener("DOMContentLoaded", function() {
 
-        // Aturan ketebalan ring donut cincin tipis (78%) sesuai screenshot dashboard
+        // Base Configuration Options untuk 6 Grafik Donut
         const baseOptions = {
             responsive: true,
             maintainAspectRatio: false,
             cutout: '78%',
             plugins: {
-                legend: {
-                    display: false
-                },
-                tooltip: {
-                    enabled: true
+                legend: { display: false },
+                tooltip: { enabled: true }
+            },
+            onClick: function(evt, element) {
+                if (element.length > 0) {
+                    const chartElement = element[0];
+                    const chartId = this.canvas.id;
+                    const index = chartElement.index;
+                    
+                    // Identifikasi nama chart berdasarkan id canvas
+                    let chartName = '';
+                    if(chartId === 'donutAnggota') chartName = 'Anggota';
+                    else if(chartId === 'donutKaryawan') chartName = 'Karyawan';
+                    else if(chartId === 'donutManajer') chartName = 'Manajer';
+                    else if(chartId === 'donutGrade') chartName = 'Grade';
+                    else if(chartId === 'donutRAT') chartName = 'RAT';
+                    else if(chartId === 'donutModal') chartName = 'Modal';
+
+                    const segmentName = this.data.labels[index];
+                    
+                    // Trigger pembuat data di bawah
+                    loadDashboardDetail(chartName, segmentName);
                 }
             }
         };
@@ -212,11 +300,11 @@
                 labels: ['Grade A', 'Grade B', 'Grade C1', 'Grade C2', 'Non Grade'],
                 datasets: [{
                     data: [
-                       {{ $gradeData['A'] }}, 
+                        {{ $gradeData['A'] }}, 
                         {{ $gradeData['B'] }}, 
                         {{ $gradeData['C1'] }}, 
                         {{ $gradeData['C2'] }}, 
-                        {{ $gradeData['Non'] }},
+                        {{ $gradeData['Non'] }}
                     ],
                     backgroundColor: ['#dc2626', '#3b82f6', '#22c55e', '#a855f7', '#e2e8f0'],
                     borderWidth: 0
@@ -245,7 +333,7 @@
             data: {
                 labels: ['Modal Sendiri', 'Modal Luar'],
                 datasets: [{
-                    data: [927.54, 2038.94],
+                    data: [{{ $modalSendiri }}, {{ $modalLuar }}],
                     backgroundColor: ['#3b82f6', '#dc2626'],
                     borderWidth: 0
                 }]
