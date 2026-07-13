@@ -52,7 +52,7 @@ class ProfileBerandaController extends Controller
         // Validasi input
         $request->validate([
             'video_youtube' => 'nullable|url',
-            'video_local' => 'nullable|file|mimes:mp4,mov,avi|max:40240', // Maksimal 40MB,
+            'video_local' => 'nullable|file|mimes:mp4,mov,avi|max:20480', // Maksimal 20MB,
             'status' => 'required|in:0,1'
         ]);
 
@@ -103,7 +103,7 @@ class ProfileBerandaController extends Controller
         // Validasi input
         $request->validate([
             'video_youtube' => 'nullable|url',
-            'video_local' => 'nullable|file|mimes:mp4,mov,avi|max:40240', // Maksimal 40MB,
+            'video_local' => 'nullable|file|mimes:mp4,mov,avi|max:20480', // Maksimal 20MB,
             'status' => 'nullable'
         ]);
 
@@ -124,9 +124,23 @@ class ProfileBerandaController extends Controller
         return redirect()->route('admin.profil-beranda.index')->with('success', 'Video profil berhasil diperbarui.');
     }
 
+    // public function destroy($id){
+
+    //     $profilBeranda = ProfilBeranda::findOrFail($id);
+    //     $profilBeranda->delete();
+
+    //     return redirect()->route('admin.profil-beranda.index')->with('success', 'Video profil berhasil dihapus.');
+    // }
+
     public function destroy($id){
 
         $profilBeranda = ProfilBeranda::findOrFail($id);
+        
+        // Hapus video lokal jika ada
+        if ($profilBeranda->video_local) {
+            Storage::disk('public')->delete($profilBeranda->video_local);
+        }
+
         $profilBeranda->delete();
 
         return redirect()->route('admin.profil-beranda.index')->with('success', 'Video profil berhasil dihapus.');

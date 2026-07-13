@@ -213,5 +213,26 @@
             });
         </script>
     @endif
+<!-- pop up image -->
+<script>
+     document.addEventListener("DOMContentLoaded", function(){
+
+        // if(!localStorage.getItem("popupShown")){
+        //     document.getElementById("welcomePopup").style.display = "flex";
+        //     localStorage.setItem("popupShown", "true");
+        // }else{
+        //     document.getElementById("welcomePopup").style.display = "none";
+        // }
+
+        // pop up muncul terus
+        document.getElementById("welcomePopup").style.display = "flex";
+
+    });
+
+    function closePopup(){
+        document.getElementById("welcomePopup").style.display = "none";
+    }
+</script>
+<!-- end pop up -->
 </body>
 </html>

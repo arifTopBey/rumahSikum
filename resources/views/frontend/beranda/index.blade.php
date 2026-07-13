@@ -1,6 +1,17 @@
 @extends('frontend.main.index')
 
+@if ($popup && $popup->status === 1)
+    <div id="welcomePopup" class="popup-overlay">
+        <div class="popup-content">
+            <button class="popup-close" onclick="closePopup()">✕</button>
+            <img src="{{ route('show.thumbnail.produk.private', $popup->banner_image) }}" alt="Promo" class="img-fluid">
+        </div>
+    </div>
+@endif
+
 @section('content')
+
+
     @php
         // Ambil data video pertama yang tersedia dari database
         $currentVideo = $videoProfil ?? null;
@@ -122,3 +133,45 @@
         });
     </script>
 @endsection
+
+ <style>
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .popup-content {
+            position: relative;
+            max-width: 600px;
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .popup-content img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .popup-close {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: red;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+    </style>

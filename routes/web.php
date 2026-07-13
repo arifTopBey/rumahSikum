@@ -5,6 +5,7 @@ use App\Exports\UmkmNibExport;
 use App\Exports\UmkmWilayahExport;
 use App\Http\Controllers\Admin\AcaraController;
 use App\Http\Controllers\Admin\AddressController;
+use App\Http\Controllers\Admin\BannerPopUpController;
 use App\Http\Controllers\Admin\BannerSliderController;
 use App\Http\Controllers\Admin\BeritaController;
 use App\Http\Controllers\Admin\DaftarPesananController;
@@ -219,10 +220,15 @@ Route::middleware(['auth', 'security_header'])->group(function () {
 
         Route::get('/sebaran-data-umkm/kbli/{kategori}', [DataUMKMController::class, 'dataKbriKategori']);
 
+        // pop up beranda
+        Route::get('/admin/banner-pop-up', [BannerPopUpController::class,'index'])->name('admin.banner.pop.up.index');
+        Route::get('/admin/banner-pop-up/create', [BannerPopUpController::class,'create'])->name('admin.banner.pop.up.create');
+        Route::post('/admin/banner-pop-up/store', [BannerPopUpController::class,'store'])->name('admin.banner.pop.up.store');
+        Route::get('/admin/banner-pop-up/edit/{id}', [BannerPopUpController::class,'edit'])->name('admin.banner.pop.up.edit');
+        Route::put('/admin/banner-pop-up/{id}', [BannerPopUpController::class,'update'])->name('admin.banner.pop.up.update');
+        Route::delete('/admin/banner-pop-up/{id}', [BannerPopUpController::class,'destroy'])->name('admin.banner.pop.up.destroy');
 
-
-
-    //    video profil beranda
+        // video profil beranda
         Route::get('/admin/profil-beranda', [ProfileBerandaController::class,'index'])->name('admin.profil-beranda.index');
         Route::get('/admin/profil-beranda/create', [ProfileBerandaController::class,'create'])->name('admin.profil-beranda.create');
         Route::post('/admin/profil-beranda/store', [ProfileBerandaController::class,'store'])->name('admin.profil-beranda.store');

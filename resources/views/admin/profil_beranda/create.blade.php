@@ -61,7 +61,7 @@
                                 <div class="input-group border-2 rounded-3 overflow-hidden bg-light p-1">
                                     <input type="file" id="local_video_input" name="video_local" class="form-control border-0 bg-light py-1 small" accept="video/mp4,video/mkv">
                                 </div>
-                                <div class="form-text smaller text-muted mt-1">Format wajib: MP4/MKV. Maksimal ukuran file disesuaikan dengan konfigurasi server.</div>
+                                <div class="form-text smaller text-muted mt-1">Format wajib: MP4 Maksimal Ukuran 20MB.</div>
                             </div>
 
                         </div>
