@@ -169,9 +169,18 @@
                                         <span class="smaller text-muted d-block">Harga</span>
                                         <span class="price-text fw-800 text-primary">Rp {{ number_format($produk->harga, 0) }}</span>
                                     </div>
-                                    <button class="btn btn-primary rounded-3 p-2 shadow-sm" title="Tambah ke Keranjang">
+
+                                    <form action="{{ route('frontend.cart.store') }}" method="post">
+                                        @csrf
+                                        <input type="hidden" value="{{ $produk->id }}" name="produk_id">
+                                        <button class="btn btn-primary rounded-3 p-2 shadow-sm" title="Tambah ke Keranjang">
+                                            <i data-lucide="shopping-cart" size="16"></i>
+                                        </button>
+                                    </form>
+                                    <!-- <button class="btn btn-primary rounded-3 p-2 shadow-sm" title="Tambah ke Keranjang">
                                         <i data-lucide="shopping-cart" size="16"></i>
-                                    </button>
+                                    </button> -->
+
                                 </div>
                             </div>
                         </a>

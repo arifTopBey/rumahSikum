@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\KategoriAcaraController;
 use App\Http\Controllers\Admin\KategoriElearningController;
 use App\Http\Controllers\Admin\KategoriPelatihanController;
 use App\Http\Controllers\Admin\KategoriProdukController;
+use App\Http\Controllers\Admin\KeranjangController;
 use App\Http\Controllers\Admin\KuponController;
 use App\Http\Controllers\Admin\PelatihanController;
 use App\Http\Controllers\Admin\PenggunaController;
@@ -105,10 +106,12 @@ Route::middleware(['security_header'])->group(function () {
     Route::get('edukasi-keuangan', [FrontendController::class, 'edukasiKeuangan'])->name('frontend.edukasi.keuangan');
     Route::get('edukasi-keuangan/detail-edukasi', [FrontendController::class, 'detailEdukasiKeuangan'])->name('frontend.edukasi.keuangan.detail');
     Route::get('/pelatihan/daftar-pelatihan', [FrontendController::class, 'daftarPelatihan'])->name('frontend.daftar.pelatihan');
-    // nanti pake setelah login bisa akses halaman ini
-    Route::get('/cart-list', [FrontendController::class, 'cartList'])->name('frontend.cart.list');
+
+   
+
     // nanti memakai id user untuk profile
     Route::get('/profile', [ProfileController::class, 'index'])->name('frontend.profile.index');
+
     // nanti memakai id user untuk pesanan
     Route::get('/pesanan', [PesananController::class, 'index'])->name('frontend.pesanan.index');
 
@@ -140,13 +143,11 @@ Route::middleware(['security_header'])->group(function () {
 
 
 
-
-
-
-
-
 Route::middleware(['auth', 'security_header'])->group(function () {
 
+     // nanti pake setelah login bisa akses halaman ini
+    Route::get('/cart-list', [KeranjangController::class, 'index'])->name('frontend.cart.list');
+    Route::post('/cart-list/store', [KeranjangController::class, 'store'])->name('frontend.cart.store');
 
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -417,7 +418,7 @@ Route::middleware(['auth', 'security_header'])->group(function () {
         // daftar pengguna
         Route::get('/admin/daftar-pengguna', [PenggunaController::class, 'index'])->name('admin.daftar.pengguna.index');
         Route::get('/admin/daftar-pengguna/{id}', [PenggunaController::class, 'show'])->name('admin.daftar.pengguna.detail');
-
-
+        Route::delete('/admin/daftar-pengguna/delete/{id}', [PenggunaController::class, 'destroy'])->name('admin.daftar.pengguna.delete');
+        
     });
 });

@@ -105,8 +105,8 @@
             </div>
         </div>
         @empty
-        <div class="col-12 text-center py-5 bg-white rounded-3 shadow-sm">
-            <i data-lucide="inbox" size="48" class="text-muted mb-3"></i>
+        <div class="d-flex align-items-center justify-content-center py-5 bg-white rounded-3 shadow-sm">
+            <i data-lucide="inbox" size="48" class="text-muted mb-3 mx-auto"></i>
             <h5 class="text-muted">Tidak ada pengajuan yang masuk</h5>
         </div>
         @endforelse

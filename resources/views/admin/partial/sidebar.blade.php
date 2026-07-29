@@ -107,7 +107,7 @@
                                 <a href="{{ route('admin.banner.pop.up.index') }}"
                                     class="nav-link {{ Request::is('admin/profil-beranda*') ? 'active' : '' }}">
                                     <i class="nav-icon bi bi-circle"></i>
-                                    <p class="text-white">Banner Pop Up Beranda</p>
+                                    <p class="text-white">Banner Pop Up</p>
                                 </a>
                             </li>
                             <li class="nav-item">

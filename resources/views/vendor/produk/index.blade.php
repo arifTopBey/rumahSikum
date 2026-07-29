@@ -121,9 +121,9 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="6" class="text-center py-5">
+                        <td colspan="7" class="text-center py-5">
                             <div class="py-4">
-                                <i data-lucide="package-search" size="48" class="text-muted mb-3"></i>
+                                <i data-lucide="package-search" size="48" class="text-muted mb-3 text-center mx-auto"></i>
                                 <h6 class="text-muted fw-bold">Belum ada produk yang dijual</h6>
                                 <p class="smaller text-muted">Mulai tambahkan produk pertama Anda untuk mulai berjualan.</p>
                                 <a href="{{ route('vendor.produk.create') }}" class="btn btn-primary btn-sm rounded-pill px-4">Tambah Sekarang</a>

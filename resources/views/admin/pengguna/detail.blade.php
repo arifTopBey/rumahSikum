@@ -74,9 +74,9 @@
                     </div>
                 </div>
                 <hr>
-                <button class="btn btn-outline-danger w-100 rounded-3 fw-bold btn-sm py-2 mt-2">
+                <!-- <button class="btn btn-outline-danger w-100 rounded-3 fw-bold btn-sm py-2 mt-2">
                     <i data-lucide="lock" size="14" class="me-2"></i> Reset Password
-                </button>
+                </button> -->
             </div>
         </div>
 
@@ -126,7 +126,7 @@
                 <h6 class="fw-800 mb-4 text-dark d-flex align-items-center gap-2 border-bottom pb-3">
                     <i data-lucide="activity" class="text-primary" size="20"></i> Aktivitas Terakhir
                 </h6>
-                <div class="timeline">
+                <!-- <div class="timeline">
                     <div class="d-flex gap-3 mb-4">
                         <div class="smaller text-muted" style="width: 80px;">14:10</div>
                         <div class="border-start ps-3 position-relative">
@@ -143,7 +143,7 @@
                             <p class="smaller text-muted mb-0">Mengubah stok pada "Kripik Tempe Pedas"</p>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

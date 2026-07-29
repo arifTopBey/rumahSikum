@@ -20,8 +20,11 @@
                     <div class="step" id="step-i-4">4</div>
                 </div>
             </div>
-
+        @if ()
+            
+        @endif
             <div class="form-container shadow-sm">
+
                 <form action="" method="POST" enctype="multipart/form-data" id="registrationForm">
                     @csrf
                     
@@ -113,6 +116,7 @@
                         <button type="button" class="btn btn-light rounded-pill px-4" id="prevBtn" onclick="nextPrev(-1)" style="display:none;">Sebelumnya</button>
                         <button type="button" class="btn btn-primary rounded-pill px-5 shadow" id="nextBtn" onclick="nextPrev(1)">Lanjutkan &rarr;</button>
                     </div>
+               
                 </form>
             </div>
         </div>

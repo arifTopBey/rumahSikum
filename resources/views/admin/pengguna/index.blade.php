@@ -22,9 +22,9 @@
     <div class="row g-4 mb-5">
         @php
             $stats = [
-                ['label' => 'Administrator', 'count' => $users->where('role', 'admin')->count(), 'icon' => 'shield', 'color' => 'primary'],
-                ['label' => 'Mitra UMKM', 'count' => $users->where('role', 'vendor')->count(), 'icon' => 'store', 'color' => 'success'],
-                ['label' => 'Pelanggan', 'count' => $users->where('role', 'user')->count(), 'icon' => 'users', 'color' => 'info']
+                ['label' => 'Administrator', 'count' => $users->where('user_role', 'admin')->count(), 'icon' => 'shield', 'color' => 'primary'],
+                ['label' => 'Mitra UMKM', 'count' => $users->where('user_role', 'vendor')->count(), 'icon' => 'store', 'color' => 'success'],
+                ['label' => 'Pelanggan', 'count' => $users->where('user_role', 'user')->count(), 'icon' => 'users', 'color' => 'info']
             ];
         @endphp
 
@@ -124,12 +124,22 @@
                                     </a>
                                 </li>
                                 <li><hr class="dropdown-divider opacity-50"></li>
-                                <li>
-                                    <button class="dropdown-item d-flex align-items-center py-2 px-3 text-danger" onclick="return confirm('Apakah Anda yakin?')">
-                                        <i data-lucide="trash-2" size="16" class="me-3"></i>
-                                        <span class="small fw-bold">Hapus Akun</span>
-                                    </button>
-                                </li>
+                                @if($user->id != auth()->user()->id)
+                                    <li>
+                                        <!-- <button class="dropdown-item d-flex align-items-center py-2 px-3 text-danger" onclick="return confirm('Apakah Anda yakin?')">
+                                            <i data-lucide="trash-2" size="16" class="me-3"></i>
+                                            <span class="small fw-bold">Hapus Akun</span>
+                                        </button> -->
+                                        <form id="delete-form-{{ $user->id }}"  method="POST" action="{{ route('admin.daftar.pengguna.delete', $user->id) }}" class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button onclick="confirmDelete('{{ $user->id }}', '{{ $user->name }}')"  type="button" class="dropdown-item d-flex align-items-center py-2 px-3 text-danger">
+                                                <i data-lucide="trash-2" size="14" class="me-3"></i>Hapus Akun
+                                            </button>
+
+                                        </form>
+                                    </li>
+                                @endif
                             </ul>
                         </div>
                         

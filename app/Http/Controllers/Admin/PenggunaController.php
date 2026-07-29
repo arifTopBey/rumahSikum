@@ -37,13 +37,20 @@ class PenggunaController extends Controller
 
     }
 
-    public function delete($id){
+    public function destroy($id){
+
         DB::beginTransaction();
-
+        
         try{
+            $user = User::findOrFail($id);
+            $user->delete();
+            DB::commit();
 
+            return redirect()->route('admin.daftar.pengguna.index')->with('success', 'user berhasil dihapus');
         }catch(Exception $e){
             DB::rollBack();
+
+            return redirect()->back()->with('error', 'Gagal Hapus User ' . $e->getMessage());
         }
     }
 }

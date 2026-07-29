@@ -70,6 +70,8 @@ class FrontendController extends Controller
     }
     public function cartList(){
 
+
+        
         return view('frontend.ecommerce.cartList');
     }
 

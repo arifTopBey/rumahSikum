@@ -81,16 +81,24 @@
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2" href="{{ route('frontend.wishlist.produk') }}">
+                            <a class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2" href="{{ route('user.dashboard') }}">
                                 <i data-lucide="heart" size="16" class="text-muted"></i> Wishlist Saya
                             </a>
                         </li>
                         <!-- data-lucide="layout-dashboard" -->
-                        <li>
-                            <a class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2" href="{{ route('admin.sebaran.data.umkm') }}">
-                                <i data-lucide="layout-dashboard" size="16" class="text-muted"></i> Dashboard
-                            </a>
-                        </li>
+                    @if (auth()->user()->user_role == 'admin')
+                    <li>
+                        <a class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2" href="{{ route('admin.sebaran.data.umkm') }}">
+                            <i data-lucide="layout-dashboard" size="16" class="text-muted"></i> Dashboard
+                        </a>
+                    </li>
+                    @else
+                      <li>
+                        <a class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2" href="{{ route('user.dashboard') }}">
+                            <i data-lucide="layout-dashboard" size="16" class="text-muted"></i> Dashboard
+                        </a>
+                    </li>
+                    @endif
                         <li>
                             <a class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2" href="{{ route('frontend.profile.index') }}">
                                 <i data-lucide="user-circle" size="16" class="text-muted"></i> Akun Saya

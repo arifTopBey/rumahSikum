@@ -82,7 +82,7 @@
         </div>
         @empty
         <div class="col-12 text-center py-5 bg-white rounded-3 shadow-sm border">
-            <i data-lucide="store" size="48" class="text-muted mb-3"></i>
+            <i data-lucide="store" size="48" class="text-muted mb-3 mx-auto"></i>
             <h5 class="text-muted">Belum ada mitra UMKM yang terdaftar</h5>
         </div>
         @endforelse

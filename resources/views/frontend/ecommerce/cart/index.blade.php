@@ -12,13 +12,13 @@
             <p class="text-muted small mb-0">Kelola item produk unggulan UMKM yang ingin Anda beli.</p>
         </div>
         <div>
-            <a href="" class="btn btn-white border rounded-pill px-3 fw-bold shadow-sm small text-dark d-flex align-items-center gap-1">
+            <a href="{{ route('frontend.eCommerce') }}" class="btn btn-white border rounded-pill px-3 fw-bold shadow-sm small text-dark d-flex align-items-center gap-1">
                 <i data-lucide="arrow-left" size="16"></i> Lanjut Belanja
             </a>
         </div>
     </div>
 
-    @if(isset($cartItems) && count($cartItems) > 0)
+    @if(isset($carts) && count($carts) > 0)
     <div class="row g-4">
         <!-- LIST ITEM KERANJANG (KOLOM KIRI) -->
         <div class="col-lg-8">
@@ -38,25 +38,20 @@
                 </div>
             </div>
 
-            <!-- GROUP DIBAGI PER VENDOR / UMKM -->
-            @php
-                // Contoh pengelompokan item keranjang berdasarkan Vendor/Kecamatan jika ada
-                // Variabel $cartItems di-pass dari Controller
-            @endphp
-
-            @foreach($cartItems as $item)
+            @foreach($carts as $item)
             <div class="card border-0 shadow-sm rounded-4 p-4 bg-white mb-3 cart-item-card transition-hover">
                 <!-- HEADER VENDOR -->
                 <div class="d-flex align-items-center justify-content-between border-bottom pb-3 mb-3">
                     <div class="d-flex align-items-center gap-2">
-                        <input class="form-check-input custom-checkbox item-checkbox" type="checkbox" name="cart_ids[]" value="{{ $item->id }}" data-price="{{ $item->harga }}" data-qty="{{ $item->qty }}">
+                        <!-- DI SINI PERBAIKANNYA: data-price diganti dari $item->harga ke $item->produk->harga -->
+                        <input class="form-check-input custom-checkbox item-checkbox" type="checkbox" name="cart_ids[]" value="{{ $item->id }}" data-price="{{ $item->produk->harga ?? 0 }}" data-qty="{{ $item->qty }}">
                         <span class="badge bg-primary-subtle text-primary fw-bold px-2 py-1 rounded-2 smaller">
                             <i data-lucide="store" size="12" class="me-1"></i> {{ $item->vendor->nama_toko ?? 'UMKM Lokal' }}
                         </span>
                         <span class="badge-location-sm"><i data-lucide="map-pin" size="11" class="me-1"></i>{{ $item->vendor->kecamatan ?? 'Tigaraksa' }}</span>
                     </div>
                     
-                    <form action="{{ route('frontend.keranjang.destroy', $item->id) }}" method="POST" class="d-inline">
+                    <form action="" method="POST" class="d-inline">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn-remove-item border-0 bg-transparent text-muted p-1" title="Hapus Produk">
@@ -78,7 +73,7 @@
                     <div class="col-9 col-md-5">
                         <span class="smaller text-muted text-uppercase fw-bold d-block mb-1">{{ $item->produk->kategori->nama ?? 'Produk' }}</span>
                         <h6 class="fw-bold text-dark text-truncate mb-1">{{ $item->produk->nama_produk }}</h6>
-                        <span class="price-text fw-800 text-primary d-block">Rp {{ number_format($item->harga, 0, ',', '.') }}</span>
+                        <span class="price-text fw-800 text-primary d-block">Rp {{ number_format($item->produk->harga, 0, ',', '.') }}</span>
                     </div>
                     <div class="col-12 col-md-5 d-flex align-items-center justify-content-between justify-content-md-end gap-3 mt-3 mt-md-0">
                         <!-- QUANTITY COUNTER -->
@@ -92,11 +87,11 @@
                             </button>
                         </div>
                         
-                        <!-- TOTAL SUB HARGAPER ITEM -->
+                        <!-- TOTAL SUB HARGA PER ITEM -->
                         <div class="text-end" style="min-width: 100px;">
                             <span class="smaller text-muted d-block">Subtotal</span>
                             <span class="fw-800 text-dark subtotal-item-text" id="subtotal-item-{{ $item->id }}">
-                                Rp {{ number_format($item->harga * $item->qty, 0, ',', '.') }}
+                                Rp {{ number_format(($item->produk->harga ?? 0) * $item->qty, 0, ',', '.') }}
                             </span>
                         </div>
                     </div>
@@ -133,7 +128,7 @@
                 </div>
 
                 <!-- FORM PEMBAYARAN / CHECKOUT -->
-                <form action="{{ route('frontend.checkout.index') }}" method="GET" id="checkoutForm">
+                <form action="" method="GET" id="checkoutForm">
                     <input type="hidden" name="selected_items" id="selectedItemsInput">
                     <button type="submit" class="btn btn-primary w-100 rounded-3 fw-bold py-3 shadow-sm d-flex align-items-center justify-content-center gap-2" id="btnCheckout" disabled>
                         Lanjut ke Pembayaran <i data-lucide="arrow-right" size="18"></i>
@@ -268,6 +263,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Helper format Rupiah
     function formatRupiah(number) {
+        if (isNaN(number)) return 'Rp 0';
         return 'Rp ' + number.toLocaleString('id-ID');
     }
 
@@ -281,8 +277,8 @@ document.addEventListener("DOMContentLoaded", function() {
             if (cb.checked) {
                 const card = cb.closest('.cart-item-card');
                 const qtyInput = card.querySelector('.item-qty');
-                const price = parseFloat(cb.getAttribute('data-price'));
-                const qty = parseInt(qtyInput.value);
+                const price = parseFloat(cb.getAttribute('data-price')) || 0;
+                const qty = parseInt(qtyInput.value) || 0;
 
                 total += price * qty;
                 count += qty;
@@ -319,10 +315,10 @@ document.addEventListener("DOMContentLoaded", function() {
     itemCheckboxes.forEach(cb => {
         cb.addEventListener('change', function() {
             if (!this.checked) {
-                selectAll.checked = false;
+                if(selectAll) selectAll.checked = false;
             } else {
                 const allChecked = Array.from(itemCheckboxes).every(c => c.checked);
-                selectAll.checked = allChecked;
+                if(selectAll) selectAll.checked = allChecked;
             }
             calculateTotal();
         });
@@ -334,7 +330,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const card = this.closest('.cart-item-card');
             const qtyInput = card.querySelector('.item-qty');
             const cb = card.querySelector('.item-checkbox');
-            let currentQty = parseInt(qtyInput.value);
+            let currentQty = parseInt(qtyInput.value) || 1;
             
             qtyInput.value = currentQty + 1;
             updateSubtotalItem(card, cb, currentQty + 1);
@@ -346,7 +342,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const card = this.closest('.cart-item-card');
             const qtyInput = card.querySelector('.item-qty');
             const cb = card.querySelector('.item-checkbox');
-            let currentQty = parseInt(qtyInput.value);
+            let currentQty = parseInt(qtyInput.value) || 1;
             
             if (currentQty > 1) {
                 qtyInput.value = currentQty - 1;
@@ -356,18 +352,23 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     function updateSubtotalItem(card, cb, newQty) {
-        const price = parseFloat(cb.getAttribute('data-price'));
+        const price = parseFloat(cb.getAttribute('data-price')) || 0;
         const subtotalText = card.querySelector('.subtotal-item-text');
         
         // Update Teks Subtotal per baris
         subtotalText.innerText = formatRupiah(price * newQty);
         
-        // Recalculate
+        // Recalculate Total Ringkasan jika item tersebut dicentang
         calculateTotal();
     }
 
+    // Inisialisasi awal saat halaman dibuka
+    calculateTotal();
+
     // Inisialisasi ikon Lucide
-    lucide.createIcons();
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
 });
 </script>
 @endsection
