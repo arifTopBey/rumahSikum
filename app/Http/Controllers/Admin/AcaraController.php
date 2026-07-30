@@ -117,6 +117,7 @@ class AcaraController extends Controller
             
             if($acara->gambar){
 
+                // hapus gambar
                 // Storage::disk('public')->delete($acara->gambar);
                 Storage::disk('local')->delete($acara->gambar);
 
