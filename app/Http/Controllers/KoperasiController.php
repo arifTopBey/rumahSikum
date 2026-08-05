@@ -112,7 +112,7 @@ class KoperasiController extends Controller
         }
     }
 
-    // Akumulasikan semua data dari array data
+    
     foreach ($dataItems as $item) {
         $koperasiAktif    += (int)($item['jumlahKoperasiAktif'] ?? $item['jumlah KoperasiAktif'] ?? 0);
         $belumSertifikat  += (int)($item['jumlahBelumBersertifikat'] ?? $item['jumlahBelumBersertifikat'] ?? 0);
@@ -1307,7 +1307,6 @@ class KoperasiController extends Controller
 
         return view('admin.koperasi.pendirian');
     }
-
 
     public function jenisKoperasi()
     {

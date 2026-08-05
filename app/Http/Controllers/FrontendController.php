@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
 use App\Models\Berita;
 use App\Models\Elearning;
 use App\Models\KategoriPelatihan;
@@ -103,7 +104,10 @@ class FrontendController extends Controller
 
 
     public function checkout(){
+
+       
         return view('frontend.checkout.index');
+
     }
 
     public function ulasan(){

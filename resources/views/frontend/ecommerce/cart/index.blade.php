@@ -128,7 +128,7 @@
                 </div>
 
                 <!-- FORM PEMBAYARAN / CHECKOUT -->
-                <form action="" method="GET" id="checkoutForm">
+                <form action="{{ route('frontend.checkout.index') }}" method="GET" id="checkoutForm">
                     <input type="hidden" name="selected_items" id="selectedItemsInput">
                     <button type="submit" class="btn btn-primary w-100 rounded-3 fw-bold py-3 shadow-sm d-flex align-items-center justify-content-center gap-2" id="btnCheckout" disabled>
                         Lanjut ke Pembayaran <i data-lucide="arrow-right" size="18"></i>

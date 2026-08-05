@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\AddressController;
 use App\Http\Controllers\Admin\BannerPopUpController;
 use App\Http\Controllers\Admin\BannerSliderController;
 use App\Http\Controllers\Admin\BeritaController;
+use App\Http\Controllers\Admin\CheckoutController;
 use App\Http\Controllers\Admin\DaftarPesananController;
 use App\Http\Controllers\Admin\DaftarUmkmController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
@@ -32,6 +33,7 @@ use App\Http\Controllers\DataUMKMController;
 use App\Http\Controllers\Filter\KoperasiFilterController;
 use App\Http\Controllers\FrontendController;
 // use App\Http\Controllers\DataUMKMController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\SertifikatController;
 use App\Http\Controllers\IndikatorUsahaLainnyaController;
 use App\Http\Controllers\Koperasi\GrafikExportController;
@@ -41,6 +43,8 @@ use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UmkmController;
 use App\Http\Controllers\UsahaBerdasarkanPrioritasController;
+use App\Http\Controllers\UserOrderController;
+use App\Http\Controllers\Vendor\MetodePembayaranController;
 use Illuminate\Support\Facades\Route;
 // use App\Exports\UmkmSkalaExport;
 // use App\Exports\UmkmWilayahExport;
@@ -145,6 +149,16 @@ Route::middleware(['security_header'])->group(function () {
 
 Route::middleware(['auth', 'security_header'])->group(function () {
 
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('frontend.checkout.index');
+
+    Route::get('/payment/instruction/{invoice}', [PaymentController::class, 'instruction'])->name('frontend.payment.instruction');
+    Route::post('/payment/upload/{invoice}', [PaymentController::class, 'uploadProof'])->name('frontend.payment.upload');
+
+    Route::get('/orders/pending', [UserOrderController::class, 'pendingOrders'])->name('orders.pending');
+    Route::get('/orders/pending/detail/{invoice}', [UserOrderController::class, 'show'])->name('orders.show');
+
+    Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('frontend.checkout.process');
+
      // nanti pake setelah login bisa akses halaman ini
     Route::get('/cart-list', [KeranjangController::class, 'index'])->name('frontend.cart.list');
     Route::post('/cart-list/store', [KeranjangController::class, 'store'])->name('frontend.cart.store');
@@ -191,6 +205,15 @@ Route::middleware(['auth', 'security_header'])->group(function () {
         Route::put('/vendor/produks/update/{id}', [VendorProdukController::class, 'update'])->name('vendor.produk.update');
 
         Route::get('/vendor/profile', [ProfileVendorController::class, 'index'])->name('vendor.profile.index');
+
+        Route::get('/vendor/metode-pembayaran', [MetodePembayaranController::class, 'index'])->name('vendor.metode.pembayaran.index');
+        Route::post('/vendor/metode-pembayaran/store-bank', [MetodePembayaranController::class, 'storeBank'])->name('vendor.payment.store-bank');
+        Route::post('/vendor/metode-pembayaran/store-qris', [MetodePembayaranController::class, 'storeQris'])->name('vendor.payment.store-qris');
+        Route::post('/vendor/metode-pembayaran/{id}/toggle-status', [MetodePembayaranController::class, 'toggleStatus'])->name('toggle-status');
+        Route::delete('/vendor/metode-pembayaran/{id}', [MetodePembayaranController::class, 'destroy'])->name('vendor.payment.destroy');
+
+
+
     });
 
 

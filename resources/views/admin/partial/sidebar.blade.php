@@ -387,7 +387,7 @@
                 @if (auth()->user()->user_role == 'vendor')
                     <li class="nav-item">
                         <a href="#" class="nav-link">
-                            <i class="bi bi-bag-fill text-white"></i>
+                            <i class="bi bi bi-bag-heart-fill text-white"></i>
                             <p class="fs-6 text-white">
                                 Produk Saya
                                 <i class="nav-arrow bi bi-chevron-right"></i>
@@ -435,6 +435,24 @@
 
                     <li class="nav-item">
                         <a href="#" class="nav-link">
+                            <i class="bi bi-cash-coin text-white"></i>
+                            <p class="fs-6 text-white">
+                                Metode Pembayaran
+                                <i class="nav-arrow bi bi-chevron-right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('vendor.metode.pembayaran.index') }}" class="nav-link">
+                                    <i class="nav-icon bi bi-bank"></i>
+                                    <p class="text-white">Atur Pembayaran </p>
+                                </a>
+                            </li>
+                          
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
                             <i class="bi bi-shop text-white"></i>
                             <p class="fs-6 text-white">
                                 Pengaturan Toko
@@ -465,7 +483,7 @@
 
                 @endif
 
-                @if(auth()->user()->user_role == 'users')
+                @if(auth()->user()->user_role == 'user')
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="bi bi-bag-fill text-white"></i>
@@ -476,17 +494,23 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
+                                <a href="{{ route('orders.pending') }}" class="nav-link">
+                                    <i class="nav-icon bi bi-bag-check"></i>
+                                    <p class="text-white">Mengunggu Konfirmasi Pembayaran</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="{{ route('user.list.pesanan', auth()->user()->id) }}" class="nav-link">
                                     <i class="nav-icon bi bi-bag-check"></i>
                                     <p class="text-white">Pesanan saya</p>
                                 </a>
                             </li>
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a href="{{ route('user.address') }}" class="nav-link">
                                     <i class="nav-icon bi bi-star-fill"></i>
                                     <p class="text-white">Reviews</p>
                                 </a>
-                            </li>
+                            </li> -->
                         </ul>
                     </li>
                 @endif

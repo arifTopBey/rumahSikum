@@ -1,0 +1,97 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\Address;
+use App\Models\Keranjang;
+use App\Models\Order;
+use App\Models\OrderDetail;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+class CheckoutController extends Controller
+{
+    public function index(Request $request)
+    {
+         $address = Address::where('user_id', auth()->user()->id)->first();
+        // Tangkap string selected_items (contoh: "1,2,5")
+        $selectedIdsRaw = $request->query('selected_items');
+
+        if (!$selectedIdsRaw) {
+            return redirect()->route('frontend.cart.index')->with('error', 'Silakan pilih minimal 1 produk untuk dibeli.');
+        }
+
+        $selectedIds = explode(',', $selectedIdsRaw);
+
+        // Ambil data keranjang milik user yang sesuai ID dipilih
+        $cartItems = Keranjang::with(['produk.vendor', 'produk.kategori'])
+            ->where('user_id', Auth::id())
+            ->whereIn('id', $selectedIds)
+            ->get();
+
+        if ($cartItems->isEmpty()) {
+            return redirect()->route('frontend.cart.index')->with('error', 'Item yang Anda pilih tidak ditemukan.');
+        }
+
+        // Hitung total belanja awal
+        $subtotal = 0;
+        foreach ($cartItems as $item) {
+            $subtotal += ($item->produk->harga ?? 0) * $item->qty;
+        }
+
+        // Contoh biaya pengiriman flat/simulasi (dapat disesuaikan)
+        $shippingCost = 15000; 
+        $totalPayment = $subtotal + $shippingCost;
+
+        return view('frontend.checkout.index', compact('cartItems', 'subtotal', 'shippingCost', 'totalPayment', 'selectedIdsRaw', 'address'));
+    }
+
+    public function process(Request $request){
+
+        $request->validate([
+            'metode_bayar'  => 'required|in:qris,transfer_bank',
+            'metode_kirim'  => 'required|in:ditoko,dikirim',
+            'selected_items'=> 'required|string',
+        ]);
+
+        // 1. Hitung ulang total
+        $selectedIds = explode(',', $request->selected_items);
+        $cartItems = Keranjang::with('produk')->whereIn('id', $selectedIds)->get();
+        
+        $subtotal = 0;
+        foreach ($cartItems as $item) {
+            $subtotal += ($item->produk->harga ?? 0) * $item->qty;
+        }
+        $shippingCost = ($request->metode_kirim === 'dikirim') ? 15000 : 0;
+        $totalPayment = $subtotal + $shippingCost;
+
+        // 2. Buat Order baru
+        $order = Order::create([
+            'invoice_number' => 'INV-' . time() . '-' . rand(100, 999),
+            'user_id'        => Auth::id(),
+            'subtotal'       => $subtotal,
+            'shipping_cost'   => $shippingCost,
+            'total_payment'  => $totalPayment,
+            'payment_method' => $request->metode_bayar, // 'qris' atau 'transfer_bank'
+            'shipping_method'=> $request->metode_kirim,
+            'payment_status' => 'pending', // pending, paid, rejected
+            'order_status'   => 'menunggu_pembayaran',
+        ]);
+
+        // 3. Simpan detail item & hapus keranjang
+        foreach ($cartItems as $item) {
+            OrderDetail::create([
+                'order_id'  => $order->id,
+                'produk_id' => $item->produk_id,
+                'vendor_id' => $item->produk->vendor_id,
+                'qty'       => $item->qty,
+                'price'     => $item->produk->harga,
+            ]);
+        }
+        Keranjang::whereIn('id', $selectedIds)->delete();
+
+        // 4. Redirect ke Halaman Instruksi Pembayaran
+        return redirect()->route('frontend.payment.instruction', $order->invoice_number);
+    }
+}
