@@ -42,13 +42,42 @@ class CheckoutController extends Controller
 
         // Contoh biaya pengiriman flat/simulasi (dapat disesuaikan)
         $shippingCost = 15000; 
-        $totalPayment = $subtotal + $shippingCost;
+        // $totalPayment = $subtotal + $shippingCost;
+        $totalPayment = $subtotal;
 
         return view('frontend.checkout.index', compact('cartItems', 'subtotal', 'shippingCost', 'totalPayment', 'selectedIdsRaw', 'address'));
     }
 
     public function process(Request $request){
 
+        
+
+        $address = Address::where('user_id', auth()->user()->id)->first();
+        if(!$address){
+
+            $request->validate([
+                'label_name' => 'required|string|max:100',
+                'name' => 'required|string|max:255',
+                'address' => 'required|string|max:255',
+                'phone' => 'required|string|max:255',
+                'email' => 'required|email|max:100',
+                'kecamatan' => 'required|string|max:100',
+                'zip' => 'required|string|max:10',
+            ]);
+
+            $address = Address::create([
+                'user_id' => auth()->user()->id,
+                'label_name' => $request->label_name,
+                'name' => $request->name,
+                'is_active' => 1,
+                'address' => $request->address,
+                'phone' => $request->phone,
+                'email' => $request->email,
+                'kecamatan' => $request->kecamatan,
+                'zip' => $request->zip,
+            ]);
+
+        }
         $request->validate([
             'metode_bayar'  => 'required|in:qris,transfer_bank',
             'metode_kirim'  => 'required|in:ditoko,dikirim',

@@ -54,6 +54,7 @@ use App\Http\Controllers\UsahaBerdasarkanKbliController;
 use App\Http\Controllers\UsahaWilayahController;
 use App\Http\Controllers\Vendor\ProdukController as VendorProdukController;
 use App\Http\Controllers\Vendor\ProfileVendorController;
+use App\Http\Controllers\Vendor\VendorOrderController;
 use Maatwebsite\Excel\Facades\Excel;
 
 
@@ -159,9 +160,14 @@ Route::middleware(['auth', 'security_header'])->group(function () {
 
     Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('frontend.checkout.process');
 
-     // nanti pake setelah login bisa akses halaman ini
     Route::get('/cart-list', [KeranjangController::class, 'index'])->name('frontend.cart.list');
     Route::post('/cart-list/store', [KeranjangController::class, 'store'])->name('frontend.cart.store');
+
+
+    //upload bukti pembyaran
+    // Form & Proses Upload Bukti Terima
+    Route::get('/user/orders/confirm-receipt/{invoice}', [UserOrderController::class, 'confirmReceiptForm'])->name('user.orders.confirm_receipt');
+    Route::post('/user/orders/store-receipt/{id}', [UserOrderController::class, 'storeReceipt'])->name('user.orders.store_receipt'); 
 
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -179,7 +185,10 @@ Route::middleware(['auth', 'security_header'])->group(function () {
 
 
     // order list 
-    Route::get('/user/daftar-pesanan/{id}', [DaftarPesananController::class, 'index'])->name('user.list.pesanan');
+    Route::get('/users/orders', [UserOrderController::class, 'index'])->name('user.orders.index');
+    Route::get('/orders/detail/{invoice}', [UserOrderController::class, 'detail_pesanan'])->name('user.orders.detail_pesanan');
+    
+    // Route::get('/user/daftar-pesanan/{id}', [DaftarPesananController::class, 'index'])->name('user.list.pesanan');
 
 
     // daftar umkm
@@ -212,6 +221,15 @@ Route::middleware(['auth', 'security_header'])->group(function () {
         Route::post('/vendor/metode-pembayaran/{id}/toggle-status', [MetodePembayaranController::class, 'toggleStatus'])->name('toggle-status');
         Route::delete('/vendor/metode-pembayaran/{id}', [MetodePembayaranController::class, 'destroy'])->name('vendor.payment.destroy');
 
+
+        Route::get('/payments/pending', [VendorOrderController::class, 'pendingPayments'])->name('vendor.payments.pending');
+        Route::post('/payments/verify/{id}', [VendorOrderController::class, 'verifyPayment'])->name('vendor.payments.verify');
+
+
+        // List Kelola Semua Pesanan Masuk Vendor
+        Route::get('/vendor/orders', [VendorOrderController::class, 'index'])->name('vendor.orders.index');
+        Route::get('/vendors/orders/detail/{invoice}', [VendorOrderController::class, 'show'])->name('vendors.orders.show');
+        Route::post('/vendors/orders/update-status/{id}', [VendorOrderController::class, 'updateStatus'])->name('vendor.orders.update_status');
 
 
     });

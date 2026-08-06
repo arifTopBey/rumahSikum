@@ -140,7 +140,7 @@
                 <div class="col-md-4 col-sm-6">
                     <div class="card product-card h-100 border-0 shadow-sm rounded-4 overflow-hidden position-relative transition-hover">
                     
-                    @if($produk->id == $produk->wishlist?->produk_id)
+                    <!-- @if($produk->id == $produk->wishlist?->produk_id)
                         <form id="delete-form-{{ $produk->wishlist->id }}" action="{{ route('frontend.wishlist.produk.delete', $produk->wishlist->id) }}" method="post">
                             @csrf
                             @method('DELETE')
@@ -154,7 +154,7 @@
                         <input type="hidden" value="{{ $produk->id }}" name="produk_id">
                         <button type="submit" class="wishlist-btn border-0 shadow-sm" title="Tambah ke Wishlist"><i data-lucide="heart" size="16"></i></button>
                     </form>
-                    @endif
+                    @endif -->
                         <a href="{{ route('frontend.eCommerce.detail') }}" class="text-decoration-none text-dark">
                             <div class="product-img-wrapper position-relative overflow-hidden">
                                 <img src="{{ route('show.thumbnail.produk.private', $produk->produk_thumbnail) }}"

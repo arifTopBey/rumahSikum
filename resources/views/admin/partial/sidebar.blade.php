@@ -199,7 +199,7 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="{{ route('user.list.pesanan', auth()->user()->id) }}" class="nav-link">
+                                <a href="{{ route('user.orders.index') }}" class="nav-link">
                                     <i class="nav-icon bi bi-bag-check"></i>
                                     <p class="text-white">Semua Pesanan</p>
                                 </a>
@@ -419,7 +419,7 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="{{ route('user.list.pesanan', auth()->user()->id) }}" class="nav-link">
+                                <a href="{{ route('user.orders.index') }}" class="nav-link">
                                     <i class="nav-icon bi bi-bag-check"></i>
                                     <p class="text-white">Pesanan saya</p>
                                 </a>
@@ -446,6 +446,30 @@
                                 <a href="{{ route('vendor.metode.pembayaran.index') }}" class="nav-link">
                                     <i class="nav-icon bi bi-bank"></i>
                                     <p class="text-white">Atur Pembayaran </p>
+                                </a>
+                            </li>
+                          
+                        </ul>
+                    </li>
+                     <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="bi bi-cash-coin text-white"></i>
+                            <p class="fs-6 text-white">
+                                Konfirmasi Pesananan
+                                <i class="nav-arrow bi bi-chevron-right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('vendor.orders.index') }}" class="nav-link">
+                                    <i class="nav-icon bi bi-bank"></i>
+                                    <p class="text-white">Kelola Pesanan</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('vendor.payments.pending') }}" class="nav-link">
+                                    <i class="nav-icon bi bi-bank"></i>
+                                    <p class="text-white">Konfirmasi Pembayaran</p>
                                 </a>
                             </li>
                           
@@ -500,7 +524,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('user.list.pesanan', auth()->user()->id) }}" class="nav-link">
+                                <a href="{{ route('user.orders.index') }}" class="nav-link">
                                     <i class="nav-icon bi bi-bag-check"></i>
                                     <p class="text-white">Pesanan saya</p>
                                 </a>

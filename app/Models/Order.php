@@ -18,7 +18,7 @@ class Order extends Model
     // Relasi ke User (Pembeli)
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     // Relasi ke Detail Pesanan

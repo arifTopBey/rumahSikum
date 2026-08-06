@@ -36,15 +36,15 @@
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label small fw-bold text-dark">Nama Penerima</label>
-                                <input type="text" name="nama_penerima" class="form-control form-control-custom" value="{{ Auth::user()->name ?? '' }}" placeholder="Masukkan nama penerima" required>
+                                <input type="text" name="name" class="form-control form-control-custom" value="{{ Auth::user()->name ?? '' }}" placeholder="Masukkan nama penerima" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label small fw-bold text-dark">Label Alamat</label>
-                                <input type="text" name="label_alamat" class="form-control form-control-custom" value="{{ Auth::user()->label_alamat ?? '' }}" placeholder="Contoh: Rumah, Kantor, dll" required>
+                                <input type="text" name="label_name" class="form-control form-control-custom" value="{{ Auth::user()->label_alamat ?? '' }}" placeholder="Contoh: Rumah, Kantor, dll" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label small fw-bold text-dark">Nomor WhatsApp / HP</label>
-                                <input type="tel" name="no_hp" class="form-control form-control-custom" value="{{ Auth::user()->no_hp ?? '' }}" placeholder="Contoh: 08123456789" required>
+                                <input type="tel" name="phone" class="form-control form-control-custom" value="{{ Auth::user()->no_hp ?? '' }}" placeholder="Contoh: 08123456789" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label small fw-bold text-dark">Email</label>
@@ -52,15 +52,15 @@
                             </div>
                             <div class="col-12">
                                 <label class="form-label small fw-bold text-dark">Alamat Lengkap</label>
-                                <textarea name="alamat_lengkap" class="form-control form-control-custom" rows="3" placeholder="Nama jalan, RT/RW, nomor rumah, atau patokan lokasi..." required>{{ Auth::user()->alamat ?? '' }}</textarea>
+                                <textarea name="address" class="form-control form-control-custom" rows="3" placeholder="Nama jalan, RT/RW, nomor rumah, atau patokan lokasi..." required>{{ Auth::user()->alamat ?? '' }}</textarea>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label small fw-bold text-dark">Kecamatan</label>
-                                <input type="text" class="form-control form-control-custom bg-light" placeholder="Masukan kecamatan">
+                                <input type="text" name="kecamatan" class="form-control form-control-custom bg-light" placeholder="Masukan kecamatan">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label small fw-bold text-dark">Kode Pos</label>
-                                <input type="text" name="catatan" class="form-control form-control-custom" placeholder="Masukan kode pos">
+                                <input type="text" name="zip" class="form-control form-control-custom" placeholder="Masukan kode pos">
                             </div>
                             <!-- <div class="col-md-6">
                                 <label class="form-label small fw-bold text-dark">Catatan Pengiriman (Opsional)</label>
@@ -208,10 +208,10 @@
                         <span class="small text-muted">Total Harga Produk</span>
                         <span class="small fw-bold text-dark">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
                     </div>
-                    <div class="d-flex justify-content-between align-items-center mb-3">
+                    <!-- <div class="d-flex justify-content-between align-items-center mb-3">
                         <span class="small text-muted">Biaya Pengiriman</span>
                         <span class="small fw-bold text-dark">Rp {{ number_format($shippingCost, 0, ',', '.') }}</span>
-                    </div>
+                    </div> -->
 
                     <hr class="opacity-50 my-3">
 
