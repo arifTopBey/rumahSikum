@@ -18,10 +18,10 @@ class CheckoutController extends Controller
         $invoice =  Order::where('user_id', Auth::id())->orWhere('order_status', 'menunggu_pembayaran')->latest()->first();
         // $invoice = 
         // cek session untuk halaman checkout
-          if (session('payment_access') === $invoice->invoice_number) {
+        //   if (session('payment_access') === $invoice->invoice_number) {
     
-            return redirect()->route('frontend.payment.instruction', $invoice->invoice_number);
-         }
+        //     return redirect()->route('frontend.payment.instruction', $invoice->invoice_number);
+        //  }
 
         $address = Address::where('user_id', auth()->user()->id)->first();
         // Tangkap string selected_items (contoh: "1,2,5")
