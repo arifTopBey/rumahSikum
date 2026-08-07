@@ -150,9 +150,12 @@ Route::middleware(['security_header'])->group(function () {
 
 Route::middleware(['auth', 'security_header'])->group(function () {
 
+    // set session
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('frontend.checkout.index');
 
+    // cek session keranjang
     Route::get('/payment/instruction/{invoice}', [PaymentController::class, 'instruction'])->name('frontend.payment.instruction');
+
     Route::post('/payment/upload/{invoice}', [PaymentController::class, 'uploadProof'])->name('frontend.payment.upload');
 
     Route::get('/orders/pending', [UserOrderController::class, 'pendingOrders'])->name('orders.pending');

@@ -213,6 +213,18 @@
             });
         </script>
     @endif
+
+@if(session('error'))
+    <script>
+        Swal.fire({
+            title: 'Gagal!',
+            text: "{{ session('error') }}",
+            icon: 'error',
+            timer: 4000,
+            showConfirmButton: false
+        });
+    </script>
+@endif
 <!-- pop up image -->
 <script>
      document.addEventListener("DOMContentLoaded", function(){

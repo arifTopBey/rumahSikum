@@ -14,12 +14,24 @@ class CheckoutController extends Controller
 {
     public function index(Request $request)
     {
-         $address = Address::where('user_id', auth()->user()->id)->first();
+
+        $invoice =  Order::where('user_id', Auth::id())->orWhere('order_status', 'menunggu_pembayaran')->latest()->first();
+        // $invoice = 
+        // cek session untuk halaman checkout
+          if (session('payment_access') === $invoice->invoice_number) {
+    
+            return redirect()->route('frontend.payment.instruction', $invoice->invoice_number);
+         }
+
+        $address = Address::where('user_id', auth()->user()->id)->first();
         // Tangkap string selected_items (contoh: "1,2,5")
         $selectedIdsRaw = $request->query('selected_items');
 
+       
+       
+
         if (!$selectedIdsRaw) {
-            return redirect()->route('frontend.cart.index')->with('error', 'Silakan pilih minimal 1 produk untuk dibeli.');
+            return redirect()->route('frontend.cart.list')->with('error', 'Silakan pilih minimal 1 produk untuk dibeli.');
         }
 
         $selectedIds = explode(',', $selectedIdsRaw);
@@ -119,6 +131,11 @@ class CheckoutController extends Controller
             ]);
         }
         Keranjang::whereIn('id', $selectedIds)->delete();
+
+        // set session untuk pembayaran
+        session([
+            'payment_access' => $order->invoice_number,
+        ]);
 
         // 4. Redirect ke Halaman Instruksi Pembayaran
         return redirect()->route('frontend.payment.instruction', $order->invoice_number);

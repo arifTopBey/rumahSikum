@@ -12,6 +12,14 @@ class PaymentController extends Controller
 {
     public function instruction($invoice)
     {
+
+        // cek session untuk halaman pembayaran
+         if (session('payment_access') !== $invoice) {
+            // return redirect()->route('frontend.cart')
+            //     ->with('error', 'Akses halaman tidak valid.');
+            return redirect()->back()->with('error', 'Akses halaman tidak valid.');
+         }
+
         // DB::enableQueryLog();
         // $order = Order::with(['details.produk', 'details.vendor'])
         //     ->where('invoice_number', $invoice)
@@ -58,6 +66,9 @@ class PaymentController extends Controller
                 'order_status'     => 'diproses',
             ]);
         }
+
+        // hapus session payment_access setelah bukti pembayaran diunggah
+        session()->forget('payment_access');
 
         return redirect()->route('orders.pending')
         ->with('success', 'Bukti pembayaran berhasil diunggah! Pesanan Anda sedang menunggu konfirmasi dari penjual.');
