@@ -34,6 +34,7 @@ use App\Http\Controllers\Filter\KoperasiFilterController;
 use App\Http\Controllers\FrontendController;
 // use App\Http\Controllers\DataUMKMController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SertifikatController;
 use App\Http\Controllers\IndikatorUsahaLainnyaController;
 use App\Http\Controllers\Koperasi\GrafikExportController;
@@ -123,8 +124,7 @@ Route::middleware(['security_header'])->group(function () {
     Route::get('/alamat-saya', [FrontendController::class, 'alamatSaya'])->name('frontend.alamat.saya');
     // nanti pakai id user untuk checkout
     Route::get('/checkout', [FrontendController::class, 'checkout'])->name('frontend.checkout');
-    // ulasan nanti pakai id 
-    Route::get('/ulasan', [FrontendController::class, 'ulasan'])->name('frontend.ulasan');
+   
     // nanti memakai id transaksi untuk detail transaksi
     Route::get('/transaksi-detail', [FrontendController::class, 'transaksiDetail'])->name('frontend.transaksi.detail');
 
@@ -163,8 +163,14 @@ Route::middleware(['auth', 'security_header'])->group(function () {
 
     Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('frontend.checkout.process');
 
+    // keranjang
     Route::get('/cart-list', [KeranjangController::class, 'index'])->name('frontend.cart.list');
     Route::post('/cart-list/store', [KeranjangController::class, 'store'])->name('frontend.cart.store');
+    Route::delete('/cart-list/destroy/{id}', [KeranjangController::class, 'destroy'])->name('frontend.cart.destroy');
+
+    // ulasan
+    Route::get('/orders/{orderId}/review/{produkId}', [ReviewController::class, 'create'])->name('frontend.ulasan');
+    Route::post('/orders/{orderId}/review/{produkId}', [ReviewController::class, 'store'])->name('user.reviews.store');
 
 
     //upload bukti pembyaran

@@ -20,7 +20,9 @@ class ProdukController extends Controller
     
     public function index(){
 
-        $produks = VendorProduk::orderByDesc('id')->get();
+        // $produks = VendorProduk::orderByDesc('id')->get();
+        $produks = VendorProduk::where('vendor_id', auth()->user()->vendor->id)->get();
+
 
         return view('vendor.produk.index', compact('produks'));
     }

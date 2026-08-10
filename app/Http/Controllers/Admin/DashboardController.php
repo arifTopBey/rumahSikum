@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\Vendor;
 use App\Models\VendorProduk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -98,7 +99,36 @@ class DashboardController extends Controller
                 'recentOrders'
             ));
         }else{
-             return view('admin.userDashboard.index');
+            // 1. Data Ringkasan Stat Cards
+            $totalRevenue = Order::where('payment_status', 'paid')->sum('total_payment');
+            $totalUmkm = Vendor::where('status_store', 1)->count();
+            $pendingUmkmCount = Vendor::where('status_store', 0)->count();
+            $totalProducts = VendorProduk::count();
+            $totalOrders = Order::count();
+            $pendingOrdersCount = Order::where('order_status', 'pending')->count();
+
+            // 2. Data UMKM Menunggu Persetujuan (Pending Approvals)
+            $pendingUmkms = Vendor::where('status_store', 0)
+                ->latest()
+                ->take(5)
+                ->get();
+
+            // 3. Transaksi Terbaru
+            $recentOrders = Order::with(['user', 'details.produk'])
+                ->latest()
+                ->take(5)
+                ->get();
+
+             return view('admin.userDashboard.index', compact(
+                'totalRevenue',
+                'totalUmkm',
+                'pendingUmkmCount',
+                'totalProducts',
+                'totalOrders',
+                'pendingOrdersCount',
+                'pendingUmkms',
+                'recentOrders'
+            ));
         }
 
 

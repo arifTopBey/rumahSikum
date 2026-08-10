@@ -18,4 +18,8 @@ class Vendor extends Model
     public function produk(){
         return $this->hasMany(VendorProduk::class, 'vendor_id', 'id');
     }
+
+    public function payment(){
+        return $this->hasMany(VendorPayment::class, 'vendor_id', 'id');
+    }
 }

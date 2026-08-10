@@ -32,6 +32,8 @@ class KeranjangController extends Controller
     
      public function store(Request $request){
 
+
+
         DB::beginTransaction();
 
         try{
@@ -49,5 +51,18 @@ class KeranjangController extends Controller
         }
     
     }
+
+    // Fungsi Hapus Item Keranjang
+    public function destroy($id)
+    {
+        $cart = Keranjang::where('user_id', Auth::id())->findOrFail($id);
+        $cart->delete();
+
+        return redirect()->back()->with('success', 'Item berhasil dihapus!');
+    }
+
+
+
+
     
 }

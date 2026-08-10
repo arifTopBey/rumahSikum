@@ -51,7 +51,8 @@ class DaftarUmkmController extends Controller
         try{
            
             $message = "";
-            $vendor = Vendor::findOrFail($id)->first();
+            $vendor = Vendor::findOrFail($id);
+            // $vendor = Vendor::findOrFail($id)->first();
             if($request->success == 1){
                 $vendor->status_store = 1;
                 $message = "Umkm Berhasil Disetujui";

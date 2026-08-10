@@ -161,7 +161,7 @@
 
                     <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
                         <button class="btn-detail-order">Beli Lagi</button>
-                        <a href="{{ route('frontend.ulasan') }}" class="btn btn-outline-warning rounded-pill px-4 fw-bold">Beri Ulasan</a>
+                        <a href="{{ route('frontend.ulasan', [$order->invoice_number, $order->id]) }}" class="btn btn-outline-warning rounded-pill px-4 fw-bold">Beri Ulasan</a>
                     </div>
                 </div>
 

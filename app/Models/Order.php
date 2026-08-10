@@ -26,4 +26,14 @@ class Order extends Model
     {
         return $this->hasMany(OrderDetail::class, 'order_id', 'id');
     }
+
+    public function review()
+    {
+        return $this->hasMany(Review::class, 'order_id', 'id');
+    }
+
+    // public function vendor()
+    // {
+    //     return $this->belongsTo(Vendor::class, 'vendor_id', 'id');
+    // }
 }

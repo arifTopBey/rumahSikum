@@ -214,9 +214,15 @@
                                     <i data-lucide="truck" size="16" class="me-1"></i> Lacak Pengiriman
                                 </button>
                             @elseif($order->order_status == 'selesai')
-                                <a href="{{ route('frontend.ulasan') ?? '#' }}" class="btn btn-outline-warning rounded-pill py-2 fw-bold">
-                                    <i data-lucide="star" size="16" class="me-1"></i> Beri Ulasan Produk
-                                </a>
+                                @if($order->review->first()->order_id == $order->id)
+                                    <button class="btn btn-outline-warning rounded-pill py-2 fw-bold" disabled>
+                                        <i data-lucide="star-check" size="16" class="me-1"></i> Ulasan Sudah Diberikan
+                                    </button>
+                                @else
+                                    <a href="{{ route('frontend.ulasan', [$order->id, $order->details->first()->produk_id]) ?? '#' }}" class="btn btn-outline-warning rounded-pill py-2 fw-bold">
+                                        <i data-lucide="star" size="16" class="me-1"></i> Beri Ulasan Produk
+                                    </a>
+                                @endif
                             @endif
 
                             @php

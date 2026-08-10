@@ -224,7 +224,7 @@
                           
                             <button class="btn btn-primary rounded-pill px-4 fw-bold">Lacak Paket</button>
                         @elseif($order->order_status == 'selesai')
-                             <a href="{{ route('frontend.ulasan') ?? '#' }}" class="btn btn-outline-warning rounded-pill px-4 fw-bold">Beri Ulasan</a>
+                             <a href="{{ route('frontend.ulasan', [$order->id, $order->details->first()->produk_id]) ?? '#' }}" class="btn btn-outline-warning rounded-pill px-4 fw-bold">Beri Ulasan</a>
                         @endif
                     </div>
                 </div>

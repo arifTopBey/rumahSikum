@@ -32,9 +32,9 @@
                             Pilih Semua Item (<span id="total-selected-count">0</span>)
                         </label>
                     </div>
-                    <button type="button" class="btn btn-link text-danger text-decoration-none p-0 border-0 small fw-bold d-flex align-items-center gap-1 opacity-75 hover-opacity-100" id="btnDeleteSelected">
+                    <!-- <button type="button" class="btn btn-link text-danger text-decoration-none p-0 border-0 small fw-bold d-flex align-items-center gap-1 opacity-75 hover-opacity-100" id="btnDeleteSelected">
                         <i data-lucide="trash-2" size="16"></i> Hapus Terpilih
-                    </button>
+                    </button> -->
                 </div>
             </div>
 
@@ -51,7 +51,7 @@
                         <span class="badge-location-sm"><i data-lucide="map-pin" size="11" class="me-1"></i>{{ $item->vendor->kecamatan ?? 'Tigaraksa' }}</span>
                     </div>
                     
-                    <form action="" method="POST" class="d-inline">
+                    <form action="{{ route('frontend.cart.destroy', $item->id) }}" method="POST" class="d-inline">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn-remove-item border-0 bg-transparent text-muted p-1" title="Hapus Produk">

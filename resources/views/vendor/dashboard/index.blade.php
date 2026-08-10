@@ -294,7 +294,7 @@
                                     @empty
                                         <tr>
                                             <td colspan="6" class="text-center py-5">
-                                                <i data-lucide="package-open" size="40" class="text-muted opacity-50 mb-2"></i>
+                                                <i data-lucide="package-open" size="40" class="text-muted opacity-50 mb-2 mx-auto"></i>
                                                 <h6 class="fw-bold text-muted mb-0">Belum ada pesanan terbaru</h6>
                                             </td>
                                         </tr>
