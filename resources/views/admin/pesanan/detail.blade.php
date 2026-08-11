@@ -165,8 +165,8 @@
 
                         @if($order->bukti_pembayaran)
                             <div class="d-flex align-items-center gap-3">
-                                <a href="{{ asset('storage/' . $order->bukti_pembayaran) }}" target="_blank">
-                                    <img src="{{ asset('storage/' . $order->bukti_pembayaran) }}" class="rounded-3 border" style="width: 100px; height: 100px; object-fit: cover;">
+                                <a href="{{ route('show.thumbnail.produk.private', $order->bukti_pembayaran) }}" target="_blank">
+                                    <img src="{{ route('show.thumbnail.produk.private', $order->bukti_pembayaran) }}" class="rounded-3 border" style="width: 100px; height: 100px; object-fit: cover;">
                                 </a>
                                 <div>
                                     <span class="badge bg-success-subtle text-success border border-success fw-bold px-2 py-1 rounded-2 smaller mb-1">Sudah Diunggah</span>
