@@ -80,11 +80,11 @@
                                 <i data-lucide="package" size="16" class="text-muted"></i> Pesanan Saya
                             </a>
                         </li>
-                        <li>
+                        <!-- <li>
                             <a class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2" href="{{ route('user.dashboard') }}">
                                 <i data-lucide="heart" size="16" class="text-muted"></i> Wishlist Saya
                             </a>
-                        </li>
+                        </li> -->
                         <!-- data-lucide="layout-dashboard" -->
                     @if (auth()->user()->user_role == 'admin')
                     <li>

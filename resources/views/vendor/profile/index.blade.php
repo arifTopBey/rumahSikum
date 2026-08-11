@@ -2,7 +2,16 @@
 
 @section('content')
 <div class="container-fluid px-5 bg-light pb-5">
-    <form action="" method="POST" enctype="multipart/form-data">
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+         @endif
+    <form action="{{ route('vendor.profile.update', $vendor->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
@@ -49,7 +58,7 @@
                     </div>
                 </div>
 
-                <div class="card border-0 rounded-4 p-4 mt-4 bg-primary bg-opacity-10 text-primary">
+                <!-- <div class="card border-0 rounded-4 p-4 mt-4 bg-primary bg-opacity-10 text-primary">
                     <div class="d-flex gap-3">
                         <i data-lucide="shield-check" size="24"></i>
                         <div>
@@ -57,7 +66,7 @@
                             <p class="smaller mb-0 opacity-75">Toko Anda telah terverifikasi oleh Admin Dinas. Perubahan nama toko mungkin memerlukan peninjauan kembali.</p>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
 
             <div class="col-lg-8">

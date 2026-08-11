@@ -151,7 +151,7 @@
             </div>
             <h5 class="fw-800 text-dark mb-2">Keranjang Belanja Anda Kosong</h5>
             <p class="text-muted small mb-4">Sepertinya Anda belum menambahkan produk UMKM apa pun ke dalam keranjang.</p>
-            <a href="" class="btn btn-primary rounded-pill px-4 py-2 fw-bold shadow-sm">
+            <a href="{{ route('frontend.eCommerce') }}" class="btn btn-primary rounded-pill px-4 py-2 fw-bold shadow-sm">
                 Mulai Jelajahi Produk
             </a>
         </div>

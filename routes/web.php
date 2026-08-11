@@ -222,7 +222,9 @@ Route::middleware(['auth', 'security_header'])->group(function () {
         Route::get('/vendor/produks/edit/{id}', [VendorProdukController::class, 'edit'])->name('vendor.produk.edit');
         Route::put('/vendor/produks/update/{id}', [VendorProdukController::class, 'update'])->name('vendor.produk.update');
 
+        // vendor profil
         Route::get('/vendor/profile', [ProfileVendorController::class, 'index'])->name('vendor.profile.index');
+        Route::put('/vendor/profile/update/{id}', [ProfileVendorController::class, 'update'])->name('vendor.profile.update');
 
         Route::get('/vendor/metode-pembayaran', [MetodePembayaranController::class, 'index'])->name('vendor.metode.pembayaran.index');
         Route::post('/vendor/metode-pembayaran/store-bank', [MetodePembayaranController::class, 'storeBank'])->name('vendor.payment.store-bank');
