@@ -87,7 +87,7 @@
                     <div class="text-center py-3">
                         <span class="badge bg-success-subtle text-success fw-bold px-3 py-2 rounded-pill mb-3">Bukti Pembayaran Sudah Diunggah</span>
                         <div>
-                            <img src="{{ asset('storage/' . $order->bukti_pembayaran) }}" class="img-fluid rounded-3 border" style="max-height: 200px;">
+                            <img src="{{ route('show.thumbnail.produk.private', $order->bukti_pembayaran) }}" class="img-fluid rounded-3 border" style="max-height: 200px;">
                         </div>
                         <p class="smaller text-muted mt-2">Penjual sedang memverifikasi pembayaran Anda.</p>
                     </div>

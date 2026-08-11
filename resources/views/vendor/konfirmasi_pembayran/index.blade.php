@@ -123,8 +123,8 @@
                                                     <div class="col-md-6 text-center border-end">
                                                         <span class="smaller text-muted fw-bold d-block mb-2 text-uppercase">Bukti Transfer Pembeli</span>
                                                         @if($order->bukti_pembayaran)
-                                                            <a href="{{ asset('storage/' . $order->bukti_pembayaran) }}" target="_blank">
-                                                                <img src="{{ asset('storage/' . $order->bukti_pembayaran) }}" class="img-fluid rounded-3 border p-1 bg-light" style="max-height: 300px; object-fit: contain;">
+                                                            <a href="{{ route('show.thumbnail.produk.private', $order->bukti_pembayaran) }}" target="_blank">
+                                                                <img src="{{ route('show.thumbnail.produk.private', $order->bukti_pembayaran) }}" class="img-fluid rounded-3 border p-1 bg-light" style="max-height: 300px; object-fit: contain;">
                                                             </a>
                                                             <span class="smaller text-muted d-block mt-2">Klik gambar untuk membuka ukuran penuh</span>
                                                         @else
