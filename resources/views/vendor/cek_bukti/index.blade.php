@@ -132,9 +132,9 @@
 
                         @if($order->bukti_pembayaran)
                             <div class="text-center">
-                                <a href="{{ asset('storage/' . $order->bukti_pembayaran) }}" target="_blank" title="Klik untuk memperbesar">
+                                <a href="{{ route('show.thumbnail.produk.private', $order->bukti_pembayaran) }}" target="_blank" title="Klik untuk memperbesar">
                                     <!-- <img src="{{ asset('storage/' . $order->bukti_pembayaran) }}" class="proof-img border p-2 mb-2 shadow-sm" alt="Bukti Transfer Pembeli"> -->
-                                    <img src="{{ asset('storage/' . $order->bukti_pembayaran) }}" class="proof-img border p-2 mb-2 shadow-sm" alt="Bukti Transfer Pembeli">
+                                    <img src="{{ route('show.thumbnail.produk.private', $order->bukti_pembayaran) }}" class="proof-img border p-2 mb-2 shadow-sm" alt="Bukti Transfer Pembeli">
                                 </a>
                                 <p class="small text-muted mb-0">Metode Bayar: <b class="text-uppercase">{{ str_replace('_', ' ', $order->payment_method) }}</b></p>
                             </div>

@@ -58,7 +58,7 @@ class PaymentController extends Controller
             ->firstOrFail();
 
         if ($request->hasFile('bukti_pembayaran')) {
-            $path = $request->file('bukti_pembayaran')->store('payment_proofs', 'public');
+                $path = $request->file('bukti_pembayaran')->store('payment_proofs', 'local');
             
             $order->update([
                 'bukti_pembayaran' => $path,
