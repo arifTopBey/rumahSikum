@@ -116,8 +116,8 @@
                 @if($order->bukti_pembayaran)
                     <div class="row align-items-center g-3">
                         <div class="col-md-5 text-center">
-                            <a href="{{ asset('storage/' . $order->bukti_pembayaran) }}" target="_blank">
-                                <img src="{{ asset('storage/' . $order->bukti_pembayaran) }}" class="img-fluid rounded-3 border p-1 bg-light hover-zoom" style="max-height: 220px; object-fit: contain;">
+                            <a href="{{ route('show.thumbnail.produk.private', $order->bukti_pembayaran) }}" target="_blank">
+                                <img src="{{ route('show.thumbnail.produk.private', $order->bukti_pembayaran) }}" class="img-fluid rounded-3 border p-1 bg-light hover-zoom" style="max-height: 220px; object-fit: contain;">
                             </a>
                             <span class="smaller text-muted d-block mt-1">Klik gambar untuk memperbesar</span>
                         </div>
