@@ -15,4 +15,8 @@ class KategoriProduk extends Model
     public $timestamps = false;
 
     protected $guarded = ['id'];
+
+    public function produk(){
+        return $this->hasMany(VendorProduk::class, 'kategori_produk_id', 'id');
+    }
 }

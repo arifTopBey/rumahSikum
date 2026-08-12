@@ -297,7 +297,7 @@
                 @forelse ($produks as $produk)
                 <div class="col-md-4 col-sm-6">
                     <div class="card product-card h-100 border-0 shadow-sm rounded-4 overflow-hidden position-relative transition-hover">
-                        <a href="{{ route('frontend.eCommerce.detail') }}" class="text-decoration-none text-dark">
+                        <a href="{{ route('frontend.eCommerce.detail', $produk->id) }}" class="text-decoration-none text-dark">
                             <div class="product-img-wrapper position-relative overflow-hidden">
                                 <img src="{{ route('show.thumbnail.produk.private', $produk->produk_thumbnail) }}"
                                     class="w-100 product-img" alt="{{ $produk->nama_produk }}" style="height: 220px; object-fit: cover;">

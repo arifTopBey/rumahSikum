@@ -10,6 +10,7 @@ use App\Models\KategoriProduk;
 use App\Models\Pelatihan;
 use App\Models\PopupBanner;
 use App\Models\ProfilBeranda;
+use App\Models\Vendor;
 use App\Models\VendorProduk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -73,12 +74,12 @@ class FrontendController extends Controller
     public function eCommerce(Request $request)
     {
         // Mengambil query dari form filter
-        $search    = $request->query('search');
-        $kategori  = $request->query('kategori');
+        $search = $request->query('search');
+        $kategori = $request->query('kategori');
         $kecamatan = $request->query('kecamatan');
-        $hargaMin  = $request->query('harga_min');
-        $hargaMax  = $request->query('harga_max');
-        $sort      = $request->query('sort', 'terbaru'); // Default urutkan dari yang terbaru
+        $hargaMin = $request->query('harga_min');
+        $hargaMax = $request->query('harga_max');
+        $sort = $request->query('sort', 'terbaru'); // Default urutkan dari yang terbaru
 
         // Query Builder dengan Eager Loading
         $query = VendorProduk::with(['vendor', 'kategori']);
@@ -142,10 +143,22 @@ class FrontendController extends Controller
         return view('frontend.ecommerce.index', compact('produks', 'categories'));
     }
 
-    public function eCommerceDetail()
+    public function eCommerceDetail($id)
     {
 
-        return view('frontend.ecommerce.detailProduk');
+        // Cari produk berdasarkan ID beserta relasi vendor & kategori
+        $produk = VendorProduk::with(['vendor', 'kategori'])
+            ->where('id', $id)
+            ->firstOrFail();
+
+        // Ambil produk terkait dari kategori atau vendor yang sama untuk rekomendasi (opsional)
+        $relatedProducts = VendorProduk::where('kategori_produk_id', $produk->kategori_id)
+            ->where('id', '!=', $produk->id)
+            ->latest()
+            ->take(4)
+            ->get();
+
+        return view('frontend.ecommerce.detailProduk', compact('produk', 'relatedProducts'));
     }
     public function cartList()
     {
@@ -174,10 +187,54 @@ class FrontendController extends Controller
     }
 
     // nanti memakai id
-    public function toko()
+    public function toko(Request $request,$id)
     {
 
-        return view('frontend.ecommerce.toko.index');
+        $vendor = Vendor::findOrFail($id);
+
+        // Filter query produk
+        $query = VendorProduk::with('kategori')->where('vendor_id', $id);
+
+        // Filter kategori jika dipilihh
+        if ($request->has('kategori') && $request->kategori != '') {
+            $query->where('kategori_id', $request->kategori);
+        }
+
+        // Sorting
+        if ($request->sort == 'price_low') {
+            $query->orderBy('harga', 'asc');
+        } elseif ($request->sort == 'price_high') {
+            $query->orderBy('harga', 'desc');
+        } else {
+            $query->latest();
+        }
+
+        $produks = $query->paginate(9);
+
+        // Total produk vendor & Daftar Kategori yang dipakai produk vendor ini
+        $totalProduk = VendorProduk::where('vendor_id', $id)->count();
+        $kategories = KategoriProduk::whereHas('produk', function ($q) use ($id) {
+            $q->where('vendor_id', $id);
+        })->get();
+
+        return view('frontend.ecommerce.toko.index', compact('vendor', 'produks', 'totalProduk', 'kategories'));
+    }
+    public function toko2($id)
+    {
+
+        // 1. Ambil data vendor/toko
+        $vendor = Vendor::findOrFail($id);
+
+        // 2. Ambil produk milik vendor tersebut dengan pagination
+        $produks = VendorProduk::with('kategori')
+            ->where('vendor_id', $id)
+            ->latest()
+            ->paginate(12);
+
+
+        $totalProduk = VendorProduk::where('vendor_id', $id)->count();
+
+        return view('frontend.ecommerce.toko.index', compact('vendor', 'produks', 'totalProduk'));
     }
 
     public function alamatSaya()

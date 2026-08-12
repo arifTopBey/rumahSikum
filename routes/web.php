@@ -92,7 +92,7 @@ Route::middleware(['security_header'])->group(function () {
     Route::get('/e-learning', [FrontendController::class, 'eLearning'])->name('frontend.e-learning');
     Route::get('/e-learning/detail/{id}', [FrontendController::class, 'detailElearning'])->name('frontend.e-learning.detail');
     Route::get('/e-commerce', [FrontendController::class, 'eCommerce'])->name('frontend.eCommerce');
-    Route::get('/e-commerce/produk', [FrontendController::class, 'eCommerceDetail'])->name('frontend.eCommerce.detail');
+    Route::get('/e-commerce/produk/{id}', [FrontendController::class, 'eCommerceDetail'])->name('frontend.eCommerce.detail');
     Route::get('/e-commerce/kategori-produk', [FrontendController::class, 'kategoriProduk'])->name('frontend.produk.kategori');
 
     // withlist
@@ -104,7 +104,7 @@ Route::middleware(['security_header'])->group(function () {
     Route::get('/tambah-umkm', [FrontendController::class, 'tambahUmkm'])->name('frontend.tambah.umkm');
     Route::get('/acara', [FrontendController::class, 'acara'])->name('frontend.acara');
     Route::get('/acara/detail-acara/{id}', [FrontendController::class, 'detailAcara'])->name('frontend.acara.detail');
-    Route::get('/toko', [FrontendController::class, 'toko'])->name('frontend.toko');
+    Route::get('/toko/{id}', [FrontendController::class, 'toko'])->name('frontend.toko');
     Route::get('/', [FrontendController::class, 'index'])->name('frontend.index');
     Route::get('/pelatihan', [FrontendController::class, 'pelatihan'])->name('frontend.pelatihan');
     Route::get('/pelatihan/detail-pelatihan/{id}', [FrontendController::class, 'detailPelatihan'])->name('frontend.pelatihan.detail');
