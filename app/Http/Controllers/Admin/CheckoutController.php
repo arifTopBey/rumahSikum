@@ -16,14 +16,6 @@ class CheckoutController extends Controller
     {
 
 
-        // $invoice =  Order::where('user_id', Auth::id())->orWhere('order_status', 'menunggu_pembayaran')->latest()->first();
-        // $invoice = 
-        // cek session untuk halaman checkout
-        //   if (session('payment_access') === $invoice->invoice_number) {
-
-        //     return redirect()->route('frontend.payment.instruction', $invoice->invoice_number);
-        //  }
-
         $address = Address::where('user_id', auth()->user()->id)->first();
         // Tangkap string selected_items (contoh: "1,2,5")
         $selectedIdsRaw = $request->query('selected_items');
@@ -45,18 +37,18 @@ class CheckoutController extends Controller
             return redirect()->route('frontend.cart.index')->with('error', 'Item yang Anda pilih tidak ditemukan.');
         }
 
-        // 3. CEK VALIDASI: Apakah vendor dari produk yang dipilih sudah mengatur pembayaran
+        // 3. CEK VALIDASI: Apakah vendor dari produk yang dipilih sudah mengatur pembayaran && vendor yang berbeda
+        $vendorId = $cartItems->first()->produk->vendor_id;
         foreach ($cartItems as $item) {
+
+          
+            // dd($cartItems);
+            if ($item->produk->vendor_id != $vendorId) {
+
+                return redirect()->back()->with('error','Maaf, semua produk yang dipilih harus berasal dari vendor yang sama. Silakan pilih produk dari vendor yang sama.'
+             );
+    }
             $vendor = $item->produk->vendor ?? null;
-            // dd($vendor->payment);
-
-
-            // $isPaymentSet = $vendor && (!empty($vendor->nomor_rekening) || !empty($vendor->nama_bank ) || !empty($vendor_type)); 
-
-            // if (!$isPaymentSet) {
-            //     $namaVendor = $vendor->nama_vendor ?? $vendor->name ?? 'salah satu produk';
-            //     return redirect()->back()->with('error', "Maaf, vendor ({$namaVendor}) belum mengatur metode/rekening pembayaran. Silakan pilih produk dari vendor lain.");
-            // }
             $isPaymentSet = $vendor && $vendor->payment->isNotEmpty();
 
             if (!$isPaymentSet) {

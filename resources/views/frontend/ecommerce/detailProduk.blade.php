@@ -114,14 +114,14 @@
                     <p class="text-success small fw-bold"><i data-lucide="check-circle" size="14"></i> Stok Tersedia</p>
                 </div>
 
-                <div class="mb-4">
+                <!-- <div class="mb-4">
                     <label class="form-label fw-bold">Pilih Ukuran:</label>
                     <div class="d-flex gap-2">
                         @foreach(['39', '40', '41', '42'] as $size)
                         <button class="btn btn-outline-secondary rounded-3 px-3">{{ $size }}</button>
                         @endforeach
                     </div>
-                </div>
+                </div> -->
 
                 <div class="row g-2 mb-5">
                     <div class="col-md-8">

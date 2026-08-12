@@ -1,13 +1,13 @@
-@extends('frontend.main.index')
+@extends('admin.main.main')
 
 @section('content')
-<div class="container pb-5" style="margin-top: 110px;">
+<div class="container pb-5" style="margin-top: 30px;">
 
     <!-- BREADCRUMB & HEADER -->
     <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between mb-4 gap-3">
         <div>
-            <div class="d-flex align-items-center gap-2 mb-1">
-                <a href="{{ route('orders.pending') }}" class="text-decoration-none text-muted small fw-bold d-flex align-items-center gap-1">
+            <div class="d-flex align-items-center gap-2 mb-3">
+                <a href="{{ route('orders.pending') }}" class="text-decoration-none small btn btn-secondary bg-opacity-10 text-white fw-bold d-flex align-items-center gap-1">
                     <i data-lucide="arrow-left" size="14"></i> Kembali ke Pesanan Saya
                 </a>
             </div>

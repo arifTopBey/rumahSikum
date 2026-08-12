@@ -88,7 +88,9 @@ class ProdukController extends Controller
 
     public function show($id){
 
-        $produk = VendorProduk::findOrFail($id)->first();
+
+        $produk = VendorProduk::findOrFail($id);
+        // dd($produk);
 
         return view('vendor.produk.detail', compact('produk'));
     }
@@ -97,7 +99,8 @@ class ProdukController extends Controller
     public function edit($id){
 
          $categories = KategoriProduk::orderByDesc('id')->get();
-         $produk = VendorProduk::findOrFail($id)->first();
+         $produk = VendorProduk::findOrFail($id);
+        //  dd($produk);
          return view('vendor.produk.edit', compact('categories', 'produk'));
     }
 

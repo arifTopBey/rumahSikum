@@ -46,9 +46,9 @@
                         <!-- DI SINI PERBAIKANNYA: data-price diganti dari $item->harga ke $item->produk->harga -->
                         <input class="form-check-input custom-checkbox item-checkbox" type="checkbox" name="cart_ids[]" value="{{ $item->id }}" data-price="{{ $item->produk->harga ?? 0 }}" data-qty="{{ $item->qty }}">
                         <span class="badge bg-primary-subtle text-primary fw-bold px-2 py-1 rounded-2 smaller">
-                            <i data-lucide="store" size="12" class="me-1"></i> {{ $item->vendor->nama_toko ?? 'UMKM Lokal' }}
+                            <i data-lucide="store" size="12" class="me-1"></i> {{ $item->produk->vendor->shop_name ?? 'UMKM Lokal' }}
                         </span>
-                        <span class="badge-location-sm"><i data-lucide="map-pin" size="11" class="me-1"></i>{{ $item->vendor->kecamatan ?? 'Tigaraksa' }}</span>
+                        <span class="badge-location-sm"><i data-lucide="map-pin" size="11" class="me-1"></i>{{  $item->produk->vendor->kecamatan  ?? 'Tigaraksa' }}</span>
                     </div>
                     
                     <form action="{{ route('frontend.cart.destroy', $item->id) }}" method="POST" class="d-inline">

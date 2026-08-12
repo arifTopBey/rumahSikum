@@ -17,4 +17,8 @@ class Keranjang extends Model
      public function produk(){
         return $this->belongsTo(VendorProduk::class, 'produk_id', 'id');
     }
+
+    // public function vendor(){
+    //     return $this->belongsTo(Vendor::class, 'vendor_id', 'id');
+    // }
 }

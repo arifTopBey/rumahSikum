@@ -37,10 +37,10 @@ class KeranjangController extends Controller
         DB::beginTransaction();
 
         try{
-            $wishlist = new Keranjang();
-            $wishlist->user_id = auth()->user()->id;
-            $wishlist->produk_id = $request->produk_id;
-            $wishlist->save();
+            $keranjang = new Keranjang();
+            $keranjang->user_id = auth()->user()->id;
+            $keranjang->produk_id = $request->produk_id;
+            $keranjang->save();
 
             DB::commit();
             return redirect()->route('frontend.cart.list')->with('success', 'Berhasil Dimasukan Produk ke Keranjang');

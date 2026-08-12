@@ -20,9 +20,6 @@
                     <div class="step" id="step-i-4">4</div>
                 </div>
             </div>
-        @if ()
-            
-        @endif
             <div class="form-container shadow-sm">
 
                 <form action="" method="POST" enctype="multipart/form-data" id="registrationForm">
