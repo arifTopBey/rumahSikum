@@ -56,7 +56,7 @@
                                  alt="{{ $detail->produk->nama_produk }}">
                             <div>
                                 <span class="badge bg-primary-subtle text-primary fw-bold px-2 py-1 rounded-2 smaller mb-1 d-inline-block">
-                                    <i data-lucide="store" size="10" class="me-1"></i> {{ $detail->vendor->nama_toko ?? 'UMKM Lokal' }}
+                                    <i data-lucide="store" size="10" class="me-1"></i> {{ $detail->produk->vendor->shop_name ?? 'UMKM Lokal' }}
                                 </span>
                                 <h6 class="fw-bold text-dark mb-1 text-truncate" style="max-width: 300px;">{{ $detail->produk->nama_produk }}</h6>
                                 <span class="small text-muted">{{ $detail->qty }} x Rp {{ number_format($detail->price, 0, ',', '.') }}</span>
