@@ -520,7 +520,7 @@
                             <li class="nav-item">
                                 <a href="{{ route('orders.pending') }}" class="nav-link">
                                     <i class="nav-icon bi bi-bag-check"></i>
-                                    <p class="text-white">Mengunggu Konfirmasi Pembayaran</p>
+                                    <p class="text-white">Menunggu Konfirmasi Pembayaran</p>
                                 </a>
                             </li>
                             <li class="nav-item">

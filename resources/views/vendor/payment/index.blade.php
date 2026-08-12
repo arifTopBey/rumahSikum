@@ -299,7 +299,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 // AJAX Toggle Active Status
 function togglePaymentStatus(id) {
-    fetch(`/vendor/payment/${id}/toggle-status`, {
+    fetch(`/vendor/metode-pembayaran/${id}/toggle-status`, {
         method: 'POST',
         headers: {
             'X-CSRF-TOKEN': '{{ csrf_token() }}',
@@ -308,9 +308,51 @@ function togglePaymentStatus(id) {
     })
     .then(response => response.json())
     .then(data => {
-        if(!data.success) {
+        if (data.success) {
+            // Jika berhasil diaktifkan, matikan toggle switch lain pada grup/tipe yang sama
+            if (data.is_active) {
+                let switches = document.querySelectorAll('.form-check-input');
+                switches.forEach(sw => {
+                    // Matikan semua switch kecuali milik item yang di-click
+                    if (sw.id !== 'switchBank' + id && sw.id !== 'switchQris' + id) {
+                        // Hanya matikan switch dalam kategori/tipe yang sama
+                        if (
+                            (data.type === 'transfer_bank' && sw.id.startsWith('switchBank')) ||
+                            (data.type === 'qris' && sw.id.startsWith('switchQris'))
+                        ) {
+                            sw.checked = false;
+                            
+                            // Efek visual card non-aktif
+                            let card = sw.closest('.card');
+                            if(card) {
+                                card.classList.remove('bg-white', 'border-primary');
+                                card.classList.add('bg-light', 'opacity-75');
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Ubah tampilan visual card yang baru saja di-toggle
+            let currentSwitch = document.getElementById(data.type === 'transfer_bank' ? 'switchBank' + id : 'switchQris' + id);
+            if (currentSwitch) {
+                let currentCard = currentSwitch.closest('.card');
+                if (data.is_active) {
+                    currentCard.classList.remove('bg-light', 'opacity-75');
+                    currentCard.classList.add('bg-white', 'border-primary');
+                } else {
+                    currentCard.classList.remove('bg-white', 'border-primary');
+                    currentCard.classList.add('bg-light', 'opacity-75');
+                }
+            }
+        } else {
             alert('Gagal mengubah status metode pembayaran.');
+            location.reload();
         }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Terjadi kesalahan koneksi.', error);
     });
 }
 </script>
