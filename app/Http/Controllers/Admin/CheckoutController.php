@@ -15,6 +15,25 @@ class CheckoutController extends Controller
     public function index(Request $request)
     {
 
+        // [VALIDASI SESSION]: Cek apakah user punya order yang baru dibuat & belum diunggah bukti bayarnya
+        if (session()->has('active_invoice')) {
+            $activeInvoice = session('active_invoice');
+            
+            // Order 'menunggu_pembayaran' di DB
+            $pendingOrder = Order::where('invoice_number', $activeInvoice)
+                ->where('user_id', Auth::id())
+                ->where('order_status', 'menunggu_pembayaran')
+                ->first();
+
+            if ($pendingOrder) {
+                return redirect()->route('frontend.payment.instruction', $activeInvoice)
+                    ->with('warning', 'Anda masih memiliki pesanan yang belum diselesaikan. Silakan selesaikan atau unggah bukti pembayaran.');
+            } else {
+                // Jika status order sudah berubah, hapus session
+                session()->forget('active_invoice');
+            }
+        }
+
 
         $address = Address::where('user_id', auth()->user()->id)->first();
         // Tangkap string selected_items (contoh: "1,2,5")
@@ -73,7 +92,12 @@ class CheckoutController extends Controller
         // $totalPayment = $subtotal + $shippingCost;
         $totalPayment = $subtotal;
 
-        return view('frontend.checkout.index', compact('cartItems', 'subtotal', 'shippingCost', 'totalPayment', 'selectedIdsRaw', 'address'));
+        // return view('frontend.checkout.index', compact('cartItems', 'subtotal', 'shippingCost', 'totalPayment', 'selectedIdsRaw', 'address'));
+        return response()
+        ->view('frontend.checkout.index', compact('cartItems', 'subtotal', 'shippingCost', 'totalPayment', 'selectedIdsRaw', 'address'))
+        ->header('Cache-Control', 'no-cache, no-store, max-age=0, must-revalidate')
+        ->header('Pragma', 'no-cache')
+        ->header('Expires', 'Sat, 01 Jan 1990 00:00:00 GMT');
     }
 
     public function process(Request $request)
@@ -149,10 +173,8 @@ class CheckoutController extends Controller
         }
         Keranjang::whereIn('id', $selectedIds)->delete();
 
-        // set session untuk pembayaran
-        session([
-            'payment_access' => $order->invoice_number,
-        ]);
+        // [SET SESSION LOCK]: Simpan active_invoice ke session
+        session(['active_invoice' => $order->invoice_number]);
 
         // 4. Redirect ke Halaman Instruksi Pembayaran
         return redirect()->route('frontend.payment.instruction', $order->invoice_number);

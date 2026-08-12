@@ -225,6 +225,17 @@
         });
     </script>
 @endif
+@if(session('warning'))
+    <script>
+        Swal.fire({
+            title: 'Peringatan!',
+            text: "{{ session('warning') }}",
+            icon: 'warning',
+            timer: 4000,
+            showConfirmButton: false
+        });
+    </script>
+@endif
 <!-- pop up image -->
 <script>
      document.addEventListener("DOMContentLoaded", function(){
@@ -244,6 +255,20 @@
     function closePopup(){
         document.getElementById("welcomePopup").style.display = "none";
     }
+</script>
+
+<script>
+    // Deteksi jika halaman diakses dari tombol Back / Forward browser
+    window.addEventListener("pageshow", function (event) {
+        var historyTraversal = event.persisted || 
+            (typeof window.performance != "undefined" && 
+             window.performance.navigation.type === 2);
+             
+        if (historyTraversal) {
+            // Paksa reload halaman agar masuk ke validasi Laravel Session
+            window.location.reload();
+        }
+    });
 </script>
 <!-- end pop up -->
 </body>

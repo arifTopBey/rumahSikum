@@ -12,30 +12,20 @@ class PaymentController extends Controller
 {
     public function instruction($invoice)
     {
-
-        // cek session untuk halaman pembayaran
-         if (session('payment_access') !== $invoice) {
-            // return redirect()->route('frontend.cart')
-            //     ->with('error', 'Akses halaman tidak valid.');
-            return redirect()->back()->with('error', 'Akses halaman tidak valid.');
-         }
-
-        // DB::enableQueryLog();
-        // $order = Order::with(['details.produk', 'details.vendor'])
-        //     ->where('invoice_number', $invoice)
-        //     ->where('user_id', Auth::id())
-        //     ->firstOrFail();
         $order = Order::
             where('invoice_number', $invoice)
             ->where('user_id', Auth::id())
             ->firstOrFail();
 
-        // dd($order->details);
-        // dd(DB::getQueryLog(), $order->details);
-        // Ambil ID Vendor dari produk pertama di order
-        $vendorId = $order->details->first()->vendor_id;
-        // $vendorId = $order->details->first()->vendor_id;
+        // [VALIDASI STATUS]: Jika status sudah bukan 'menunggu_pembayaran', lempar user ke riwayat pesanan
+        if ($order->order_status !== 'menunggu_pembayaran') {
+            session()->forget('active_invoice');
+            return redirect()->route('orders.pending')
+                ->with('info', 'Pesanan ini sudah diproses atau bukti pembayaran telah diunggah.');
+        }
 
+        $vendorId = $order->details->first()->vendor_id;
+       
 
         // Ambil metode pembayaran aktif milik vendor terkait
         $paymentMethods = VendorPayment::where('vendor_id', $vendorId)
@@ -67,8 +57,7 @@ class PaymentController extends Controller
             ]);
         }
 
-        // hapus session payment_access setelah bukti pembayaran diunggah
-        session()->forget('payment_access');
+       
 
         return redirect()->route('orders.pending')
         ->with('success', 'Bukti pembayaran berhasil diunggah! Pesanan Anda sedang menunggu konfirmasi dari penjual.');
