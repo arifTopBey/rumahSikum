@@ -55,7 +55,8 @@
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <span class="fw-800 text-dark">{{ $pm->nama_bank }}</span>
                                     @if($pm->logo_bank)
-                                        <img src="{{ asset('storage/' . $pm->logo_bank) }}" height="24">
+                                        <!-- <img src="{{ asset('storage/' . $pm->logo_bank) }}" height="24"> -->
+                                        <img src="{{ route('show.thumbnail.produk.private', $pm->logo_bank) }}" height="24">
                                     @endif
                                 </div>
                                 <div class="mb-2">
