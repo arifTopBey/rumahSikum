@@ -82,7 +82,7 @@ class FrontendController extends Controller
         $sort = $request->query('sort', 'terbaru'); // Default urutkan dari yang terbaru
 
         // Query Builder dengan Eager Loading
-        $query = VendorProduk::with(['vendor', 'kategori']);
+        $query = VendorProduk::with(['vendor', 'kategori'])->where('status', 'approved')->Where('status_produk', 1);
 
         // 1. Filter Pencarian Nama Produk / Deskripsi
         $query->when($search, function ($q) use ($search) {

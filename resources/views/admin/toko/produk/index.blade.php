@@ -24,7 +24,7 @@
         <div class="col-md-3">
             <div class="card border-0 shadow-sm rounded-3 p-3 border-start border-4 border-success">
                 <p class="smaller text-muted fw-bold mb-1">PRODUK AKTIF</p>
-                <h4 class="fw-800 mb-0 text-success">{{ $produks->where('status_produk', 1)->count() }}</h4>
+                <h4 class="fw-800 mb-0 text-success">{{ $produks->where('status', 'approved')->count() }}</h4>
             </div>
         </div>
         <div class="col-md-6">
@@ -104,12 +104,18 @@
                         </td>
                         <td class="text-center">
                             <div class="form-check form-switch d-inline-block">
-                                <!-- <input class="form-check-input" type="checkbox" role="switch" 
-                                       {{ $produk->status_produk == 1 ? 'checked' : '' }} 
-                                       style="width: 2.5em; height: 1.25em; cursor: pointer;"> -->
-                                    <span class="badge bg-success text-white border border-primary border-opacity-25 px-3 py-2 rounded-pill fw-bold">
-                                {{ $produk->status_produk == 1 ? 'Aktif' : 'Arsip' }}
-                            </span>
+                                @if ($produk->status == "pending")
+                                    <span class="badge bg-warning text-white border border-primary border-opacity-25 px-3 py-2 rounded-pill fw-bold">Pending</span>
+                                @elseif($produk->status == 'approved')
+                                    <span class="badge bg-success text-white border border-primary border-opacity-25 px-3 py-2 rounded-pill fw-bold">Disetujui</span>
+                                @elseif($produk->status == 'rejected')
+                                    <span class="badge bg-danger text-white border border-primary border-opacity-25 px-3 py-2 rounded-pill fw-bold">Ditolak</span>
+                                @elseif($produk->status == 'block')
+                                    <span class="badge bg-secondary text-white border border-primary border-opacity-25 px-3 py-2 rounded-pill fw-bold">Diblock</span>
+                                @endif
+                                    <!-- <span class="badge bg-success text-white border border-primary border-opacity-25 px-3 py-2 rounded-pill fw-bold">
+                                {{ $produk->status_produk == 1 ? 'Aktif' : 'Arsip' }} -->
+                            <!-- </span> -->
                             </div>
                         </td>
                         <td class="px-4 text-end">

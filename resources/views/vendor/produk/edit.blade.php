@@ -57,7 +57,7 @@
                     </div>
                 </div>
 
-                <div class="card border-0 shadow-sm rounded-4 p-4">
+                <!-- <div class="card border-0 shadow-sm rounded-4 p-4">
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h6 class="fw-800 mb-0 d-flex align-items-center gap-2 text-primary">
                             <i data-lucide="images" size="18"></i> Galeri Foto Produk
@@ -83,7 +83,7 @@
 
                     <div id="additional-photos-container" class="row g-3">
                         </div>
-                </div>
+                </div> -->
             </div>
 
             <div class="col-lg-4">

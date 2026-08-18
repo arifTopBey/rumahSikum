@@ -17,9 +17,9 @@
                 <a href="{{ route('vendor.produk.index') }}" class="btn btn-white border rounded-3 px-4 fw-bold">
                     <i data-lucide="arrow-left" size="18" class="me-1"></i> Kembali
                 </a>
-                <a href="{{ route('vendor.produk.edit', $produk->id) }}" class="btn btn-primary rounded-3 px-4 fw-bold shadow-sm">
+                <!-- <a href="{{ route('vendor.produk.edit', $produk->id) }}" class="btn btn-primary rounded-3 px-4 fw-bold shadow-sm">
                     <i data-lucide="edit-3" size="18" class="me-1"></i> Edit Produk
-                </a>
+                </a> -->
             </div>
         </div>
     </div>
@@ -36,7 +36,7 @@
                 </div>
                 <div class="card-body bg-white">
                     <h6 class="fw-800 mb-3 smaller text-muted text-uppercase">Galeri Produk</h6>
-                    <div class="row g-2">
+                    <!-- <div class="row g-2">
                         <div class="col-3">
                             <img src="{{ route('show.thumbnail.produk.private', $produk->produk_thumbnail) }}" class="img-fluid rounded-2 border cursor-pointer gallery-item active-thumb" onclick="changeView(this.src, this)">
                         </div>
@@ -45,8 +45,9 @@
                             <img src="{{ route('show.thumbnail.produk.private', $photo->photos_produks) }}" class="img-fluid rounded-2 border cursor-pointer gallery-item" onclick="changeView(this.src, this)">
                         </div>
                         @endforeach
-                    </div>
+                    </div> -->
                 </div>
+                
             </div>
         </div>
 
@@ -66,51 +67,7 @@
                 </div>
             </div>
 
-              <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
-                <h6 class="fw-800 mb-4 text-dark d-flex align-items-center gap-2 border-bottom pb-3">
-                    <i data-lucide="info" class="text-primary" size="20"></i> Spesifikasi & Status
-                </h6>
-                <div class="row g-4">
-                    <div class="col-md-6">
-                        <label class="smaller text-muted d-block">Kategori</label>
-                        <p class="fw-bold text-dark mb-0">{{ $produk->kategori->name }}</p>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="smaller text-muted d-block mb-1">Status Moderasi Admin</label>
-                        @if ($produk->status == "pending")
-                            <span class="badge bg-warning text-white border border-warning px-3 py-2 rounded-pill fw-bold">Pending</span>
-                        @elseif($produk->status == 'approved')
-                            <span class="badge bg-success text-white border border-success px-3 py-2 rounded-pill fw-bold">Disetujui</span>
-                        @elseif($produk->status == 'rejected')
-                            <span class="badge bg-danger text-white border border-danger px-3 py-2 rounded-pill fw-bold">Ditolak</span>
-                        @elseif($produk->status == 'block')
-                            <span class="badge bg-secondary text-white border border-secondary px-3 py-2 rounded-pill fw-bold">Diblock</span>
-                        @endif
-                    </div>
-                    <div class="col-md-6">
-                        <label class="smaller text-muted d-block">Status Toko/Vendor</label>
-                        @if($produk->status_produk == 1)
-                            <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-2">
-                                <i data-lucide="check-circle" size="14" class="me-1"></i> Aktif di Katalog Toko
-                            </span>
-                        @else
-                            <span class="badge bg-secondary bg-opacity-10 text-secondary rounded-pill px-3 py-2">
-                                <i data-lucide="eye-off" size="14" class="me-1"></i> Disembunyikan Toko
-                            </span>
-                        @endif
-                    </div>
-                    <div class="col-md-6">
-                        <label class="smaller text-muted d-block">Slug URL</label>
-                        <code class="smaller text-primary">{{ $produk->slug }}</code>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="smaller text-muted d-block">Terakhir Diperbarui</label>
-                        <p class="small text-dark mb-0">{{ $produk->updated_at->format('d F Y, H:i') }}</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+            <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
                 <h6 class="fw-800 mb-4 text-dark d-flex align-items-center gap-2 border-bottom pb-3">
                     <i data-lucide="info" class="text-primary" size="20"></i> Spesifikasi & Status
                 </h6>
@@ -140,23 +97,20 @@
                         <p class="small text-dark">{{ $produk->updated_at->format('d F Y, H:i') }}</p>
                     </div>
                 </div>
-            </div> -->
+            </div>
 
+            <div class="card border-0 shadow-sm rounded-4 p-4 mb-2">
+                <h6 class="fw-800 mb-3 text-dark border-bottom pb-3">Nama Toko</h6>
+                <div class="produk-deskripsi text-muted lh-lg">
+                    {{ $produk->vendor->shop_name }}
+                </div>
+            </div>
             <div class="card border-0 shadow-sm rounded-4 p-4">
                 <h6 class="fw-800 mb-3 text-dark border-bottom pb-3">Deskripsi Produk</h6>
                 <div class="produk-deskripsi text-muted lh-lg">
                     {!! $produk->produk_deskripsi !!}
                 </div>
             </div>
-        
-        @if ($produk != null && ($produk->status == 'rejected' || $produk->status == 'block') )
-            <div class="card border-0 shadow-sm rounded-4 p-4 mt-3">
-                <h6 class="fw-800 mb-3 text-dark border-bottom pb-3">Catatan Admin</h6>
-                <div class="produk-deskripsi text-muted lh-lg">
-                   {{ $produk->catatan_admin }}
-                </div>
-            </div>
-        @endif
         </div>
     </div>
 </div>

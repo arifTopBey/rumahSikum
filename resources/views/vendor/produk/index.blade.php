@@ -99,10 +99,21 @@
                             @endif
                         </td>
                         <td class="text-center">
-                            <div class="form-check form-switch d-inline-block">
+                            <!-- <div class="form-check form-switch d-inline-block">
                                 <input class="form-check-input" type="checkbox" role="switch" 
                                        {{ $produk->status_produk == 1 ? 'checked' : '' }} 
                                        style="width: 2.5em; height: 1.25em; cursor: pointer;">
+                                
+                            </div> -->
+                            <div class="form-check form-switch d-inline-block">
+                                @if ($produk->status_produk ===  1)
+                                    <span class="badge bg-success text-white border border-primary border-opacity-25 px-3 py-2 rounded-pill fw-bold">Aktif</span>
+                                @elseif($produk->status_produk === 0)
+                                    <span class="badge bg-primary bg-opacity-50 text-white border border-primary border-opacity-25 px-3 py-2 rounded-pill fw-bold">Tidak Aktif</span>
+                                @endif
+                                    <!-- <span class="badge bg-success text-white border border-primary border-opacity-25 px-3 py-2 rounded-pill fw-bold">
+                                {{ $produk->status_produk == 1 ? 'Aktif' : 'Arsip' }} -->
+                            <!-- </span> -->
                             </div>
                         </td>
                         <td class="px-4 text-end">

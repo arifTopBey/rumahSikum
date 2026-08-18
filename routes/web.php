@@ -466,6 +466,7 @@ Route::middleware(['auth', 'security_header'])->group(function () {
         // list produk semua toko
         Route::get('/admin/list-produk', [TokoController::class, 'listProduk'])->name('admin.list.produk.index');
         Route::get('/admin/list-produk/{id}', [TokoController::class, 'listProdukDetail'])->name('admin.list.produk.detail');
+        Route::patch('/produk/{id}/update-status', [TokoController::class, 'updateStatus'])->name('admin.produk.update-status');
 
         // daftar pengguna
         Route::get('/admin/daftar-pengguna', [PenggunaController::class, 'index'])->name('admin.daftar.pengguna.index');
