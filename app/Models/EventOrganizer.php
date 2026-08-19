@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Elearning extends Model
+class EventOrganizer extends Model
 {
-    protected $table = 'elearning'; 
+    protected $table = 'events_organizers'; 
     protected $primaryKey = 'id';
     public $incrementing = true;
     protected $keyType = 'int';
@@ -14,10 +14,7 @@ class Elearning extends Model
 
     protected $guarded = ['id']; 
 
-    public function kategoriElearning(){
-        return $this->belongsTo(KategoriElearning::class, 'kategori_elearning_id', 'id');
+    public function kategoriEventOrganizer(){
+        return $this->belongsTo(KategoriEventOrganizer::class, 'kategori_organizer_id', 'id');
     }
-
-    
-
 }

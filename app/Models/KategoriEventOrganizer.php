@@ -4,16 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class KategoriElearning extends Model
+class KategoriEventOrganizer extends Model
 {
-    protected $table = 'kategori_elearning'; 
+    //kategori_event_organizers
+
+    protected $table = 'kategori_event_organizers'; 
     protected $primaryKey = 'id';
     public $incrementing = true;
     protected $keyType = 'int';
     public $timestamps = true;
     protected $guarded = ['id'];
-
-    public function elearning(){
-        return $this->hasMany(Elearning::class, 'kategori_elearning_id', 'id');
-    }
+    
 }

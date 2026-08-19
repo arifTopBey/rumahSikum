@@ -189,6 +189,33 @@
                             </li>
                         </ul>
                     </li>
+                    <!-- <li class="nav-item {{ Request::is('admin/elearning*') ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link {{ Request::is('admin/elearning*') ? 'active bg-black' : '' }}">
+                            <i class="bi bi-backpack text-white"></i>
+                            <p class="text-white">
+                                E-learning
+                                <i class="nav-arrow bi bi-chevron-right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+
+                            <li class="nav-item">
+                                <a href="{{ route('admin.kategori.elearning.index') }}"
+                                    class="nav-link {{ Request::is('admin/kategori-elearning*') ? 'active' : '' }}">
+                                    <i class="nav-icon bi bi-circle"></i>
+                                    <p class="text-white">Kategori E-learning</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('admin.elearning.index') }}"
+                                    class="nav-link {{ Request::is('admin/elearning*') ? 'active' : '' }}">
+                                    <i class="nav-icon bi bi-circle"></i>
+                                    <p class="text-white">Modul E-learning</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li> -->
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="bi bi-bag-fill text-white"></i>

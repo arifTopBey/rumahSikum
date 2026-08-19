@@ -17,25 +17,25 @@
             <div class="col-md-3">
                 <div class="card border-0 bg-light p-3 rounded-4">
                     <p class="text-muted small mb-1 fw-bold">Total Materi</p>
-                    <h4 class="fw-800 mb-0">0 Materi</h4>
+                    <h4 class="fw-800 mb-0">{{ $totalMateri ?? 0 }} Materi</h4>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="card border-0 bg-light p-3 rounded-4">
                     <p class="text-muted small mb-1 fw-bold">Total Penonton</p>
-                    <h4 class="fw-800 mb-0">0 Penonton</h4>
+                    <h4 class="fw-800 mb-0">{{ $totalViews ? $totalViews : 0  }} Penonton</h4>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="card border-0 bg-light p-3 rounded-4">
                     <p class="text-muted small mb-1 fw-bold">Total PDF</p>
-                    <h4 class="fw-800 mb-0">0</h4>
+                    <h4 class="fw-800 mb-0">{{ $totalPdf ? $totalPdf : 0 }}</h4>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="card border-0 bg-light p-3 rounded-4">
                     <p class="text-muted small mb-1 fw-bold">Materi Populer</p>
-                    <h4 class="fw-800 mb-0 text-primary small">Tidak Tersedia</h4>
+                    <h4 class="fw-800 mb-0 text-primary small">{{ $topElearning->name ?? 'Tidak Tersedia'  }}</h4>
                 </div>
             </div>
         </div>
@@ -170,8 +170,9 @@
                         <tr>
                             <th class="ps-4 py-3 text-center" width="5%">No</th>
                             <th class="py-3" width="35%">Judul Kelas & Mentor</th>
-                            <th class="py-3 text-center">Total Materi</th>
+                            <th class="py-3 text-center">Level</th>
                             <th class="py-3 text-center">Total Penonton</th>
+                            <th class="py-3 text-center">Modul PDF</th>
                             <th class="py-3 text-center">Status</th>
                             <th class="py-3 text-center pe-4">Aksi</th>
                         </tr>
@@ -184,19 +185,26 @@
                             <td>
                             <div class="d-flex align-items-center gap-3">
                                     <!-- <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=100" class="rounded-3 shadow-sm" width="60" height="40" style="object-fit: cover;"> -->
-                                    <img src="{{ route('showFoto.elearning.thumnail.private', $elearning->banner_event) }}" class="rounded-3 shadow-sm" width="60" height="40" style="object-fit: cover;">
+                                    <img src="{{ route('showFoto.elearning.thumnail.private', $elearning->thumbnail) }}" class="rounded-3 shadow-sm" width="60" height="40" style="object-fit: cover;">
                                     <div>
-                                        <h6 class="fw-bold mb-0">0</h6>
-                                        <small class="text-muted">Mentor: 0</small>
+                                        <h6 class="fw-bold mb-0">{{ $elearning->name }}</h6>
+                                        <small class="text-muted">Mentor: {{ $elearning->nama_mentor }}</small>
                                     </div>
                                 </div>
                             </td>
                             <td class="text-center small">
-                                <span class="badge bg-info-subtle text-info rounded-pill px-3 py-2">0</span>
+                                <span class="badge bg-info-subtle text-info rounded-pill px-3 py-2"> {{ $elearning->level }}</span>
                             </td>
                             <td class="text-center">
-                                <div class="fw-bold mb-0">0</div>
+                                <div class="fw-bold mb-0">{{ $elearning->views }}</div>
                                 <small class="text-muted smaller">Penonton</small>
+                            </td>
+                            <td class="text-center">
+                                 @if ($elearning->pdf)
+                                    <span class="badge bg-success bg-opacity-10 text-success border border-success px-3 py-2 rounded-2">Ada</span>
+                                    @else   
+                                    <span class="badge bg-danger bg-opacity-10 text-danger border border-danger px-3 py-2 rounded-2">Tidak Ada</span>
+                                @endif
                             </td>
                             <td class="text-center">
                                 @if ($elearning->is_publish === 1)
@@ -214,7 +222,7 @@
                                         <li><a class="dropdown-item py-2" href="{{ route('admin.elearning.edit', $elearning->id) }}"><i data-lucide="layout" size="14" class="me-2 text-primary"></i> Kelola Modul</a></li>
                                         <li><a class="dropdown-item py-2" href="{{ route('admin.elearning.show', $elearning->id) }}"><i data-lucide="eye" size="14" class="me-2 text-warning"></i> Detail</a></li>
                                         <li><hr class="dropdown-divider"></li>
-                                        <!-- <li class="dropdown-item py-2 text-danger">
+                                        <li class="dropdown-item py-2 text-danger">
                                              <form id="delete-form-{{ $elearning->id }}" action="{{ route('admin.elearning.delete', $elearning->id) }}" method="POST" class="d-inline">
                                             @csrf
                                             @method('DELETE')
@@ -223,7 +231,7 @@
                                             </button>
 
                                         </form>
-                                        </li> -->
+                                        </li>
                                     </ul>
                                 </div>
                             </td>

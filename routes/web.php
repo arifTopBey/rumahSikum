@@ -13,9 +13,12 @@ use App\Http\Controllers\Admin\DaftarPesananController;
 use App\Http\Controllers\Admin\DaftarUmkmController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ElearningController;
+use App\Http\Controllers\Admin\EventMaterialController;
+use App\Http\Controllers\Admin\EventOrganizerController;
 use App\Http\Controllers\Admin\ExportController;
 use App\Http\Controllers\Admin\KategoriAcaraController;
 use App\Http\Controllers\Admin\KategoriElearningController;
+use App\Http\Controllers\Admin\KategoriEventOrganizerController;
 use App\Http\Controllers\Admin\KategoriPelatihanController;
 use App\Http\Controllers\Admin\KategoriProdukController;
 use App\Http\Controllers\Admin\KeranjangController;
@@ -345,20 +348,41 @@ Route::middleware(['auth', 'security_header'])->group(function () {
 
 
         // kategori e-learning admin
-        Route::get('/admin/kategori-elearning', [KategoriElearningController::class, 'index'])->name('admin.kategori.elearning.index');
-        Route::get('/admin/kategori-elearning/create', [KategoriElearningController::class, 'create'])->name('admin.kategori.elearning.create');
-        Route::post('/admin/kategori-elearning', [KategoriElearningController::class, 'store'])->name('admin.kategori.elearning.store');
-        Route::put('/admin/kategori-elearning/{id}', [KategoriElearningController::class, 'update'])->name('admin.kategori.elearning.update');
-        Route::delete('/admin/kategori-elearning/{id}', [KategoriElearningController::class, 'destroy'])->name('admin.kategori.elearning.destroy');
+        // Route::get('/admin/kategori-elearning', [KategoriElearningController::class, 'index'])->name('admin.kategori.elearning.index');
+        // Route::get('/admin/kategori-elearning/create', [KategoriElearningController::class, 'create'])->name('admin.kategori.elearning.create');
+        // Route::post('/admin/kategori-elearning', [KategoriElearningController::class, 'store'])->name('admin.kategori.elearning.store');
+        // Route::put('/admin/kategori-elearning/{id}', [KategoriElearningController::class, 'update'])->name('admin.kategori.elearning.update');
+        // Route::delete('/admin/kategori-elearning/{id}', [KategoriElearningController::class, 'destroy'])->name('admin.kategori.elearning.destroy');
+
+        Route::get('/admin/kategori-elearning', [KategoriEventOrganizerController::class, 'index'])->name('admin.kategori.elearning.index');
+        Route::get('/admin/kategori-elearning/create', [KategoriEventOrganizerController::class, 'create'])->name('admin.kategori.elearning.create');
+        Route::post('/admin/kategori-elearning', [KategoriEventOrganizerController::class, 'store'])->name('admin.kategori.elearning.store');
+        Route::put('/admin/kategori-elearning/{id}', [KategoriEventOrganizerController::class, 'update'])->name('admin.kategori.elearning.update');
+        Route::delete('/admin/kategori-elearning/{id}', [KategoriEventOrganizerController::class, 'destroy'])->name('admin.kategori.elearning.destroy');
 
         // admin elearning
-        Route::get('/admin/elearning', [ElearningController::class, 'index'])->name('admin.elearning.index');
-        Route::get('/admin/elearning/create', [ElearningController::class, 'create'])->name('admin.elearning.create');
-        Route::post('/admin/elearning/store', [ElearningController::class, 'store'])->name('admin.elearning.store');
-        Route::get('/admin/elearning/{id}', [ElearningController::class, 'show'])->name('admin.elearning.show');
-        Route::get('/admin/elearning/edit/{id}', [ElearningController::class, 'edit'])->name('admin.elearning.edit');
-        Route::put('/admin/elearning/update/{id}', [ElearningController::class, 'update'])->name('admin.elearning.update');
-        Route::delete('/admin/elearning/delete/{id}', [ElearningController::class, 'destroy'])->name('admin.elearning.delete');
+        Route::get('/admin/elearning', [EventOrganizerController::class, 'index'])->name('admin.elearning.index');
+        Route::get('/admin/elearning/create', [EventOrganizerController::class, 'create'])->name('admin.elearning.create');
+        Route::post('/admin/elearning/store', [EventOrganizerController::class, 'store'])->name('admin.elearning.store');
+        Route::get('/admin/elearning/{id}', [EventOrganizerController::class, 'show'])->name('admin.elearning.show');
+        Route::get('/admin/elearning/edit/{id}', [EventOrganizerController::class, 'edit'])->name('admin.elearning.edit');
+        Route::put('/admin/elearning/update/{id}', [EventOrganizerController::class, 'update'])->name('admin.elearning.update');
+        Route::delete('/admin/elearning/delete/{id}', [EventOrganizerController::class, 'destroy'])->name('admin.elearning.delete');
+        // Route::get('/admin/elearning', [ElearningController::class, 'index'])->name('admin.elearning.index');
+        // Route::get('/admin/elearning/create', [ElearningController::class, 'create'])->name('admin.elearning.create');
+        // Route::post('/admin/elearning/store', [ElearningController::class, 'store'])->name('admin.elearning.store');
+        // Route::get('/admin/elearning/{id}', [ElearningController::class, 'show'])->name('admin.elearning.show');
+        // Route::get('/admin/elearning/edit/{id}', [ElearningController::class, 'edit'])->name('admin.elearning.edit');
+        // Route::put('/admin/elearning/update/{id}', [ElearningController::class, 'update'])->name('admin.elearning.update');
+        // Route::delete('/admin/elearning/delete/{id}', [ElearningController::class, 'destroy'])->name('admin.elearning.delete');
+
+        Route::get('/admin/elearning/{id}/materi', [EventMaterialController::class, 'index'])->name('admin.elearning..materi.index');
+        // Route::get('/admin/elearning/create', [EventOrganizerController::class, 'create'])->name('admin.elearning.create');
+        // Route::post('/admin/elearning/store', [EventOrganizerController::class, 'store'])->name('admin.elearning.store');
+        // Route::get('/admin/elearning/{id}', [EventOrganizerController::class, 'show'])->name('admin.elearning.show');
+        // Route::get('/admin/elearning/edit/{id}', [EventOrganizerController::class, 'edit'])->name('admin.elearning.edit');
+        // Route::put('/admin/elearning/update/{id}', [EventOrganizerController::class, 'update'])->name('admin.elearning.update');
+        // Route::delete('/admin/elearning/delete/{id}', [EventOrganizerController::class, 'destroy'])->name('admin.elearning.delete');
 
 
         
