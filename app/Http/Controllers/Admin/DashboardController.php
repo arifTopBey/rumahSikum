@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\EventOrganizer;
+use App\Models\EventRegistration;
 use App\Models\Order;
+use App\Models\User;
 use App\Models\Vendor;
 use App\Models\VendorProduk;
 use Illuminate\Http\Request;
@@ -119,16 +122,37 @@ class DashboardController extends Controller
                 ->take(5)
                 ->get();
 
-             return view('admin.userDashboard.index', compact(
-                'totalRevenue',
-                'totalUmkm',
-                'pendingUmkmCount',
-                'totalProducts',
-                'totalOrders',
-                'pendingOrdersCount',
-                'pendingUmkms',
-                'recentOrders'
-            ));
+            $idActive = Auth::user()->id;
+
+            $user = User::where('id', $idActive)->first();
+            $email = User::where('email', $user->email)->first();
+
+            if($email->email == 'AdminElearning1@gmail.com'){
+
+                $elearning = EventOrganizer::orderByDesc('id')->paginate(10);
+                $registered = EventRegistration::orderByDesc('id')->paginate(10);
+
+                // dd($elearning);
+
+                return view('admin.dashboardElearning.index', compact('elearning', 'registered'));
+
+            }else{
+                return view('admin.userDashboard.index', compact(
+                   'totalRevenue',
+                   'totalUmkm',
+                   'pendingUmkmCount',
+                   'totalProducts',
+                   'totalOrders',
+                   'pendingOrdersCount',
+                   'pendingUmkms',
+                   'recentOrders'
+               ));
+
+            }
+
+
+
+                // userDashboard
         }
 
 

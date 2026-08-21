@@ -50,7 +50,15 @@
                     </ul>
                 </li>
                 
-                <li class="nav-item"><a class="nav-link px-3" href="{{ route('frontend.e-learning') }}">E-Learning</a></li>
+               @auth
+                    @if (auth()->user()->user_role === 'user')
+                        <li class="nav-item">
+                            <a class="nav-link px-3" href="{{ route('frontend.e-learning') }}">
+                                E-Learning
+                            </a>
+                        </li>
+                    @endif
+                @endauth
             </ul>
             
             <div class="d-flex align-items-center gap-2">
@@ -75,11 +83,15 @@
                         </li>
                         @endif
                         @if (auth()->check())
-                        <li>
-                            <a class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2" href="{{ route('frontend.pesanan.index') }}">
-                                <i data-lucide="package" size="16" class="text-muted"></i> Pesanan Saya
-                            </a>
-                        </li>
+
+                        @if (auth()->user()->email !== 'AdminElearning1@gmail.com')
+                            <li>
+                                <a class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2" href="{{ route('frontend.pesanan.index') }}">
+                                    <i data-lucide="package" size="16" class="text-muted"></i> Pesanan Saya
+                                </a>
+                            </li>
+                            
+                        @endif
                         <!-- <li>
                             <a class="dropdown-item rounded-3 py-2 d-flex align-items-center gap-2" href="{{ route('user.dashboard') }}">
                                 <i data-lucide="heart" size="16" class="text-muted"></i> Wishlist Saya

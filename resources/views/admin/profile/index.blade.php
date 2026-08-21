@@ -182,7 +182,7 @@
                         </div>
                         <div class="col-md-6">
                             <label class="form-label-custom">Email</label>
-                            <input type="email" name="email" class="form-control form-control-custom" value="{{ auth()->user()->email }}">
+                            <input type="email" name="email" class="form-control form-control-custom" value="{{ auth()->user()->email }}" readonly>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label-custom">Nomor WhatsApp</label>

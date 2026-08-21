@@ -4,19 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class EventRegistration extends Model
+class EventMaterialProgress extends Model
 {
-    //event_registrations
-
-    protected $table = 'event_registrations'; 
+     protected $table = 'event_material_progress'; 
     protected $primaryKey = 'id';
     public $incrementing = true;
     protected $keyType = 'int';
     public $timestamps = true;
 
     protected $guarded = ['id']; 
-
-    public function event(){
-        return $this->belongsTo(EventOrganizer::class, 'event_organizer_id', 'id');
-    }
 }

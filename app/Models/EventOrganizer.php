@@ -21,4 +21,8 @@ class EventOrganizer extends Model
     public function materi(){
         return $this->hasMany(EventMaterial::class, 'event_organizer_id', 'id');
     }
+
+    public function peserta(){
+        return $this->hasMany(EventRegistration::class, 'event_organizer_id', 'id');
+    }
 }

@@ -59,164 +59,147 @@
                     </ul>
                 </li>
                 @if (auth()->user()->user_role == "admin")
-                    <li class="nav-item {{ Request::is('sebaran-data-umkm') ? 'menu-open' : '' }}">
-                        <a href="#" class="nav-link {{ Request::is('sebaran-data-umkm') ? 'active bg-black' : '' }}">
-                            <i class="bi bi-house text-white"></i>
-                            <p class="text-white">
-                                Infomasi Data UMKM
-                                <i class="nav-arrow bi bi-chevron-right"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="{{ route('admin.sebaran.data.umkm') }}" class="nav-link">
-                                    <i class="bi bi-dot text-white"></i>
-                                    <p class="text-white">Sebaran Data UMKM (Agregat)</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item {{ Request::is('list-umkm*') ? 'menu-open' : '' }}">
-                        <a href="#" class="nav-link {{ Request::is('list-umkm*') ? 'active bg-black' : '' }}">
-                            <i class="bi bi-table text-white"></i>
-                            <p class="text-white">
-                                Tabel Tabulasi UMKM
-                                <i class="nav-arrow bi bi-chevron-right"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="{{route('admin.ukmkm.list')}}"
-                                    class="nav-link {{ Request::is('list-umkm') ? 'active' : '' }}">
-                                    <i class="nav-icon bi bi-circle"></i>
-                                    <p class="text-white">Daftar UMKM</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item {{ Request::is('admin/berita*') ? 'menu-open' : '' }}">
-                        <a href="#" class="nav-link {{ Request::is('admin/berita*') ? 'active bg-black' : '' }}">
-                            <i class="bi bi-body-text text-white"></i>
-                            <p class="text-white">
-                                Umum
-                                <i class="nav-arrow bi bi-chevron-right"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="{{ route('admin.banner.pop.up.index') }}"
-                                    class="nav-link {{ Request::is('admin/profil-beranda*') ? 'active' : '' }}">
-                                    <i class="nav-icon bi bi-circle"></i>
-                                    <p class="text-white">Banner Pop Up</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('admin.profil-beranda.index') }}"
-                                    class="nav-link {{ Request::is('admin/profil-beranda*') ? 'active' : '' }}">
-                                    <i class="nav-icon bi bi-circle"></i>
-                                    <p class="text-white">Profil Beranda</p>
-                                </a>
-                            </li>
-                             <li class="nav-item">
-                                <a href="{{ route('admin.kategori.berita.index') }}"
-                                    class="nav-link {{ Request::is('admin/kategori/berita*') ? 'active' : '' }}">
-                                    <i class="nav-icon bi bi-circle"></i>
-                                    <p class="text-white">Kategori Berita</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{route('admin.berita.index')}}"
-                                    class="nav-link {{ Request::is('admin/berita*') ? 'active' : '' }}">
-                                    <i class="nav-icon bi bi-circle"></i>
-                                    <p class="text-white">Berita</p>
-                                </a>
-                            </li>
 
-                            <li class="nav-item">
-                                <a href="{{ route('admin.kategori.acara.index') }}"
-                                    class="nav-link {{ Request::is('admin/kategori-acara*') ? 'active' : '' }}">
-                                    <i class="nav-icon bi bi-circle"></i>
-                                    <p class="text-white">Kategori Acara</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{route('admin.acara.index')}}"
-                                    class="nav-link {{ Request::is('admin/acara*') ? 'active' : '' }}">
-                                    <i class="nav-icon bi bi-circle"></i>
-                                    <p class="text-white">Acara</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('admin.kategori.pelatihan.index') }}"
-                                    class="nav-link {{ Request::is('admin/kategori-pelatihan*') ? 'active' : '' }}">
-                                    <i class="nav-icon bi bi-circle"></i>
-                                    <p class="text-white">Kategori Pelatihan</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{route('admin.pelatihan.index')}}"
-                                    class="nav-link {{ Request::is('admin/pelatihan*') ? 'active' : '' }}">
-                                    <i class="nav-icon bi bi-circle"></i>
-                                    <p class="text-white">Pelatihan</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item {{ Request::is('admin/elearning*') ? 'menu-open' : '' }}">
-                        <a href="#" class="nav-link {{ Request::is('admin/elearning*') ? 'active bg-black' : '' }}">
-                            <i class="bi bi-backpack text-white"></i>
-                            <p class="text-white">
-                                E-learning
-                                <i class="nav-arrow bi bi-chevron-right"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
+                    @if (auth()->user()->email !== 'AdminElearning1@gmail.com')
+                        <li class="nav-item {{ Request::is('sebaran-data-umkm') ? 'menu-open' : '' }}">
+                            <a href="#" class="nav-link {{ Request::is('sebaran-data-umkm') ? 'active bg-black' : '' }}">
+                                <i class="bi bi-house text-white"></i>
+                                <p class="text-white">
+                                    Infomasi Data UMKM
+                                    <i class="nav-arrow bi bi-chevron-right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.sebaran.data.umkm') }}" class="nav-link">
+                                        <i class="bi bi-dot text-white"></i>
+                                        <p class="text-white">Sebaran Data UMKM (Agregat)</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item {{ Request::is('list-umkm*') ? 'menu-open' : '' }}">
+                            <a href="#" class="nav-link {{ Request::is('list-umkm*') ? 'active bg-black' : '' }}">
+                                <i class="bi bi-table text-white"></i>
+                                <p class="text-white">
+                                    Tabel Tabulasi UMKM
+                                    <i class="nav-arrow bi bi-chevron-right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{route('admin.ukmkm.list')}}"
+                                        class="nav-link {{ Request::is('list-umkm') ? 'active' : '' }}">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p class="text-white">Daftar UMKM</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item {{ Request::is('admin/berita*') ? 'menu-open' : '' }}">
+                            <a href="#" class="nav-link {{ Request::is('admin/berita*') ? 'active bg-black' : '' }}">
+                                <i class="bi bi-body-text text-white"></i>
+                                <p class="text-white">
+                                    Umum
+                                    <i class="nav-arrow bi bi-chevron-right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.banner.pop.up.index') }}"
+                                        class="nav-link {{ Request::is('admin/profil-beranda*') ? 'active' : '' }}">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p class="text-white">Banner Pop Up</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.profil-beranda.index') }}"
+                                        class="nav-link {{ Request::is('admin/profil-beranda*') ? 'active' : '' }}">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p class="text-white">Profil Beranda</p>
+                                    </a>
+                                </li>
+                                 <li class="nav-item">
+                                    <a href="{{ route('admin.kategori.berita.index') }}"
+                                        class="nav-link {{ Request::is('admin/kategori/berita*') ? 'active' : '' }}">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p class="text-white">Kategori Berita</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('admin.berita.index')}}"
+                                        class="nav-link {{ Request::is('admin/berita*') ? 'active' : '' }}">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p class="text-white">Berita</p>
+                                    </a>
+                                </li>
+    
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.kategori.acara.index') }}"
+                                        class="nav-link {{ Request::is('admin/kategori-acara*') ? 'active' : '' }}">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p class="text-white">Kategori Acara</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('admin.acara.index')}}"
+                                        class="nav-link {{ Request::is('admin/acara*') ? 'active' : '' }}">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p class="text-white">Acara</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.kategori.pelatihan.index') }}"
+                                        class="nav-link {{ Request::is('admin/kategori-pelatihan*') ? 'active' : '' }}">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p class="text-white">Kategori Pelatihan</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{route('admin.pelatihan.index')}}"
+                                        class="nav-link {{ Request::is('admin/pelatihan*') ? 'active' : '' }}">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p class="text-white">Pelatihan</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- <li class="nav-item {{ Request::is('admin/elearning*') ? 'menu-open' : '' }}">
+                            <a href="#" class="nav-link {{ Request::is('admin/elearning*') ? 'active bg-black' : '' }}">
+                                <i class="bi bi-backpack text-white"></i>
+                                <p class="text-white">
+                                    E-learning
+                                    <i class="nav-arrow bi bi-chevron-right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+    
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.kategori.elearning.index') }}"
+                                        class="nav-link {{ Request::is('admin/kategori-elearning*') ? 'active' : '' }}">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p class="text-white">Kategori E-learning</p>
+                                    </a>
+                                </li>
+    
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.elearning.index') }}"
+                                        class="nav-link {{ Request::is('admin/elearning*') ? 'active' : '' }}">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p class="text-white">Modul E-learning</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.daftarPeserta.index') }}"
+                                        class="nav-link">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p class="text-white">Laporan</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li> -->
 
-                            <li class="nav-item">
-                                <a href="{{ route('admin.kategori.elearning.index') }}"
-                                    class="nav-link {{ Request::is('admin/kategori-elearning*') ? 'active' : '' }}">
-                                    <i class="nav-icon bi bi-circle"></i>
-                                    <p class="text-white">Kategori E-learning</p>
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="{{ route('admin.elearning.index') }}"
-                                    class="nav-link {{ Request::is('admin/elearning*') ? 'active' : '' }}">
-                                    <i class="nav-icon bi bi-circle"></i>
-                                    <p class="text-white">Modul E-learning</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <!-- <li class="nav-item {{ Request::is('admin/elearning*') ? 'menu-open' : '' }}">
-                        <a href="#" class="nav-link {{ Request::is('admin/elearning*') ? 'active bg-black' : '' }}">
-                            <i class="bi bi-backpack text-white"></i>
-                            <p class="text-white">
-                                E-learning
-                                <i class="nav-arrow bi bi-chevron-right"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-
-                            <li class="nav-item">
-                                <a href="{{ route('admin.kategori.elearning.index') }}"
-                                    class="nav-link {{ Request::is('admin/kategori-elearning*') ? 'active' : '' }}">
-                                    <i class="nav-icon bi bi-circle"></i>
-                                    <p class="text-white">Kategori E-learning</p>
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="{{ route('admin.elearning.index') }}"
-                                    class="nav-link {{ Request::is('admin/elearning*') ? 'active' : '' }}">
-                                    <i class="nav-icon bi bi-circle"></i>
-                                    <p class="text-white">Modul E-learning</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li> -->
-                    <li class="nav-item">
+                         <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="bi bi-bag-fill text-white"></i>
                             <p class="fs-6 text-white">
@@ -238,7 +221,7 @@
                                 </a>
                             </li>
                         </ul>
-                    </li>
+                        </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="bi bi-cart-plus-fill text-white"></i>
@@ -273,8 +256,7 @@
                             </li>
                         </ul>
                     </li>
-
-                    <li class="nav-item">
+                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="bi bi bi-shop-window text-white"></i>
                             <p class="text-white">
@@ -308,8 +290,7 @@
 
                         </ul>
                     </li>
-
-                    <li class="nav-item">
+                         <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="bi bi-people text-white"></i>
                             <p class="fs-6 text-white">
@@ -326,7 +307,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item">
+                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="bi bi bi-whatsapp text-white"></i>
                             <p class="fs-6 text-white">
@@ -343,7 +324,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item {{ Request::is('admin/koperasi*') ? 'menu-open' : '' }}">
+                      <li class="nav-item {{ Request::is('admin/koperasi*') ? 'menu-open' : '' }}">
                         <a href="#" class="nav-link">
                             <i class="bi bi-person-video2 text-white"></i>
                             <p class="fs-8 text-white">
@@ -408,6 +389,76 @@
                             </li>
                         </ul>
                     </li>
+                    @else
+                         <li class="nav-item {{ Request::is('admin/elearning*') ? 'menu-open' : '' }}">
+                            <a href="#" class="nav-link {{ Request::is('admin/elearning*') ? 'active bg-black' : '' }}">
+                                <i class="bi bi-backpack text-white"></i>
+                                <p class="text-white">
+                                    E-learning
+                                    <i class="nav-arrow bi bi-chevron-right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+    
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.kategori.elearning.index') }}"
+                                        class="nav-link {{ Request::is('admin/kategori-elearning*') ? 'active' : '' }}">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p class="text-white">Kategori E-learning</p>
+                                    </a>
+                                </li>
+    
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.elearning.index') }}"
+                                        class="nav-link {{ Request::is('admin/elearning*') ? 'active' : '' }}">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p class="text-white">Modul E-learning</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('admin.daftarPeserta.index') }}"
+                                        class="nav-link">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p class="text-white">Laporan</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    @endif
+                    <!-- <li class="nav-item {{ Request::is('admin/elearning*') ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link {{ Request::is('admin/elearning*') ? 'active bg-black' : '' }}">
+                            <i class="bi bi-backpack text-white"></i>
+                            <p class="text-white">
+                                E-learning
+                                <i class="nav-arrow bi bi-chevron-right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+
+                            <li class="nav-item">
+                                <a href="{{ route('admin.kategori.elearning.index') }}"
+                                    class="nav-link {{ Request::is('admin/kategori-elearning*') ? 'active' : '' }}">
+                                    <i class="nav-icon bi bi-circle"></i>
+                                    <p class="text-white">Kategori E-learning</p>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('admin.elearning.index') }}"
+                                    class="nav-link {{ Request::is('admin/elearning*') ? 'active' : '' }}">
+                                    <i class="nav-icon bi bi-circle"></i>
+                                    <p class="text-white">Modul E-learning</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li> -->
+                   
+
+                   
+
+                   
+                   
+                  
                 @endif
 
 
@@ -532,6 +583,28 @@
                         </ul>
                     </li>
 
+                      <li class="nav-item {{ Request::is('vendor/pelatihan*') ? 'menu-open' : '' }}">
+                            <a href="#" class="nav-link {{ Request::is('vendor/pelatihan*') ? 'active bg-black' : '' }}">
+                                <i class="bi bi-backpack text-white"></i>
+                                <p class="text-white">
+                                    E-learning (Openclass)
+                                    <i class="nav-arrow bi bi-chevron-right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+    
+                                <li class="nav-item">
+                                    <a href="{{ route('vendor.pelatihan.index') }}"
+                                        class="nav-link {{ Request::is('admin/kategori-elearning*') ? 'active' : '' }}">
+                                        <i class="nav-icon bi bi-circle"></i>
+                                        <p class="text-white">Pelatihan Saya</p>
+                                    </a>
+                                </li>
+    
+                             
+                            </ul>
+                        </li>
+
                 @endif
 
                 @if(auth()->user()->user_role == 'user')
@@ -583,6 +656,8 @@
                                 <p class="text-white">Profil</p>
                             </a>
                         </li>
+                    
+                    @if (auth()->user()->email !== 'AdminElearning1@gmail.com')
                         <li class="nav-item">
                             <a href="{{ route('user.address') }}" class="nav-link">
                                 <i class="nav-icon bi bi-building-add"></i>
@@ -595,6 +670,8 @@
                                 <p class="text-white">Daftar Jadi UMKM</p>
                             </a>
                         </li>
+                        
+                    @endif
                     </ul>
                 </li>
 

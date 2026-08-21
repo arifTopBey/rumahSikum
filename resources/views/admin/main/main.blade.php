@@ -113,9 +113,9 @@
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script src="{{ asset('js/adminlte.js') }}" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- chart -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -156,37 +156,6 @@
 
     {{-- delete cdn --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    {{-- <script>
-        function confirmDelete(id, name) {
-            Swal.fire({
-                title: 'Hapus Data?',
-                text: "Data " + name + " akan dihapus permanen",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Ya, Hapus!',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Jika user klik 'Ya', submit form-nya
-                    document.getElementById('delete-form-' + id).submit();
-                }
-            })
-        }
-
-        </script>
-        @if (session('success'))
-            <script>
-                Swal.fire({
-                    title: 'Berhasil!',
-                    text: "{{ session('success') }}",
-                    icon: 'success',
-                    timer: 4000, // Hilang otomatis dalam 3 detik
-                    showConfirmButton: false
-                });
-            </script>
-        @endif --}}
 
     <script>
         function bukaTab(evt, tabName) {

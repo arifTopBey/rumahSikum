@@ -37,9 +37,9 @@
                 <div class="d-flex align-items-center gap-1 small fw-medium">
                     <i data-lucide="play-circle" size="16"></i> {{ count($modules ?? []) }} Modul
                 </div>
-                <div class="d-flex align-items-center gap-1 small fw-medium">
+                <!-- <div class="d-flex align-items-center gap-1 small fw-medium">
                     <i data-lucide="clock" size="16"></i> Total ± {{ $elearning->durasi ?? '5' }} Jam
-                </div>
+                </div> -->
                 <div class="d-flex align-items-center gap-1 small fw-medium">
                     <i data-lucide="users" size="16"></i> {{ $elearning->peserta_count ?? 1 }} Peserta
                 </div>
@@ -50,10 +50,10 @@
         <div class="card border-0 rounded-4 p-4 mb-4 shadow-sm bg-white">
             <div class="d-flex justify-content-between align-items-center mb-2">
                 <span class="fw-bold text-dark">Progress Belajar</span>
-                <span class="fw-bold text-primary">{{ $progressPercentage ?? 0 }}%</span>
+                <span class="fw-bold text-primary"> {{ $progressPercentage ?? 0 }}%</span>
             </div>
             <div class="progress rounded-pill mb-3" style="height: 8px; background-color: #f1f5f9;">
-                <div class="progress-bar bg-primary rounded-pill" role="progressbar" style="width: {{ $progressPercentage ?? 0 }}%;" aria-valuenow="{{ $progressPercentage ?? 0 }}" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar rounded-pill bg-success" role="progressbar" style="width: {{ $progressPercentage ?? 0 }}%;" aria-valuenow="{{ $progressPercentage ?? 0 }}" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
             <div class="d-flex justify-content-between align-items-center smaller">
                 <span class="text-muted">{{ $completedModulesCount ?? 0 }} dari {{ count($modules ?? []) }} modul selesai</span>

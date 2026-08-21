@@ -6,6 +6,7 @@ use App\Models\Address;
 use App\Models\Berita;
 use App\Models\Elearning;
 use App\Models\EventMaterial;
+use App\Models\EventMaterialProgress;
 use App\Models\EventOrganizer;
 use App\Models\EventRegistration;
 use App\Models\KategoriPelatihan;
@@ -78,60 +79,112 @@ class FrontendController extends Controller
     public function detailElearning($id)
     {
         $eventRegister = "";
+        $completedMaterialIds = collect();
 
         $elearning = EventOrganizer::findOrFail($id);
         $modules = EventMaterial::where('event_organizer_id', $elearning->id)->get();
-         if(Auth::check()){
+
+        if (Auth::check()) {
             $userId = Auth::user()->id;
             $registered = EventRegistration::where('user_id', $userId)->where('event_organizer_id', $elearning->id)->first();
             $eventRegister = $registered;
         }
 
-        return view('frontend.elearning.detail', compact('elearning', 'modules','eventRegister'));
+        if (Auth::check()) {
+
+            // Kalau sudah terdaftar, ambil materi yang sudah selesai
+            if ($eventRegister) {
+
+                $completedMaterialIds = EventMaterialProgress::where(
+                    'event_registration_id',
+                    $eventRegister->id
+                )
+                    ->where('user_id', Auth::id())
+                    ->whereNotNull('completed_at')
+                    ->pluck('event_material_id');
+            }
+        }
+
+        // Tandai setiap modul apakah sudah selesai
+        $modules->each(function ($modul) use ($completedMaterialIds) {
+
+            $modul->is_completed = $completedMaterialIds
+                ->contains($modul->id);
+        });
+
+        // Total materi
+        $totalModules = $modules->count();
+
+        // Total materi yang sudah selesai
+        $completedModulesCount = $completedMaterialIds->count();
+
+        // Hitung persentase
+        $progressPercentage = $totalModules > 0
+            ? round(($completedModulesCount / $totalModules) * 100)
+            : 0;
+
+        return view('frontend.elearning.detail', compact('elearning', 'modules', 'eventRegister', 'completedModulesCount','progressPercentage'));
     }
 
-    public function detailModul($id, $idModul){
+    public function detailModul($id, $idModul)
+    {
 
         $eventRegister = "";
         $elearning = EventOrganizer::where('id', $id)->first();
         $modul = EventMaterial::where('event_organizer_id', $elearning->id)->where('id', $idModul)->first();
         // $modul = EventMaterial::where('event_organizer_id', $id)->where('id', $idModul)->first();
 
-         if(Auth::check()){
+        if (Auth::check()) {
             $userId = Auth::user()->id;
             $registered = EventRegistration::where('user_id', $userId)->where('event_organizer_id', $elearning->id)->first();
             $eventRegister = $registered;
         }
 
         $prevModul = EventMaterial::where('event_organizer_id', $id)
-                    ->where('id', '<', $modul->id)
-                    ->orderBy('id', 'desc')
-                    ->first();
+            ->where('id', '<', $modul->id)
+            ->orderBy('id', 'desc')
+            ->first();
 
         $nextModul = EventMaterial::where('event_organizer_id', $id)
-                    ->where('id', '>', $modul->id)
-                    ->orderBy('id', 'asc')
-                    ->first();
+            ->where('id', '>', $modul->id)
+            ->orderBy('id', 'asc')
+            ->first();
+        $progress = null;
+        if (Auth::check()) {
 
-        return view('frontend.elearning.detailModul', compact('elearning', 'modul', 'prevModul', 'nextModul', 'eventRegister'));
+            if ($eventRegister) {
+
+                $progress = EventMaterialProgress::where(
+                    'event_registration_id',
+                    $eventRegister->id
+                )
+                    ->where('event_material_id', $modul->id)
+                    ->where('user_id', Auth::id())
+                    ->first();
+            }
+        }
+
+
+        return view('frontend.elearning.detailModul', compact('elearning', 'modul', 'prevModul', 'nextModul', 'eventRegister', 'progress'));
 
     }
 
-    public function daftarMateri($id){
+    public function daftarMateri($id)
+    {
 
         $eventRegister = "";
         // $userId = Auth::user()->id;
         $elearning = EventOrganizer::findOrFail($id);
         // $eventRegister = EventRegistration::where('user_id', $userId)->where('event_organizer_id', $elearning->id)->first();
         $modules = EventMaterial::where('event_organizer_id', $elearning->id)->get();
-        
-         if(Auth::check()){
+
+        if (Auth::check()) {
             $userId = Auth::user()->id;
             $registered = EventRegistration::where('user_id', $userId)->where('event_organizer_id', $elearning->id)->first();
             $eventRegister = $registered;
         }
 
-         return view('frontend.elearning.daftarEvent.index', compact('elearning', 'modules', 'eventRegister'));
+        return view('frontend.elearning.daftarEvent.index', compact('elearning', 'modules', 'eventRegister'));
 
     }
 
@@ -259,7 +312,7 @@ class FrontendController extends Controller
     }
 
     // nanti memakai id
-    public function toko(Request $request,$id)
+    public function toko(Request $request, $id)
     {
 
         $vendor = Vendor::findOrFail($id);

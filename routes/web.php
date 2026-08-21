@@ -10,10 +10,13 @@ use App\Http\Controllers\Admin\BannerSliderController;
 use App\Http\Controllers\Admin\BeritaController;
 use App\Http\Controllers\Admin\CheckoutController;
 use App\Http\Controllers\Admin\DaftarPesananController;
+use App\Http\Controllers\Admin\DaftarPesertaController;
+use App\Http\Controllers\Admin\DaftarPesretaController;
 use App\Http\Controllers\Admin\DaftarUmkmController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ElearningController;
 use App\Http\Controllers\Admin\EventMaterialController;
+use App\Http\Controllers\Admin\EventMaterialProgressController;
 use App\Http\Controllers\Admin\EventOrganizerController;
 use App\Http\Controllers\Admin\EventRegistrationController;
 use App\Http\Controllers\Admin\ExportController;
@@ -58,6 +61,7 @@ use App\Http\Controllers\UMKMEksportController;
 use App\Http\Controllers\UsahaBerdasarkanDesilController;
 use App\Http\Controllers\UsahaBerdasarkanKbliController;
 use App\Http\Controllers\UsahaWilayahController;
+use App\Http\Controllers\Vendor\PelatihanController as VendorPelatihanController;
 use App\Http\Controllers\Vendor\ProdukController as VendorProdukController;
 use App\Http\Controllers\Vendor\ProfileVendorController;
 use App\Http\Controllers\Vendor\VendorOrderController;
@@ -99,6 +103,7 @@ Route::middleware(['security_header'])->group(function () {
     Route::get('/e-learning/detail/{id}/modul/{idModul}', [FrontendController::class, 'detailModul'])->name('frontend.e-learning.detail.modul');
     Route::get('/e-learning/daftar/{id}', [FrontendController::class, 'daftarMateri'])->name('frontend.modul.register');
     Route::post('/e-learning/daftar/{id}/store', [EventRegistrationController::class, 'store'])->name('frontend.modul.store');
+    Route::post('/e-learning/{eventId}/materi/{materialId}/selesai', [EventMaterialProgressController::class, 'selesaiModul'])->middleware('auth')->name('frontend.e-learning.materi.selesai');
     
 
     Route::get('/e-commerce', [FrontendController::class, 'eCommerce'])->name('frontend.eCommerce');
@@ -252,6 +257,10 @@ Route::middleware(['auth', 'security_header'])->group(function () {
         Route::get('/vendors/orders/detail/{invoice}', [VendorOrderController::class, 'show'])->name('vendors.orders.show');
         Route::post('/vendors/orders/update-status/{id}', [VendorOrderController::class, 'updateStatus'])->name('vendor.orders.update_status');
 
+        // pelatihan
+        Route::get('/vendor/pelatihan/list', [VendorPelatihanController::class, 'index'])->name('vendor.pelatihan.index');
+
+
 
     });
 
@@ -354,6 +363,7 @@ Route::middleware(['auth', 'security_header'])->group(function () {
         Route::delete('/admin/pelatihan/{id}', [PelatihanController::class, 'destroy'])->name('admin.pelatihan.destroy');
 
 
+
         // kategori e-learning admin
         // Route::get('/admin/kategori-elearning', [KategoriElearningController::class, 'index'])->name('admin.kategori.elearning.index');
         // Route::get('/admin/kategori-elearning/create', [KategoriElearningController::class, 'create'])->name('admin.kategori.elearning.create');
@@ -393,6 +403,8 @@ Route::middleware(['auth', 'security_header'])->group(function () {
         Route::post('/admin/elearning/{id}/narasumber', [NarasumberController::class, 'store'])->name('admin.narasumber.store');
         Route::delete('/admin/elearning/{idEvent}/narasumber/delete/{id}', [NarasumberController::class, 'destroy'])->name('admin.narasumber.delete');
 
+        // daftar peserta
+        Route::get('/admin/elearning/peserta/elearning', [DaftarPesertaController::class, 'index'])->name('admin.daftarPeserta.index');
     
 
 
