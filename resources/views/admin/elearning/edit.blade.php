@@ -18,7 +18,7 @@
         </div>
         <div class="d-flex gap-2">
             <a href="{{ route('admin.elearning.index') }}" class="btn btn-white bg-white rounded-3 px-4 fw-semibold border shadow-sm">Kembali</a>
-            <button type="submit" form="form-update-elearning" class="btn btn-primary rounded-3 px-4 fw-semibold shadow-sm">Simpan Perubahan</button>
+            <!-- <button type="submit" form="form-update-elearning" class="btn btn-primary rounded-3 px-4 fw-semibold shadow-sm">Simpan Perubahan</button> -->
         </div>
     </div>
 
@@ -226,7 +226,7 @@
 
                     <div class="list-group list-group-flush gap-1">
                         {{-- Menu Kelola Materi Pelatihan --}}
-                        <a href="{{ route('admin.elearning..materi.index', $elearning->id) }}" class="list-group-item list-group-item-action d-flex align-items-center justify-content-between border-0 rounded-3 p-3">
+                        <a href="{{ route('admin.elearning.materi.index', $elearning->id) }}" class="list-group-item list-group-item-action d-flex align-items-center justify-content-between border-0 rounded-3 p-3">
                             <div class="d-flex align-items-center gap-3">
                                 <div class="bg-light p-2 rounded-3 d-flex align-items-center justify-content-center text-muted">
                                     <i data-lucide="archive" size="18"></i>
@@ -237,7 +237,7 @@
                         </a>
 
                         {{-- Menu Kelola Narasumber --}}
-                        <a href="" class="list-group-item list-group-item-action d-flex align-items-center justify-content-between border-0 rounded-3 p-3">
+                        <a href="{{ route('admin.narasumber.index', $elearning->id) }}" class="list-group-item list-group-item-action d-flex align-items-center justify-content-between border-0 rounded-3 p-3">
                             <div class="d-flex align-items-center gap-3">
                                 <div class="bg-light p-2 rounded-3 d-flex align-items-center justify-content-center text-muted">
                                     <i data-lucide="smartphone" size="18"></i>

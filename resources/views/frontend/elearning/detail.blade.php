@@ -1,297 +1,185 @@
-@extends('frontend.main.index')
+@extends('frontend.main.index') {{-- sesuaikan dengan master layout public Anda --}}
 
 @section('content')
-<div class=" py-3" style="margin-top: 70px; background-color: #a82282;">
-    <div class="container d-flex justify-content-between align-items-center">
-        <a href="{{ route('frontend.e-learning') }}" class="text-white text-decoration-none small">
-            <i data-lucide="arrow-left" size="16" class="me-2"></i> Kembali ke Katalog
-        </a>
-        <div class="text-white-50 small d-none d-md-block">
-            Materi: <span class="text-white">{{ $elearning->name }}</span>
+<div class="bg-light min-vh-100 py-4">
+    <div class="container" style="max-width: 900px;">
+
+        {{-- Tombol Kembali --}}
+        <div class="mb-3 d-flex justify-content-between" style="margin-top: 60px;">
+            <a href="{{ route('frontend.e-learning') }}" class="btn btn-link text-decoration-none text-secondary p-0 fw-semibold d-inline-flex align-items-center gap-1">
+                <i data-lucide="arrow-left" size="18"></i> Kembali
+            </a>
+
+            @if($eventRegister)
+                <a href="" class="btn btn-success text-decoration-none text-white p-2 fw-semibold d-inline-flex align-items-center gap-1">
+                    Anda Sudah Terdaftar
+                </a>
+            @elseif(!$eventRegister)
+             <a href="{{ route('frontend.modul.register', $elearning->id ) }}" class="btn btn-primary text-decoration-none text-white p-2 fw-semibold d-inline-flex align-items-center gap-1">
+                    Daftar Ikuti Acara
+                </a>
+            @endif
         </div>
-    </div>
-</div>
 
-<main class="container-fluid px-0">
-    <div class="row g-0">
-        <div class="col-lg-8 bg-white">
-
-        @php
-            // $url = $elearning->link_youtube;
-            // preg_match('/v=([^&]+)/', $url, $match);
-            // $youtubeId = $match[1] ?? null;
-
-            $url = $elearning->link_youtube;
-            $youtubeId = null;
-
-            if (str_contains($url, 'youtube.com/watch')) {
-                parse_str(parse_url($url, PHP_URL_QUERY), $query);
-                $youtubeId = $query['v'] ?? null;
-
-            } elseif (str_contains($url, 'youtu.be/')) {
-                $youtubeId = basename(parse_url($url, PHP_URL_PATH));
-
-            } elseif (str_contains($url, 'youtube.com/embed/')) {
-                $youtubeId = basename(parse_url($url, PHP_URL_PATH));
-            }
-        @endphp
-            <div class="ratio ratio-16x9 bg-black shadow-sm">
-                <!-- <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video" allowfullscreen></iframe> -->
-                <!-- <iframe src="{{ $elearning->link_youtube }}" title="YouTube video" allowfullscreen></iframe> -->
-                 @if($youtubeId)
-                    <!-- <iframe 
-                        src="https://www.youtube.com/embed/{{ $youtubeId }}" 
-                        title="YouTube video" 
-                        allowfullscreen>
-                    </iframe> -->
-                    <iframe 
-                        src="https://www.youtube.com/embed/{{ $youtubeId }}" 
-                        title="YouTube video" 
-                        allowfullscreen>
-                    </iframe>
-                @endif
+        {{-- Banner Header Event --}}
+        <div class="card border-0 rounded-4 text-white p-4 mb-3 shadow-sm position-relative overflow-hidden" style="background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);">
+            <div class="d-flex align-items-center gap-3 mb-3">
+                <div class="bg-white bg-opacity-20 rounded-3 p-2 d-flex align-items-center justify-content-center" style="width: 52px; height: 52px; backdrop-filter: blur(4px);">
+                    <i data-lucide="globe" size="28" class="text-white"></i>
+                </div>
+                <div>
+                    <h4 class="fw-bold mb-0 text-white">{{ $elearning->judul_event ?? 'Export Academy' }}</h4>
+                    <span class="text-white-50 small">{{ $elearning->organizer ?? 'OpenClass Official' }}</span>
+                </div>
             </div>
 
-            <div class="p-4 p-md-5">
-                <div class="d-flex justify-content-between align-items-start mb-4 flex-wrap gap-3">
-                    <div>
-                        <h2 class="fw-800 text-dark mb-2">{{ $elearning->name }}</h2>
-                        <div class="d-flex align-items-center gap-3 text-muted small">
-                            <span><i data-lucide="play-circle" size="14" class="me-1"></i> {{ $elearning->durasi }} Menit</span>
-                            <span><i data-lucide="eye" size="14" class="me-1"></i> {{ $elearning->views }} telah Ditonton</span>
-                        </div>
-                    </div>
-                    <button class="btn btn-outline-primary rounded-pill px-4 fw-bold">
-                        <i data-lucide="download" size="18" class="me-2"></i> Unduh Modul PDF
-                    </button>
+            <div class="d-flex flex-wrap align-items-center gap-3 pt-2">
+                <div class="d-flex align-items-center gap-1 small fw-medium">
+                    <i data-lucide="play-circle" size="16"></i> {{ count($modules ?? []) }} Modul
                 </div>
-
-                <hr class="my-4 opacity-50">
-
-                <h5 class="fw-bold mb-3">Tentang Materi Ini</h5>
-                <div class="text-muted lh-lg">
-                    <p>{!! $elearning->deskripsi !!}</p>
+                <div class="d-flex align-items-center gap-1 small fw-medium">
+                    <i data-lucide="clock" size="16"></i> Total ± {{ $elearning->durasi ?? '5' }} Jam
                 </div>
-
-                <div style="background-color: #a82282;" class="card border-0 rounded-4 p-4 mt-5">
-                    <div class="d-flex align-items-center gap-3">
-                        <!-- <img src="https://i.pravatar.cc/100?u=mentor2" class="rounded-circle" width="60" height="60"> -->
-                        <img src="{{ route('showFoto.elearning.mentor.private', $elearning->photo_mentor) }}" class="rounded-circle" width="60" height="60">
-                        <div>
-                            <h6 class="fw-bold mb-0 text-white">{{ $elearning->nama_mentor }}</h6>
-                            <p class="small text-white mb-0">{{ $elearning->bidang_menthor }}</p>
-                        </div>
-                    </div>
+                <div class="d-flex align-items-center gap-1 small fw-medium">
+                    <i data-lucide="users" size="16"></i> {{ $elearning->peserta_count ?? 1 }} Peserta
                 </div>
             </div>
         </div>
 
-        <div class="col-lg-4 bg-light border-start min-vh-100">
-           
-            <div class="p-4 sticky-top" style="top: 20px;">
-                <h5 class="fw-bold mb-4">Video Lainnya</h5>
+        {{-- Card Progress Belajar --}}
+        <div class="card border-0 rounded-4 p-4 mb-4 shadow-sm bg-white">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="fw-bold text-dark">Progress Belajar</span>
+                <span class="fw-bold text-primary">{{ $progressPercentage ?? 0 }}%</span>
+            </div>
+            <div class="progress rounded-pill mb-3" style="height: 8px; background-color: #f1f5f9;">
+                <div class="progress-bar bg-primary rounded-pill" role="progressbar" style="width: {{ $progressPercentage ?? 0 }}%;" aria-valuenow="{{ $progressPercentage ?? 0 }}" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center smaller">
+                <span class="text-muted">{{ $completedModulesCount ?? 0 }} dari {{ count($modules ?? []) }} modul selesai</span>
+                @guest
+                    <a href="{{ route('login') }}" class="text-primary fw-semibold text-decoration-none">Login untuk simpan progress</a>
+                @endguest
+            </div>
+        </div>
+
+        {{-- Navigation Tabs --}}
+        <ul class="nav nav-tabs border-0 gap-3 mb-4 custom-tabs">
+            <li class="nav-item">
+                <button class="nav-link active rounded-pill px-4 py-2 fw-semibold" id="modul-tab" data-bs-toggle="tab" data-bs-target="#modul-content" type="button">Modul</button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link rounded-pill px-4 py-2 fw-semibold text-muted" id="tentang-tab" data-bs-toggle="tab" data-bs-target="#tentang-content" type="button">Tentang</button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link rounded-pill px-4 py-2 fw-semibold text-muted" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews-content" type="button">Reviews</button>
+            </li>
+        </ul>
+
+        {{-- Tab Contents --}}
+        <div class="tab-content">
+            
+            {{-- TAB 1: DAFTAR MODUL --}}
+            <div class="tab-pane fade show active" id="modul-content">
+                <h5 class="fw-bold text-dark mb-3">Daftar Modul</h5>
 
                 <div class="d-flex flex-column gap-3">
-
-                
-                    @forelse ($elearningsElse as $else )
-                     
-                    <a href="{{ route('frontend.e-learning.detail', $else->id) }}" class="text-decoration-none text-dark">
-                        <div class="d-flex gap-3">
-                            <div class="position-relative">
-                                <img src="{{ route('showFoto.elearning.thumnail.private', $else->thumbnail) }}"
-                                    class="rounded border" width="120" height="70" style="object-fit: cover;">
-                                <span class="position-absolute bottom-0 end-0 bg-dark text-white px-1 small rounded">
-                                    {{ $else->durasi }} Menit
-                                </span>
-                            </div>
-
-                            <div>
-                                <h6 class="fw-semibold mb-1 small">{{ $else->name }}</h6>
-                                <small class="text-muted d-block">{{ $else->nama_mentor }}</small>
-                                @if($else->level === 'semua level')
-                                        <span class="badge bg-info-subtle text-info">All Levels</span>
-                                    @elseif($else->level === 'pemula')
-                                        <span class="badge bg-success-subtle text-success">Pemula</span>
-                                    @elseif($else->level === 'mahir')
-                                        <span class="badge bg-danger-subtle text-danger">Mahir</span>
-                                    @endif
-                                <!-- <span class="badge bg-success-subtle text-success">Selesai</span> -->
+                    @forelse ($modules as $index => $modul)
+                    
+                    <a href="{{ route('frontend.e-learning.detail.modul', [$modul->event_organizer_id, $modul->id]) }}" class="text-decoration-none">
+                        <div class="card border-0 rounded-4 p-3 shadow-sm bg-white hover-card transition">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="number-box rounded-3 bg-primary bg-opacity-10 text-primary fw-bold d-flex align-items-center justify-content-center" style="width: 42px; height: 42px;">
+                                        {{ $index + 1 }}
+                                    </div>
+                                    <div>
+                                        <h6 class="fw-bold text-dark mb-1">{{ $modul->judul }}</h6>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <span class="badge bg-warning bg-opacity-10 text-warning fw-bold px-2 py-0 smaller">{{ $modul->tipe_materi }}</span>
+                                            <span class="text-muted smaller">• {{ $modul->deskripsi_singkat ?? 'Materi Sesi ' . ($index + 1) . ' Modul ' . $elearning->judul_event }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                               
                             </div>
                         </div>
                     </a>
                     @empty
-                    <div class="d-flex gap-3">
-                        <div class="position-relative">
-                            <img src="{{ asset('image/icon.png') }}"
-                                class="rounded" width="120" height="70" style="object-fit: cover;">
-                            <span class="position-absolute bottom-0 end-0 bg-dark text-white px-1 small rounded">
-                                00:00
-                            </span>
-                        </div>
-
-                        <div>
-                            <h6 class="fw-semibold mb-1 small">Video Lainnya Belum Tersedia</h6>
-                            <small class="text-muted d-block">-</small>
-                            <span class="badge bg-success-subtle text-success">-</span>
-                        </div>
-                    </div>
+                            <div class="card border-0 rounded-4 p-3 shadow-sm bg-white hover-card transition">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="number-box rounded-3 bg-primary bg-opacity-10 text-primary fw-bold d-flex align-items-center justify-content-center" style="width: 42px; height: 42px;">
+                                            1
+                                        </div>
+                                        <div>
+                                            <h6 class="fw-bold text-dark mb-1">Materi Belum Tersedia</h6>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <span class="badge bg-warning bg-opacity-10 text-warning fw-bold px-2 py-0 smaller" style="color: #ea580c !important;">X</span>
+                                                <span class="text-muted smaller">Materi Belum Tersedia</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <!-- <a href="#" class="btn btn-light rounded-circle p-2 text-muted d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                                                <i data-lucide="play-circle" class="text-primary" size="20"></i>   
+                                        </a> -->
+                                    </div>
+                                </div>
+                            </div>
                         
                     @endforelse
-
-                    <!-- ACTIVE -->
-                    <!-- <div class="d-flex gap-3 p-2 rounded bg-primary text-white">
-                        <div class="position-relative">
-                            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg"
-                                class="rounded" width="120" height="70" style="object-fit: cover;">
-                            <span class="position-absolute bottom-0 end-0 bg-dark text-white px-1 small rounded">
-                                09:30
-                            </span>
-                        </div>
-
-                        <div>
-                            <h6 class="fw-semibold mb-1 small">Teknik Foto Produk Estetik dengan HP</h6>
-                            <small class="d-block opacity-75">Materi 3 • Sedang dipelajari</small>
-                        </div>
-                    </div> -->
-
-                    <!-- block -->
-                    <!-- <div class="d-flex gap-3 opacity-50">
-                        <div class="position-relative">
-                            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg"
-                                class="rounded" width="120" height="70" style="object-fit: cover;">
-                            <span class="position-absolute bottom-0 end-0 bg-dark text-white px-1 small rounded">
-                                10:20
-                            </span>
-                        </div>
-
-                        <div>
-                            <h6 class="fw-semibold mb-1 small text-muted">Copywriting yang Menjual di Caption</h6>
-                            <small class="text-muted d-block">Materi 4</small>
-                            <span class="badge bg-light text-muted border">Terkunci</span>
-                        </div>
-                    </div>
-
-                    <div class="d-flex gap-3 opacity-50">
-                        <div class="position-relative">
-                            <img src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg"
-                                class="rounded" width="120" height="70" style="object-fit: cover;">
-                            <span class="position-absolute bottom-0 end-0 bg-dark text-white px-1 small rounded">
-                                15:00
-                            </span>
-                        </div>
-
-                        <div>
-                            <h6 class="fw-semibold mb-1 small text-muted">Optimasi Hashtag & Geotag</h6>
-                            <small class="text-muted d-block">Materi 5</small>
-                            <span class="badge bg-light text-muted border">Terkunci</span>
-                        </div>
-                    </div> -->
-
                 </div>
             </div>
-            <!-- <div class="p-4 sticky-top" style="top: 20px;">
-                <h5 class="fw-bold mb-4">Kurikulum Kelas</h5>
-                
-                <div class="playlist-wrapper d-flex flex-column gap-2">
-                    <div class="playlist-item completed p-3 rounded-3 d-flex align-items-center gap-3">
-                        <div class="icon-status">
-                            <i data-lucide="check-circle" size="20" class="text-success"></i>
-                        </div>
-                        <div class="flex-grow-1">
-                            <p class="small mb-0 text-muted">Materi 1</p>
-                            <h6 class="fw-bold mb-0 small text-dark">Pengenalan Algoritma Instagram 2026</h6>
-                        </div>
-                        <span class="smaller text-muted">08:12</span>
-                    </div>
 
-                    <div class="playlist-item completed p-3 rounded-3 d-flex align-items-center gap-3">
-                        <div class="icon-status">
-                            <i data-lucide="check-circle" size="20" class="text-success"></i>
-                        </div>
-                        <div class="flex-grow-1">
-                            <p class="small mb-0 text-muted">Materi 2</p>
-                            <h6 class="fw-bold mb-0 small text-dark">Menentukan Niche & Target Audience</h6>
-                        </div>
-                        <span class="smaller text-muted">12:45</span>
-                    </div>
-
-                    <div class="playlist-item active p-3 rounded-4 shadow-sm d-flex align-items-center gap-3 bg-primary text-white">
-                        <div class="icon-status">
-                            <i data-lucide="play" size="20"></i>
-                        </div>
-                        <div class="flex-grow-1">
-                            <p class="smaller mb-0 opacity-75">Materi 3 - Sedang Dipelajari</p>
-                            <h6 class="fw-bold mb-0 small">Teknik Foto Produk Estetik dengan HP</h6>
-                        </div>
-                    </div>
-
-                    <div class="playlist-item p-3 rounded-3 d-flex align-items-center gap-3 border bg-white opacity-75">
-                        <div class="icon-status text-muted">
-                            <i data-lucide="lock" size="18"></i>
-                        </div>
-                        <div class="flex-grow-1">
-                            <p class="small mb-0 text-muted">Materi 4</p>
-                            <h6 class="fw-bold mb-0 small text-muted">Copywriting yang Menjual di Caption</h6>
-                        </div>
-                        <span class="smaller text-muted">10:20</span>
-                    </div>
-
-                    <div class="playlist-item p-3 rounded-3 d-flex align-items-center gap-3 border bg-white opacity-75">
-                        <div class="icon-status text-muted">
-                            <i data-lucide="lock" size="18"></i>
-                        </div>
-                        <div class="flex-grow-1">
-                            <p class="small mb-0 text-muted">Materi 5</p>
-                            <h6 class="fw-bold mb-0 small text-muted">Optimasi Hashtag & Geotag</h6>
-                        </div>
-                        <span class="smaller text-muted">15:00</span>
+            {{-- TAB 2: TENTANG --}}
+            <div class="tab-pane fade" id="tentang-content">
+                <div class="card border-0 rounded-4 p-4 shadow-sm bg-white">
+                    <h5 class="fw-bold text-dark mb-3">Tentang Pelatihan</h5>
+                    <div class="text-secondary lh-lg">
+                        {!! $elearning->deskripsi_event ?? 'Pelatihan ini dirancang untuk memberikan pemahaman menyeluruh mengenai proses ekspor dari tahap dasar hingga siap merambah pasar internasional.' !!}
                     </div>
                 </div>
+            </div>
 
-                <div class="mt-5 p-4 bg-warning bg-opacity-10 border border-warning border-opacity-25 rounded-4">
-                    <h6 class="fw-bold text-warning-dark mb-2"><i data-lucide="award" class="me-2"></i>Sertifikat Kelas</h6>
-                    <p class="smaller text-muted mb-0">Selesaikan seluruh materi (10/10) untuk mengklaim e-sertifikat resmi.</p>
+            {{-- TAB 3: REVIEWS --}}
+            <div class="tab-pane fade" id="reviews-content">
+                <div class="card border-0 rounded-4 p-4 shadow-sm bg-white text-center py-5">
+                    <i data-lucide="star" size="40" class="text-muted mb-2 opacity-50 mx-auto"></i>
+                    <p class="text-muted small mb-0">Belum ada ulasan untuk kelas ini.</p>
                 </div>
-            </div> -->
+            </div>
+
         </div>
+
     </div>
-</main>
+</div>
 
 <style>
-    .fw-800 { font-weight: 800; }
-    .smaller { font-size: 0.75rem; }
+    .smaller { font-size: 0.78rem; }
+    .transition { transition: all 0.2s ease-in-out; }
     
-    .playlist-item {
-        cursor: pointer;
-        transition: all 0.2s ease;
-    }
-    
-    .playlist-item:not(.active):hover {
-        background-color: #fff;
-        transform: translateX(5px);
+    .hover-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.06) !important;
     }
 
-    .playlist-item.completed {
-        background-color: #e9ecef;
+    /* Tab Custom Styling */
+    .custom-tabs .nav-link {
+        border: none;
+        color: #64748b;
+        background: transparent;
     }
 
-    .text-warning-dark {
-        color: #856404;
-    }
-
-    /* Custom Scrollbar for side playlist */
-    @media (min-width: 992px) {
-        .col-lg-4 {
-            max-height: 100vh;
-            overflow-y: auto;
-        }
+    .custom-tabs .nav-link.active {
+        color: #2563eb !important;
+        background-color: #eff6ff !important;
     }
 </style>
 
-
 <script>
-    lucide.createIcons();
+    document.addEventListener('DOMContentLoaded', function () {
+        lucide.createIcons();
+    });
 </script>
-
 @endsection

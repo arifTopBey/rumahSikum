@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Address;
 use App\Models\Berita;
 use App\Models\Elearning;
+use App\Models\EventMaterial;
+use App\Models\EventOrganizer;
+use App\Models\EventRegistration;
 use App\Models\KategoriPelatihan;
 use App\Models\KategoriProduk;
 use App\Models\Pelatihan;
@@ -12,7 +15,10 @@ use App\Models\PopupBanner;
 use App\Models\ProfilBeranda;
 use App\Models\Vendor;
 use App\Models\VendorProduk;
+use Illuminate\Console\Scheduling\Event;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class FrontendController extends Controller
@@ -41,15 +47,22 @@ class FrontendController extends Controller
         return view('frontend.panel.index');
     }
 
-    public function eLearning()
+    public function eLearning2()
     {
 
         $elearnings = Elearning::where('is_publish', 1)->latest()->paginate(10);
 
         return view('frontend.elearning.index', compact('elearnings'));
     }
+    public function eLearning()
+    {
 
-    public function detailElearning($id)
+        $elearnings = EventOrganizer::where('is_publish', 1)->latest()->paginate(10);
+
+        return view('frontend.elearning.index', compact('elearnings'));
+    }
+
+    public function detailElearning2($id)
     {
 
         $elearning = Elearning::findOrFail($id);
@@ -61,6 +74,65 @@ class FrontendController extends Controller
             ->paginate(10);
 
         return view('frontend.elearning.detail', compact('elearning', 'elearningsElse'));
+    }
+    public function detailElearning($id)
+    {
+        $eventRegister = "";
+
+        $elearning = EventOrganizer::findOrFail($id);
+        $modules = EventMaterial::where('event_organizer_id', $elearning->id)->get();
+         if(Auth::check()){
+            $userId = Auth::user()->id;
+            $registered = EventRegistration::where('user_id', $userId)->where('event_organizer_id', $elearning->id)->first();
+            $eventRegister = $registered;
+        }
+
+        return view('frontend.elearning.detail', compact('elearning', 'modules','eventRegister'));
+    }
+
+    public function detailModul($id, $idModul){
+
+        $eventRegister = "";
+        $elearning = EventOrganizer::where('id', $id)->first();
+        $modul = EventMaterial::where('event_organizer_id', $elearning->id)->where('id', $idModul)->first();
+        // $modul = EventMaterial::where('event_organizer_id', $id)->where('id', $idModul)->first();
+
+         if(Auth::check()){
+            $userId = Auth::user()->id;
+            $registered = EventRegistration::where('user_id', $userId)->where('event_organizer_id', $elearning->id)->first();
+            $eventRegister = $registered;
+        }
+
+        $prevModul = EventMaterial::where('event_organizer_id', $id)
+                    ->where('id', '<', $modul->id)
+                    ->orderBy('id', 'desc')
+                    ->first();
+
+        $nextModul = EventMaterial::where('event_organizer_id', $id)
+                    ->where('id', '>', $modul->id)
+                    ->orderBy('id', 'asc')
+                    ->first();
+
+        return view('frontend.elearning.detailModul', compact('elearning', 'modul', 'prevModul', 'nextModul', 'eventRegister'));
+
+    }
+
+    public function daftarMateri($id){
+
+        $eventRegister = "";
+        // $userId = Auth::user()->id;
+        $elearning = EventOrganizer::findOrFail($id);
+        // $eventRegister = EventRegistration::where('user_id', $userId)->where('event_organizer_id', $elearning->id)->first();
+        $modules = EventMaterial::where('event_organizer_id', $elearning->id)->get();
+        
+         if(Auth::check()){
+            $userId = Auth::user()->id;
+            $registered = EventRegistration::where('user_id', $userId)->where('event_organizer_id', $elearning->id)->first();
+            $eventRegister = $registered;
+        }
+
+         return view('frontend.elearning.daftarEvent.index', compact('elearning', 'modules', 'eventRegister'));
+
     }
 
     // public function eCommerce(){

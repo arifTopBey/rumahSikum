@@ -4,17 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class EventMaterial extends Model
+class Narasumber extends Model
 {
-    // event_materials
+    //event_narasumber
 
-    protected $table = 'event_materials'; 
+    protected $table = 'event_narasumber'; 
     protected $primaryKey = 'id';
     public $incrementing = true;
     protected $keyType = 'int';
     public $timestamps = true;
 
     protected $guarded = ['id']; 
-
-    
 }

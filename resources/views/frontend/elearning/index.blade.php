@@ -438,14 +438,14 @@
                                 <i data-lucide="{{ $iconName }}" size="24"></i>
                             </div>
                             <h6 class="academy-title">
-                                {{ $elearning->name ?? $elearning->nama_materi }}
+                                {{ $elearning->judul_event ?? 'Waiting'}}
                             </h6>
                         </div>
 
                         <div class="academy-meta">
                             <div class="academy-meta-item">
                                 <i data-lucide="book-open" size="15"></i>
-                                <span>10 Modul</span>
+                                <span>{{ $elearning->materi->count() }} Modul</span>
                             </div>
                             <div class="academy-meta-item">
                                 <i data-lucide="users" size="15"></i>

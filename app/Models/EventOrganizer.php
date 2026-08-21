@@ -17,4 +17,8 @@ class EventOrganizer extends Model
     public function kategoriEventOrganizer(){
         return $this->belongsTo(KategoriEventOrganizer::class, 'kategori_organizer_id', 'id');
     }
+
+    public function materi(){
+        return $this->hasMany(EventMaterial::class, 'event_organizer_id', 'id');
+    }
 }

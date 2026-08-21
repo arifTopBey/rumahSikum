@@ -13,7 +13,7 @@
             </a>
         </div>
 
-        <div class="row g-3 mb-4">
+        <!-- <div class="row g-3 mb-4">
             <div class="col-md-3">
                 <div class="card border-0 bg-light p-3 rounded-4">
                     <p class="text-muted small mb-1 fw-bold">Total Materi</p>
@@ -38,7 +38,7 @@
                     <h4 class="fw-800 mb-0 text-primary small">Tidak Tersedia</h4>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <div class="col-md-12 mb-4">
             <div class="row g-3">

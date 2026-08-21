@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ElearningController;
 use App\Http\Controllers\Admin\EventMaterialController;
 use App\Http\Controllers\Admin\EventOrganizerController;
+use App\Http\Controllers\Admin\EventRegistrationController;
 use App\Http\Controllers\Admin\ExportController;
 use App\Http\Controllers\Admin\KategoriAcaraController;
 use App\Http\Controllers\Admin\KategoriElearningController;
@@ -23,6 +24,7 @@ use App\Http\Controllers\Admin\KategoriPelatihanController;
 use App\Http\Controllers\Admin\KategoriProdukController;
 use App\Http\Controllers\Admin\KeranjangController;
 use App\Http\Controllers\Admin\KuponController;
+use App\Http\Controllers\Admin\NarasumberController;
 use App\Http\Controllers\Admin\PelatihanController;
 use App\Http\Controllers\Admin\PenggunaController;
 use App\Http\Controllers\Admin\ProfileBerandaController;
@@ -94,6 +96,11 @@ Route::middleware(['security_header'])->group(function () {
     Route::get('/list-panel', [FrontendController::class, 'listPanel'])->name('frontend.list.panel');
     Route::get('/e-learning', [FrontendController::class, 'eLearning'])->name('frontend.e-learning');
     Route::get('/e-learning/detail/{id}', [FrontendController::class, 'detailElearning'])->name('frontend.e-learning.detail');
+    Route::get('/e-learning/detail/{id}/modul/{idModul}', [FrontendController::class, 'detailModul'])->name('frontend.e-learning.detail.modul');
+    Route::get('/e-learning/daftar/{id}', [FrontendController::class, 'daftarMateri'])->name('frontend.modul.register');
+    Route::post('/e-learning/daftar/{id}/store', [EventRegistrationController::class, 'store'])->name('frontend.modul.store');
+    
+
     Route::get('/e-commerce', [FrontendController::class, 'eCommerce'])->name('frontend.eCommerce');
     Route::get('/e-commerce/produk/{id}', [FrontendController::class, 'eCommerceDetail'])->name('frontend.eCommerce.detail');
     Route::get('/e-commerce/kategori-produk', [FrontendController::class, 'kategoriProduk'])->name('frontend.produk.kategori');
@@ -376,13 +383,17 @@ Route::middleware(['auth', 'security_header'])->group(function () {
         // Route::put('/admin/elearning/update/{id}', [ElearningController::class, 'update'])->name('admin.elearning.update');
         // Route::delete('/admin/elearning/delete/{id}', [ElearningController::class, 'destroy'])->name('admin.elearning.delete');
 
-        Route::get('/admin/elearning/{id}/materi', [EventMaterialController::class, 'index'])->name('admin.elearning..materi.index');
-        // Route::get('/admin/elearning/create', [EventOrganizerController::class, 'create'])->name('admin.elearning.create');
-        // Route::post('/admin/elearning/store', [EventOrganizerController::class, 'store'])->name('admin.elearning.store');
-        // Route::get('/admin/elearning/{id}', [EventOrganizerController::class, 'show'])->name('admin.elearning.show');
-        // Route::get('/admin/elearning/edit/{id}', [EventOrganizerController::class, 'edit'])->name('admin.elearning.edit');
-        // Route::put('/admin/elearning/update/{id}', [EventOrganizerController::class, 'update'])->name('admin.elearning.update');
-        // Route::delete('/admin/elearning/delete/{id}', [EventOrganizerController::class, 'destroy'])->name('admin.elearning.delete');
+        // materi
+        Route::get('/admin/elearning/{id}/materi', [EventMaterialController::class, 'index'])->name('admin.elearning.materi.index');
+        Route::post('/admin/elearning/{id}/materi', [EventMaterialController::class, 'store'])->name('admin.elearning.materi.store');
+        Route::delete('/admin/elearning/{idEvent}/materi/delete/{id}', [EventMaterialController::class, 'destroy'])->name('admin.elearning.materi.delete');
+
+        // narasumber
+        Route::get('/admin/elearning/{id}/narasumber', [NarasumberController::class, 'index'])->name('admin.narasumber.index');
+        Route::post('/admin/elearning/{id}/narasumber', [NarasumberController::class, 'store'])->name('admin.narasumber.store');
+        Route::delete('/admin/elearning/{idEvent}/narasumber/delete/{id}', [NarasumberController::class, 'destroy'])->name('admin.narasumber.delete');
+
+    
 
 
         

@@ -96,7 +96,7 @@ class EventOrganizerController extends Controller
     public function edit($id)
     {
 
-        $elearning = EventOrganizer::find($id)->first();
+        $elearning = EventOrganizer::find($id);
         $categories = KategoriEventOrganizer::all();
 
         return view('admin.elearning.edit', compact('elearning', 'categories'));
