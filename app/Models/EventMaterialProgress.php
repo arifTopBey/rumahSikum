@@ -13,4 +13,6 @@ class EventMaterialProgress extends Model
     public $timestamps = true;
 
     protected $guarded = ['id']; 
+
+   
 }

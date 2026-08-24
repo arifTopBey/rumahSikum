@@ -410,14 +410,15 @@
     
                                 <li class="nav-item">
                                     <a href="{{ route('admin.elearning.index') }}"
-                                        class="nav-link {{ Request::is('admin/elearning*') ? 'active' : '' }}">
+                                        class="nav-link">
                                         <i class="nav-icon bi bi-circle"></i>
                                         <p class="text-white">Modul E-learning</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
+                                    <!-- /admin/elearning/pelatihan/laporan-peserta -->
                                     <a href="{{ route('admin.daftarPeserta.index') }}"
-                                        class="nav-link">
+                                        class="nav-link {{ Request::is('admin/elearning/pelatihan/laporan-peserta') ? 'active' : '' }}">
                                         <i class="nav-icon bi bi-circle"></i>
                                         <p class="text-white">Laporan</p>
                                     </a>

@@ -51,7 +51,7 @@
                 </li>
                 
                @auth
-                    @if (auth()->user()->user_role === 'user')
+                    @if (auth()->user()->user_role !== 'user')
                         <li class="nav-item">
                             <a class="nav-link px-3" href="{{ route('frontend.e-learning') }}">
                                 E-Learning

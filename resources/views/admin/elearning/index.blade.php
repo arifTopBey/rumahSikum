@@ -180,7 +180,7 @@
                     
                     @foreach ($elearnings as $elearning )
                         <tr>
-                            <td class="text-center">1</td>
+                            <td class="text-center">{{ $loop->iteration }}</td>
                             <td>
                             <div class="d-flex align-items-center gap-3">
                                     <!-- <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=100" class="rounded-3 shadow-sm" width="60" height="40" style="object-fit: cover;"> -->

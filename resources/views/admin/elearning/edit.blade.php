@@ -44,7 +44,7 @@
 
                     <div class="mb-3">
                         <label class="form-label fw-semibold text-dark small">Judul Event <span class="text-danger">*</span></label>
-                        <input type="text" name="judul_event" class="form-control rounded-3 py-2" value="{{ old('judul_event', $elearning->judul_event) }}" required>
+                        <input type="text" name="judul_event" class="form-control rounded-3 py-2" value="{{ old('judul_event', $elearning->judul_event) }}" readonly>
                     </div>
 
                     <div class="mb-0">
@@ -75,11 +75,11 @@
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label fw-semibold text-dark small">Mulai <span class="text-danger">*</span></label>
-                            <input type="datetime-local" name="waktu_mulai" class="form-control rounded-3 py-2" value="{{ old('waktu_mulai', \Carbon\Carbon::parse($elearning->waktu_mulai)->format('Y-m-d\TH:i')) }}" required>
+                            <input type="datetime-local" name="waktu_mulai" class="form-control rounded-3 py-2" value="{{ old('waktu_mulai', \Carbon\Carbon::parse($elearning->waktu_mulai)->format('Y-m-d\TH:i')) }}" readonly>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-semibold text-dark small">Selesai <span class="text-danger">*</span></label>
-                            <input type="datetime-local" name="waktu_selesai" class="form-control rounded-3 py-2" value="{{ old('waktu_selesai', \Carbon\Carbon::parse($elearning->waktu_selesai)->format('Y-m-d\TH:i')) }}" required>
+                            <input type="datetime-local" name="waktu_selesai" class="form-control rounded-3 py-2" value="{{ old('waktu_selesai', \Carbon\Carbon::parse($elearning->waktu_selesai)->format('Y-m-d\TH:i')) }}" readonly>
                         </div>
                     </div>
                 </div>
@@ -100,7 +100,7 @@
                     <div class="row g-3 mb-4">
                         @php $jenis = $elearning->jenis_pelatihan; @endphp
                         <div class="col-md-6">
-                            <input type="radio" class="btn-check" name="jenis_pelatihan" id="type_online" value="online" {{ $jenis == 'online' ? 'checked' : '' }}>
+                            <input type="radio" class="btn-check" name="jenis_pelatihan" id="type_online" value="online" {{ $jenis == 'online' ? 'checked' : '' }} readonly>
                             <label class="btn btn-outline-light text-start p-3 rounded-3 w-100 option-card h-100" for="type_online">
                                 <div class="d-flex align-items-center gap-2 mb-1">
                                     <i data-lucide="video" class="option-icon text-danger" size="20"></i>
@@ -110,7 +110,7 @@
                             </label>
                         </div>
                         <div class="col-md-6">
-                            <input type="radio" class="btn-check" name="jenis_pelatihan" id="type_offline" value="offline" {{ $jenis == 'offline' ? 'checked' : '' }}>
+                            <input type="radio" class="btn-check" name="jenis_pelatihan" id="type_offline" value="offline" {{ $jenis == 'offline' ? 'checked' : '' }} readonly>
                             <label class="btn btn-outline-light text-start p-3 rounded-3 w-100 option-card h-100" for="type_offline">
                                 <div class="d-flex align-items-center gap-2 mb-1">
                                     <i data-lucide="building-2" class="option-icon" size="20"></i>
@@ -120,7 +120,7 @@
                             </label>
                         </div>
                         <div class="col-md-6">
-                            <input type="radio" class="btn-check" name="jenis_pelatihan" id="type_webinar" value="webinar" {{ $jenis == 'webinar' ? 'checked' : '' }}>
+                            <input type="radio" class="btn-check" name="jenis_pelatihan" id="type_webinar" value="webinar" {{ $jenis == 'webinar' ? 'checked' : '' }} readonly>
                             <label class="btn btn-outline-light text-start p-3 rounded-3 w-100 option-card h-100" for="type_webinar">
                                 <div class="d-flex align-items-center gap-2 mb-1">
                                     <i data-lucide="radio" class="option-icon" size="20"></i>
@@ -130,7 +130,7 @@
                             </label>
                         </div>
                         <div class="col-md-6">
-                            <input type="radio" class="btn-check" name="jenis_pelatihan" id="type_workshop" value="workshop" {{ $jenis == 'workshop' ? 'checked' : '' }}>
+                            <input type="radio" class="btn-check" name="jenis_pelatihan" id="type_workshop" value="workshop" {{ $jenis == 'workshop' ? 'checked' : '' }} readonly>
                             <label class="btn btn-outline-light text-start p-3 rounded-3 w-100 option-card h-100" for="type_workshop">
                                 <div class="d-flex align-items-center gap-2 mb-1">
                                     <i data-lucide="scissors" class="option-icon" size="20"></i>
@@ -140,7 +140,7 @@
                             </label>
                         </div>
                         <div class="col-md-6">
-                            <input type="radio" class="btn-check" name="jenis_pelatihan" id="type_bootcamp" value="bootcamp" {{ $jenis == 'bootcamp' ? 'checked' : '' }}>
+                            <input type="radio" class="btn-check" name="jenis_pelatihan" id="type_bootcamp" value="bootcamp" {{ $jenis == 'bootcamp' ? 'checked' : '' }} readonly>
                             <label class="btn btn-outline-light text-start p-3 rounded-3 w-100 option-card h-100" for="type_bootcamp">
                                 <div class="d-flex align-items-center gap-2 mb-1">
                                     <i data-lucide="rocket" class="option-icon" size="20"></i>
@@ -152,15 +152,15 @@
                     </div>
 
                     {{-- Link Streaming / Location Details --}}
-                    <div class="mb-3">
+                    <!-- <div class="mb-3">
                         <label class="form-label fw-semibold text-dark small">Link Streaming</label>
-                        <input type="url" name="link_streaming" class="form-control rounded-3 py-2" value="{{ old('link_streaming', $elearning->link_streaming ?? 'https://meet.google.com/xuk-jdmg-qte') }}" placeholder="https://meet.google.com/...">
+                        <input type="url" name="link_streaming" class="form-control rounded-3 py-2" value="{{ old('link_streaming', $elearning->tautan ?? 'https://meet.google.com/xuk-jdmg-qte') }}" placeholder="https://meet.google.com/...">
                         <span class="text-muted smaller">Link akan tampil untuk peserta yang sudah mendaftar.</span>
-                    </div>
+                    </div> -->
 
                     <div class="mb-0">
                         <label class="form-label fw-semibold text-dark small">Kuota Peserta</label>
-                        <input type="number" name="kuota_peserta" class="form-control rounded-3 py-2" value="{{ old('kuota_peserta', $elearning->kuota_peserta ?? 1000) }}" placeholder="0" style="max-width: 200px;">
+                        <input type="number" name="kuota_peserta" class="form-control rounded-3 py-2" value="{{ old('kuota_peserta', $elearning->kuota_peserta ?? 1000) }}" placeholder="0" style="max-width: 200px;" readonly>
                         <span class="text-muted smaller">Isi <strong>0</strong> untuk tanpa batas.</span>
                     </div>
                 </div>
@@ -179,7 +179,7 @@
 
                     <div class="mb-4">
                         <label class="form-label fw-semibold text-dark small">Deskripsi Event</label>
-                        <textarea id="editor" name="deskripsi_event">{{ old('deskripsi_event', $elearning->deskripsi_event) }}</textarea>
+                        <textarea id="editor" name="deskripsi_event" readonly>{{ old('deskripsi_event', $elearning->deskripsi_event) }}</textarea>
                     </div>
 
                     <div>
@@ -187,7 +187,7 @@
                         <div class="position-relative rounded-4 overflow-hidden mb-2 border shadow-sm">
                             <img id="preview-banner" src="{{ route('show.thumbnail.produk.private', $elearning->banner_event) }}" class="w-100 object-fit-cover" style="max-height: 380px;" alt="Banner Event">
                         </div>
-                        <input type="file" name="banner_event" id="banner-input" class="form-control rounded-3 py-2 mt-2" accept="image/*">
+                        <!-- <input type="file" name="banner_event" id="banner-input" class="form-control rounded-3 py-2 mt-2" accept="image/*"> -->
                     </div>
                 </div>
 
@@ -248,7 +248,7 @@
                         </a>
 
                         {{-- Menu Daftar Peserta --}}
-                        <a href="" class="list-group-item list-group-item-action d-flex align-items-center justify-content-between border-0 rounded-3 p-3">
+                        <a href="{{ route('admin.daftarPeserta.list', $elearning->id) }}" class="list-group-item list-group-item-action d-flex align-items-center justify-content-between border-0 rounded-3 p-3">
                             <div class="d-flex align-items-center gap-3">
                                 <div class="bg-light p-2 rounded-3 d-flex align-items-center justify-content-center text-muted">
                                     <i data-lucide="users" size="18"></i>

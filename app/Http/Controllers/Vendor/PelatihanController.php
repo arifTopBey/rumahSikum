@@ -28,6 +28,8 @@ class PelatihanController extends Controller
         foreach ($elearning as $event) {
 
             // Cari registrasi user untuk event ini
+            // $registration = $pelatihanRegistrasi
+            //     ->where('event_organizer_id', $event->id);
             $registration = $pelatihanRegistrasi
                 ->firstWhere('event_organizer_id', $event->id);
 

@@ -19,4 +19,13 @@ class EventRegistration extends Model
     public function event(){
         return $this->belongsTo(EventOrganizer::class, 'event_organizer_id', 'id');
     }
+
+     public function progress(){
+        return $this->hasMany(EventMaterialProgress::class,'event_registration_id', 'id');
+    }
+     public function eventOrganizer(){
+        return $this->belongsTo(EventOrganizer::class,'event_organizer_id', 'id');
+    }
+
+
 }

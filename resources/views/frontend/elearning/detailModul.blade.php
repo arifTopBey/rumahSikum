@@ -7,7 +7,7 @@
             {{-- Header Navigation & Title --}}
             <div class="d-flex align-items-center justify-content-between mb-4">
                 <div class="d-flex align-items-center gap-3">
-                    <a href=""
+                    <a href="{{ route('frontend.e-learning.detail', $elearning->id) }}"
                         class="btn btn-white bg-white rounded-circle shadow-sm p-2 d-flex align-items-center justify-content-center border"
                         style="width: 40px; height: 40px;">
                         <i data-lucide="arrow-left" size="20" class="text-dark"></i>

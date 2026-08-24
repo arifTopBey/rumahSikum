@@ -297,21 +297,35 @@
                                                                 style="background-color: #2563eb;">
                                                                 Lanjutkan Belajar <i data-lucide="arrow-right" size="16"></i>
                                                             </a> -->
-                                            <a href="{{ route('frontend.e-learning.detail', $e->id) }}"
-                                                class="btn btn-primary w-100 rounded-3 py-2 fw-semibold d-flex align-items-center justify-content-center gap-2 shadow-sm border-0"
-                                                style="background-color: #2563eb;">
 
-                                                @if ($e->progress_status === 'selesai')
-                                                    Selesai
-                                                @elseif ($e->progress_percentage > 0)
-                                                    Lanjutkan Belajar
+                                             @if ($e->progress_status === 'selesai')
+                                                <a href="{{ route('frontend.sertifikat.download',$e->registration->id) }}"
+                                                    class="btn btn-success w-100 rounded-3 py-2 fw-semibold d-flex align-items-center justify-content-center gap-2 shadow-sm border-0"
+                                                    >
+    
+                                                   Download Sertifikat
+    
+                                                    <i data-lucide="arrow-down" size="16"></i>
+    
+                                                </a>
+                                                
                                                 @else
-                                                    Mulai Belajar
+                                                    <a href="{{ route('frontend.e-learning.detail', $e->id) }}"
+                                                        class="btn btn-primary w-100 rounded-3 py-2 fw-semibold d-flex align-items-center justify-content-center gap-2 shadow-sm border-0"
+                                                        style="background-color: #2563eb;">
+        
+                                                        @if ($e->progress_status === 'selesai')
+                                                            Selesai
+                                                        @elseif ($e->progress_percentage > 0)
+                                                            Lanjutkan Belajar
+                                                        @else
+                                                            Mulai Belajar
+                                                        @endif
+        
+                                                        <i data-lucide="arrow-right" size="16"></i>
+        
+                                                    </a>
                                                 @endif
-
-                                                <i data-lucide="arrow-right" size="16"></i>
-
-                                            </a>
                                         </div>
                                     </div>
                                 </div>

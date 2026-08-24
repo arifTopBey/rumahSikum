@@ -165,7 +165,10 @@ Route::middleware(['security_header'])->group(function () {
 
 Route::middleware(['auth', 'security_header'])->group(function () {
 
-    // set session
+    // Download sertifikat
+    Route::get('/pelatihan/sertifikat/{registration}',[PelatihanController::class, 'downloadSertifikat'])->name('frontend.sertifikat.download');
+
+    // set session checkout
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('frontend.checkout.index');
 
     // cek session keranjang
@@ -402,9 +405,13 @@ Route::middleware(['auth', 'security_header'])->group(function () {
         Route::get('/admin/elearning/{id}/narasumber', [NarasumberController::class, 'index'])->name('admin.narasumber.index');
         Route::post('/admin/elearning/{id}/narasumber', [NarasumberController::class, 'store'])->name('admin.narasumber.store');
         Route::delete('/admin/elearning/{idEvent}/narasumber/delete/{id}', [NarasumberController::class, 'destroy'])->name('admin.narasumber.delete');
-
+        
         // daftar peserta
-        Route::get('/admin/elearning/peserta/elearning', [DaftarPesertaController::class, 'index'])->name('admin.daftarPeserta.index');
+        Route::get('/admin/elearning/{id}/peserta', [DaftarPesertaController::class, 'daftarPeserta'])->name('admin.daftarPeserta.list');
+
+        // laporan peserta
+        Route::get('/admin/elearning/pelatihan/laporan-peserta', [DaftarPesertaController::class, 'index'])->name('admin.daftarPeserta.index');
+        // Route::get('/admin/elearning/pelatihan/peserta', [DaftarPesertaController::class, 'daftarPeserta'])->name('admin.daftarPeserta.list');
     
 
 

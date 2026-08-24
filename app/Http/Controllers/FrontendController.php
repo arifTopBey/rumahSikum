@@ -169,7 +169,7 @@ class FrontendController extends Controller
 
     }
 
-    public function daftarMateri($id)
+    public function daftarMateri2($id)
     {
 
         $eventRegister = "";
@@ -187,6 +187,35 @@ class FrontendController extends Controller
         return view('frontend.elearning.daftarEvent.index', compact('elearning', 'modules', 'eventRegister'));
 
     }
+    public function daftarMateri($id)
+{
+    $elearning = EventOrganizer::findOrFail($id);
+    $modules = EventMaterial::where('event_organizer_id', $elearning->id)->get();
+
+    // Hitung total peserta yang sudah mendaftar
+    $totalPendaftar = EventRegistration::where('event_organizer_id', $elearning->id)->count();
+
+    // Hitung sisa kuota (pastikan sisa tidak bernilai minus)
+    // Asumsi nama field di tabel EventOrganizer adalah 'kuota'
+    $kuotaMaksimal = $elearning->kuota_peserta ?? 0; 
+    $sisaKuota = max(0, $kuotaMaksimal - $totalPendaftar);
+
+    $eventRegister = null;
+    if (Auth::check()) {
+        $userId = Auth::id();
+        $eventRegister = EventRegistration::where('user_id', $userId)
+            ->where('event_organizer_id', $elearning->id)
+            ->first();
+    }
+
+    return view('frontend.elearning.daftarEvent.index', compact(
+        'elearning', 
+        'modules', 
+        'eventRegister', 
+        'sisaKuota', 
+        'totalPendaftar'
+    ));
+}
 
     // public function eCommerce(){
 
