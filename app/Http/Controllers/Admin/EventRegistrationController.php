@@ -18,7 +18,7 @@ class EventRegistrationController extends Controller
 
         // Hitung sisa kuota
         $totalPendaftar = EventRegistration::where('event_organizer_id', $elearning->id)->count();
-        $sisaKuota = ($elearning->kuota ?? 0) - $totalPendaftar;
+        $sisaKuota = ($elearning->kuota_peserta ?? 0) - $totalPendaftar;
 
         // Jika kuota habis, tolak pendaftaran
         if ($sisaKuota <= 0) {
