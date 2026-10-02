@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
 
 class AuthController extends Controller
@@ -54,7 +55,9 @@ class AuthController extends Controller
 
         return back()->with('LoginError', 'Email Atau Password Salah');
     }
-    public function login(LoginSroreRequest $request)
+
+    // login dengan rate limiter
+    public function login3(LoginSroreRequest $request)
     {
         $validated = $request->validated();
 
@@ -93,22 +96,65 @@ class AuthController extends Controller
             ->withInput($request->only('email'));
     }
 
+        // ===================================
+        // login dengan email atau nik
+        // ===================================
+    public function login(LoginSroreRequest $request)
+    {
+        $validated = $request->validated();
+
+        // Input dapat berupa email atau NIK
+        $identifier = trim($validated['email']);
+
+        // Tentukan kolom login
+        $field = filter_var($identifier, FILTER_VALIDATE_EMAIL)
+            ? 'email'
+            : 'nik';
+
+        // Key unik berdasarkan identifier dan IP
+        $throttleKey = Str::lower($identifier) . '|' . $request->ip();
+
+        // Maksimal 3 percobaan gagal
+        if (RateLimiter::tooManyAttempts($throttleKey, 3)) {
+            $seconds = RateLimiter::availableIn($throttleKey);
+
+            return back()
+                ->withErrors([
+                    'email' => "Terlalu banyak percobaan login. Coba lagi dalam {$seconds} detik."
+                ])
+                ->with('lockout_seconds', $seconds)
+                ->withInput($request->only('email'));
+        }
+
+        // Autentikasi berdasarkan email atau NIK
+        $credentials = [
+            $field => $identifier,
+            'password' => $validated['password'],
+        ];
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
+            RateLimiter::clear($throttleKey);
+
+            return redirect()->route('user.dashboard');
+        }
+
+    // Tambahkan hitungan gagal login selama 5 menit
+    RateLimiter::hit($throttleKey, 300);
+
+    return back()
+        ->withErrors([
+            'email' => 'Email, NIK, atau password salah.'
+        ])
+        ->withInput($request->only('email'));
+}
+
     public function register()
     {
         return view('frontend.auth.register');
     }
 
-    public function logout(Request $request)
-    {
-
-        Auth::logout();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-
-        return redirect()->route('login');
-    }
     public function registerStore(RegisterStoreRequest $request)
     {
 
@@ -119,6 +165,8 @@ class AuthController extends Controller
 
             $user = new User();
             $user->name = $validated['name'];
+            // $user->nik = Crypt::encryptString($validated['nik']); 
+            $user->nik = $validated['nik']; 
             $user->email = $validated['email'];
             $user->status = 'active';
             $user->user_role = 'user';
@@ -131,6 +179,19 @@ class AuthController extends Controller
             DB::rollBack();
             return redirect()->route('frontend.register')->with('failed', $e->getMessage());
         }
+    }
+
+
+    public function logout(Request $request)
+    {
+
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+
+        return redirect()->route('login');
     }
 
     // login dan logout menggunakan repository

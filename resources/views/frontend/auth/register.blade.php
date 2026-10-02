@@ -77,6 +77,16 @@
                                                 placeholder="contoh@mail.com" required value="{{ old('email') }}">
                                         </div>
                                     </div>
+                                     <div class="col-md-12 mb-3">
+                                        <label class="form-label small fw-bold">NIK</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light border-end-0 rounded-start-3"><i
+                                                    data-lucide="mail" size="16"></i></span>
+                                            <input type="number" name="nik"
+                                                class="form-control border-start-0 shadow-none"
+                                                placeholder="36xxxxxxxx" required value="{{ old('nik') }}">
+                                        </div>
+                                    </div>
 
                                     <!-- <div class="col-md-6 mb-3">
                                         <label class="form-label small fw-bold">Password</label>

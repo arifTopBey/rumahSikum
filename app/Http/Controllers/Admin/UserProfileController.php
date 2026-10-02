@@ -83,6 +83,10 @@ class UserProfileController extends Controller
         $user->name = $validated['name'];
         $user->phone = $validated['phone'];
         $user->email = $validated['email'];
+
+        if (isset($validated['nik'])) {
+            $user->nik = $validated['nik'];
+        }
         
         // Jika lolos pengecekan di atas, baru hash password baru
         if (!empty($request->password)) {

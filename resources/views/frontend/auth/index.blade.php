@@ -138,9 +138,11 @@
                             <form action="{{ route('login.store') }}" method="post">
                                 @csrf
                                 <div class="mb-3">
-                                    <label class="form-label small fw-bold">Email Address</label>
-                                    <input name="email" type="email" class="form-control" placeholder="masukan email"
+                                    <label class="form-label small fw-bold">Email Atau NIK</label>
+                                    <input name="email" type="text" class="form-control" placeholder="masukan email atau NIK"
                                         required autofocus />
+                                    <!-- <input name="email" type="email" class="form-control" placeholder="masukan email"
+                                        required autofocus /> -->
                                 </div>
 
                                 <div class="mb-4 position-relative">

@@ -25,6 +25,7 @@ class ProfileUpdateRequest extends FormRequest
             'name' => 'required|string|max:255',
 
             'email' => 'required|email|max:255',
+            'nik' => 'nullable|string|digits:16|unique:users,nik,' . $this->route('encryptId') . ',id',
 
             'phone' => 'nullable|numeric|digits_between:9,15',
 

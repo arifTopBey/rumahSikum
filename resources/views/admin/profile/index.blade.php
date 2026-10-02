@@ -184,7 +184,7 @@
                             <label class="form-label-custom">Email</label>
                             <input type="email" name="email" class="form-control form-control-custom" value="{{ auth()->user()->email }}" readonly>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label class="form-label-custom">Nomor WhatsApp</label>
                             <div class="input-group">
                                 <span class="input-group-text border-0 bg-light rounded-start-3">62</span>
@@ -192,7 +192,15 @@
                                 <!-- <input type="number" class="form-control form-control-custom rounded-start-0" value="8123456789"> -->
                             </div>
                         </div>
-                        <div class="col-md-6">
+                         <div class="col-md-4">
+                            <label class="form-label-custom">NIK</label>
+                            <div class="input-group">
+                                <!-- <span class="input-group-text border-0 bg-light rounded-start-3"></span> -->
+                                <input type="number" name="nik" class="form-control form-control-custom" value="{{ auth()->user()->nik }}" placeholder="-">
+                                <!-- <input type="number" class="form-control form-control-custom rounded-start-0" value="8123456789"> -->
+                            </div>
+                        </div>
+                        <div class="col-md-4">
                             <!-- <label class="form-label-custom">Tanggal Lahir</label> -->
                             <label class="form-label-custom">Status</label>
                             <input type="text" class="form-control form-control-custom" value="{{ auth()->user()->status }}" readonly>
