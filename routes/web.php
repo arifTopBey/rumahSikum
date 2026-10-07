@@ -27,6 +27,7 @@ use App\Http\Controllers\Admin\KategoriPelatihanController;
 use App\Http\Controllers\Admin\KategoriProdukController;
 use App\Http\Controllers\Admin\KeranjangController;
 use App\Http\Controllers\Admin\KuponController;
+use App\Http\Controllers\Admin\MirroringController;
 use App\Http\Controllers\Admin\NarasumberController;
 use App\Http\Controllers\Admin\PelatihanController;
 use App\Http\Controllers\Admin\PenggunaController;
@@ -433,8 +434,8 @@ Route::middleware(['auth', 'security_header'])->group(function () {
         Route::get('/export-skala/{skala}', [UMKMEksportController::class, 'exportBySkala'])->name('admin.export.skala');
         Route::get('/export-tenaga-kerja', [ExportController::class, 'exportTenagaKerja'])->name('admin.export.tenaga-kerja');
         Route::get('/export-metode-pemasaran', [ExportController::class, 'exportMetodePemasaran'])->name('admin.export.metode-pemasaran');
-
-
+        
+        
         // sebaran data umkm
         Route::get('/sebaran-data-umkm', [DataUMKMController::class, 'index'])->name('admin.sebaran.data.umkm');
         Route::get('/usaha-berdasarkan-wilayah', [UsahaWilayahController::class, 'index'])->name('admin.wilayah');
@@ -453,6 +454,37 @@ Route::middleware(['auth', 'security_header'])->group(function () {
         Route::get('/admin/list-daftar-umkm', [DaftarUmkmController::class, 'list_daftar_umkm'])->name('admin.daftar.umkm');
         Route::get('/admin/daftar-umkm/{id}', [DaftarUmkmController::class, 'detail_pengajuan_umkm'])->name('daftar.pengajuan.detail');
         Route::put('/admin/update-status-umkm/{id}', [DaftarUmkmController::class, 'updateStatusUmkm'])->name('admin.update.status.pengajuan');
+
+        // ====================================
+        // MIRRORING
+        // ====================================
+        Route::prefix('mirroring')->group(function () {
+            Route::get('/sebaran-data-umkm', [MirroringController::class, 'index'])->name('admin.mirroring.index');
+            Route::get('/usaha-berdasarkan-wilayah', [MirroringController::class, 'indexWilayah'])->name('admin.mirroring.wilayah');
+            Route::get('/usaha-berdasarkan-wilayah-desa', [MirroringController::class, 'wilayahDesa'])->name('admin.mirroring.wilayah.desa');
+            Route::get('/usaha-berdasarkan-cluster-prioritas', [MirroringController::class, 'usahaCluster'])->name('admin.mirroring.cluster');
+            Route::get('/usaha-berdasarkan-desil', [MirroringController::class, 'usahaDesil'])->name('admin.mirroring.desil');
+            Route::get('/usaha-berdasarkan-kbli', [MirroringController::class, 'usahaKbli'])->name('admin.mirroring.kbli');
+            Route::get('/usaha-berdasarkan-perizinan', [MirroringController::class, 'dataPerizinanUMKM'])->name('admin.mirroring.perizinan');
+            Route::get('/usaha-berdasarkan-pemasaran', [MirroringController::class, 'dataPemasaranUMKM'])->name('admin.mirroring.pemasaran');
+            Route::get('/usaha-berdasarkan-status-badan-usaha', [MirroringController::class, 'dataStatusBadanUsaha'])->name('admin.mirroring.status.badan.usaha');
+            Route::get('/usaha-berdasarkan-omset', [MirroringController::class, 'dataOmzetUsaha'])->name('admin.mirroring.omset');
+            Route::get('/pertumbuhan-usaha-mikro', [MirroringController::class, 'dataPertumbuhanUmkm'])->name('admin.mirroring.pertumbuhan.umkm');
+            Route::get('/indikator-usaha-lainnya', [MirroringController::class, 'usahaLainnya'])->name('admin.mirroring.lainnya');
+
+            Route::get('/list-umkm', [MirroringController::class, 'indexListUmkm'])->name('admin.mirroring.ukmkm.list');
+            Route::get('/list-umkm/detail/{id_badan_usaha}', [MirroringController::class, 'showDetailUmkm'])->name('admin.mirroring.umkm.detail');
+            Route::get('/list-umkm/edit/{id_badan_usaha}', [MirroringController::class, 'editUmkm'])->name('admin.mirroring.umkm.edit');
+            Route::put('/list-umkm/edit/{id_badan_usaha}', [MirroringController::class, 'updateUmkm'])->name('admin.mirroring.umkm.update');
+
+
+            
+
+            // daftar umkm
+            // Route::get('/admin/list-daftar-umkm', [MirroringController::class, 'list_daftar_umkm'])->name('admin.daftar.umkm');
+            // Route::get('/admin/daftar-umkm/{id}', [MirroringController::class, 'detail_pengajuan_umkm'])->name('daftar.pengajuan.detail');
+            // Route::put('/admin/update-status-umkm/{id}', [MirroringController::class, 'updateStatusUmkm'])->name('admin.update.status.pengajuan');
+        });
 
         // whatApp
         Route::get('/admin/whatapps', [WhatappController::class, 'index'])->name('admin.whatapp.index');

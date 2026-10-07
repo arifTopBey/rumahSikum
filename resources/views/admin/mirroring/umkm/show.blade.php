@@ -5,10 +5,16 @@
         <div class="container px-2 bg-white shadow-lg mt-3 rounded-2">
             <div class="row mb-3">
 
-                <div class="col-md-12 mb-4  px-3 py-2">
-                    <a style="width: 150px" href="{{ route('admin.ukmkm.list') }}"
-                        class="ms-3 px-3 d-block fw-bold py-2 border border-secondary rounded-2 text-decoration-none text-primary">Kembali
-                    </a>
+                <div class="col-md-12 mb-4 my-2 px-3 py-2">
+                    <div class="d-flex justify-content-between">
+                        <a style="width: 150px" href="{{ route('admin.mirroring.ukmkm.list') }}"
+                            class="ms-3 px-3 d-block fw-bold py-2 border border-secondary rounded-2 text-decoration-none text-primary">Kembali
+                        </a>
+
+                        <a style="width: 150px" href="{{ route('admin.mirroring.umkm.edit', $data->id_badan_usaha) }}"
+                            class="ms-3 px-3 d-block fw-bold py-2  rounded-2 text-decoration-none btn btn-info">Edit Data
+                        </a>
+                    </div>
                     <p class="text-center fs-5 fw-semibold mt-3 mb-3">Detail UMKM</p>
                 </div>
                 <div style="background-image: linear-gradient(to right, white 60%, #9CDDF7); min-height: 150px;"
@@ -20,8 +26,6 @@
                                 class="d-flex mb-3 px-3 py-2 bg-warning bg-opacity-10 border border-warning rounded-2">
                                 <p class="text-warning my-auto">Usaha Mikro</p>
                             </div>
-
-
                         @elseif( $data->laporanKeuangan->omzet_usaha > 2_000_000_000 && $data->laporanKeuangan->omzet_usaha <= 15_000_000_000)
                             <div class="d-flex mb-3 px-3 py-2 bg-primary bg-opacity-10 border border-primary rounded-2">
                                 <p class="text-primary my-auto">Usaha Kecil</p>
@@ -68,63 +72,49 @@
                  <!-- nav scroll -->
                 <div class="overflow-auto px-5" id="navWrapper" style="white-space: nowrap;">
                     <ul class="nav nav-tabs flex-nowrap" id="myTab" role="tablist">
-
                         <li class="nav-item">
                             <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#ringkasan">Ringkasan Data</button>
                         </li>
-
                         <li class="nav-item">
                             <button class="nav-link" data-bs-toggle="tab" data-bs-target="#identitasUsaha">1. Identitas Usaha</button>
                         </li>
-
                         <li class="nav-item">
                             <button class="nav-link" data-bs-toggle="tab" data-bs-target="#karakteristik">2. Karakteristik Usaha</button>
                         </li>
-
                         <li class="nav-item">
                             <button class="nav-link" data-bs-toggle="tab" data-bs-target="#pengusaha">3. Identitas Pengusaha</button>
                         </li>
-
                         <li class="nav-item">
                             <button class="nav-link" data-bs-toggle="tab" data-bs-target="#izin">4. Izin & Standarisasi</button>
                         </li>
-
                         <li class="nav-item">
                             <button class="nav-link" data-bs-toggle="tab" data-bs-target="#penghargaan">5. Penghargaan</button>
                         </li>
-
                         <li class="nav-item">
                             <button class="nav-link" data-bs-toggle="tab" data-bs-target="#bahan">6. Bahan Baku/Penolong</button>
                         </li>
-
                         <li class="nav-item">
                             <button class="nav-link" data-bs-toggle="tab" data-bs-target="#produksi">7. Produksi & Pemasaran</button>
                         </li>
-
                         <li class="nav-item">
                             <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tenagaKerja">8. Tenaga Kerja</button>
                         </li>
-
                         <li class="nav-item">
                             <button class="nav-link" data-bs-toggle="tab" data-bs-target="#proses">9. Proses Produksi</button>
                         </li>
-
                         <li class="nav-item">
                             <button class="nav-link" data-bs-toggle="tab" data-bs-target="#kemitraan">10. Kemitraan</button>
                         </li>
-
                         <li class="nav-item">
                             <button class="nav-link" data-bs-toggle="tab" data-bs-target="#keuangan">11. Laporan Keuangan</button>
                         </li>
-
                         <li class="nav-item">
                             <button class="nav-link" data-bs-toggle="tab" data-bs-target="#pembinaan">12. Pembinaan</button>
                         </li>
-
                         <li class="nav-item me-5">
                             <button class="nav-link" data-bs-toggle="tab" data-bs-target="#catatan">13. Catatan</button>
                         </li>
-                        </ul>
+                    </ul>
                 </div>
 
                 <!-- tombol kanan -->
@@ -142,9 +132,7 @@
 
 
                 <div class="tab-content">
-
                     <div id="ringkasan" class="tab-pane active">
-    
                         <div class=" col-md-10 mx-auto rounded-2 shadow-lg mt-2 px-2 py-2 border mb-3">
                             <p class="fw-bold fs-5">Informasi Usaha </p>
         

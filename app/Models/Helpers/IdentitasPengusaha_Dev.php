@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Helpers;
+
 
 use Illuminate\Database\Eloquent\Model;
 
-class IdentitasPengusaha extends Model
+class IdentitasPengusaha_Dev extends Model
 {
-    protected $table = 'identitas_pengusaha'; // block 1
+    protected $table = 'identitas_pengusaha_dev'; // block 1
     protected $primaryKey = 'id_badan_usaha';
     public $incrementing = false;
     protected $keyType = 'int';
@@ -14,7 +15,7 @@ class IdentitasPengusaha extends Model
 
     public function identitasUsaha()
     {
-        return $this->belongsTo(IdentitasUsaha::class, 'id_badan_usaha', 'id_badan_usaha');
+        return $this->belongsTo(IdentitasUsaha_Dev::class, 'id_badan_usaha', 'id_badan_usaha');
     
     }
 }

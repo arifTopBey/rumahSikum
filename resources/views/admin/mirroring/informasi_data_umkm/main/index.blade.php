@@ -189,7 +189,7 @@
         }
     </script>
 
-    @if (Request::is('sebaran-data-umkm') || Request::is('filter-skala'))
+    @if (Request::is('mirroring/sebaran-data-umkm') || Request::is('filter-skala'))
 
     <script>
         const exportUrlTemplate = "{{ route('admin.export.skala', ['skala' => ':skala']) }}";
@@ -292,187 +292,187 @@
 
         {{-- usaha berdasarkan wilayah --}}
 
-    <script>
-            const exportWilayahTemplate = "{{ route('admin.export.wilayah', ['kecamatan' => ':kecamatan']) }}";
-            const filterWilayahUrl = "{{ route('admin.filter.wilayah') }}";
-    </script>
-       <script>
-           // 1. Daftarkan plugin secara global
-           Chart.register(ChartDataLabels);
-           const totalData = @json($identitasUsaha->count());
-           const canvas = document.getElementById('businessChart');
+        <script>
+                const exportWilayahTemplate = "{{ route('admin.export.wilayah', ['kecamatan' => ':kecamatan']) }}";
+                const filterWilayahUrl = "{{ route('admin.filter.wilayah') }}";
+        </script>
+        <script>
+            // 1. Daftarkan plugin secara global
+            Chart.register(ChartDataLabels);
+            const totalData = @json($identitasUsaha->count());
+            const canvas = document.getElementById('businessChart');
 
-           canvas.height = totalData * 8; 
-        let kecamatan = "";
-           const ctx = canvas.getContext('2d');
+            canvas.height = totalData * 8; 
+            let kecamatan = "";
+            const ctx = canvas.getContext('2d');
 
-           const businessChart = new Chart(ctx, {
-               type: 'bar',
-               data: {
-                   // labels: ['PASAR KEMIS', 'RAJEG', 'CIKUPA', 'TIGARAKSA', 'TELUKNAGA', 'BALARAJA', 'PANOGAN',
-                   //     'PAKUHAJI', 'SEPATAN', 'CURUG'
-                   // ],
-                   labels: @json($identitasUsaha->pluck('kecamatan')).map(item => {
-                               return item.replace(/^[0-9.]+\s*/, '');
-                           }),
-                   datasets: [{
-                       // data: [19967, 18213, 16390, 15390, 14390, 13390, 12390, 11390, 11290, 11190],
-                       data: @json($identitasUsaha->pluck('total')),
-                       backgroundColor: '#7D13E8',
-                       barThickness: 18,
-                       categoryPercentage: 0.5,
-                       barPercentage: 0.7
-                   }]
-               },
-               options: {
-                   indexAxis: 'y',
-                   responsive: true,
-                   // Tambahkan padding di sisi kanan agar angka tidak terpotong
+            const businessChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    // labels: ['PASAR KEMIS', 'RAJEG', 'CIKUPA', 'TIGARAKSA', 'TELUKNAGA', 'BALARAJA', 'PANOGAN',
+                    //     'PAKUHAJI', 'SEPATAN', 'CURUG'
+                    // ],
+                    labels: @json($identitasUsaha->pluck('kecamatan')).map(item => {
+                                return item.replace(/^[0-9.]+\s*/, '');
+                            }),
+                    datasets: [{
+                        // data: [19967, 18213, 16390, 15390, 14390, 13390, 12390, 11390, 11290, 11190],
+                        data: @json($identitasUsaha->pluck('total')),
+                        backgroundColor: '#7D13E8',
+                        barThickness: 18,
+                        categoryPercentage: 0.5,
+                        barPercentage: 0.7
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    // Tambahkan padding di sisi kanan agar angka tidak terpotong
 
-                   layout: {
-                       padding: {
-                           right: 50
-                       }
-                   },
+                    layout: {
+                        padding: {
+                            right: 50
+                        }
+                    },
 
-                    onClick: function (evt, elements) {
-                       if (elements.length > 0) {
+                        onClick: function (evt, elements) {
+                        if (elements.length > 0) {
 
-                           const index = elements[0].index;
-                        kecamatan = this.data.labels[index];
+                            const index = elements[0].index;
+                            kecamatan = this.data.labels[index];
 
-                           document.getElementById('skalaTitle2').innerText =
-                           "Data UMKM Kecamatan " + kecamatan;
-                           const btn = document.getElementById('btnExportWilayah');
-                           const formSeach = document.getElementById('formSearch');
-                        
-                           formSeach.classList.remove('d-none');
-                           btn.classList.remove('d-none');
-                           document.getElementById('filterSkala').value = ''; // reset grafik filter
-
-
-                            updateExportUrl();
-                            loadWilayah(`${filterWilayahUrl}?kecamatan=${encodeURIComponent(kecamatan)}`);
-                       }
-                   },
-
-                   plugins: {
-                       legend: {
-                           display: false
-                       },
-                       // 2. Konfigurasi Label Angka
-                       datalabels: {
-                           anchor: 'end', // Posisi di ujung batang
-                           align: 'end', // Muncul setelah batang berakhir
-                           color: '#333',
-                           font: {
-                               weight: 'bold'
-                           },
-                           formatter: function(value) {
-                               // Format angka menjadi ribuan dengan titik (19.967)
-                               return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-                           }
-                       }
-                   },
-                   scales: {
-                       x: {
-                           display: false
-                       }, // Sembunyikan garis bawah agar bersih
-                       y: {
-                           grid: {
-                               display: false
-                           },
-                           ticks: {
-                               font: {
-                                   weight: 'bold',
-                                   size: 11
-                               }
-                           }
-                       }
-                   }
-               }
-           });
-
-        function loadWilayah(url) {
-            fetch(url)
-                .then(response => response.text())
-                .then(html => {
-                    document.getElementById('tableContainerWilayah').innerHTML = html;
-                });
-            }
-
-            // Fungsi untuk update href tombol export
-            function updateExportUrl() {
-                const skala = document.getElementById('filterSkala').value;
-                const search = document.getElementById('searchInputWilayah').value;
-
-                let exportUrl = exportWilayahTemplate.replace(':kecamatan', encodeURIComponent(kecamatan));
+                            document.getElementById('skalaTitle2').innerText =
+                            "Data UMKM Kecamatan " + kecamatan;
+                            const btn = document.getElementById('btnExportWilayah');
+                            const formSeach = document.getElementById('formSearch');
                             
-                 const params = new URLSearchParams();
-                if (skala) params.append('skala', skala);
-                if (search) params.append('search', search);
-                            
-                const queryString = params.toString();
-                if (queryString) {
-                    exportUrl += '?' + queryString;
-                }            
-                document.getElementById('btnExportWilayah').href = exportUrl;
-            }
-
-        document.addEventListener('click', function (e) {
-            if (e.target.closest('#tableContainerWilayah .pagination a')) {
-                e.preventDefault();
-
-                let url = e.target.closest('a').getAttribute('href');
+                            formSeach.classList.remove('d-none');
+                            btn.classList.remove('d-none');
+                            document.getElementById('filterSkala').value = ''; // reset grafik filter
 
 
+                                updateExportUrl();
+                                loadWilayah(`${filterWilayahUrl}?kecamatan=${encodeURIComponent(kecamatan)}`);
+                        }
+                    },
+
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        // 2. Konfigurasi Label Angka
+                        datalabels: {
+                            anchor: 'end', // Posisi di ujung batang
+                            align: 'end', // Muncul setelah batang berakhir
+                            color: '#333',
+                            font: {
+                                weight: 'bold'
+                            },
+                            formatter: function(value) {
+                                // Format angka menjadi ribuan dengan titik (19.967)
+                                return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            display: false
+                        }, // Sembunyikan garis bawah agar bersih
+                        y: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                font: {
+                                    weight: 'bold',
+                                    size: 11
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            function loadWilayah(url) {
                 fetch(url)
                     .then(response => response.text())
                     .then(html => {
                         document.getElementById('tableContainerWilayah').innerHTML = html;
                     });
-            }
-        });
+                }
 
-        // --- LOGIKA PENCARIAN AJAX ---
-        document.getElementById('btnDoSearch').addEventListener('click', function() {
-            performSearch();
-            updateExportUrl(); // ← tambahkan ini
+                // Fungsi untuk update href tombol export
+                function updateExportUrl() {
+                    const skala = document.getElementById('filterSkala').value;
+                    const search = document.getElementById('searchInputWilayah').value;
 
-        });
-        // Support tekan "Enter" di input search
-        document.getElementById('searchInputWilayah').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                performSearch();
-            }
-        });
-                document.getElementById('filterSkala').addEventListener('change', function() {
-                    performSearch();
-                    updateExportUrl();
+                    let exportUrl = exportWilayahTemplate.replace(':kecamatan', encodeURIComponent(kecamatan));
+                                
+                    const params = new URLSearchParams();
+                    if (skala) params.append('skala', skala);
+                    if (search) params.append('search', search);
+                                
+                    const queryString = params.toString();
+                    if (queryString) {
+                        exportUrl += '?' + queryString;
+                    }            
+                    document.getElementById('btnExportWilayah').href = exportUrl;
+                }
+
+            document.addEventListener('click', function (e) {
+                if (e.target.closest('#tableContainerWilayah .pagination a')) {
+                    e.preventDefault();
+
+                    let url = e.target.closest('a').getAttribute('href');
+
+
+                    fetch(url)
+                        .then(response => response.text())
+                        .then(html => {
+                            document.getElementById('tableContainerWilayah').innerHTML = html;
+                        });
+                }
             });
 
-        function performSearch() {
-            const searchValue = document.getElementById('searchInputWilayah').value;
-            const skalaValue = document.getElementById('filterSkala').value; // Ambil nilai dropdown
-            // Panggil loadWilayah dengan kecamatan + kata kunci search
-            // const url = `${filterWilayahUrl}?kecamatan=${encodeURIComponent(kecamatan)}&search=${encodeURIComponent(searchValue)}`;
-            const url = `${filterWilayahUrl}?kecamatan=${encodeURIComponent(kecamatan)}&search=${encodeURIComponent(searchValue)}&skala=${skalaValue}`;
-            loadWilayah(url);
-        }
+            // --- LOGIKA PENCARIAN AJAX ---
+            document.getElementById('btnDoSearch').addEventListener('click', function() {
+                performSearch();
+                updateExportUrl(); // ← tambahkan ini
 
-        
+            });
+            // Support tekan "Enter" di input search
+            document.getElementById('searchInputWilayah').addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+                    document.getElementById('filterSkala').addEventListener('change', function() {
+                        performSearch();
+                        updateExportUrl();
+                });
 
-        document.getElementById('btnResetSearch').addEventListener('click', function() {
-            document.getElementById('searchInputWilayah').value = '';
-            document.getElementById('filterSkala').value = ''; // Reset dropdown
-            updateExportUrl(); // ← tambahkan ini
+            function performSearch() {
+                const searchValue = document.getElementById('searchInputWilayah').value;
+                const skalaValue = document.getElementById('filterSkala').value; // Ambil nilai dropdown
+                // Panggil loadWilayah dengan kecamatan + kata kunci search
+                // const url = `${filterWilayahUrl}?kecamatan=${encodeURIComponent(kecamatan)}&search=${encodeURIComponent(searchValue)}`;
+                const url = `${filterWilayahUrl}?kecamatan=${encodeURIComponent(kecamatan)}&search=${encodeURIComponent(searchValue)}&skala=${skalaValue}`;
+                loadWilayah(url);
+            }
 
-            loadWilayah(`${filterWilayahUrl}?kecamatan=${encodeURIComponent(kecamatan)}`);
-        });
+            
 
-       </script>
+            document.getElementById('btnResetSearch').addEventListener('click', function() {
+                document.getElementById('searchInputWilayah').value = '';
+                document.getElementById('filterSkala').value = ''; // Reset dropdown
+                updateExportUrl(); // ← tambahkan ini
+
+                loadWilayah(`${filterWilayahUrl}?kecamatan=${encodeURIComponent(kecamatan)}`);
+            });
+
+        </script>
        {{-- batas usaha berdasarkan wilayah --}}
-    @elseif (Request::is('usaha-berdasarkan-wilayah-desa'))
+    @elseif (Request::is('mirroring/usaha-berdasarkan-wilayah-desa'))
 
         {{-- usaha berdasarkan wilayah --}}
 
@@ -659,7 +659,7 @@
        {{-- batas usaha berdasarkan wilayah --}}
 
     
-    @elseif(Request::is('usaha-berdasarkan-cluster-prioritas'))
+    @elseif(Request::is('mirroring/usaha-berdasarkan-cluster-prioritas'))
     
     <script>
         const filterClusterUrl = "{{ route('admin.cluster.data') }}";
@@ -840,7 +840,7 @@
      <!-- usaha berdasarkan cluster -->
      
 
-    @elseif(Request::is('usaha-berdasarkan-kbli'))
+    @elseif(Request::is('mirroring/usaha-berdasarkan-kbli'))
 
     {{-- script kbli --}}
     <script>
@@ -924,7 +924,7 @@
     {{-- batas script kbli --}}
 
 
-    @elseif(Request::is('indikator-usaha-lainnya'))
+    @elseif(Request::is('mirroring/indikator-usaha-lainnya'))
     {{-- usaha lainnya --}}
 
     <!-- blade variable kepemilikan nib -->

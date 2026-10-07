@@ -1,43 +1,41 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Helpers;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SkalaUsaha extends Model
+class LaporanKeuangan_Dev extends Model
 {
-    
-    protected $table = 'skala_usaha'; //block 13
-    protected $primaryKey = 'id_badan_usaha'; 
+    protected $table = 'usaha_laporan_keuangan_dev';
+    protected $primaryKey = 'id_badan_usaha';
     public $incrementing = false;
     protected $keyType = 'int';
     public $timestamps = false;
 
-    public function identitasUsaha(){
-        return $this->belongsTo(IdentitasUsaha::class, 'id_badan_usaha', 'id_badan_usaha');
-    }
-
-     public function usahaKarakteristik()
+    public function identitasUsaha()
     {
-        return $this->hasOne(UsahaKarakteristik::class, 'id_badan_usaha', 'id_badan_usaha');
+        return $this->belongsTo(IdentitasUsaha_Dev::class, 'id_badan_usaha', 'id_badan_usaha');
     }
-     public function usahaPerizinan()
+
+    public function usahaKarakteristik()
     {
-        return $this->hasOne(UsahaPerizinan::class, 'id_badan_usaha', 'id_badan_usaha');
+        return $this->hasOne(UsahaKarakteristik_Dev::class, 'id_badan_usaha', 'id_badan_usaha');
     }
 
-    public function identitasPengusaha(){
-        
-        return $this->hasOne(IdentitasPengusaha::class, 'id_badan_usaha', 'id_badan_usaha');
-
+    public function identitasPengusaha()
+    {
+        return $this->hasOne(IdentitasPengusaha_Dev::class, 'id_badan_usaha', 'id_badan_usaha');
     }
 
-    public function usahaProduksiPemasaran(){
-
-        return $this->hasOne(ProduksiDanPemasaran::class, 'id_badan_usaha', 'id_badan_usaha');
-
+    public function produksiDanPemasaran(){
+        return $this->hasOne(ProduksiDanPemasaran_Dev::class, 'id_badan_usaha', 'id_badan_usaha');
     }
 
+    public function skalaUsaha(){
+
+       return $this->hasOne(SkalaUsaha_Dev::class, 'id_badan_usaha', 'id_badan_usaha');
+
+    }
 
      public function scopeSearch($query, array $filters){
         $query->when($filters['search'] ?? false, function($query, $search) {

@@ -733,6 +733,33 @@
                         </li>
                     </ul>
                 </li>
+
+                <hr>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="bi bi-house-fill text-white"></i>
+                        <p class="fs-8 text-white">
+                           Mirroring
+                            <i class="nav-arrow bi bi-chevron-right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.mirroring.index') }}" class="nav-link">
+                                <i class="nav-icon bi bi-circle"></i>
+                                <p class="text-white">Data UMKM</p>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.mirroring.ukmkm.list') }}" class="nav-link">
+                                <i class="nav-icon bi bi-circle"></i>
+                                <p class="text-white">List UMKM</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="bi bi-box-arrow-right text-white"></i>

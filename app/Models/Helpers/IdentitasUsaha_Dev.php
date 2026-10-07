@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Helpers;
 
 use Illuminate\Database\Eloquent\Model;
 
-class IdentitasUsaha extends Model
+class IdentitasUsaha_Dev extends Model
 {
-    protected $table = 'identitasusaha'; // 
+    protected $table = 'identitasusaha_dev'; // 
     protected $primaryKey = 'id_badan_usaha';
     public $incrementing = false;
     protected $keyType = 'int';
@@ -17,44 +17,44 @@ class IdentitasUsaha extends Model
 
     public function tanggalPendataan()
     {
-        return $this->hasOne(TanggalPendataan::class, 'id_data_badan_usaha', 'id_badan_usaha');
+        return $this->hasOne(TanggalPendataan_Dev::class, 'id_data_badan_usaha', 'id_badan_usaha');
     }
 
     public function usahaPerizinan(){
-        return $this->hasOne(UsahaPerizinan::class, 'id_badan_usaha', 'id_badan_usaha');
+        return $this->hasOne(UsahaPerizinan_Dev::class, 'id_badan_usaha', 'id_badan_usaha');
     }
 
     public function usahaProduksiPemasaran()
     {
-        return $this->hasOne(ProduksiDanPemasaran::class, 'id_badan_usaha', 'id_badan_usaha');
+        return $this->hasOne(ProduksiDanPemasaran_Dev::class, 'id_badan_usaha', 'id_badan_usaha');
     }
 
     public function tenagaKerja()
     {
-        return $this->hasOne(TenagaKerja::class, 'id_data_badan_usaha', 'id_badan_usaha');
+        return $this->hasOne(TenagaKerja_Dev::class, 'id_data_badan_usaha', 'id_badan_usaha');
     }
 
     public function laporanKeuangan()
     {
-        return $this->hasOne(LaporanKeuangan::class, 'id_badan_usaha', 'id_badan_usaha');
+        return $this->hasOne(LaporanKeuangan_Dev::class, 'id_badan_usaha', 'id_badan_usaha');
     }
     public function usahaKarakteristik()
     {
-        return $this->hasOne(UsahaKarakteristik::class, 'id_badan_usaha', 'id_badan_usaha');
+        return $this->hasOne(UsahaKarakteristik_Dev::class, 'id_badan_usaha', 'id_badan_usaha');
     }
     public function identitasPengusaha()
     {
-        return $this->hasOne(IdentitasPengusaha::class, 'id_badan_usaha', 'id_badan_usaha');
+        return $this->hasOne(IdentitasPengusaha_Dev::class, 'id_badan_usaha', 'id_badan_usaha');
     }
 
     public function usahaProsesProduksi(){
 
-        return $this->hasOne(UsahaProsesProduksi::class, 'id_badan_usaha', 'id_badan_usaha');
+        return $this->hasOne(UsahaProsesProduksi_Dev::class, 'id_badan_usaha', 'id_badan_usaha');
 
     }
 
     public function skalaUsaha(){
-        return $this->hasOne(SkalaUsaha::class, 'id_badan_usaha', 'id_badan_usaha');
+        return $this->hasOne(SkalaUsaha_Dev::class, 'id_badan_usaha', 'id_badan_usaha');
     }
 
 

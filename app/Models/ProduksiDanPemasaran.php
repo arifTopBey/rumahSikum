@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProduksiDanPemasaran extends Model
 {
-    protected $table = 'usaha_produksi_pemasaran'; // Gunakan block 1 sebagai tabel dasar
+    protected $table = 'usaha_produksi_pemasaran'; 
     protected $primaryKey = 'id_badan_usaha';
     public $incrementing = false;
     protected $keyType = 'int';
