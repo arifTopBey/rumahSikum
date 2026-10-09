@@ -2,6 +2,7 @@
 
 namespace App\Models\Helpers;
 
+
 use Illuminate\Database\Eloquent\Model;
 
 class IdentitasUsaha_Dev extends Model
@@ -22,6 +23,10 @@ class IdentitasUsaha_Dev extends Model
 
     public function usahaPerizinan(){
         return $this->hasOne(UsahaPerizinan_Dev::class, 'id_badan_usaha', 'id_badan_usaha');
+    }
+
+      public function usahaBahanBaku(){
+        return $this->hasOne(UsahaBahanBaku_Dev::class, 'id_badan_usaha', 'id_badan_usaha');
     }
 
     public function usahaProduksiPemasaran()
@@ -53,10 +58,19 @@ class IdentitasUsaha_Dev extends Model
 
     }
 
+     public function pembinaan(){
+        return $this->hasOne(Pembinaan_Dev::class, 'id_badan_usaha', 'id_badan_usaha');
+    }
+
     public function skalaUsaha(){
         return $this->hasOne(SkalaUsaha_Dev::class, 'id_badan_usaha', 'id_badan_usaha');
     }
 
+     public function kemitraan(){
+        return $this->hasOne(Kemitraan_Dev::class, 'id_badan_usaha', 'id_badan_usaha');
+    }
+
+    
 
     public function scopeSearch($query, array $filters){
         $query->when($filters['search'] ?? false, function($query, $search){

@@ -4,16 +4,16 @@ namespace App\Models\Helpers;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Pembinaan_Dev extends Model
+class Kemitraan_Dev extends Model
 {
     
-    protected $table = 'usaha_pembinaan_dev'; 
+    protected $table = 'usaha_kemitraan_dev'; 
     protected $primaryKey = 'id_badan_usaha';
     public $incrementing = false;
     protected $keyType = 'int';
     public $timestamps = false;
-
-    protected $guarded =['id_badan_usaha'];
+    protected $guarded = ['id'];
+    // protected $guarded = ['id_badan_usaha'];
 
 
     public function identitasUsaha()

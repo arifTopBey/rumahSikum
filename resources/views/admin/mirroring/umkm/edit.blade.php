@@ -184,10 +184,10 @@
                                         <input type="number" min="0" max="2023" class="form-control rounded-2" id="tahun_mulai_operasi" name="tahun_mulai_operasi" value="{{ old('tahun_mulai_operasi', $data->usahaKarakteristik->tahun_mulai_operasi ?? '') }}">
                                     </div>
 
-                                     <div class="col-md-6">
+                                     <!-- <div class="col-md-6">
                                         <label for="kategori_kbli" class="form-label fw-semibold">Kategori KBLI</label>
                                         <input type="number" min="0" max="2023" class="form-control rounded-2" id="kategori_kbli" name="kategori_kbli" value="{{ old('kategori_kbli', $data->usahaKarakteristik->kategori_kbli ?? '') }}">
-                                    </div>
+                                    </div> -->
                                       <div class="col-md-6">
                                         <label for="kode_kbli" class="form-label fw-semibold">Kode KBLI</label>
                                         <input type="number" min="0" max="9999999" class="form-control rounded-2" id="kode_kbli" name="kode_kbli" value="{{ old('kode_kbli', $data->usahaKarakteristik->kode_kbli ?? '') }}">
@@ -197,7 +197,7 @@
                                         <input type="text" class="form-control rounded-2" id="produk_utama" name="produk_utama" value="{{ old('produk_utama', $data->usahaKarakteristik->produk_utama ?? '') }}">
                                     </div>
 
-                                    <div class="col-6">
+                                    <div class="col-12">
                                         <label for="kegiatan_utama" class="form-label fw-semibold">Kegiatan Utama Usaha</label>
                                         <input type="text" class="form-control rounded-2" id="kegiatan_utama" name="kegiatan_utama" value="{{ old('kegiatan_utama', $data->usahaKarakteristik->kegiatan_utama ?? '') }}">
                                     </div>
@@ -335,7 +335,7 @@
                                 <h5 class="mb-0 fw-bold text-primary"><i class="bi bi-award me-2"></i>5. Penghargaan</h5>
                             </div>
                             <div class="card-body p-4">
-                                <p class="text-muted">Form masukan penghargaan usaha dapat disesuaikan di sini.</p>
+                                <p class="text-muted">Form masukan penghargaan usaha</p>
                             </div>
                         </div>
                     </div>
@@ -347,7 +347,37 @@
                                 <h5 class="mb-0 fw-bold text-primary"><i class="bi bi-box-seam me-2"></i>6. Bahan Baku / Penolong</h5>
                             </div>
                             <div class="card-body p-4">
-                                <p class="text-muted">Form masukan bahan baku dan penolong.</p>
+                                 <div class="row g-3">
+                                     <div class="col-md-4">
+                                        <label for="persen_dari_usaha_mikro" class="form-label fw-semibold">Presentase bahan baku dari usaha mikro</label>
+                                        <input type="number" min="0" max="100" class="form-control rounded-2" id="persen_dari_usaha_mikro" name="persen_dari_usaha_mikro" value="{{ old('persen_dari_usaha_mikro', $data->usahaBahanBaku->persen_dari_usaha_mikro ?? '') }}">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="persen_dari_usaha_kecil" class="form-label fw-semibold">Presentase bahan baku dari usaha kecil</label>
+                                        <input type="number" min="0" max="100" class="form-control rounded-2" id="persen_dari_usaha_kecil" name="persen_dari_usaha_kecil" value="{{ old('persen_dari_usaha_kecil', $data->usahaBahanBaku->persen_dari_usaha_kecil ?? '') }}">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="persen_dari_usaha_menengah" class="form-label fw-semibold">Presentase bahan baku dari usaha menengah</label>
+                                        <input type="number" min="0" max="100" class="form-control rounded-2" id="persen_dari_usaha_menengah" name="persen_dari_usaha_menengah" value="{{ old('persen_dari_usaha_menengah', $data->usahaBahanBaku->persen_dari_usaha_menengah ?? '') }}">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="persen_dari_usaha_besar" class="form-label fw-semibold">Presentase bahan baku dari usaha besar</label>
+                                        <input type="number" min="0" max="100" class="form-control rounded-2" id="persen_dari_usaha_besar" name="persen_dari_usaha_besar" value="{{ old('persen_dari_usaha_besar', $data->usahaBahanBaku->persen_dari_usaha_besar ?? '') }}">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="persen_dari_koperasi" class="form-label fw-semibold">Presentase bahan baku dari Koperasi</label>
+                                        <input type="number" min="0" max="100" class="form-control rounded-2" id="persen_dari_koperasi" name="persen_dari_koperasi" value="{{ old('persen_dari_koperasi', $data->usahaBahanBaku->persen_dari_koperasi ?? '') }}">
+                                    </div>
+            
+                                    <div class="col-md-4">
+                                            <label for="total_nilai_bahan_baku" class="form-label fw-semibold">Jumlah Nilai Bahan Baku (Rp)</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text bg-light">Rp</span>
+                                                <input type="number" step="any" class="form-control rounded-end" id="total_nilai_bahan_baku" name="total_nilai_bahan_baku" value="{{ old('total_nilai_bahan_baku', $data->usahaBahanBaku->total_nilai_bahan_baku ?? 0) }}">
+                                            </div>
+                                    </div>
+                                 </div>
+                               
                             </div>
                         </div>
                     </div>
@@ -415,32 +445,37 @@
                                 <div class="row g-3">
                                     <div class="col-md-2">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="901a" value="1" id="proc_a" {{ ($data->{'901a'} ?? null) == 1 ? 'checked' : '' }}>
-                                            <label class="form-check-label" for="proc_a">Manual</label>
+                                            <input type="hidden" name="bahan_baku_utama" value="2">
+                                            <input class="form-check-input" type="checkbox" name="bahan_baku_utama" value="1" id="proc_a" {{ ($data->usahaProsesProduksi->bahan_baku_utama ?? null) == 1 ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="proc_a">Proses Produksi Manual</label>
                                         </div>
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="901b" value="1" id="proc_b" {{ ($data->{'901b'} ?? null) == 1 ? 'checked' : '' }}>
-                                            <label class="form-check-label" for="proc_b">Mekanik</label>
+                                             <input type="hidden" name="proses_produksi" value="2">
+                                            <input class="form-check-input" type="checkbox" name="proses_produksi" value="1" id="proc_b" {{ ($data->usahaProsesProduksi->proses_produksi ?? null) == 1 ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="proc_b">Proses Produksi secara Mekanik</label>
                                         </div>
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="901c" value="1" id="proc_c" {{ ($data->{'901c'} ?? null) == 1 ? 'checked' : '' }}>
-                                            <label class="form-check-label" for="proc_c">Elektronik</label>
+                                            <input type="hidden" name="penggunaan_teknologi" value="2">
+                                            <input class="form-check-input" type="checkbox" name="penggunaan_teknologi" value="1" id="proc_c" {{ ($data->usahaProsesProduksi->penggunaan_teknologi ?? null) == 1 ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="proc_c">Proses Produksi secara Elektronik</label>
                                         </div>
                                     </div>
                                     <div class="col-md-2">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="901d" value="1" id="proc_d" {{ ($data->{'901d'} ?? null) == 1 ? 'checked' : '' }}>
-                                            <label class="form-check-label" for="proc_d">Digital</label>
+                                             <input type="hidden" name="sistem_produksi" value="2">
+                                            <input class="form-check-input" type="checkbox" name="sistem_produksi" value="1" id="proc_d" {{ ($data->usahaProsesProduksi->sistem_produksi ?? null) == 1 ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="proc_d">Proses Produksi secara Digital</label>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="901e" value="1" id="proc_e" {{ ($data->{'901e'} ?? null) == 1 ? 'checked' : '' }}>
-                                            <label class="form-check-label" for="proc_e">Artificial Intelligence</label>
+                                            <input type="hidden" name="pengendalian_mutu" value="2">
+                                            <input class="form-check-input" type="checkbox" name="pengendalian_mutu" value="1" id="proc_e" {{ ($data->usahaProsesProduksi->pengendalian_mutu ?? null) == 1 ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="proc_e">Proses Produksi secara Artificial Intelligence</label>
                                         </div>
                                     </div>
                                 </div>
@@ -455,7 +490,27 @@
                                 <h5 class="mb-0 fw-bold text-primary"><i class="bi bi-handbag me-2"></i>10. Kemitraan</h5>
                             </div>
                             <div class="card-body p-4">
-                                <p class="text-muted">Form masukan detail kemitraan usaha.</p>
+                                <!-- <p class="text-muted">Form masukan detail kemitraan usaha.</p> -->
+                                  <div class="row g-3">
+                                      <div class="col-md-4">
+                                            <label for="nama_mitra" class="form-label fw-semibold">Nama Mitra</label>
+                                            <input type="text" class="form-control rounded-2" id="nama_mitra" name="nama_mitra" value="{{ old('nama_mitra', $data->kemitraan->nama_mitra ?? '') }}">
+                                        </div>
+                                       
+                                        <div class="col-md-4">
+                                            <label for="hp" class="form-label fw-semibold">HP</label>
+                                            <input type="text" class="form-control rounded-2" id="hp" name="hp" value="{{ old('hp', $data->kemitraan->hp ?? '') }}">
+                                        </div>
+                                         <div class="col-md-4">
+                                            <label for="keterangan" class="form-label fw-semibold">Keterangan</label>
+                                            <input type="text" class="form-control rounded-2" id="keterangan" name="keterangan" value="{{ old('keterangan', $data->kemitraan->keterangan ?? '') }}">
+                                        </div>
+                                         <div class="col-md-12">
+                                            <label for="alamat" class="form-label fw-semibold">Alamat</label>
+                                            <textarea name="alamat" id="" class="form-control">{{ old('alamat', $data->kemitraan->alamat ?? '') }}</textarea>
+                                            <!-- <input type="text" class="form-control rounded-2" id="alamat" name="alamat" value="{{ old('alamat', $data->kemitraan->alamat ?? '') }}"> -->
+                                        </div>
+                                  </div>
                             </div>
                         </div>
                     </div>
@@ -476,46 +531,53 @@
                                         </div>
                                     </div>
                                      <div class="col-md-6">
-                                        <label for="pendapatan_lain" class="form-label fw-semibold">Pendapatan Lainnya (Rp)</label>
+                                        <label for="pendapatan_lain" class="form-label fw-semibold">Pendapatan Operasional (Rp)</label>
                                         <div class="input-group">
                                             <span class="input-group-text bg-light">Rp</span>
                                             <input type="number" step="any" class="form-control rounded-end" id="pendapatan_lain" name="pendapatan_lain" value="{{ old('pendapatan_lain', $data->laporanKeuangan->pendapatan_lain ?? 0) }}">
                                         </div>
                                     </div>
                                      <div class="col-md-4">
-                                        <label for="subsidi_bantuan" class="form-label fw-semibold">Subsidi Bantuan (Rp)</label>
+                                        <label for="subsidi_bantuan" class="form-label fw-semibold">Pendapatan Non Operasional (Rp)</label>
                                         <div class="input-group">
                                             <span class="input-group-text bg-light">Rp</span>
                                             <input type="number" step="any" class="form-control rounded-end" id="subsidi_bantuan" name="subsidi_bantuan" value="{{ old('subsidi_bantuan', $data->laporanKeuangan->subsidi_bantuan ?? 0) }}">
                                         </div>
                                     </div>
                                      <div class="col-md-4">
-                                        <label for="pinjaman_diterima" class="form-label fw-semibold">Pinjaman Diterima (Rp)</label>
+                                        <label for="pinjaman_diterima" class="form-label fw-semibold">Subsidi Usaha (Rp)</label>
                                         <div class="input-group">
                                             <span class="input-group-text bg-light">Rp</span>
                                             <input type="number" step="any" class="form-control rounded-end" id="pinjaman_diterima" name="pinjaman_diterima" value="{{ old('pinjaman_diterima', $data->laporanKeuangan->pinjaman_diterima ?? 0) }}">
                                         </div>
                                     </div>
                                      <div class="col-md-4">
-                                        <label for="sumber_lainnya" class="form-label fw-semibold">Sumber Lainnya (Rp)</label>
+                                        <label for="sumber_lainnya" class="form-label fw-semibold">Subsidi Fiskal (Rp)</label>
                                         <div class="input-group">
                                             <span class="input-group-text bg-light">Rp</span>
                                             <input type="number" step="any" class="form-control rounded-end" id="sumber_lainnya" name="sumber_lain" value="{{ old('sumber_lain', $data->laporanKeuangan->sumber_lain ?? 0) }}">
                                         </div>
                                     </div>
-                                     <div class="col-md-6">
-                                        <label for="biaya_bahan_baku" class="form-label fw-semibold">Biaya Bahan Baku (Rp)</label>
+                                     <div class="col-md-4">
+                                        <label for="biaya_bahan_baku" class="form-label fw-semibold">Pph Badan Pasal 25</label>
                                         <div class="input-group">
                                             <span class="input-group-text bg-light">Rp</span>
                                             <input type="number" step="any" class="form-control rounded-end" id="biaya_bahan_baku" name="biaya_bahan_baku" value="{{ old('biaya_bahan_baku', $data->laporanKeuangan->biaya_bahan_baku ?? 0) }}">
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <label for="biaya_tenaga_kerja" class="form-label fw-semibold">Biaya Tenaga Kerja (Rp)</label>
+                                    <div class="col-md-4">
+                                        <label for="biaya_tenaga_kerja" class="form-label fw-semibold">Pph Final Atas Omzet(Rp)</label>
                                         <div class="input-group">
                                             <span class="input-group-text bg-light">Rp</span>
                                             <input type="number" step="any" class="form-control rounded-end" id="biaya_tenaga_kerja" name="biaya_tenaga_kerja" value="{{ old('biaya_tenaga_kerja', $data->laporanKeuangan->biaya_tenaga_kerja ?? 0) }}">
                                         </div>
+                                    </div>
+                                      <div class="col-md-4">
+                                        <label class="form-label fw-semibold">Memiliki Laporan Keuangan ?</label>
+                                        <select class="form-select rounded-2" name="status_pencatatan_keuangan">
+                                            <option value="1" {{ ($data->laporanKeuangan->status_pencatatan_keuangan ?? null) == 1 ? 'selected' : '' }}>Ada</option>
+                                            <option value="2" {{ ($data->laporanKeuangan->status_pencatatan_keuangan ?? null) == 2 ? 'selected' : '' }}>Tidak Ada</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -529,8 +591,183 @@
                                 <h5 class="mb-0 fw-bold text-primary"><i class="bi bi-journal-bookmark me-2"></i>12. Pembinaan</h5>
                             </div>
                             <div class="card-body p-4">
-                                <p class="text-muted">Form histori atau rencana pembinaan UMKM.</p>
-                            </div>
+                                <!-- <p class="text-muted">Form histori atau rencana pembinaan UMKM.</p> -->
+                                  <div class="row g-3">
+                                      <div class="col-md-2 mb-3">
+                                            <div class="form-check">
+                                                 <input type="hidden" name="teknis_produksi" value="2">
+                                                <input class="form-check-input" type="checkbox" name="teknis_produksi" value="1" id="teknis_produksi" {{ ($data->pembinaan->teknis_produksi ?? null) == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="teknis_produksi">Pelatihan Teknis Produksi</label>
+                                            </div>
+                                      </div>
+                                      <div class="col-md-2 mb-3">
+                                            <div class="form-check">
+                                                <input type="hidden" name="pemasaran_jaringan" value="2">
+                                                <input class="form-check-input" type="checkbox" name="pemasaran_jaringan" value="1" id="pemasaran_jaringan" {{ ($data->pembinaan->pemasaran_jaringan ?? null) == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="pemasaran_jaringan">Pelatihan Teknis Pemasaran</label>
+                                            </div>
+                                      </div>
+                                       <div class="col-md-2 mb-3">
+                                            <div class="form-check">
+                                                <input type="hidden" name="pembiayaan" value="2">
+                                                <input class="form-check-input" type="checkbox" name="pembiayaan" value="1" id="pembiayaan" {{ ($data->pembinaan->pembiayaan ?? null) == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="pembiayaan">Pelatihan Pembiayaan</label>
+                                            </div>
+                                      </div>
+                                       <div class="col-md-2 mb-3">
+                                            <div class="form-check">
+                                                <input type="hidden" name="ekspor" value="2">
+                                                <input class="form-check-input" type="checkbox" name="ekspor" value="1" id="ekspor" {{ ($data->pembinaan->ekspor ?? null) == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="ekspor">Pelatihan Ekport</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 mb-3">
+                                            <div class="form-check">
+                                                <input type="hidden" name="digitalisasi" value="2">
+                                                <input class="form-check-input" type="checkbox" name="digitalisasi" value="1" id="digitalisasi" {{ ($data->pembinaan->digitalisasi ?? null) == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="digitalisasi">Pelatihan Digitalisasi</label>
+                                            </div>
+                                      </div>
+                                       <div class="col-md-2 mb-3">
+                                            <div class="form-check">
+                                                <input type="hidden" name="manajemen" value="2">
+                                                <input class="form-check-input" type="checkbox" name="manajemen" value="1" id="manajemen" {{ ($data->pembinaan->manajemen ?? null) == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="manajemen">Pelatihan Manajemen</label>
+                                            </div>
+                                      </div>
+                                       <div class="col-md-2 mb-3">
+                                            <div class="form-check">
+                                                <input type="hidden" name="standarisasi" value="2">
+                                                <input class="form-check-input" type="checkbox" name="standarisasi" value="1" id="standarisasi" {{ ($data->pembinaan->standarisasi ?? null) == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="standarisasi">Pelatihan Standarisasi</label>
+                                            </div>
+                                      </div>
+                                       <div class="col-md-2 mb-3">
+                                            <div class="form-check">
+                                                <input type="hidden" name="hak_kekayaan_intelektual" value="2">
+                                                <input class="form-check-input" type="checkbox" name="hak_kekayaan_intelektual" value="1" id="hak_kekayaan_intelektual" {{ ($data->pembinaan->hak_kekayaan_intelektual ?? null) == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="hak_kekayaan_intelektual">Pelatihan Hak Kekayaan Intelektual</label>
+                                            </div>
+                                      </div>
+                                       <div class="col-md-2 mb-3">
+                                            <div class="form-check">
+                                                <input type="hidden" name="mitigasi_kebencanaan" value="2">
+                                                <input class="form-check-input" type="checkbox" name="mitigasi_kebencanaan" value="1" id="mitigasi_kebencanaan" {{ ($data->pembinaan->mitigasi_kebencanaan ?? null) == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="mitigasi_kebencanaan">Pelatihan Mitigasi Kebencanaan</label>
+                                            </div>
+                                      </div>
+                                       <div class="col-md-2 mb-3">
+                                            <div class="form-check">
+                                                <input type="hidden" name="penyelenggara_sendiri" value="2">
+                                                <input class="form-check-input" type="checkbox" name="penyelenggara_sendiri" value="1" id="penyelenggara_sendiri" {{ ($data->pembinaan->penyelenggara_sendiri ?? null) == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="penyelenggara_sendiri">Pelatihan Oleh Perusahaan Sendiri</label>
+                                            </div>
+                                      </div>
+                                       <div class="col-md-2 mb-3">
+                                            <div class="form-check">
+                                                <input type="hidden" name="penyelenggara_pemerintah" value="2">
+                                                <input class="form-check-input" type="checkbox" name="penyelenggara_pemerintah" value="1" id="penyelenggara_pemerintah" {{ ($data->pembinaan->penyelenggara_pemerintah ?? null) == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="penyelenggara_pemerintah">Pelatihan Oleh Pemerintah</label>
+                                            </div>
+                                      </div>
+                                       <div class="col-md-2 mb-3">
+                                            <div class="form-check">
+                                                 <input type="hidden" name="penyelenggara_swasta" value="2">
+                                                <input class="form-check-input" type="checkbox" name="penyelenggara_swasta" value="1" id="penyelenggara_swasta" {{ ($data->pembinaan->penyelenggara_swasta ?? null) == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="penyelenggara_swasta">Pelatihan Oleh Swasta</label>
+                                            </div>
+                                      </div>
+                                       <div class="col-md-2 mb-3">
+                                            <div class="form-check">
+                                                <input type="hidden" name="penyelenggara_lsm" value="2">
+                                                <input class="form-check-input" type="checkbox" name="penyelenggara_lsm" value="1" id="penyelenggara_lsm" {{ ($data->pembinaan->penyelenggara_lsm ?? null) == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="penyelenggara_lsm">Pelatihan Oleh LSM</label>
+                                            </div>
+                                      </div>
+                                      <div class="col-md-2 mb-3">
+                                            <div class="form-check">
+                                                <input type="hidden" name="penyelenggara_lainnya" value="2">
+                                                <input class="form-check-input" type="checkbox" name="penyelenggara_lainnya" value="1" id="penyelenggara_lainnya" {{ ($data->pembinaan->penyelenggara_lainnya ?? null) == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="penyelenggara_lainnya">Pelatihan Oleh Pihak Lainnya</label>
+                                            </div>
+                                      </div>
+                                      <div class="col-md-2 mb-3">
+                                            <div class="form-check">
+                                                <input type="hidden" name="modal_produksi" value="2">
+                                                <input class="form-check-input" type="checkbox" name="modal_produksi" value="1" id="modal_produksi" {{ ($data->pembinaan->modal_produksi ?? null) == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="modal_produksi">Bantuan Modal Produksi</label>
+                                            </div>
+                                      </div>
+                                       <div class="col-md-2 mb-3">
+                                            <div class="form-check">
+                                                <input type="hidden" name="modal_pemasaran" value="2">
+                                                <input class="form-check-input" type="checkbox" name="modal_pemasaran" value="1" id="modal_pemasaran" {{ ($data->pembinaan->modal_pemasaran ?? null) == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="modal_pemasaran">Bantuan Modal Pemasaran</label>
+                                            </div>
+                                      </div>
+                                       <div class="col-md-2 mb-3">
+                                            <div class="form-check">
+                                                <input type="hidden" name="modal_ekspor" value="2">
+                                                <input class="form-check-input" type="checkbox" name="modal_ekspor" value="1" id="modal_ekspor" {{ ($data->pembinaan->modal_ekspor ?? null) == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="modal_ekspor">Bantuan Modal Ekspor</label>
+                                            </div>
+                                      </div>
+                                       <div class="col-md-2 mb-3">
+                                            <div class="form-check">
+                                                <input type="hidden" name="modal_digitalisasi" value="2">
+                                                <input class="form-check-input" type="checkbox" name="modal_digitalisasi" value="1" id="modal_digitalisasi" {{ ($data->pembinaan->modal_digitalisasi ?? null) == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="modal_digitalisasi">Bantuan Modal Digitalisasi</label>
+                                            </div>
+                                      </div>
+                                       <div class="col-md-2 mb-3">
+                                            <div class="form-check">
+                                                <input type="hidden" name="modal_standarisasi" value="2">
+                                                <input class="form-check-input" type="checkbox" name="modal_standarisasi" value="1" id="modal_standarisasi" {{ ($data->pembinaan->modal_standarisasi ?? null) == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="modal_standarisasi">Bantuan Modal Standarisasi</label>
+                                            </div>
+                                      </div>
+                                       <div class="col-md-2 mb-3">
+                                            <div class="form-check">
+                                                <input type="hidden" name="modal_hki" value="2">
+                                                <input class="form-check-input" type="checkbox" name="modal_hki" value="1" id="modal_hki" {{ ($data->pembinaan->modal_hki ?? null) == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="modal_hki">Bantuan Modal HKI</label>
+                                            </div>
+                                      </div>
+                                       <div class="col-md-2 mb-3">
+                                            <div class="form-check">
+                                                <input type="hidden" name="pemberi_sendiri" value="2">
+                                                <input class="form-check-input" type="checkbox" name="pemberi_sendiri" value="1" id="pemberi_sendiri" {{ ($data->pembinaan->pemberi_sendiri ?? null) == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="pemberi_sendiri">Bantuan Perusahaan Sendiri</label>
+                                            </div>
+                                      </div>
+                                      <div class="col-md-2 mb-3">
+                                            <div class="form-check">
+                                                <input type="hidden" name="pemberi_pemerintah" value="2">
+                                                <input class="form-check-input" type="checkbox" name="pemberi_pemerintah" value="1" id="pemberi_pemerintah" {{ ($data->pembinaan->pemberi_pemerintah ?? null) == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="pemberi_pemerintah">Bantuan Pemerintah</label>
+                                            </div>
+                                      </div>
+                                       <div class="col-md-2 mb-3">
+                                            <div class="form-check">
+                                                <input type="hidden" name="pemberi_swasta" value="2">
+                                                <input class="form-check-input" type="checkbox" name="pemberi_swasta" value="1" id="pemberi_swasta" {{ ($data->pembinaan->pemberi_swasta ?? null) == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="pemberi_swasta">Bantuan Swasta</label>
+                                            </div>
+                                      </div>
+                                       <div class="col-md-2 mb-3">
+                                            <div class="form-check">
+                                                <input type="hidden" name="pemberi_lsm" value="2">
+                                                <input class="form-check-input" type="checkbox" name="pemberi_lsm" value="1" id="pemberi_lsm" {{ ($data->pembinaan->pemberi_lsm ?? null) == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="pemberi_lsm">Bantuan LSM</label>
+                                            </div>
+                                      </div>
+                                        <div class="col-md-2 mb-3">
+                                              <div class="form-check">
+                                                    <input type="hidden" name="pemberi_lainnya" value="2">
+                                                    <input class="form-check-input" type="checkbox" name="pemberi_lainnya" value="1" id="pemberi_lainnya" {{ ($data->pembinaan->pemberi_lainnya ?? null) == 1 ? 'checked' : '' }}>
+                                                    <label class="form-check-label" for="pemberi_lainnya">Bantuan Pihak Lainnya</label>
+                                              </div>
+                                        </div>
                         </div>
                     </div>
 

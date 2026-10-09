@@ -25,6 +25,10 @@ class IdentitasUsaha extends Model
         return $this->hasOne(UsahaPerizinan::class, 'id_badan_usaha', 'id_badan_usaha');
     }
 
+    public function usahaBahanBaku(){
+        return $this->hasOne(UsahaBahanBaku::class, 'id_badan_usaha', 'id_badan_usaha');
+    }
+
     public function usahaProduksiPemasaran()
     {
         return $this->hasOne(ProduksiDanPemasaran::class, 'id_badan_usaha', 'id_badan_usaha');
@@ -56,6 +60,10 @@ class IdentitasUsaha extends Model
 
     public function skalaUsaha(){
         return $this->hasOne(SkalaUsaha::class, 'id_badan_usaha', 'id_badan_usaha');
+    }
+
+    public function pembinaan(){
+        return $this->hasOne(Pembinaan::class, 'id_badan_usaha', 'id_badan_usaha');
     }
 
 

@@ -12,6 +12,8 @@ class LaporanKeuangan_Dev extends Model
     protected $keyType = 'int';
     public $timestamps = false;
 
+    protected $guarded = ['id_badan_usaha'];
+
     public function identitasUsaha()
     {
         return $this->belongsTo(IdentitasUsaha_Dev::class, 'id_badan_usaha', 'id_badan_usaha');

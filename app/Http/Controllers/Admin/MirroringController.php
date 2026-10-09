@@ -7,12 +7,16 @@ use App\Http\Requests\UpdateUmkmRequest;
 use App\Interface\UmkmInterface;
 use App\Models\Helpers\IdentitasPengusaha_Dev;
 use App\Models\Helpers\IdentitasUsaha_Dev;
+use App\Models\Helpers\Kemitraan_Dev;
 use App\Models\Helpers\LaporanKeuangan_Dev;
+use App\Models\Helpers\Pembinaan_Dev;
 use App\Models\Helpers\ProduksiDanPemasaran_Dev;
 use App\Models\Helpers\SkalaUsaha_Dev;
 use App\Models\Helpers\TenagaKerja_Dev;
+use App\Models\Helpers\UsahaBahanBaku_Dev;
 use App\Models\Helpers\UsahaKarakteristik_Dev;
 use App\Models\Helpers\UsahaPerizinan_Dev;
+use App\Models\Helpers\UsahaProsesProduksi_Dev;
 use App\Models\IdentitasUsaha;
 use App\Models\LaporanKeuangan;
 use App\Models\ProduksiDanPemasaran;
@@ -1734,6 +1738,11 @@ public function filterSkala(Request $request)
         $tenagaKerja = TenagaKerja_Dev::where('id_data_badan_usaha', $id_badan_usaha)->first();
         $perizinan = UsahaPerizinan_Dev::where('id_badan_usaha', $id_badan_usaha)->first();
         $karakteristikUsaha = UsahaKarakteristik_Dev::where('id_badan_usaha', $id_badan_usaha)->first();
+        $bahanBaku = UsahaBahanBaku_Dev::where('id_badan_usaha', $id_badan_usaha)->first();
+        $pembinaan = Pembinaan_Dev::where('id_badan_usaha', $id_badan_usaha)->first();
+        $kemitraan = Kemitraan_Dev::where('id_badan_usaha', $id_badan_usaha)->first();
+        $prosesProduksi = UsahaProsesProduksi_Dev::where('id_badan_usaha', $id_badan_usaha)->first();
+        // dd($kemitraan);
 
         DB::beginTransaction(); // Mulai transaksi database
         try{
@@ -1755,23 +1764,36 @@ public function filterSkala(Request $request)
                 'memiliki_sertifikat_halal' => $data['memiliki_sertifikat_halal'],
             ]);
 
-            // $karakteristikUsaha->update([
-            //     'kode_kbli' => $data['kode_kbli'],
-            //     'tahun_mulai_operasi' => $data['tahun_mulai_operasi'],
-            //     'status_badan_usaha' => $data['status_badan_usaha'],
-            //     'nomor_induk_berusaha' => $data['nomor_induk_berusaha'],
-            // ]);
+            $karakteristikUsaha->update([
+                'kode_kbli' => $data['kode_kbli'],
+                'tahun_mulai_operasi' => $data['tahun_mulai_operasi'],
+                'npwp_usaha' => $data['npwp_usaha'],
+                'bulan_mulai_operasi' => $data['bulan_mulai_operasi'],
+                // 'status_badan_usaha' => $data['status_badan_usaha'],
+                'nomor_induk_berusaha' => $data['nomor_induk_berusaha'],
+                'kegiatan_utama' => $data['kegiatan_utama'],
+                'produk_utama' => $data['produk_utama']
+            ]);
 
-            // $laporanKeuangan->update([
-            //     // 'status_pencatatan_keuangan' => $request->status_pencatatan_keuangan,
-            //     'omzet_usaha' => $data['omzet_usaha'],
-            //     'pendapatan_lainnya' => $data['pendapatan_lainnya'],
-            //     'subsidi_bantuan' => $data['subsidi_bantuan'],
-            //     'pinjaman_diterima' => $data['pinjaman_diterima'],
-            //     'sumber_lain' => $data['sumber_lain'],
-            //     'biaya_bahan_baku' => $data['biaya_bahan_baku'],
-            //     'biaya_tenaga_kerja' => $data['biaya_tenaga_kerja'],
-            // ]);
+            $bahanBaku->update([
+                'persen_dari_usaha_mikro' => $data['persen_dari_usaha_mikro'],
+                'persen_dari_usaha_kecil' => $data['persen_dari_usaha_kecil'],
+                'persen_dari_usaha_menengah' => $data['persen_dari_usaha_menengah'],
+                'persen_dari_usaha_besar' => $data['persen_dari_usaha_besar'],
+                'persen_dari_koperasi' => $data['persen_dari_koperasi'],
+                'total_nilai_bahan_baku' => $data['total_nilai_bahan_baku']
+            ]);
+
+            $laporanKeuangan->update([
+                'omzet_usaha' => $data['omzet_usaha'],
+                'pendapatan_lain' => $data['pendapatan_lain'],
+                'subsidi_bantuan' => $data['subsidi_bantuan'],
+                'pinjaman_diterima' => $data['pinjaman_diterima'],
+                'sumber_lain' => $data['sumber_lain'],
+                'biaya_bahan_baku' => $data['biaya_bahan_baku'],
+                'biaya_tenaga_kerja' => $data['biaya_tenaga_kerja'],
+                'status_pencatatan_keuangan' => $data['status_pencatatan_keuangan'],
+            ]);
 
             $identitasPengusaha->update([
                 'nama_pengusaha' => $data['nama_pengusaha'],
@@ -1788,6 +1810,60 @@ public function filterSkala(Request $request)
                 'total_tenaga_kerja' => $data['total_tenaga_kerja'],
                 'total_pembayaran_upah' => $data['total_pembayaran_upah'],
             ]);
+
+            $pembinaan->update([
+                'teknis_produksi' => $data['teknis_produksi'],
+                'pemasaran_jaringan' => $data['pemasaran_jaringan'],
+                'pembiayaan' => $data['pembiayaan'],
+                'ekspor' => $data['ekspor'],
+                'digitalisasi' => $data['digitalisasi'],
+                'manajemen' => $data['manajemen'],
+                'standarisasi' => $data['standarisasi'],
+                'hak_kekayaan_intelektual' => $data['hak_kekayaan_intelektual'],
+                'mitigasi_kebencanaan' => $data['mitigasi_kebencanaan'],
+                'penyelenggara_sendiri' => $data['penyelenggara_sendiri'],
+                'penyelenggara_pemerintah' => $data['penyelenggara_pemerintah'],
+                'penyelenggara_swasta' => $data['penyelenggara_swasta'],
+                'penyelenggara_lsm' => $data['penyelenggara_lsm'],
+                'penyelenggara_lainnya' => $data['penyelenggara_lainnya'],
+                'modal_produksi' => $data['modal_produksi'],
+                'modal_pemasaran' => $data['modal_pemasaran'],
+                'modal_ekspor' => $data['modal_ekspor'],
+                'modal_digitalisasi' => $data['modal_digitalisasi'],
+                'modal_standarisasi' => $data['modal_standarisasi'],
+                'modal_hki' => $data['modal_hki'],
+                'pemberi_sendiri' => $data['pemberi_sendiri'],
+                'pemberi_pemerintah' => $data['pemberi_pemerintah'],
+                'pemberi_swasta' => $data['pemberi_swasta'],
+                'pemberi_lsm' => $data['pemberi_lsm'],
+                'pemberi_lainnya' => $data['pemberi_lainnya'],
+            ]);
+
+            if(!$kemitraan){
+               Kemitraan_Dev::create([
+                    'id_badan_usaha' => $id_badan_usaha,
+                    'nama_mitra' => $data['nama_mitra'],
+                    'alamat' => $data['alamat'],
+                    'hp' => $data['hp'],
+                    'keterangan' => $data['keterangan'],
+                ]);
+            }else{
+                $kemitraan->update([
+                    'nama_mitra' => $data['nama_mitra'],
+                    'alamat' => $data['alamat'],
+                    'hp' => $data['hp'],
+                    'keterangan' => $data['keterangan'],
+                ]);
+            }
+
+            $prosesProduksi->update([
+                'bahan_baku_utama' => $data['bahan_baku_utama'],
+                'proses_produksi' => $data['proses_produksi'],
+                'penggunaan_teknologi' => $data['penggunaan_teknologi'],
+                'sistem_produksi' => $data['sistem_produksi'],
+                'pengendalian_mutu' => $data['pengendalian_mutu'],
+            ]);
+
 
             DB::commit(); // Commit transaksi jika semua update berhasil
             return redirect()->route('admin.mirroring.ukmkm.list')->with('success', 'Data UMKM berhasil diperbarui.');

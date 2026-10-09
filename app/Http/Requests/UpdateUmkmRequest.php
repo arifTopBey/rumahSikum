@@ -38,7 +38,7 @@ class UpdateUmkmRequest extends FormRequest
             // laporan keuangan
             'status_pencatatan_keuangan' => 'nullable|in:1,2',
             'omzet_usaha' => 'nullable|numeric|min:0',
-            'pendapatan_lainnya' => 'nullable|numeric|min:0',
+            'pendapatan_lain' => 'nullable|numeric|min:0',
             'subsidi_bantuan' => 'nullable|numeric|min:0',
             'pinjaman_diterima' => 'nullable|numeric|min:0',
             'sumber_lain' => 'nullable|numeric|min:0',
@@ -77,7 +77,7 @@ class UpdateUmkmRequest extends FormRequest
             'kode_kbli' => 'nullable|string|max:10',
             'nomor_induk_berusaha' => 'nullable|string',
             'npwp_usaha' => 'nullable|string|max:20',
-            'bilan_mulai_usaha' => 'nullable|numeric|min:1900|max:' . date('Y'),
+            'bulan_mulai_operasi' => 'nullable|numeric|min:1|max:12',
             'tahun_mulai_operasi' => 'nullable|numeric|min:1900|max:' . date('Y'),
 
             // usaha perizinan
@@ -91,6 +91,60 @@ class UpdateUmkmRequest extends FormRequest
             'satuan' => 'nullable|string|max:50',
             'kuantits_produk' => 'nullable|numeric|min:0',
             'nilai_total' => 'nullable|numeric|min:0',
+
+            // usaha bahan baku
+            'persen_dari_usaha_mikro' => 'nullable|numeric|min:0|max:100',
+            'persen_dari_usaha_kecil' => 'nullable|numeric|min:0|max:100',
+            'persen_dari_usaha_menengah' => 'nullable|numeric|min:0|max:100',
+            'persen_dari_usaha_besar' => 'nullable|numeric|min:0|max:100',
+            'persen_dari_koperasi' => 'nullable|numeric|min:0|max:100',
+            'total_nilai_bahan_baku' => 'nullable|numeric|min:0',
+
+            // pembinaan
+            'teknis_produksi' => 'nullable|in:1,2',
+            'pemasaran_jaringan' => 'nullable|in:1,2',
+            'pembiayaan' => 'nullable|in:1,2',
+            'ekspor' => 'nullable|in:1,2',
+            'digitalisasi' => 'nullable|in:1,2',
+            'manajemen' => 'nullable|in:1,2',
+            'standarisasi' => 'nullable|in:1,2',
+            'hak_kekayaan_intelektual' => 'nullable|in:1,2',
+            'mitigasi_kebencanaan' => 'nullable|in:1,2',
+            'penyelenggara_sendiri' => 'nullable|in:1,2',
+            'penyelenggara_pemerintah' => 'nullable|in:1,2',
+            'penyelenggara_swasta' => 'nullable|in:1,2',
+            'penyelenggara_lsm' => 'nullable|in:1,2',
+            'penyelenggara_lainnya' => 'nullable|in:1,2',
+            'modal_produksi' => 'nullable|in:1,2',
+            'modal_pemasaran' => 'nullable|in:1,2',
+            'modal_ekspor' => 'nullable|in:1,2',
+            'modal_digitalisasi' => 'nullable|in:1,2',
+            'modal_standarisasi' => 'nullable|in:1,2',
+            'modal_hki' => 'nullable|in:1,2',
+            'pemberi_sendiri' => 'nullable|in:1,2',
+            'pemberi_pemerintah' => 'nullable|in:1,2',
+            'pemberi_swasta' => 'nullable|in:1,2',
+            'pemberi_lsm' => 'nullable|in:1,2',
+            'pemberi_lainnya' => 'nullable|in:1,2',
+
+
+            // mitra
+            'nama_mitra' => 'nullable|string|max:100',
+            'alamat' => 'nullable|string|max:255',
+            'hp' => 'nullable|string|max:12',
+            'keterangan' => 'nullable|string',
+
+            // proses produksi
+            'bahan_baku_utama' => 'nullable|in:1,2',
+            'proses_produksi' => 'nullable|in:1,2',
+            'penggunaan_teknologi' => 'nullable|in:1,2',
+            'sistem_produksi' => 'nullable|in:1,2',
+            'pengendalian_mutu' => 'nullable|in:1,2',
+            
         ];
+
+
     }
+
+    
 }
