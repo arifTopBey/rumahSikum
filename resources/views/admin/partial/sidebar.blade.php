@@ -324,7 +324,7 @@
                             </li>
                         </ul>
                     </li>
-                      <li class="nav-item {{ Request::is('admin/koperasi*') ? 'menu-open' : '' }}">
+                    <li class="nav-item {{ Request::is('admin/koperasi*') ? 'menu-open' : '' }}">
                         <a href="#" class="nav-link">
                             <i class="bi bi-person-video2 text-white"></i>
                             <p class="fs-8 text-white">
@@ -385,6 +385,24 @@
                                 <a href="{{ route('admin.sertifikat.koperasi') }}" class="nav-link {{ Request::is('admin/koperasi/sertifikat-koperasi*') ? 'active bg-dark text-white fw-bold' : '' }}">
                                     <i class="nav-icon bi bi-circle"></i>
                                     <p class="text-white">Sertifikat Koperasi</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item {{ Request::is('admin/flipbooks*') ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link">
+                            <i class="bi bi-person-video2 text-white"></i>
+                            <p class="fs-8 text-white">
+                                Flipbook
+                                <i class="nav-arrow bi bi-chevron-right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item ">
+                                <a href="{{ route('admin.flipbook.index') }}" class="nav-link {{ Request::is('admin/flipbooks*') ? 'active bg-dark text-white fw-bold' : '' }}">
+                                    <i class="nav-icon bi bi-circle"></i>
+                                    <p class="text-white">Daftar Flipbook</p>
                                 </a>
                             </li>
                         </ul>

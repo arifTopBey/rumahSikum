@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\EventMaterialProgressController;
 use App\Http\Controllers\Admin\EventOrganizerController;
 use App\Http\Controllers\Admin\EventRegistrationController;
 use App\Http\Controllers\Admin\ExportController;
+use App\Http\Controllers\Admin\FlipBookController;
 use App\Http\Controllers\Admin\KategoriAcaraController;
 use App\Http\Controllers\Admin\KategoriElearningController;
 use App\Http\Controllers\Admin\KategoriEventOrganizerController;
@@ -39,6 +40,7 @@ use App\Http\Controllers\Admin\WishlistController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataUMKMController;
+use App\Http\Controllers\FeFlipBookController;
 use App\Http\Controllers\Filter\KoperasiFilterController;
 use App\Http\Controllers\FrontendController;
 // use App\Http\Controllers\DataUMKMController;
@@ -105,7 +107,9 @@ Route::middleware(['security_header'])->group(function () {
     Route::get('/e-learning/daftar/{id}', [FrontendController::class, 'daftarMateri'])->name('frontend.modul.register');
     Route::post('/e-learning/daftar/{id}/store', [EventRegistrationController::class, 'store'])->name('frontend.modul.store');
     Route::post('/e-learning/{eventId}/materi/{materialId}/selesai', [EventMaterialProgressController::class, 'selesaiModul'])->middleware('auth')->name('frontend.e-learning.materi.selesai');
-    
+
+    Route::get('/flipbook', [FeFlipBookController::class, 'index'])->name('frontend.flipbook.index');
+    Route::get('/flipbook/{id}', [FeFlipBookController::class, 'show'])->name('frontend.flipbook.show');
 
     Route::get('/e-commerce', [FrontendController::class, 'eCommerce'])->name('frontend.eCommerce');
     Route::get('/e-commerce/produk/{id}', [FrontendController::class, 'eCommerceDetail'])->name('frontend.eCommerce.detail');
@@ -459,6 +463,7 @@ Route::middleware(['auth', 'security_header'])->group(function () {
         // MIRRORING
         // ====================================
         Route::prefix('mirroring')->group(function () {
+
             Route::get('/sebaran-data-umkm', [MirroringController::class, 'index'])->name('admin.mirroring.index');
             Route::get('/usaha-berdasarkan-wilayah', [MirroringController::class, 'indexWilayah'])->name('admin.mirroring.wilayah');
             Route::get('/usaha-berdasarkan-wilayah-desa', [MirroringController::class, 'wilayahDesa'])->name('admin.mirroring.wilayah.desa');
@@ -475,7 +480,7 @@ Route::middleware(['auth', 'security_header'])->group(function () {
             Route::get('/list-umkm', [MirroringController::class, 'indexListUmkm'])->name('admin.mirroring.ukmkm.list');
             Route::get('/list-umkm/detail/{id_badan_usaha}', [MirroringController::class, 'showDetailUmkm'])->name('admin.mirroring.umkm.detail');
             Route::get('/list-umkm/edit/{id_badan_usaha}', [MirroringController::class, 'editUmkm'])->name('admin.mirroring.umkm.edit');
-            Route::put('/list-umkm/edit/{id_badan_usaha}', [MirroringController::class, 'updateUmkm'])->name('admin.mirroring.umkm.update');
+            Route::put('/list-umkm/update/{id_badan_usaha}', [MirroringController::class, 'updateUmkm'])->name('admin.mirroring.umkm.update');
 
 
             
@@ -485,6 +490,19 @@ Route::middleware(['auth', 'security_header'])->group(function () {
             // Route::get('/admin/daftar-umkm/{id}', [MirroringController::class, 'detail_pengajuan_umkm'])->name('daftar.pengajuan.detail');
             // Route::put('/admin/update-status-umkm/{id}', [MirroringController::class, 'updateStatusUmkm'])->name('admin.update.status.pengajuan');
         });
+
+        // ====================================
+        // FLIPBOOK
+        // ====================================
+
+        Route::get('/admin/flipbooks', [FlipBookController::class, 'index'])->name('admin.flipbook.index');
+        Route::get('/admin/flipbooks/create', [FlipBookController::class, 'create'])->name('admin.flipbook.create');
+        Route::post('/admin/flipbooks', [FlipBookController::class, 'store'])->name('admin.flipbook.store');
+        Route::get('/admin/flipbooks/{id}', [FlipBookController::class, 'show'])->name('admin.flipbook.show');
+        Route::get('/admin/flipbooks/{id}/edit', [FlipBookController::class, 'edit'])->name('admin.flipbook.edit');
+        Route::put('/admin/flipbooks/{id}', [FlipBookController::class, 'update'])->name('admin.flipbook.update');
+        Route::delete('/admin/flipbooks/{id}', [FlipBookController::class, 'destroy'])->name('admin.flipbook.destroy');
+
 
         // whatApp
         Route::get('/admin/whatapps', [WhatappController::class, 'index'])->name('admin.whatapp.index');

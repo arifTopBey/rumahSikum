@@ -20,6 +20,7 @@ class IdentitasUsaha extends Model
         return $this->hasOne(TanggalPendataan::class, 'id_data_badan_usaha', 'id_badan_usaha');
     }
 
+    // 
     public function usahaPerizinan(){
         return $this->hasOne(UsahaPerizinan::class, 'id_badan_usaha', 'id_badan_usaha');
     }

@@ -49,6 +49,7 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item"><a class="nav-link px-3" href="{{ route('frontend.flipbook.index') }}">FlipBook</a></li>
                 
                @auth
                     @if (auth()->user()->user_role !== 'user')

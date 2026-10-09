@@ -4,6 +4,18 @@
 <div class="container-fluid px-3 py-4">
     <!-- Header Page -->
     <div class="card border-0 shadow-sm mb-4 rounded-3">
+
+
+@if (session('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        {{ session('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+
+
+
         <div class="card-body d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
             <div>
                 <nav aria-label="breadcrumb">
@@ -26,7 +38,7 @@
     </div>
 
     <!-- Main Form -->
-    <form id="formEditUmkm" action="" method="POST" enctype="multipart/form-data">
+    <form id="formEditUmkm" action="{{ route('admin.mirroring.umkm.update', $data->id_badan_usaha) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
@@ -118,17 +130,22 @@
                                         @enderror
                                     </div>
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label for="provinsi" class="form-label fw-semibold">Provinsi</label>
                                         <input type="text" class="form-control rounded-2" id="provinsi" name="provinsi" value="{{ old('provinsi', $data->provinsi) }}">
                                     </div>
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label for="kabupaten" class="form-label fw-semibold">Kabupaten / Kota</label>
                                         <input type="text" class="form-control rounded-2" id="kabupaten" name="kabupaten" value="{{ old('kabupaten', $data->kabupaten) }}">
                                     </div>
 
-                                    <div class="col-md-4">
+                                     <div class="col-md-3">
+                                        <label for="kecamatan" class="form-label fw-semibold">Kecamatan</label>
+                                        <input type="text" class="form-control rounded-2" id="kecamatan" name="kecamatan" value="{{ old('kecamatan', $data->kecamatan) }}">
+                                    </div>
+
+                                    <div class="col-md-3">
                                         <label for="kelurahan" class="form-label fw-semibold">Kelurahan / Desa</label>
                                         <input type="text" class="form-control rounded-2" id="kelurahan" name="kelurahan" value="{{ old('kelurahan', $data->kelurahan) }}">
                                     </div>
@@ -150,17 +167,37 @@
                             </div>
                             <div class="card-body p-4">
                                 <div class="row g-3">
-                                    <div class="col-md-6">
+                                    <div class="col-md-3">
                                         <label for="nomor_induk_berusaha" class="form-label fw-semibold">Nomor Induk Berusaha (NIB)</label>
                                         <input type="text" class="form-control rounded-2" id="nomor_induk_berusaha" name="nomor_induk_berusaha" value="{{ old('nomor_induk_berusaha', $data->usahaKarakteristik->nomor_induk_berusaha ?? '') }}">
                                     </div>
+                                    <div class="col-md-3">
+                                        <label for="npwp" class="form-label fw-semibold">NPWP </label>
+                                        <input type="text" class="form-control rounded-2" id="npwp" name="npwp_usaha" value="{{ old('npwp_usaha', $data->usahaKarakteristik->npwp_usaha ?? '') }}">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="bulan_mulai_operasi" class="form-label fw-semibold">Bulan Mulai Operasi </label>
+                                        <input type="number" min="0" max="12" class="form-control rounded-2" id="bulan_mulai_operasi" name="bulan_mulai_operasi" value="{{ old('bulan_mulai_operasi', $data->usahaKarakteristik->bulan_mulai_operasi ?? '') }}">
+                                    </div>
+                                     <div class="col-md-3">
+                                        <label for="tahun_mulai_operasi" class="form-label fw-semibold">Tahun Mulai Operasi</label>
+                                        <input type="number" min="0" max="2023" class="form-control rounded-2" id="tahun_mulai_operasi" name="tahun_mulai_operasi" value="{{ old('tahun_mulai_operasi', $data->usahaKarakteristik->tahun_mulai_operasi ?? '') }}">
+                                    </div>
 
+                                     <div class="col-md-6">
+                                        <label for="kategori_kbli" class="form-label fw-semibold">Kategori KBLI</label>
+                                        <input type="number" min="0" max="2023" class="form-control rounded-2" id="kategori_kbli" name="kategori_kbli" value="{{ old('kategori_kbli', $data->usahaKarakteristik->kategori_kbli ?? '') }}">
+                                    </div>
+                                      <div class="col-md-6">
+                                        <label for="kode_kbli" class="form-label fw-semibold">Kode KBLI</label>
+                                        <input type="number" min="0" max="9999999" class="form-control rounded-2" id="kode_kbli" name="kode_kbli" value="{{ old('kode_kbli', $data->usahaKarakteristik->kode_kbli ?? '') }}">
+                                    </div>
                                     <div class="col-md-6">
                                         <label for="produk_utama" class="form-label fw-semibold">Produk Utama</label>
                                         <input type="text" class="form-control rounded-2" id="produk_utama" name="produk_utama" value="{{ old('produk_utama', $data->usahaKarakteristik->produk_utama ?? '') }}">
                                     </div>
 
-                                    <div class="col-12">
+                                    <div class="col-6">
                                         <label for="kegiatan_utama" class="form-label fw-semibold">Kegiatan Utama Usaha</label>
                                         <input type="text" class="form-control rounded-2" id="kegiatan_utama" name="kegiatan_utama" value="{{ old('kegiatan_utama', $data->usahaKarakteristik->kegiatan_utama ?? '') }}">
                                     </div>
@@ -177,7 +214,7 @@
                             </div>
                             <div class="card-body p-4">
                                 {{-- Jika ada partial view untuk form edit --}}
-                                @if(View::exists('admin.umkm.edit.identitasPengusha'))
+                                <!-- @if(View::exists('admin.umkm.edit.identitasPengusha'))
                                     @include('admin.umkm.edit.identitasPengusha')
                                 @else
                                     <div class="row g-3">
@@ -190,7 +227,41 @@
                                             <input type="text" class="form-control rounded-2" name="nik_pemilik" value="{{ old('nik_pemilik', $data->nik_pemilik ?? '') }}">
                                         </div>
                                     </div>
-                                @endif
+                                @endif -->
+                               
+                                    <div class="row g-3">
+                                        <div class="col-md-4">
+                                            <label class="form-label fw-semibold">Nama Pemilik / Pengusaha</label>
+                                            <input type="text" class="form-control rounded-2" name="nama_pengusaha" value="{{ old('nama_pengusaha', $data->identitasPengusaha->nama_pengusaha ?? '') }}">
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label fw-semibold">NIK Pemilik</label>
+                                            <input type="text" class="form-control rounded-2" name="nik_pengusaha" value="{{ old('nik_pengusaha', $data->identitasPengusaha->nik_pengusaha ?? '') }}">
+                                        </div>
+                                         <div class="col-md-4">
+                                            <label class="form-label fw-semibold">Nomor WhatsApp Pengusaha</label>
+                                            <input type="text" class="form-control rounded-2" name="nomor_whatsapp" value="{{ old('nomor_whatsapp', $data->identitasPengusaha->nomor_whatsapp ?? '') }}">
+                                        </div>
+                                         <div class="col-md-3">
+                                            <label for="provinsi" class="form-label fw-semibold">Provinsi</label>
+                                            <input type="text" class="form-control rounded-2" id="provinsi" name="provinsi_pengusaha" value="{{ old('provinsi_pengusaha', $data->identitasPengusaha->provinsi_pengusaha ?? '') }}">
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label for="kabupaten" class="form-label fw-semibold">Kabupaten / Kota</label>
+                                            <input type="text" class="form-control rounded-2" id="kabupaten" name="kabupaten_pengusaha" value="{{ old('kabupaten_pengusaha', $data->identitasPengusaha->kabupaten_pengusaha ?? '') }}">
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label for="kecamatan" class="form-label fw-semibold">Kecamatan</label>
+                                            <input type="text" class="form-control rounded-2" id="kecamatan" name="kecamatan_pengusaha" value="{{ old('kecamatan_pengusaha', $data->identitasPengusaha->kecamatan_pengusaha ?? '') }}">
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label for="desa_pengusaha" class="form-label fw-semibold">Kelurahan / Desa</label>
+                                            <input type="text" class="form-control rounded-2" id="desa_pengusaha" name="desa_pengusaha" value="{{ old('desa_pengusaha', $data->identitasPengusaha->desa_pengusaha ?? '') }}">
+                                        </div>
+                                    </div>
                             </div>
                         </div>
                     </div>
@@ -203,7 +274,7 @@
                             </div>
                             <div class="card-body p-4">
                                 <div class="row g-3">
-                                    <div class="col-md-6">
+                                    <!-- <div class="col-md-6">
                                         <label class="form-label fw-semibold">Izin Usaha Utama</label>
                                         <select class="form-select rounded-2" name="401c">
                                             <option value="1" {{ ($data->{'401c'} ?? null) == 1 ? 'selected' : '' }}>Ada</option>
@@ -222,6 +293,34 @@
                                         <select class="form-select rounded-2" name="401j">
                                             <option value="1" {{ ($data->{'401j'} ?? null) == 1 ? 'selected' : '' }}>Ada</option>
                                             <option value="2" {{ ($data->{'401j'} ?? null) == 2 ? 'selected' : '' }}>Tidak Ada</option>
+                                        </select>
+                                    </div> -->
+                                     <div class="col-md-6">
+                                        <label class="form-label fw-semibold">Izin Pangan Industri Rumah Tangga (PIRT)</label>
+                                        <select class="form-select rounded-2" name="memiliki_pirt">
+                                            <option value="1" {{ ($data->usahaPerizinan->memiliki_pirt ?? null) == 1 ? 'selected' : '' }}>Ada</option>
+                                            <option value="2" {{ ($data->usahaPerizinan->memiliki_pirt ?? null) == 2 ? 'selected' : '' }}>Tidak Ada</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold">Izin BD/BPOM</label>
+                                        <select class="form-select rounded-2" name="memiliki_bpom">
+                                            <option value="1" {{ ($data->usahaPerizinan->memiliki_bpom ?? null) == 1 ? 'selected' : '' }}>Ada</option>
+                                            <option value="2" {{ ($data->usahaPerizinan->memiliki_bpom ?? null) == 2 ? 'selected' : '' }}>Tidak Ada</option>
+                                        </select>
+                                    </div>
+                                     <div class="col-md-6">
+                                        <label class="form-label fw-semibold">Izin Tanda Daftar Perusahaan (TDP)</label>
+                                        <select class="form-select rounded-2" name="memiliki_tdp">
+                                            <option value="1" {{ ($data->usahaPerizinan->memiliki_tdp ?? null) == 1 ? 'selected' : '' }}>Ada</option>
+                                            <option value="2" {{ ($data->usahaPerizinan->memiliki_tdp ?? null) == 2 ? 'selected' : '' }}>Tidak Ada</option>
+                                        </select>
+                                    </div>
+                                     <div class="col-md-6">
+                                        <label class="form-label fw-semibold">Izin Standarisasi Halal</label>
+                                        <select class="form-select rounded-2" name="memiliki_sertifikat_halal">
+                                            <option value="1" {{ ($data->usahaPerizinan->memiliki_sertifikat_halal ?? null) == 1 ? 'selected' : '' }}>Ada</option>
+                                            <option value="2" {{ ($data->usahaPerizinan->memiliki_sertifikat_halal ?? null) == 2 ? 'selected' : '' }}>Tidak Ada</option>
                                         </select>
                                     </div>
                                 </div>
@@ -289,7 +388,19 @@
                                 <h5 class="mb-0 fw-bold text-primary"><i class="bi bi-people me-2"></i>8. Tenaga Kerja</h5>
                             </div>
                             <div class="card-body p-4">
-                                <p class="text-muted">Form masukan jumlah dan detail tenaga kerja.</p>
+                                <!-- <p class="text-muted">Form masukan jumlah dan detail tenaga kerja.</p> -->
+                                 <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="total_tenaga_kerja" class="form-label fw-semibold">Jumlah Tenaga Kerja</label>
+                                        <input type="text" class="form-control rounded-2" id="total_tenaga_kerja" name="total_tenaga_kerja" value="{{ old('total_tenaga_kerja', $data->tenagaKerja->total_tenaga_kerja ?? '') }}">
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="total_pembayaran_upah" class="form-label fw-semibold">Total Pembayaran Upah</label>
+                                        <input type="text" class="form-control rounded-2" id="total_pembayaran_upah" name="total_pembayaran_upah" value="{{ old('total_pembayaran_upah', $data->tenagaKerja->total_pembayaran_upah ?? '') }}">
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -362,6 +473,48 @@
                                         <div class="input-group">
                                             <span class="input-group-text bg-light">Rp</span>
                                             <input type="number" step="any" class="form-control rounded-end" id="omzet_usaha" name="omzet_usaha" value="{{ old('omzet_usaha', $data->laporanKeuangan->omzet_usaha ?? 0) }}">
+                                        </div>
+                                    </div>
+                                     <div class="col-md-6">
+                                        <label for="pendapatan_lain" class="form-label fw-semibold">Pendapatan Lainnya (Rp)</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light">Rp</span>
+                                            <input type="number" step="any" class="form-control rounded-end" id="pendapatan_lain" name="pendapatan_lain" value="{{ old('pendapatan_lain', $data->laporanKeuangan->pendapatan_lain ?? 0) }}">
+                                        </div>
+                                    </div>
+                                     <div class="col-md-4">
+                                        <label for="subsidi_bantuan" class="form-label fw-semibold">Subsidi Bantuan (Rp)</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light">Rp</span>
+                                            <input type="number" step="any" class="form-control rounded-end" id="subsidi_bantuan" name="subsidi_bantuan" value="{{ old('subsidi_bantuan', $data->laporanKeuangan->subsidi_bantuan ?? 0) }}">
+                                        </div>
+                                    </div>
+                                     <div class="col-md-4">
+                                        <label for="pinjaman_diterima" class="form-label fw-semibold">Pinjaman Diterima (Rp)</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light">Rp</span>
+                                            <input type="number" step="any" class="form-control rounded-end" id="pinjaman_diterima" name="pinjaman_diterima" value="{{ old('pinjaman_diterima', $data->laporanKeuangan->pinjaman_diterima ?? 0) }}">
+                                        </div>
+                                    </div>
+                                     <div class="col-md-4">
+                                        <label for="sumber_lainnya" class="form-label fw-semibold">Sumber Lainnya (Rp)</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light">Rp</span>
+                                            <input type="number" step="any" class="form-control rounded-end" id="sumber_lainnya" name="sumber_lain" value="{{ old('sumber_lain', $data->laporanKeuangan->sumber_lain ?? 0) }}">
+                                        </div>
+                                    </div>
+                                     <div class="col-md-6">
+                                        <label for="biaya_bahan_baku" class="form-label fw-semibold">Biaya Bahan Baku (Rp)</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light">Rp</span>
+                                            <input type="number" step="any" class="form-control rounded-end" id="biaya_bahan_baku" name="biaya_bahan_baku" value="{{ old('biaya_bahan_baku', $data->laporanKeuangan->biaya_bahan_baku ?? 0) }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="biaya_tenaga_kerja" class="form-label fw-semibold">Biaya Tenaga Kerja (Rp)</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light">Rp</span>
+                                            <input type="number" step="any" class="form-control rounded-end" id="biaya_tenaga_kerja" name="biaya_tenaga_kerja" value="{{ old('biaya_tenaga_kerja', $data->laporanKeuangan->biaya_tenaga_kerja ?? 0) }}">
                                         </div>
                                     </div>
                                 </div>

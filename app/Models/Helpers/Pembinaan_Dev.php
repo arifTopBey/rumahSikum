@@ -2,21 +2,20 @@
 
 namespace App\Models\Helpers;
 
-
 use Illuminate\Database\Eloquent\Model;
 
-class IdentitasPengusaha_Dev extends Model
+class Pembinaan_Dev extends Model
 {
-    protected $table = 'identitas_pengusaha_dev'; // block 1
+    
+    protected $table = 'usaha_pembinaan_dev'; 
     protected $primaryKey = 'id_badan_usaha';
     public $incrementing = false;
     protected $keyType = 'int';
     public $timestamps = false;
-    protected $guarded = ['id_badan_usaha'];
+
 
     public function identitasUsaha()
     {
         return $this->belongsTo(IdentitasUsaha_Dev::class, 'id_badan_usaha', 'id_badan_usaha');
-    
     }
 }

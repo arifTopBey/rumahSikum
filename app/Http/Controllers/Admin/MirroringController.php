@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateUmkmRequest;
 use App\Interface\UmkmInterface;
+use App\Models\Helpers\IdentitasPengusaha_Dev;
 use App\Models\Helpers\IdentitasUsaha_Dev;
 use App\Models\Helpers\LaporanKeuangan_Dev;
 use App\Models\Helpers\ProduksiDanPemasaran_Dev;
 use App\Models\Helpers\SkalaUsaha_Dev;
+use App\Models\Helpers\TenagaKerja_Dev;
 use App\Models\Helpers\UsahaKarakteristik_Dev;
 use App\Models\Helpers\UsahaPerizinan_Dev;
 use App\Models\IdentitasUsaha;
@@ -1717,5 +1720,81 @@ public function filterSkala(Request $request)
         $data = IdentitasUsaha_Dev::where('id_badan_usaha', $id_badan_usaha)->with(['laporanKeuangan','usahaProduksiPemasaran'])->first();
 
         return view('admin.mirroring.umkm.edit', compact('data'));
+    }
+
+     public function updateUmkm(UpdateUmkmRequest $request, $id_badan_usaha)
+    {
+        $data = $request->validated();
+       
+        // $data = IdentitasUsaha_Dev::where('id_badan_usaha', $id_badan_usaha)->with(['laporanKeuangan','usahaProduksiPemasaran'])->first();
+
+        $identitasUsaha = IdentitasUsaha_Dev::where('id_badan_usaha', $id_badan_usaha)->first();
+        $laporanKeuangan = LaporanKeuangan_Dev::where('id_badan_usaha', $id_badan_usaha)->first();
+        $identitasPengusaha = IdentitasPengusaha_Dev::where('id_badan_usaha', $id_badan_usaha)->first();
+        $tenagaKerja = TenagaKerja_Dev::where('id_data_badan_usaha', $id_badan_usaha)->first();
+        $perizinan = UsahaPerizinan_Dev::where('id_badan_usaha', $id_badan_usaha)->first();
+        $karakteristikUsaha = UsahaKarakteristik_Dev::where('id_badan_usaha', $id_badan_usaha)->first();
+
+        DB::beginTransaction(); // Mulai transaksi database
+        try{
+
+            $identitasUsaha->update([
+                'provinsi' => $data['provinsi'],
+                'kecamatan' => $data['kecamatan'],
+                'kelurahan' => $data['kelurahan'],
+                'nama_lengkap_usaha' => $data['nama_lengkap_usaha'],
+                // 'tempat_usaha' => $data['tempat_usaha'],
+                'alamat_lengkap' => $data['alamat_lengkap'],
+                'telpon' => $data['telpon'],
+            ]);
+
+            $perizinan->update([
+                'memiliki_pirt' => $data['memiliki_pirt'],
+                'memiliki_bpom' => $data['memiliki_bpom'],
+                'memiliki_tdp' => $data['memiliki_tdp'],
+                'memiliki_sertifikat_halal' => $data['memiliki_sertifikat_halal'],
+            ]);
+
+            // $karakteristikUsaha->update([
+            //     'kode_kbli' => $data['kode_kbli'],
+            //     'tahun_mulai_operasi' => $data['tahun_mulai_operasi'],
+            //     'status_badan_usaha' => $data['status_badan_usaha'],
+            //     'nomor_induk_berusaha' => $data['nomor_induk_berusaha'],
+            // ]);
+
+            // $laporanKeuangan->update([
+            //     // 'status_pencatatan_keuangan' => $request->status_pencatatan_keuangan,
+            //     'omzet_usaha' => $data['omzet_usaha'],
+            //     'pendapatan_lainnya' => $data['pendapatan_lainnya'],
+            //     'subsidi_bantuan' => $data['subsidi_bantuan'],
+            //     'pinjaman_diterima' => $data['pinjaman_diterima'],
+            //     'sumber_lain' => $data['sumber_lain'],
+            //     'biaya_bahan_baku' => $data['biaya_bahan_baku'],
+            //     'biaya_tenaga_kerja' => $data['biaya_tenaga_kerja'],
+            // ]);
+
+            $identitasPengusaha->update([
+                'nama_pengusaha' => $data['nama_pengusaha'],
+                // 'status_pengusaha' => $data['status_pengusaha'],
+                'nik_pengusaha' => $data['nik_pengusaha'],
+                'provinsi_pengusaha' => $data['provinsi_pengusaha'],
+                'kabupaten_pengusaha' => $data['kabupaten_pengusaha'],
+                'kecamatan_pengusaha' => $data['kecamatan_pengusaha'],
+                'desa_pengusaha' => $data['desa_pengusaha'],
+                'nomor_whatsapp' => $data['nomor_whatsapp'],
+            ]);
+
+            $tenagaKerja->update([
+                'total_tenaga_kerja' => $data['total_tenaga_kerja'],
+                'total_pembayaran_upah' => $data['total_pembayaran_upah'],
+            ]);
+
+            DB::commit(); // Commit transaksi jika semua update berhasil
+            return redirect()->route('admin.mirroring.ukmkm.list')->with('success', 'Data UMKM berhasil diperbarui.');
+
+        }catch(\Exception $e){
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat memperbarui data: ' . $e->getMessage());
+        }
     }
 }

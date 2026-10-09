@@ -12,6 +12,8 @@ class TenagaKerja_Dev extends Model
     protected $keyType = 'int';
     public $timestamps = false;
 
+    protected $guarded = ['id_data_badan_usaha'];
+
 
     public function identitasUsaha()
     {
