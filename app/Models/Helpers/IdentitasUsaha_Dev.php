@@ -29,6 +29,13 @@ class IdentitasUsaha_Dev extends Model
         return $this->hasOne(UsahaBahanBaku_Dev::class, 'id_badan_usaha', 'id_badan_usaha');
     }
 
+    public function geografi(){
+         return $this->hasOne(GeografiUsaha_Dev::class, 'id_badan_usaha', 'id_badan_usaha');
+    }
+     public function penghargaan(){
+         return $this->hasOne(Usaha_Penghargaan_Dev::class, 'id_badan_usaha', 'id_badan_usaha');
+    }
+
     public function usahaProduksiPemasaran()
     {
         return $this->hasOne(ProduksiDanPemasaran_Dev::class, 'id_badan_usaha', 'id_badan_usaha');

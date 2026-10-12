@@ -53,9 +53,16 @@
 
                     </div>
                     <div class="flex justify-content-end border">
+                        @if ($data->geografi->foto_umkm)
+                        <img height="200" width="200" class="rounded"
+                            src="{{ route('show.thumbnail.produk.private', $data->geografi->foto_umkm) }}"
+                            alt="">
+                        @else
                         <img height="200" width="200" class="rounded"
                             src="https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                             alt="">
+                            
+                        @endif
                     </div>
                 </div>
             </div>
@@ -313,43 +320,43 @@
 
                     <!-- 1. Identitas Usaha -->
                     <div id="identitasUsaha" class="tab-pane">
-                       @include('admin.umkm.detail.identitas_usaha')
+                       @include('admin.mirroring.umkm.detail.identitas_usaha')
                     </div>
                     <div id="karakteristik" class="tab-pane">
-                       @include('admin.umkm.detail.karakterisitikUsaha')
+                       @include('admin.mirroring.umkm.detail.karakterisitikUsaha')
                     </div>
                     <div id="pengusaha" class="tab-pane">
-                       @include('admin.umkm.detail.identitasPengusha')
+                       @include('admin.mirroring.umkm.detail.identitasPengusha')
                     </div>
                     <div id="bahan" class="tab-pane">
-                       @include('admin.umkm.detail.bahan_baku')
+                       @include('admin.mirroring.umkm.detail.bahan_baku')
                     </div>
                     <div id="produksi" class="tab-pane">
-                       @include('admin.umkm.detail.produksi_pemasaran')
+                       @include('admin.mirroring.umkm.detail.produksi_pemasaran')
                     </div>
                     <div id="keuangan" class="tab-pane">
-                       @include('admin.umkm.detail.laporan_keuangan')
+                       @include('admin.mirroring.umkm.detail.laporan_keuangan')
                     </div>
                     <div id="izin" class="tab-pane">
-                       @include('admin.umkm.detail.izin_dan_standarisasi_usaha')
+                       @include('admin.mirroring.umkm.detail.izin_dan_standarisasi_usaha')
                     </div>
                     <div id="tenagaKerja" class="tab-pane">
-                       @include('admin.umkm.detail.tenaga_kerja')
+                       @include('admin.mirroring.umkm.detail.tenaga_kerja')
                     </div>
                     <div id="proses" class="tab-pane">
-                       @include('admin.umkm.detail.proses_produksi')
+                       @include('admin.mirroring.umkm.detail.proses_produksi')
                     </div>
                     <div id="kemitraan" class="tab-pane">
-                       @include('admin.umkm.detail.kemitraan')
+                       @include('admin.mirroring.umkm.detail.kemitraan')
                     </div>
                     <div id="pembinaan" class="tab-pane">
-                       @include('admin.umkm.detail.pembinaan')
+                       @include('admin.mirroring.umkm.detail.pembinaan')
                     </div>
                     <div id="catatan" class="tab-pane">
-                       @include('admin.umkm.detail.catatan')
+                       @include('admin.mirroring.umkm.detail.catatan')
                     </div>
                     <div id="penghargaan" class="tab-pane">
-                       @include('admin.umkm.detail.penghargaan')
+                       @include('admin.mirroring.umkm.detail.penghargaan')
                     </div>
 
                 </div>

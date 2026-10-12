@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateUmkmRequest;
 use App\Interface\UmkmInterface;
+use App\Models\Helpers\GeografiUsaha_Dev;
 use App\Models\Helpers\IdentitasPengusaha_Dev;
 use App\Models\Helpers\IdentitasUsaha_Dev;
 use App\Models\Helpers\Kemitraan_Dev;
@@ -13,6 +14,7 @@ use App\Models\Helpers\Pembinaan_Dev;
 use App\Models\Helpers\ProduksiDanPemasaran_Dev;
 use App\Models\Helpers\SkalaUsaha_Dev;
 use App\Models\Helpers\TenagaKerja_Dev;
+use App\Models\Helpers\Usaha_Penghargaan_Dev;
 use App\Models\Helpers\UsahaBahanBaku_Dev;
 use App\Models\Helpers\UsahaKarakteristik_Dev;
 use App\Models\Helpers\UsahaPerizinan_Dev;
@@ -25,6 +27,7 @@ use App\Models\UsahaKarakteristik;
 use App\Models\UsahaPerizinan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class MirroringController extends Controller
 {
@@ -1742,6 +1745,9 @@ public function filterSkala(Request $request)
         $pembinaan = Pembinaan_Dev::where('id_badan_usaha', $id_badan_usaha)->first();
         $kemitraan = Kemitraan_Dev::where('id_badan_usaha', $id_badan_usaha)->first();
         $prosesProduksi = UsahaProsesProduksi_Dev::where('id_badan_usaha', $id_badan_usaha)->first();
+        $produksiPemasaran = ProduksiDanPemasaran_Dev::where('id_badan_usaha', $id_badan_usaha)->first();
+        $geografiUsaha = GeografiUsaha_Dev::where('id_badan_usaha', $id_badan_usaha)->first();
+        $penghargaan = Usaha_Penghargaan_Dev::where('id_badan_usaha', $id_badan_usaha)->first();
         // dd($kemitraan);
 
         DB::beginTransaction(); // Mulai transaksi database
@@ -1856,12 +1862,87 @@ public function filterSkala(Request $request)
                 ]);
             }
 
+            if(!$geografiUsaha){
+                $path = null;
+
+                // $path = $data['foto_umkm']->store('foto_umkm', 'local');
+                 if (isset($data['foto_umkm'])) {
+                         $path = $data['foto_umkm']->store('foto_umkm', 'local');
+                 }
+
+                GeografiUsaha_Dev::create([
+                    'id_badan_usaha' => $id_badan_usaha,
+                    'foto_umkm' => $path,
+                    'longitude' => $data['longitude'],
+                    'latitude' => $data['latitude'],
+                ]);
+
+            }else{
+
+                $path = $geografiUsaha->foto_umkm;
+
+                 if (isset($data['foto_umkm'])) {
+
+                    // Hapus foto lama jika tersedia
+                    if ($geografiUsaha->foto_umkm) {
+                        Storage::disk('local')->delete($geografiUsaha->foto_umkm);
+                    }
+
+                    // Simpan foto baru
+                    $path = $data['foto_umkm']->store('foto_umkm', 'local');
+                }
+                $geografiUsaha->update([
+                    'id_badan_usaha' => $id_badan_usaha,
+                    'foto_umkm' => $path,
+                    'longitude' => $data['longitude'],
+                    'latitude' => $data['latitude'],
+                ]);
+            }
+
+            dd($data['nama_penghargaan']);
+
+            if(!$penghargaan){
+                Usaha_Penghargaan_Dev::create([
+                    'id_badan_usaha' => $id_badan_usaha,
+                    'nama_penghargaan' => $data['nama_penghargaan'],
+                    'catatan' => $data['catatan'],
+                ]);
+            }else{
+               $penghargaan->update([
+                    'id_badan_usaha' => $id_badan_usaha,
+                    'nama_penghargaan' => $data['nama_penghargaan'],
+                    'catatan' => $data['catatan'],
+               ]); 
+            }
+
             $prosesProduksi->update([
                 'bahan_baku_utama' => $data['bahan_baku_utama'],
                 'proses_produksi' => $data['proses_produksi'],
                 'penggunaan_teknologi' => $data['penggunaan_teknologi'],
                 'sistem_produksi' => $data['sistem_produksi'],
                 'pengendalian_mutu' => $data['pengendalian_mutu'],
+            ]);
+
+            $produksiPemasaran->update([
+                 'produksi_sendiri' => $data['produksi_sendiri'],
+                 'produksi_maklon' => $data['produksi_maklon'],
+                 'produksi_subkontrak' => $data['produksi_subkontrak'],
+                 'produksi_lainnya' => $data['produksi_lainnya'],
+                 'pemasaran_lokal' => $data['pemasaran_lokal'],
+                 'pemasaran_kabupaten' => $data['pemasaran_kabupaten'],
+                 'pemasaran_provinsi' => $data['pemasaran_provinsi'],
+                 'pemasaran_nasional' => $data['pemasaran_nasional'],
+                 'pemasaran_ekspor' => $data['pemasaran_ekspor'],
+                 'pemasaran_online' => $data['pemasaran_online'],
+                 'penjualan_tunai' => $data['penjualan_tunai'],
+                 'penjualan_kredit' => $data['penjualan_kredit'],
+                 'pemasaran_toko_sendiri' => $data['pemasaran_toko_sendiri'],
+                 'pemasaran_titip_jual' => $data['pemasaran_titip_jual'],
+                 'pemasaran_reseller' => $data['pemasaran_reseller'],
+                 'pemasaran_distributor' => $data['pemasaran_distributor'],
+                 'pemasaran_marketplace' => $data['pemasaran_marketplace'],
+                 'pemasaran_media_sosial' => $data['pemasaran_media_sosial'],
+                 'pemasaran_lainnya' => $data['pemasaran_lainnya'],
             ]);
 
 

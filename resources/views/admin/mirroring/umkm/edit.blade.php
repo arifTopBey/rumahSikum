@@ -89,9 +89,12 @@
                                 <li class="nav-item">
                                     <button class="nav-link fw-medium fs-7" data-bs-toggle="pill" data-bs-target="#pembinaan" type="button">12. Pembinaan</button>
                                 </li>
-                                <li class="nav-item">
+                                 <li class="nav-item">
                                     <button class="nav-link fw-medium fs-7" data-bs-toggle="pill" data-bs-target="#catatan" type="button">13. Catatan</button>
                                 </li>
+                                <!-- <li class="nav-item">
+                                    <button class="nav-link fw-medium fs-7" data-bs-toggle="pill" data-bs-target="#catatan2" type="button">13. Catatan</button>
+                                </li> -->
                             </ul>
                         </div>
 
@@ -148,6 +151,19 @@
                                     <div class="col-md-3">
                                         <label for="kelurahan" class="form-label fw-semibold">Kelurahan / Desa</label>
                                         <input type="text" class="form-control rounded-2" id="kelurahan" name="kelurahan" value="{{ old('kelurahan', $data->kelurahan) }}">
+                                    </div>
+
+                                     <div class="col-md-4">
+                                        <label for="foto_umkm" class="form-label fw-semibold">Foto UMKM</label>
+                                        <input type="file" class="form-control rounded-2" id="foto_umkm" name="foto_umkm">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="latitude" class="form-label fw-semibold">Latitude</label>
+                                        <input type="text" class="form-control rounded-2" id="latitude" name="latitude" value="{{ old('latitude', $data->geografi->latitude ?? 0) }}">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="longitude" class="form-label fw-semibold">Longitude</label>
+                                        <input type="text" class="form-control rounded-2" id="longitude" name="longitude" value="{{ old('longitude', $data->geografi->longitude ?? 0) }}">
                                     </div>
 
                                     <div class="col-12">
@@ -335,7 +351,13 @@
                                 <h5 class="mb-0 fw-bold text-primary"><i class="bi bi-award me-2"></i>5. Penghargaan</h5>
                             </div>
                             <div class="card-body p-4">
-                                <p class="text-muted">Form masukan penghargaan usaha</p>
+                                <div class="row">
+                                    <!-- <p class="text-muted">Form masukan penghargaan usaha</p> -->
+                                       <div class="col-12">
+                                            <label for="nama_penghargaan" class="form-label fw-semibold">Nama Penghargaaan</label>
+                                            <textarea class="form-control rounded-2" id="nama_penghargaan" name="nama_penghargaan" rows="3">{{ old('nama_penghargaan', $data->penghargaan->nama_penghargaan ?? '' ) }}</textarea>
+                                        </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -390,7 +412,7 @@
                             </div>
                             <div class="card-body p-4">
                                 <div class="row g-3">
-                                    <div class="col-md-6">
+                                    <!-- <div class="col-md-6">
                                         <div class="form-check form-switch mb-2">
                                             <input class="form-check-input" type="checkbox" role="switch" id="pemasaran_toko_sendiri" name="pemasaran_toko_sendiri" value="1" {{ old('pemasaran_toko_sendiri', $data->usahaProduksiPemasaran->pemasaran_toko_sendiri ?? 0) == 1 ? 'checked' : '' }}>
                                             <label class="form-check-label fw-medium" for="pemasaran_toko_sendiri">Pemasaran Toko Sendiri (E-Commerce)</label>
@@ -405,7 +427,151 @@
                                             <input class="form-check-input" type="checkbox" role="switch" id="pemasaran_reseller" name="pemasaran_reseller" value="1" {{ old('pemasaran_reseller', $data->usahaProduksiPemasaran->pemasaran_reseller ?? 0) == 1 ? 'checked' : '' }}>
                                             <label class="form-check-label fw-medium" for="pemasaran_reseller">Melalui Reseller / Perantara</label>
                                         </div>
-                                    </div>
+                                    </div> -->
+                                    <!-- 1 -->
+                                        <div class="col-md-4">
+                                            <label class="form-label fw-semibold">Nilai Penjualan Selama Sebulan yang lalu</label>
+                                            <input type="number" class="form-control rounded-2" name="produksi_sendiri" value="{{ old('produksi_sendiri', $data->usahaProduksiPemasaran->produksi_sendiri ?? '') }}">
+                                        </div>
+                                        <!-- 2 -->
+                                        <div class="col-md-4">
+                                            <label class="form-label fw-semibold">Nilai Pembelian Barang yang terjual</label>
+                                            <input type="number" class="form-control rounded-2" name="produksi_maklon" value="{{ old('produksi_maklon', $data->usahaProduksiPemasaran->produksi_maklon ?? '') }}">
+                                        </div>
+                                        <!-- 3 -->
+                                         <div class="col-md-4">
+                                            <label class="form-label fw-semibold">Komisi Penjualan Barang</label>
+                                            <input type="number" class="form-control rounded-2" name="produksi_subkontrak" value="{{ old('produksi_subkontrak', $data->usahaProduksiPemasaran->produksi_subkontrak ?? '') }}">
+                                        </div>
+                                        <!-- 4 -->
+                                        <div class="col-md-3">
+                                            <label class="form-label fw-semibold">Pendapatan Jasa Reparasi dan Perawatan</label>
+                                            <input type="number" class="form-control rounded-2" name="produksi_lainnya" value="{{ old('produksi_lainnya', $data->usahaProduksiPemasaran->produksi_lainnya ?? '') }}">
+                                        </div>
+                                        <!-- 5 -->
+                                         <div class="col-md-3">
+                                            <label for="pemasaran_lokal" class="form-label fw-semibold">Pemasaran Ke Rumah Tangga</label>
+                                            <input type="number" min="0" max="100" class="form-control rounded-2" id="pemasaran_lokal" name="pemasaran_lokal" value="{{ old('pemasaran_lokal', $data->usahaProduksiPemasaran->pemasaran_lokal ?? '') }}">
+                                        </div>
+                                        <!-- 6 -->
+                                        <div class="col-md-3">
+                                            <label for="pemasaran_kabupaten" class="form-label fw-semibold">Pemasaran Kepada Usaha Mikro</label>
+                                            <input type="number" min="0" max="100" class="form-control rounded-2" id="pemasaran_kabupaten" name="pemasaran_kabupaten" value="{{ old('pemasaran_kabupaten', $data->usahaProduksiPemasaran->pemasaran_kabupaten ?? '') }}">
+                                        </div>
+                                        <!-- 7 -->
+                                         <div class="col-md-3">
+                                            <label for="pemasaran_provinsi" class="form-label fw-semibold">Pemasaran Kepada Usaha Kecil</label>
+                                            <input type="number" min="0" max="100" class="form-control rounded-2" id="pemasaran_provinsi" name="pemasaran_provinsi" value="{{ old('pemasaran_provinsi', $data->usahaProduksiPemasaran->pemasaran_provinsi ?? '') }}">
+                                        </div>
+                                        <!-- 8 -->
+                                         <div class="col-md-3">
+                                            <label for="pemasaran_nasional" class="form-label fw-semibold">Pemasaran Kepada Usaha Menengah</label>
+                                            <input type="number" min="0" max="100" class="form-control rounded-2" id="pemasaran_nasional" name="pemasaran_nasional" value="{{ old('pemasaran_nasional', $data->usahaProduksiPemasaran->pemasaran_nasional ?? '') }}">
+                                        </div>
+                                        <!-- 9 -->
+                                         <div class="col-md-3">
+                                            <label for="pemasaran_ekspor" class="form-label fw-semibold">Pemasaran Kepada Usaha Besar</label>
+                                            <input type="number" min="0" max="100" class="form-control rounded-2" id="pemasaran_ekspor" name="pemasaran_ekspor" value="{{ old('pemasaran_ekspor', $data->usahaProduksiPemasaran->pemasaran_ekspor ?? '') }}">
+                                        </div>
+                                        <!-- 10 -->
+                                         <div class="col-md-3">
+                                            <label for="pemasaran_online" class="form-label fw-semibold">Pemasaran Kepada Pemerintah</label>
+                                            <input type="number" min="0" max="100" class="form-control rounded-2" id="pemasaran_online" name="pemasaran_online" value="{{ old('pemasaran_online', $data->usahaProduksiPemasaran->pemasaran_online ?? '') }}">
+                                        </div>
+                                        <!-- 11 -->
+                                         <div class="col-md-3">
+                                            <label for="penjualan_tunai" class="form-label fw-semibold">Pemasaran Dalam Negeri</label>
+                                            <input type="number" min="0" max="100" class="form-control rounded-2" id="penjualan_tunai" name="penjualan_tunai" value="{{ old('penjualan_tunai', $data->usahaProduksiPemasaran->penjualan_tunai ?? '') }}">
+                                        </div>
+                                        <!-- 12 -->
+                                         <div class="col-md-3">
+                                            <label for="penjualan_kredit" class="form-label fw-semibold">Pemasaran Luar Negeri</label>
+                                            <input type="number" min="0" max="100" class="form-control rounded-2" id="penjualan_kredit" name="penjualan_kredit" value="{{ old('penjualan_kredit', $data->usahaProduksiPemasaran->penjualan_kredit ?? '') }}">
+                                        </div>
+                                        <!-- 13 -->
+                                          <div class="col-md-3">
+                                            <div class="form-check">
+                                                <input type="hidden" name="pemasaran_toko_sendiri" value="2">
+                                                <input class="form-check-input" type="checkbox" name="pemasaran_toko_sendiri" value="1"  {{ ($data->usahaProduksiPemasaran->pemasaran_toko_sendiri ?? null) == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="proc_a">Pemasaran Digital</label>
+                                            </div>
+                                         </div>
+                                         <!-- <div class="col-md-3">
+                                            <label for="pemasaran_toko_sendiri" class="form-label fw-semibold">Pemasaran Digital</label>
+                                            <input type="number" min="0" max="100" class="form-control rounded-2" id="pemasaran_toko_sendiri" name="pemasaran_toko_sendiri" value="{{ old('pemasaran_toko_sendiri', $data->usahaProduksiPemasaran->pemasaran_toko_sendiri ?? '') }}">
+                                        </div> -->
+                                        <!-- 14 -->
+                                         <!-- <div class="col-md-3">
+                                            <label for="pemasaran_titip_jual" class="form-label fw-semibold">Pemasaran Non Digital</label>
+                                            <input type="number" min="0" max="100" class="form-control rounded-2" id="pemasaran_titip_jual" name="pemasaran_titip_jual" value="{{ old('pemasaran_titip_jual', $data->usahaProduksiPemasaran->pemasaran_titip_jual ?? '') }}">
+                                        </div> -->
+                                        <div class="col-md-3">
+                                            <div class="form-check">
+                                                <input type="hidden" name="pemasaran_titip_jual" value="2">
+                                                <input class="form-check-input" type="checkbox" name="pemasaran_titip_jual" value="1"  {{ ($data->usahaProduksiPemasaran->pemasaran_titip_jual ?? null) == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="proc_a">Pemasaran Non Digital</label>
+                                            </div>
+                                         </div>
+                                        <!-- 15 -->
+                                         <!-- <div class="col-md-3">
+                                            <label for="pemasaran_reseller" class="form-label fw-semibold">Pemasaran Perantara</label>
+                                            <input type="number" min="0" max="100" class="form-control rounded-2" id="pemasaran_reseller" name="pemasaran_reseller" value="{{ old('pemasaran_reseller', $data->usahaProduksiPemasaran->pemasaran_reseller ?? '') }}">
+                                        </div> -->
+                                          <div class="col-md-3">
+                                            <div class="form-check">
+                                                <input type="hidden" name="pemasaran_reseller" value="2">
+                                                <input class="form-check-input" type="checkbox" name="pemasaran_reseller" value="1"  {{ ($data->usahaProduksiPemasaran->pemasaran_reseller ?? null) == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="proc_a">Pemasaran Perantara</label>
+                                            </div>
+                                         </div>
+                                        <!-- 16 -->
+                                         <!-- <div class="col-md-3">
+                                            <label for="pemasaran_distributor" class="form-label fw-semibold">Pemasaran Menggunakan Vendor Pusat</label>
+                                            <input type="number" min="0" max="100" class="form-control rounded-2" id="pemasaran_distributor" name="pemasaran_distributor" value="{{ old('pemasaran_distributor', $data->usahaProduksiPemasaran->pemasaran_distributor ?? '') }}">
+                                        </div> -->
+                                         <div class="col-md-3">
+                                            <div class="form-check">
+                                                <input type="hidden" name="pemasaran_distributor" value="2">
+                                                <input class="form-check-input" type="checkbox" name="pemasaran_distributor" value="1"  {{ ($data->usahaProduksiPemasaran->pemasaran_distributor ?? null) == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="proc_a">Pemasaran Menggunakan Vendor Pusat</label>
+                                            </div>
+                                         </div>
+                                        <!-- 17 -->
+                                         <!-- <div class="col-md-3">
+                                            <label for="pemasaran_marketplace" class="form-label fw-semibold">Pemasaran Menggunakan Vendor Provinsi</label>
+                                            <input type="number" min="0" max="100" class="form-control rounded-2" id="pemasaran_marketplace" name="pemasaran_marketplace" value="{{ old('pemasaran_marketplace', $data->usahaProduksiPemasaran->pemasaran_marketplace ?? '') }}">
+                                        </div> -->
+                                        <div class="col-md-3">
+                                            <div class="form-check">
+                                                <input type="hidden" name="pemasaran_marketplace" value="2">
+                                                <input class="form-check-input" type="checkbox" name="pemasaran_marketplace" value="1"  {{ ($data->usahaProduksiPemasaran->pemasaran_marketplace ?? null) == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="proc_a">Pemasaran Menggunakan Vendor Provinsi</label>
+                                            </div>
+                                         </div>
+                                        <!-- 18 -->
+                                          <!-- <div class="col-md-3">
+                                            <label for="pemasaran_media_sosial" class="form-label fw-semibold">Pemasaran Menggunakan Vendor Kota</label>
+                                            <input type="number" min="0" max="100" class="form-control rounded-2" id="pemasaran_media_sosial" name="pemasaran_media_sosial" value="{{ old('pemasaran_media_sosial', $data->usahaProduksiPemasaran->pemasaran_media_sosial ?? '') }}">
+                                        </div> -->
+                                         <div class="col-md-3">
+                                            <div class="form-check">
+                                                <input type="hidden" name="pemasaran_media_sosial" value="2">
+                                                <input class="form-check-input" type="checkbox" name="pemasaran_media_sosial" value="1"  {{ ($data->usahaProduksiPemasaran->pemasaran_media_sosial ?? null) == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="proc_a">Pemasaran Menggunakan Vendor Kota</label>
+                                            </div>
+                                         </div>
+                                        <!-- 19 -->
+                                         <!-- <div class="col-md-3">
+                                            <label for="pemasaran_lainnya" class="form-label fw-semibold">Pemasaran Lainnya</label>
+                                            <input type="number" min="0" max="100" class="form-control rounded-2" id="pemasaran_lainnya" name="pemasaran_lainnya" value="{{ old('pemasaran_lainnya', $data->usahaProduksiPemasaran->pemasaran_lainnya ?? '') }}">
+                                        </div> -->
+                                         <div class="col-md-3">
+                                            <div class="form-check">
+                                                <input type="hidden" name="pemasaran_lainnya" value="2">
+                                                <input class="form-check-input" type="checkbox" name="pemasaran_lainnya" value="1"  {{ ($data->usahaProduksiPemasaran->pemasaran_lainnya ?? null) == 1 ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="proc_a">Pemasaran Lainnya</label>
+                                            </div>
+                                         </div>
                                 </div>
                             </div>
                         </div>
@@ -772,24 +938,50 @@
                     </div>
 
                     <!-- TAB 13: CATATAN -->
-                    <div class="tab-pane fade" id="catatan" role="tabpanel">
+                    <div class="tab-pane fade" id="pembinaan2" role="tabpanel">
                         <div class="card border-0 shadow-sm rounded-3">
                             <div class="card-header bg-white py-3 border-0 border-bottom">
                                 <h5 class="mb-0 fw-bold text-primary"><i class="bi bi-sticky me-2"></i>13. Catatan Tambahan</h5>
                             </div>
+                            <p class="text-muted">Form masukan penghargaan usaha</p>
                             <div class="card-body p-4">
                                 <div class="col-12">
                                     <label for="catatan_admin" class="form-label fw-semibold">Catatan</label>
                                     <textarea class="form-control rounded-2" id="catatan_admin" name="catatan_admin" rows="4" placeholder="Tambahkan catatan khusus mengenai UMKM ini...">{{ old('catatan_admin', $data->catatan_admin ?? '') }}</textarea>
+                                </div>
+                                 <div class="row">
+                                       <div class="col-12">
+                                            <label for="nama_penghargaan" class="form-label fw-semibold">Nama Penghargaaan</label>
+                                            <textarea class="form-control rounded-2" id="nama_penghargaan" name="nama_penghargaan" rows="3">{{ old('nama_penghargaan', $data->penghargaan->nama_penghargaan ?? '') }}</textarea>
+                                        </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                 </div>
-            </div>
-        </div>
+                     </div>
 
+                     <!-- tab 13 -->
+                       <div class="tab-pane fade" id="catatan" role="tabpanel">
+                        <div class="card border-0 shadow-sm rounded-3">
+                            <div class="card-header bg-white py-3 border-0 border-bottom">
+                                <h5 class="mb-0 fw-bold text-primary"><i class="bi bi-award me-2"></i>13. Catatan</h5>
+                            </div>
+                            <div class="card-body p-4">
+                                <div class="row">
+                                    <!-- <p class="text-muted">Form masukan penghargaan usaha</p> -->
+                                       <div class="col-12">
+                                            <label for="catatan" class="form-label fw-semibold">Catatan</label>
+                                            <textarea class="form-control rounded-2" id="catatan" name="catatan" rows="3">{{ old('catatan', $data->penghargaan->catatan ?? '') }}</textarea>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                 </div>
+            </div>
     </form>
 </div>
 

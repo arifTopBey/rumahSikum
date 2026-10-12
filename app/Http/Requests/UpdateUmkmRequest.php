@@ -48,9 +48,9 @@ class UpdateUmkmRequest extends FormRequest
             // usaha produksi dan pemasaran
             'produksi_sendiri' => 'nullable|numeric|min:0',
             'produksi_maklon' => 'nullable|numeric|min:0',
-            'produksi_subcontrak' => 'nullable|numeric|min:0',
+            'produksi_subkontrak' => 'nullable|numeric|min:0',
             'produksi_lainnya' => 'nullable|numeric|min:0',
-            'pemasaran_local' => 'nullable|numeric|min:0',
+            'pemasaran_lokal' => 'nullable|numeric|min:0',
             'pemasaran_kabupaten' => 'nullable|numeric|min:0',
             'pemasaran_provinsi' => 'nullable|numeric|min:0',
             'pemasaran_nasional' => 'nullable|numeric|min:0',
@@ -140,8 +140,19 @@ class UpdateUmkmRequest extends FormRequest
             'penggunaan_teknologi' => 'nullable|in:1,2',
             'sistem_produksi' => 'nullable|in:1,2',
             'pengendalian_mutu' => 'nullable|in:1,2',
-            
+
+            // geografi usaha
+            'latitude' => 'nullable|max:200',
+            'longitude' => 'nullable|max:200',
+           'foto_umkm' => 'nullable|image|mimes:jpeg,png,jpg|max:3072',
+
+            // update penghargaan
+            'nama_penghargaan' => 'nullable|string|max:510',
+            'catatan' => 'nullable|string|max:510',
         ];
+
+
+        
 
 
     }
