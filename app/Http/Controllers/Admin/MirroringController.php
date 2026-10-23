@@ -1603,10 +1603,9 @@ public function filterSkala(Request $request)
             'labels' => ['Di Bawah 2 Miliar', '2 Miliar - 15 Miliar', '15 Miliar - 50 Miliar'],
             'values' => [$mikro, $kecil, $menengah]
         ];
-
-
          return view('admin.mirroring.partial.omzet', compact('dataOmzet'));
 
+    
     }
 
      public function usahaLainnya(){
@@ -1899,7 +1898,7 @@ public function filterSkala(Request $request)
                 ]);
             }
 
-            dd($data['nama_penghargaan']);
+    
 
             if(!$penghargaan){
                 Usaha_Penghargaan_Dev::create([
