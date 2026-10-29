@@ -1,0 +1,106 @@
+@extends('admin.mirroring.informasi_data_umkm.main.index')
+
+@section('content')
+<!-- mirroring -->
+<div class="">
+    <div class="container mt-4">
+        <div class="row px-3">
+            <div style="background: #a82282" class="col-md-12 rounded-2  py-3 px-5">
+                <div class="">
+                    <h3 class="text-white">Selamat Datang di Sistem Informasi Data Tunggal UMKM(SIDT-UMKM)</h3>
+                    <p style="color: #cc9125" class="fs-5 fw-semibold">Sebaran Data UMKM (Agregat)</p>
+                </div>
+                <div class="">
+                    <p class="text-white">di Kab. TANGERANG, BANTEN</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row px-3">
+            <div class="col-md-10 py-3 tab-content" id="v-pills-tabContent">
+
+                {{-- content skala --}}
+                <div class="tab-pane active">
+                     @yield('content-dashboard')
+                </div>
+
+            </div>
+
+            {{-- navigasi halaman --}}
+            <div class="col-md-2 py-3">
+                <h5>Navigasi Halaman</h5>
+
+                {{-- Navigasi A --}}
+                <ol type="A" class="{{ Request::is('mirroring/sebaran-data-umkm') ? 'bg-secondary bg-opacity-10 border-start border-4 border-warning' : '' }} ps-3 mb-3">
+                    <li class="nav-link active py-2"
+                    >
+                        <a href="{{ route('admin.sebaran.data.umkm') }}" class="text-decoration-none text-dark">Usaha Berdasarkan Skala</a>
+                    </li>
+                </ol>
+
+                <ol type="A" start="2" class="ps-3 mb-3 {{ Request::is('mirroring/usaha-berdasarkan-wilayah') ? 'bg-secondary bg-opacity-10 border-start border-4 border-warning' : '' }}">
+                    <li class="nav-link py-2">
+                        <a href="{{ route('admin.mirroring.wilayah') }}" class="text-decoration-none text-dark">Usaha Berdasarkan Wilayah Kecamatan</a>
+                    </li>
+                </ol>
+                <ol type="A" start="2" class="ps-3 mb-3 {{ Request::is('mirroring/usaha-berdasarkan-wilayah-desa') ? 'bg-secondary bg-opacity-10 border-start border-4 border-warning' : '' }}">
+                    <li class="nav-link py-2">
+                        <a href="{{  route('admin.mirroring.wilayah.desa')  }}" class="text-decoration-none text-dark">Usaha Berdasarkan Wilayah Desa</a>
+                    </li>
+                </ol>
+                <ol type="A" start="2" class="ps-3 mb-3 {{ Request::is('mirroring/usaha-berdasarkan-cluster-prioritas') ? 'bg-secondary bg-opacity-10 border-start border-4 border-warning' : '' }}">
+                    <li class="nav-link py-2">
+                        <a href="{{ route('admin.mirroring.cluster') }}" class="text-decoration-none text-dark">Usaha Berdasarkan Cluster Prioritas</a>
+                    </li>
+                </ol>
+                <ol type="A" start="2" class="ps-3 mb-3 {{ Request::is('mirroring/usaha-berdasarkan-desil') ? 'bg-secondary bg-opacity-10 border-start border-4 border-warning' : '' }}">
+                    <li class="nav-link py-2">
+                        <a href="{{ route('admin.mirroring.desil') }}" class="text-decoration-none text-dark">Pengusaha Berdasarkan Desil</a>
+                    </li>
+                </ol>
+                <ol type="A" start="2" class="ps-3 mb-3 {{ Request::is('mirroring/usaha-berdasarkan-kbli') ? 'bg-secondary bg-opacity-10 border-start border-4 border-warning' : '' }}">
+                    <li class="nav-link py-2">
+                        <a href="{{ route('admin.mirroring.kbli') }}" class="text-decoration-none text-dark">Usaha Berdasarkan KBLI</a>
+                    </li>
+                </ol>
+                <ol type="A" start="2" class="ps-3 mb-3 {{ Request::is('mirroring/usaha-berdasarkan-pemasaran') ? 'bg-secondary bg-opacity-10 border-start border-4 border-warning' : '' }}">
+                    <li class="nav-link py-2">
+                        <a href="{{ route('admin.mirroring.pemasaran')}}" class="text-decoration-none text-dark">Usaha Berdasarkan Penjualan dan Pemasaran</a>
+                    </li>
+                </ol>
+                <ol type="A" start="2" class="ps-3 mb-3 {{ Request::is('mirroring/usaha-berdasarkan-status-badan-usaha') ? 'bg-secondary bg-opacity-10 border-start border-4 border-warning' : '' }}">
+                    <li class="nav-link py-2">
+                        <a href="{{ route('admin.mirroring.status.badan.usaha') }}" class="text-decoration-none text-dark">Usaha Berdasarkan Status Badan Usaha</a>
+                    </li>
+                </ol>
+                <ol type="A" start="2" class="ps-3 mb-3 {{ Request::is('mirroring/usaha-berdasarkan-perizinan') ? 'bg-secondary bg-opacity-10 border-start border-4 border-warning' : '' }}">
+                    <li class="nav-link py-2">
+                        <a href="{{ route('admin.mirroring.perizinan') }}" class="text-decoration-none text-dark">Jumlah Perizinan Usaha Mikro</a>
+                    </li>
+                </ol>
+                <ol type="A" start="2" class="ps-3 mb-3 {{ Request::is('mirroring/pertumbuhan-usaha-mikro') ? 'bg-secondary bg-opacity-10 border-start border-4 border-warning' : '' }}">
+                    <li class="nav-link py-2">
+                        <a href=" {{ route('admin.mirroring.pertumbuhan.umkm') }}" class="text-decoration-none text-dark">Pertumbuhan Usaha Mikro</a>
+                    </li>
+                </ol>
+                <ol type="A" start="2" class="ps-3 mb-3 {{ Request::is('mirroring/usaha-berdasarkan-omset') ? 'bg-secondary bg-opacity-10 border-start border-4 border-warning' : '' }}">
+                    <li class="nav-link py-2">
+                        <a href="{{ route('admin.mirroring.omset') }}" class="text-decoration-none text-dark">Usaha Berdasarkam Omset</a>
+                    </li>
+                </ol>
+                <ol type="A" start="2" class="ps-3 mb-3 {{ Request::is('mirroring/indikator-usaha-lainnya') ? 'bg-secondary bg-opacity-10 border-start border-4 border-warning' : '' }}">
+                    <li class="nav-link py-2">
+                        <a href="{{ route('admin.mirroring.lainnya') }}" class="text-decoration-none text-dark">Indikator Usaha Lainnya</a>
+                    </li>
+                </ol>
+                <!-- <ol type="A" start="3" class="ps-3 mb-3">
+                    <li class="nav-link py-2"
+                        style="cursor: pointer;">
+                        Indikator Usaha Lainnya
+                    </li>
+                </ol> -->
+            </div>
+        </div>
+    </div>
+</div>
+    @endsection

@@ -1,0 +1,71 @@
+body { background-color: #f4f7fe; }
+    .checkout-wrapper { margin-top: 120px; margin-bottom: 100px; }
+
+    .checkout-card {
+        background: white;
+        border-radius: 25px;
+        padding: 30px;
+        border: 1px solid #edf2f7;
+        margin-bottom: 25px;
+    }
+
+    .section-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 800;
+        margin-bottom: 20px;
+        color: #1e293b;
+    }
+
+    /* Address Selection */
+    .address-box {
+        border: 2px solid #f1f5f9;
+        border-radius: 20px;
+        padding: 20px;
+        position: relative;
+        transition: 0.3s;
+    }
+    .address-box.selected {
+        border-color: #4361ee;
+        background: #f8faff;
+    }
+
+    /* Shipping Method */
+    .shipping-option {
+        border: 1px solid #e2e8f0;
+        border-radius: 15px;
+        padding: 15px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    .shipping-option:hover { border-color: #4361ee; background: #f8faff; }
+
+    /* Payment Summary */
+    .summary-card {
+        background: white;
+        border-radius: 25px;
+        padding: 30px;
+        border: 1px solid #edf2f7;
+        position: sticky;
+        top: 110px;
+    }
+
+    .product-mini {
+        display: flex;
+        gap: 15px;
+        padding: 15px 0;
+        border-bottom: 1px solid #f1f5f9;
+    }
+    .product-mini img { width: 60px; height: 60px; border-radius: 12px; object-fit: cover; }
+
+    .btn-pay {
+        background: #4361ee;
+        color: white;
+        border: none;
+        border-radius: 15px;
+        padding: 16px;
+        font-weight: 700;
+        width: 100%;
+        box-shadow: 0 10px 20px rgba(67, 97, 238, 0.2);
+    }

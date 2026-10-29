@@ -1,0 +1,58 @@
+body { background-color: #f4f7fe; }
+    .detail-wrapper { margin-top: 120px; margin-bottom: 100px; }
+
+    .card-detail {
+        background: white;
+        border-radius: 25px;
+        border: 1px solid #edf2f7;
+        padding: 30px;
+        margin-bottom: 24px;
+    }
+
+    /* Timeline Pengiriman */
+    .timeline-wrapper {
+        position: relative;
+        padding-left: 30px;
+    }
+    .timeline-item {
+        position: relative;
+        padding-bottom: 20px;
+        border-left: 2px solid #e2e8f0;
+        padding-left: 25px;
+    }
+    .timeline-item:last-child { border-left-color: transparent; }
+    .timeline-item::before {
+        content: '';
+        position: absolute;
+        left: -9px;
+        top: 0;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: white;
+        border: 3px solid #cbd5e1;
+    }
+    .timeline-item.active::before {
+        border-color: #4361ee;
+        background: #4361ee;
+        box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.1);
+    }
+
+    .product-row {
+        display: flex;
+        gap: 15px;
+        padding: 15px 0;
+        border-bottom: 1px solid #f1f5f9;
+    }
+    .product-row:last-child { border-bottom: none; }
+    .product-row img { width: 70px; height: 70px; border-radius: 15px; object-fit: cover; }
+
+    .info-label { color: #64748b; font-size: 0.85rem; margin-bottom: 2px; }
+    .info-value { font-weight: 700; color: #1e293b; font-size: 0.95rem; }
+
+    .payment-summary-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        font-size: 0.95rem;
+    }

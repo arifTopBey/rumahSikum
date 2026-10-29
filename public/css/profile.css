@@ -1,0 +1,70 @@
+body { background-color: #f4f7fe; }
+    .account-wrapper { margin-top: 120px; margin-bottom: 100px; }
+
+    /* Sidebar Menu */
+    .account-nav {
+        background: white;
+        border-radius: 25px;
+        padding: 20px;
+        border: 1px solid #edf2f7;
+    }
+    .nav-link-account {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 20px;
+        border-radius: 15px;
+        color: #64748b;
+        text-decoration: none;
+        font-weight: 600;
+        transition: 0.3s;
+        margin-bottom: 5px;
+    }
+    .nav-link-account:hover, .nav-link-account.active {
+        background: rgba(67, 97, 238, 0.08);
+        color: #4361ee;
+    }
+
+    /* Content Card */
+    .profile-card {
+        background: white;
+        border-radius: 25px;
+        padding: 40px;
+        border: 1px solid #edf2f7;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+    }
+
+    .avatar-upload {
+        position: relative;
+        width: 120px;
+        margin-bottom: 30px;
+    }
+    .avatar-preview {
+        width: 120px; height: 120px;
+        border-radius: 30px;
+        object-fit: cover;
+        border: 4px solid white;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    .btn-edit-avatar {
+        position: absolute;
+        bottom: -5px; right: -5px;
+        background: #4361ee;
+        color: white;
+        border-radius: 10px;
+        padding: 5px;
+        border: 2px solid white;
+    }
+
+    .form-label-custom { font-weight: 700; font-size: 0.9rem; color: #1e293b; margin-bottom: 8px; }
+    .form-control-custom {
+        border-radius: 15px;
+        padding: 12px 18px;
+        border: 1px solid #e2e8f0;
+        background: #f8fafc;
+    }
+    .form-control-custom:focus {
+        border-color: #4361ee;
+        box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.1);
+        background: white;
+    }

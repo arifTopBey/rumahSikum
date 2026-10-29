@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Http\Requests\Admin;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class KategoriProdukStoreRequest extends FormRequest
+{
+    
+    
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
+    public function rules(): array
+    {
+        return [
+            'icon' => 'required|image|mimes:png,jpg,jpeg|max:2048',
+            'name' => 'required|max:255|string'
+        ];
+    }
+}

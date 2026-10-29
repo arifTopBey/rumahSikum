@@ -1,0 +1,75 @@
+ body { background-color: #f8fafc; }
+    .bpom-wrapper { margin-top: 120px; margin-bottom: 100px; }
+
+    /* Info Header */
+    .bpom-header {
+        background: white;
+        border-radius: 30px;
+        padding: 60px 40px;
+        border: 1px solid #edf2f7;
+        margin-bottom: 50px;
+        position: relative;
+    }
+    .bpom-badge {
+        background: #e0f2fe;
+        color: #0369a1;
+        padding: 8px 20px;
+        border-radius: 50px;
+        font-weight: 800;
+        font-size: 0.85rem;
+        display: inline-block;
+        margin-bottom: 15px;
+    }
+
+    /* Step Card */
+    .step-card {
+        background: white;
+        border-radius: 25px;
+        padding: 30px;
+        height: 100%;
+        border: 1px solid #f1f5f9;
+        transition: 0.3s;
+    }
+    .step-number {
+        width: 50px; height: 50px;
+        background: #4361ee;
+        color: white;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+        box-shadow: 0 10px 20px rgba(67, 97, 238, 0.2);
+    }
+
+    /* Requirement List */
+    .req-list { list-style: none; padding: 0; }
+    .req-list li {
+        padding: 12px 0;
+        border-bottom: 1px solid #f1f5f9;
+        display: flex;
+        gap: 12px;
+        font-size: 0.95rem;
+    }
+    .req-list li:last-child { border-bottom: none; }
+    .check-icon { color: #10b981; margin-top: 4px; }
+
+    /* FAQ Accordion */
+    .accordion-item {
+        border: none;
+        margin-bottom: 15px;
+        border-radius: 20px !important;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+    }
+    .accordion-button {
+        font-weight: 700;
+        padding: 20px;
+        background: white;
+    }
+    .accordion-button:not(.collapsed) {
+        background: #f8faff;
+        color: #4361ee;
+    }

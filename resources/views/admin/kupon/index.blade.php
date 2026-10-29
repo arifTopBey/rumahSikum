@@ -1,0 +1,142 @@
+@extends('admin.main.main')
+
+@section('content')
+<div class="container-fluid px-5 bg-white">
+    <div class="row py-5">
+        <div style="background-color: rgba(168, 34, 130, 0.3);" class="col-md-12 border-primary rounded-3 py-3 mb-4 d-flex justify-content-between align-items-center">
+            <div>
+                <h5 class="fw-800 text-white mb-0">Manajemen Kupon</h5>
+                <p class="text-muted small mb-0">Kelola Kupon Ecommerce. </p>
+            </div>
+            <a href="{{ route('admin.kupon.create') }}" style="background-color: #a82282; color: white" class="btn rounded-pill px-4 fw-bold shadow-sm d-flex align-items-center gap-2">
+                <i data-lucide="calendar-plus" size="18"></i> Buat Kupon Baru
+            </a>
+        </div>
+
+        <div class="col-md-12 mb-4">
+            <div class="row g-3 d-flex justify-content-end">
+                <!-- <div class="col-md-8 d-flex gap-2">
+                    <select class="form-select w-auto rounded-pill border-2">
+                        <option>Semua Status</option>
+                    </select>
+                    <select class="form-select w-auto rounded-pill border-2">
+                        <option>Tipe Acara</option>
+                    </select>
+                </div> -->
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <input type="text" class="form-control rounded-start-pill border-2 ps-4" placeholder="Cari nama kupon...">
+                        <button style="background-color: #a82282; color: white" class="btn rounded-end-pill px-4"><i data-lucide="search" size="18"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+         <div class="col-lg-12" style="min-height: 100vh;">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle border" style="min-height: 30vh;">
+                    <thead class="bg-light">
+                        <tr>
+                            <th class="py-3 fw-semibold text-dark text-center" width="50">No</th>
+                            <th class="py-3 fw-semibold text-dark" >Nama Kupon</th>
+                            <th class="py-3 fw-semibold text-dark">Tanggal Pelaksanaan</th>
+                            <th class="py-3 fw-semibold text-dark">Nilai Diskon</th>
+                            <th class="py-3 fw-semibold text-dark text-center">Batas Maksimal</th>
+                            <th class="py-3 fw-semibold text-dark text-center">Status</th>
+                            <th class="py-3 fw-semibold text-dark text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    
+                    @foreach ($kupons as $kupon)
+                    <tr>
+                        <td class="text-center">{{ $loop->iteration }}</td>
+                        <td>
+                            <div class="d-flex gap-3">
+                                <div class="bg-primary bg-opacity-10 text-primary rounded-3 d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;">
+                                    <i data-lucide="ticket" size="22"></i>
+                                </div>
+                                <div>
+                                    <h6 class="fw-bold mb-0">{{ $kupon->nama_kupon }}</h6>
+                                </div>
+                            </div>                           
+                         </td>
+                        <td class="text-center small">
+                            <div class="fw-bold small">{{ \Carbon\Carbon::parse($kupon->created_at)->format('d M Y') }}</div>
+                            <div class="smaller text-muted">{{ $kupon->tanggal_mulai }} - {{ $kupon->tanggal_berakhir }} WIB</div>
+                        </td>
+                        <td>
+                             <span class="badge bg-light text-dark border px-3 py-2 rounded-pill smaller fw-normal">
+                                <i data-lucide="ticket-percent" size="12" class="me-1"></i> {{ number_format($kupon->diskon_value) }}
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <div class="fw-bold mb-0">{{ number_format($kupon->max_use) }}</div>
+                            <small class="text-muted smaller">Digunakan</small>
+                        </td>
+
+                         @php
+                            $now = \Carbon\Carbon::now();
+
+                            $mulai = \Carbon\Carbon::parse($kupon->tanggal_mulai);
+
+                            $selesai = \Carbon\Carbon::parse($kupon->tanggal_berakhir);
+
+                            $isActive = $now->between($mulai, $selesai);
+
+                        @endphp
+
+                        <td class="text-center">
+                            @if($isActive)
+                                <span class="badge bg-success">Aktif</span>
+                            @else
+                                <span class="badge bg-danger">Expired</span>
+                            @endif
+                        </td>
+                        <td class="text-center">
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-light border" type="button" data-bs-toggle="dropdown">
+                                    <i data-lucide="more-horizontal" size="18"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end shadow border-0">
+                                    <li><a class="dropdown-item py-2" href="{{ route('admin.kupon.edit', $kupon->id) }}"><i data-lucide="edit-3" size="14" class="me-2"></i> Edit</a></li>
+                                    <!-- <li><a href="{{ route('admin.acara.show', $kupon->id) }}" class="dropdown-item py-2" ><i data-lucide="eye" size="14" class="me-2"></i> Pratinjau</a></li> -->
+                                    <!-- <li><a class="dropdown-item py-2 text-danger" href="#"><i data-lucide="trash-2" size="14" class="me-2"></i> Hapus</a></li> -->
+                                    <form id="delete-form-{{ $kupon->id }}"  method="POST" action="{{ route('admin.kupon.delete', $kupon->id) }}" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button onclick="confirmDelete('{{ $kupon->id }}', '{{ $kupon->nama_kupon }}')"  type="button" class="btn btn-sm btn-light text-danger px-3">
+                                        <i data-lucide="trash-2" size="14" class="me-3"></i>Hapus
+                                    </button>
+
+                                </form>
+                                    <!-- <li><hr class="dropdown-divider"></li> -->
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>      
+                    @endforeach
+                      
+                        <!-- <tr>
+                            <td colspan="8" class="text-center py-5 text-muted">Belum ada berita yang diterbitkan.</td>
+                        </tr> -->
+                      
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .fw-800 { font-weight: 800; }
+    .smaller { font-size: 0.75rem; }
+    .table thead th { border-top: none; }
+    .table td { border-bottom: 1px solid #f2f2f2; }
+</style>
+
+@push('scripts')
+<script>
+    lucide.createIcons();
+</script>
+@endpush
+@endsection

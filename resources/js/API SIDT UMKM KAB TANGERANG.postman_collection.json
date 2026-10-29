@@ -1,0 +1,108 @@
+{
+	"info": {
+		"_postman_id": "c684f8b3-d101-4bd4-92d8-2f6f79329496",
+		"name": "API SIDT UMKM KAB TANGERANG",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "47116814",
+		"_collection_link": "https://bold-capsule-367295.postman.co/workspace/SATUDATA~3fc873d1-9fec-418e-b0b3-777ae24670fc/collection/47116814-c684f8b3-d101-4bd4-92d8-2f6f79329496?action=share&source=collection_link&creator=47116814"
+	},
+	"item": [
+		{
+			"name": "GET DATA UMKM",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "sidt-key",
+						"value": "1mRC99H3IvQ6x03w",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}umkm-kab-tangerang/getData?limit=500&page=5&block=1",
+					"host": [
+						"{{url}}umkm-kab-tangerang"
+					],
+					"path": [
+						"getData"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "500"
+						},
+						{
+							"key": "page",
+							"value": "5"
+						},
+						{
+							"key": "block",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Token",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{accessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}token",
+					"host": [
+						"{{url}}token"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
