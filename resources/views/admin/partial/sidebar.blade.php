@@ -753,6 +753,7 @@
                 </li>
 
                 <hr>
+            @if(auth()->user()->user_role == 'admin')
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="bi bi-house-fill text-white"></i>
@@ -778,6 +779,27 @@
                         </li>
                     </ul>
                 </li>
+            @endif
+
+             @if(auth()->user()->user_role == 'vendor')
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="bi bi-house-fill text-white"></i>
+                        <p class="fs-8 text-white">
+                           Mirroring
+                            <i class="nav-arrow bi bi-chevron-right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('vendor.umkm.profile', auth()->user()->nik ?? null) }}" class="nav-link">
+                                <i class="nav-icon bi bi-circle"></i>
+                                <p class="text-white">Profil UMKM</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endif
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="bi bi-box-arrow-right text-white"></i>
