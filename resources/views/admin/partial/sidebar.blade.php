@@ -753,6 +753,7 @@
                 </li>
 
                 <hr>
+
             @if(auth()->user()->user_role == 'admin')
                 <li class="nav-item">
                     <a href="#" class="nav-link">
@@ -779,6 +780,7 @@
                         </li>
                     </ul>
                 </li>
+<!-- head -->
             @endif
 
              @if(auth()->user()->user_role == 'vendor')
@@ -800,6 +802,7 @@
                     </ul>
                 </li>
             @endif
+
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="bi bi-box-arrow-right text-white"></i>

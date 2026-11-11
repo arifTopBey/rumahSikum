@@ -57,7 +57,9 @@ use App\Http\Controllers\UmkmController;
 use App\Http\Controllers\UsahaBerdasarkanPrioritasController;
 use App\Http\Controllers\UserOrderController;
 use App\Http\Controllers\Vendor\MetodePembayaranController;
+
 use App\Http\Controllers\Vendor\VendorUmkmController;
+
 use Illuminate\Support\Facades\Route;
 // use App\Exports\UmkmSkalaExport;
 // use App\Exports\UmkmWilayahExport;
@@ -273,6 +275,7 @@ Route::middleware(['auth', 'security_header'])->group(function () {
         Route::get('/vendor/umkm/profile/{nik?}', [VendorUmkmController::class, 'showProfile'])->name('vendor.umkm.profile');
         Route::get('/vendor/mirroring/umkm/edit/{nik}', [VendorUmkmController::class, 'editUmkm'])->name('vendor.mirroring.umkm.edit');
         Route::put('/vendor/mirroring/umkm/update/{id_badan_usaha}', [VendorUmkmController::class, 'updateUmkm'])->name('vendor.mirroring.umkm.update');
+
 
 
 

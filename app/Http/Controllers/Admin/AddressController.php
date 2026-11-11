@@ -11,8 +11,6 @@ use Illuminate\Support\Facades\DB;
 
 class AddressController extends Controller
 {
-    
-
 
     public function index(Request $request){
 
