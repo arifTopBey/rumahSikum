@@ -6,7 +6,7 @@
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-5 gap-3">
         <div>
             <h3 class="fw-800 text-dark mb-1">Manajemen Pengguna</h3>
-            <p class="text-muted mb-0">Total <span class="fw-bold text-primary">{{ $users->total() }}</span> akun terdaftar di sistem.</p>
+            <p class="text-muted mb-0">Total <span class="fw-bold text-primary">{{ number_format($users->total(), 0, ',', '.') }}</span> akun terdaftar di sistem.</p>
         </div>
         
         <!-- Form Pencarian Dinamis -->
@@ -46,7 +46,7 @@
                 <div class="d-flex align-items-center justify-content-between">
                     <div>
                         <p class="text-muted smaller fw-bold text-uppercase mb-1">{{ $stat['label'] }}</p>
-                        <h2 class="fw-800 mb-0">{{ $stat['count'] }}</h2>
+                        <h2 class="fw-800 mb-0">{{ number_format($stat['count'], 0, ',', '.') }}</h2>
                     </div>
                     <div class="icon-shape bg-{{ $stat['color'] }} bg-opacity-10 text-{{ $stat['color'] }} rounded-3 p-3">
                         <i data-lucide="{{ $stat['icon'] }}"></i>
