@@ -22,36 +22,9 @@ class UserProfileController extends Controller
     public function update(ProfileUpdateRequest $request, $encryptId){
 
         $id = Crypt::decryptString($encryptId);
+        $user = User::findOrFail($id);
 
-
-        // $validated = $request->validated();
-
-        // DB::beginTransaction();
-
-        // try{
-        //     $user =  User::findOrFail($id);
-        //     $user->name = $validated['name'];
-        //     $user->phone = $validated['phone'];
-        //     $user->email = $validated['email'];
-        //     if(isset($validated['password'])){
-        //         $user->password = bcrypt($validated['password']);
-        //     }
-        //     if($request->hasFile('image_profile')){
-        //         if($user->image_profile){
-        //             Storage::disk('local')->delete($user->image_profile);
-        //         }
-        //             $user->image_profile = $validated['image_profile']->store('image_profile', 'local');
-        //     }
-
-        //     $user->save();
-        //     DB::commit();   
-        //     return redirect()->route('user.prfile.index', $user->id)->with('success', 'Profile berhasil diperbarui');
-
-        // }catch(Exception $e){
-        //     DB::rollBack();
-        //     return redirect()->back()->with('error', 'Gagal menyimpan profile: ' . $e->getMessage());
-        // }
-
+       
         // Mengambil data yang sudah tervalidasi
         $validated = $request->validated();
 
@@ -65,7 +38,7 @@ class UserProfileController extends Controller
                     ->withErrors(['current_password' => 'Password saat ini wajib diisi jika ingin mengganti password baru.']);
             }
 
-            $user = User::findOrFail($id);
+            // $user = User::findOrFail($id);
 
             // 3. Cek apakah 'current_password' cocok dengan password di database
             if (!Hash::check($request->current_password, $user->password)) {

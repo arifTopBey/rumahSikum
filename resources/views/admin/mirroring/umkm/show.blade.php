@@ -53,7 +53,7 @@
 
                     </div>
                     <div class="flex justify-content-end border">
-                        @if ($data->geografi->foto_umkm)
+                        @if (isset($data->geografi->foto_umkm))
                         <img height="200" width="200" class="rounded"
                             src="{{ route('show.thumbnail.produk.private', $data->geografi->foto_umkm) }}"
                             alt="">

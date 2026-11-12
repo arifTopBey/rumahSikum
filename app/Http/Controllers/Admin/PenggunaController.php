@@ -10,9 +10,18 @@ use Illuminate\Support\Facades\DB;
 
 class PenggunaController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
         
-        $users = User::orderByDesc('id')->get();
+        $search = $request->input('search');
+
+        $users = User::when($search, function ($query, $search) {
+                return $query->where('name', 'like', "%{$search}%")
+                            ->orWhere('email', 'like', "%{$search}%");
+            })
+            ->orderByDesc('id')
+            ->paginate(10)
+            ->withQueryString(); 
+
         return view('admin.pengguna.index', compact('users'));
     }
 
