@@ -23,11 +23,21 @@ class DaftarUmkmController extends Controller
 
     }   
 
-    public function list_daftar_umkm(){
+    public function list_daftar_umkm(Request $request)
+{
+    $search = $request->input('search');
 
-        $vendorRequests = Vendor::orderByDesc('id')->get();
-        return view('admin.daftarUmkm.list_pengajuan_umkm', compact('vendorRequests'));
-    }
+    $vendorRequests = Vendor::when($search, function ($query, $search) {
+            return $query->where('shop_name', 'like', "%{$search}%")
+                         ->orWhere('name', 'like', "%{$search}%")
+                         ->orWhere('identity_number', 'like', "%{$search}%");
+        })
+        ->orderByDesc('id')
+        ->paginate(10)
+        ->appends(['search' => $search]); 
+
+    return view('admin.daftarUmkm.list_pengajuan_umkm', compact('vendorRequests', 'search'));
+}
 
     public function detail_pengajuan_umkm($id){
 

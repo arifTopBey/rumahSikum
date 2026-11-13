@@ -6,14 +6,23 @@
         <div class="col-md-12 d-flex justify-content-between align-items-center">
             <div>
                 <h4 style="color: #a82282;" class="fw-800 mb-1">Daftar Pengajuan Mitra UMKM</h4>
-                <p class="text-muted small mb-0">Terdapat <b>{{ $vendorRequests->count() }}</b> pendaftar yang perlu diverifikasi.</p>
+                {{-- Menggunakan total() dari pagination agar akurat secara keseluruhan --}}
+                <p class="text-muted small mb-0">Terdapat <b>{{ $vendorRequests->total() }}</b> pendaftar yang perlu diverifikasi.</p>
             </div>
-            <div class="d-flex gap-3">
+            
+            {{-- Form Pencarian (GET) --}}
+            <form action="{{ url()->current() }}" method="GET" class="d-flex gap-3">
                 <div class="input-group" style="width: 350px;">
-                    <span class="input-group-text bg-white border-end-0 rounded-3"><i data-lucide="search" size="18" class="text-muted"></i></span>
-                    <input type="text" class="form-control border-start-0 rounded-3 ps-0" placeholder="Cari nama toko atau pemilik...">
+                    <span class="input-group-text bg-white border-end-0 rounded-start-3"><i data-lucide="search" size="18" class="text-muted"></i></span>
+                    <input type="text" name="search" value="{{ request('search') }}" class="form-control border-start-0 ps-0" placeholder="Cari nama toko, pemilik, atau NIK...">
+                    <button class="btn btn-outline-secondary border rounded-end-3 px-3" type="submit">Cari</button>
+                    @if(request('search'))
+                        <a href="{{ url()->current() }}" class="btn btn-outline-danger border ms-2 rounded-3" title="Reset Pencarian">
+                            <i data-lucide="x" size="16"></i>
+                        </a>
+                    @endif
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 
@@ -25,8 +34,12 @@
                     
                     <div class="col-md-2">
                         <div class="position-relative" style="height: 160px;">
-                            <img src="{{ route('show.icon.produk.private', $vendor->store_photo) }}" class="img-fluid h-100 w-100" style="object-fit: cover;" alt="Store Photo">
-                            <!-- <img src="{{ asset('storage/' . $vendor->store_photo) }}" class="img-fluid h-100 w-100" style="object-fit: cover;" alt="Store Photo"> -->
+                            @if(!empty($vendor->store_photo))
+                                <img src="{{ route('show.icon.produk.private', $vendor->store_photo) }}" class="img-fluid h-100 w-100" style="object-fit: cover;" alt="Store Photo">
+                            @else
+                                <img src="https://via.placeholder.com/300x300?text=No+Image" class="img-fluid h-100 w-100" style="object-fit: cover;" alt="Default Store Photo">
+                            @endif
+
                             <div class="position-absolute top-0 start-0 m-2">
                                 <span class="badge bg-primary smaller">{{ $vendor->category->name ?? 'UMKM' }}</span>
                             </div>
@@ -71,7 +84,6 @@
                                 <i data-lucide="eye" size="14" class="me-1"></i> Tinjau Dokumen
                             </a>
                             <div class="d-flex gap-2">
-
                             @if($vendor->status_store === 0)
                                 <form style="width: 50%;" action="{{ route('admin.update.status.pengajuan', $vendor->id) }}" method="post">
                                     @method('put')
@@ -90,12 +102,12 @@
                                     </button>
                                 </form>
                             @elseif($vendor->status_store === 1)
-                                <button class="btn btn-success btn-sm flex-grow-1 rounded-2 fw-bold py-2 shadow-sm">
-                                        Disetujui
+                                <button class="btn btn-success btn-sm flex-grow-1 rounded-2 fw-bold py-2 shadow-sm" disabled>
+                                    Disetujui
                                 </button>
                             @else
-                                <button class="btn btn-danger btn-sm flex-grow-1 rounded-2 fw-bold py-2 shadow-sm">
-                                        Ditolak
+                                <button class="btn btn-danger btn-sm flex-grow-1 rounded-2 fw-bold py-2 shadow-sm" disabled>
+                                    Ditolak
                                 </button>
                             @endif
                             </div>
@@ -105,12 +117,26 @@
             </div>
         </div>
         @empty
-        <div class="d-flex align-items-center justify-content-center py-5 bg-white rounded-3 shadow-sm">
-            <i data-lucide="inbox" size="48" class="text-muted mb-3 mx-auto"></i>
-            <h5 class="text-muted">Tidak ada pengajuan yang masuk</h5>
+        <div class="col-12">
+            <div class="d-flex flex-column align-items-center justify-content-center py-5 bg-white rounded-3 shadow-sm text-center">
+                <i data-lucide="inbox" size="48" class="text-muted mb-3"></i>
+                <h5 class="text-muted">Tidak ada pengajuan yang ditemukan</h5>
+                @if(request('search'))
+                    <a href="{{ url()->current() }}" class="btn btn-sm btn-outline-primary mt-2">Reset Pencarian</a>
+                @endif
+            </div>
         </div>
         @endforelse
     </div>
+
+    {{-- Link Paginasi Laravel --}}
+    @if ($vendorRequests->hasPages())
+    <div class="row mt-4">
+        <div class="col-md-12 d-flex justify-content-center">
+            {{ $vendorRequests->withQueryString()->links() }}
+        </div>
+    </div>
+    @endif
 </div>
 
 <style>
@@ -118,7 +144,6 @@
     .smaller { font-size: 0.75rem; }
     .tracking-wider { letter-spacing: 1px; }
     
-    /* Hover Effect agar terasa interaktif */
     .transition-hover {
         transition: all 0.3s ease;
         border: 1px solid transparent !important;
@@ -129,14 +154,12 @@
         border-color: #a82282 !important;
     }
 
-    /* Ikon shape */
     .icon-shape {
         display: inline-flex;
         align-items: center;
         justify-content: center;
     }
 
-    /* Menghilangkan radius kapsul, ganti ke standar rounded-3 */
     .rounded-3 { border-radius: 12px !important; }
     .btn { border-radius: 8px !important; }
 </style>

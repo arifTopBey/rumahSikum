@@ -34,8 +34,12 @@
                     
                     <div class="position-relative d-inline-block mb-3">
                         <div class="rounded-circle overflow-hidden border border-4 border-white shadow-sm mx-auto" style="width: 150px; height: 150px;">
-                            <img id="logo-preview" src="{{ route('show.thumbnail.produk.private', $vendor->store_photo) }}" class="w-100 h-100 object-fit-cover">
-                            <!-- <img id="logo-preview" src="{{ asset('storage/' . $vendor->store_photo) }}" class="w-100 h-100 object-fit-cover"> -->
+                            @if(!empty($vendor->store_photo))
+                                <img id="logo-preview" src="{{ route('show.thumbnail.produk.private', $vendor->store_photo) }}" class="w-100 h-100 object-fit-cover">
+                                <!-- <img id="logo-preview" src="{{ route('show.thumbnail.produk.private', $vendor->store_photo) }}" class="w-100 h-100 object-fit-cover"> -->
+                            @else
+                                <img id="logo-preview" src="https://via.placeholder.com/150x150?text=No+Image" class="w-100 h-100 object-fit-cover">
+                            @endif
                         </div>
                         <label for="store_photo" class="btn btn-sm btn-primary rounded-circle position-absolute bottom-0 end-0 p-2 shadow">
                             <i data-lucide="camera" size="16"></i>

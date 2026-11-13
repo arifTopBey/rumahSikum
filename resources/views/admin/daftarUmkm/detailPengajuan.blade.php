@@ -90,18 +90,28 @@
         <div class="col-lg-5">
             <div class="card border-0 shadow-sm rounded-3 p-4 mb-4 text-center">
                 <h6 class="fw-800 mb-3 text-start smaller text-muted text-uppercase tracking-wider">Foto Toko/Produk Unggulan</h6>
-                <img src="{{ route('show.icon.produk.private', $vendor->store_photo) }}" class="img-fluid rounded-3 shadow-sm border" style="max-height: 250px; width: 100%; object-fit: cover;">
+
+                @if (!empty($vendor->store_photo))
+                    <img src="{{ route('show.icon.produk.private', $vendor->store_photo) }}" class="img-fluid rounded-3 shadow-sm border" style="max-height: 250px; width: 100%; object-fit: cover;">
+                @else
+                    <img src="https://via.placeholder.com/300x300?text=No+Image" class="img-fluid rounded-3 shadow-sm border" style="max-height: 250px; width: 100%; object-fit: cover;">
+                @endif
                 <!-- <img src="{{ asset('storage/' . $vendor->store_photo) }}" class="img-fluid rounded-3 shadow-sm border" style="max-height: 250px; width: 100%; object-fit: cover;"> -->
             </div>
 
             <div class="card border-0 shadow-sm rounded-3 p-4 mb-4 text-center">
                 <h6 class="fw-800 mb-3 text-start smaller text-muted text-uppercase tracking-wider">Foto KTP Pemilik</h6>
                 <div class="position-relative group-hover">
-                    <img src="{{ route('show.icon.produk.private', $vendor->identity_photo) }}" class="img-fluid rounded-3 border" style="max-height: 200px; width: 100%; object-fit: cover;">
-                    <!-- <img src="{{ route('show.ktp.private', $vendor->identity_photo) }}" class="img-fluid rounded-3 border" style="max-height: 200px; width: 100%; object-fit: cover;"> -->
-                    <a href="{{ route('show.icon.produk.private', $vendor->identity_photo) }}" target="_blank" class="btn btn-dark btn-sm rounded-pill px-3 position-absolute top-50 start-50 translate-middle opacity-0 hover-opacity-100">
-                        <i data-lucide="maximize" size="14" class="me-1"></i> Perbesar KTP
-                    </a>
+                    @if (!empty($vendor->identity_photo))
+                        <img src="{{ route('show.icon.produk.private', $vendor->identity_photo) }}" class="img-fluid rounded-3 border" style="max-height: 200px; width: 100%; object-fit: cover;">
+
+                        <a href="{{ route('show.icon.produk.private', $vendor->identity_photo) }}" target="_blank" class="btn btn-dark btn-sm rounded-pill px-3 position-absolute top-50 start-50 translate-middle opacity-0 hover-opacity-100">
+                            <i data-lucide="maximize" size="14" class="me-1"></i> Perbesar KTP
+                        </a>
+                    @else
+                        <img src="https://via.placeholder.com/300x300?text=No+Image" class="img-fluid rounded-3 border" style="max-height: 200px; width: 100%; object-fit: cover;">
+                    @endif
+                    
                 </div>
             </div>
 
