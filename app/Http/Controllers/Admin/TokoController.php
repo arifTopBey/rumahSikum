@@ -9,12 +9,21 @@ use Illuminate\Http\Request;
 
 class TokoController extends Controller
 {
-    public function index()
-    {
+   public function index(Request $request)
+{
+    $search = $request->input('search');
 
-        $vendors = Vendor::orderByDesc('id')->get();
-        return view('admin.toko.index', compact('vendors'));
-    }
+    $vendors = Vendor::when($search, function ($query, $search) {
+            return $query->where('shop_name', 'like', "%{$search}%")
+                         ->orWhere('name', 'like', "%{$search}%")
+                         ->orWhere('phone', 'like', "%{$search}%");
+        })
+        ->orderByDesc('id')
+        ->paginate(10)
+        ->appends(['search' => $search]);
+
+    return view('admin.toko.index', compact('vendors', 'search'));
+}
 
     public function show($id)
     {

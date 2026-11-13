@@ -30,9 +30,16 @@
         <div class="col-lg-4">
             <div class="card border-0 shadow-sm rounded-4 p-4 text-center mb-4">
                 <div class="mb-3">
-                    <img src="{{ route('show.thumbnail.produk.private', $vendor->store_photo)  }}" 
-                         class="rounded-4 border shadow-sm mx-auto" 
-                         style="width: 140px; height: 140px; object-fit: cover;">
+
+                    @if (empty($vendor->store_photo))
+                        <img src="https://via.placeholder.com/140x140?text=No+Image" 
+                             class="rounded-4 border shadow-sm mx-auto" 
+                             style="width: 140px; height: 140px; object-fit: cover;">
+                    @else
+                        <img src="{{ route('show.thumbnail.produk.private', $vendor->store_photo)  }}" 
+                            class="rounded-4 border shadow-sm mx-auto" 
+                            style="width: 140px; height: 140px; object-fit: cover;">
+                    @endif
                 </div>
                 <h5 class="fw-800 text-dark mb-1">{{ $vendor->shop_name }}</h5>
                 <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill mb-3">

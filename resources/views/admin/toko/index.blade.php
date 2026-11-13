@@ -7,14 +7,22 @@
         <div class="col-md-12 d-flex justify-content-between align-items-center">
             <div>
                 <h4 class="fw-800 text-primary mb-1">Manajemen Mitra UMKM</h4>
-                <p class="text-muted small mb-0">Kelola dan pantau seluruh data toko mitra yang terdaftar dalam sistem.</p>
+                <p class="text-muted small mb-0">Total Ditemukan: <b>{{ $vendors->total() }}</b> toko mitra dalam sistem.</p>
             </div>
-            <div class="d-flex gap-3">
-                <div class="input-group" style="width: 300px;">
-                    <span class="input-group-text bg-white border-end-0 rounded-3"><i data-lucide="search" size="18" class="text-muted"></i></span>
-                    <input type="text" class="form-control border-start-0 rounded-3 ps-0" placeholder="Cari toko atau pemilik...">
+            
+            <!-- Form Pencarian (GET) -->
+            <form action="{{ url()->current() }}" method="GET" class="d-flex gap-2">
+                <div class="input-group" style="width: 350px;">
+                    <span class="input-group-text bg-white border-end-0 rounded-start-3"><i data-lucide="search" size="18" class="text-muted"></i></span>
+                    <input type="text" name="search" value="{{ request('search') }}" class="form-control border-start-0 ps-0" placeholder="Cari nama toko, pemilik, atau no HP...">
+                    <button class="btn btn-outline-primary px-3" type="submit">Cari</button>
+                    @if(request('search'))
+                        <a href="{{ url()->current() }}" class="btn btn-outline-secondary px-3" title="Reset Pencarian">
+                            <i data-lucide="x" size="16"></i>
+                        </a>
+                    @endif
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 
@@ -27,14 +35,17 @@
                     
                     <div class="col-md-1">
                         <div class="p-3">
-                            <img src="{{ route('show.thumbnail.produk.private', $vendor->store_photo) }}" 
-                                 class="rounded-3 border shadow-sm" 
-                                 style="width: 80px; height: 80px; object-fit: cover;" 
-                                 alt="Logo Toko">
+                            @if (empty($vendor->store_photo))
+                                <img src="https://via.placeholder.com/80x80?text=No+Image" class="rounded-3 border shadow-sm" style="width: 80px; height: 80px; object-fit: cover;" alt="Default Logo">
+                            @else
+                                <img src="{{ route('show.thumbnail.produk.private', $vendor->store_photo) }}" 
+                                    class="rounded-3 border shadow-sm" 
+                                    style="width: 80px; height: 80px; object-fit: cover;" 
+                                    alt="Logo Toko">
+                            @endif
                         </div>
                     </div>
 
-                  
                     <div class="col-md-3 px-3">
                         <h6 class="fw-bold text-dark mb-1">{{ $vendor->shop_name }}</h6>
                         <div class="d-flex align-items-center gap-2">
@@ -44,7 +55,6 @@
                         </div>
                     </div>
 
-                  
                     <div class="col-md-4 border-start px-4">
                         <div class="py-2">
                             <p class="text-muted smaller mb-1 text-truncate">
@@ -58,23 +68,18 @@
                         </div>
                     </div>
 
-                  
                     <div class="col-md-2 border-start text-center">
                         <div class="py-2">
                             <span class="smaller text-muted d-block">Total Produk</span>
-                            <h5 class="fw-800 mb-0">{{ $vendor->produk->count()?? 0 }}</h5>
+                            <h5 class="fw-800 mb-0">{{ $vendor->produk->count() ?? 0 }}</h5>
                         </div>
                     </div>
 
-                   
                     <div class="col-md-2 border-start bg-light bg-opacity-50 px-3 text-end">
                         <div class="py-4 d-flex justify-content-end gap-2">
                             <a href="{{ route('admin.list.toko.detail', $vendor->id) }}" class="btn btn-outline-dark btn-sm rounded-2 fw-bold px-3">
                                 <i data-lucide="layout-dashboard" size="14" class="me-1"></i> Detail
                             </a>
-                            <!-- <button class="btn btn-danger btn-sm rounded-2 px-3" onclick="confirmDelete('{{ $vendor->id }}')">
-                                <i data-lucide="trash-2" size="14"></i>
-                            </button> -->
                         </div>
                     </div>
                 </div>
@@ -83,10 +88,22 @@
         @empty
         <div class="col-12 text-center py-5 bg-white rounded-3 shadow-sm border">
             <i data-lucide="store" size="48" class="text-muted mb-3 mx-auto"></i>
-            <h5 class="text-muted">Belum ada mitra UMKM yang terdaftar</h5>
+            <h5 class="text-muted">Tidak ada data mitra UMKM yang ditemukan</h5>
+            @if(request('search'))
+                <a href="{{ url()->current() }}" class="btn btn-sm btn-outline-primary mt-2">Reset Pencarian</a>
+            @endif
         </div>
         @endforelse
     </div>
+
+    <!-- Paginasi Link -->
+    @if ($vendors->hasPages())
+    <div class="row mt-4">
+        <div class="col-md-12 d-flex justify-content-center">
+            {{ $vendors->withQueryString()->links() }}
+        </div>
+    </div>
+    @endif
 </div>
 
 <style>
