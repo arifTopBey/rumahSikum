@@ -1,0 +1,45 @@
+    body { background-color: #f4f7fe; }
+    .registration-wrapper { margin-top: 120px; margin-bottom: 100px; }
+
+    .registration-card {
+        background: white;
+        border-radius: 30px;
+        border: 1px solid #edf2f7;
+        overflow: hidden;
+    }
+
+    .training-summary-box {
+        background: #4361ee;
+        color: white;
+        padding: 40px;
+        height: 100%;
+    }
+
+    .form-container { padding: 40px; }
+
+    .input-custom {
+        border-radius: 12px;
+        padding: 12px 18px;
+        border: 1px solid #e2e8f0;
+        background: #f8fafc;
+        transition: 0.3s;
+    }
+    .input-custom:focus {
+        border-color: #4361ee;
+        background: white;
+        box-shadow: 0 0 0 4px rgba(67, 97, 238, 0.1);
+    }
+
+    .info-item {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+    .info-icon {
+        width: 40px; height: 40px;
+        background: rgba(255,255,255,0.2);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }

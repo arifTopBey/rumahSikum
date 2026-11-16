@@ -1,0 +1,48 @@
+version: "3.8"
+
+services:
+  app:
+    image: 10.25.255.133:5000/rumah-sikum:${IMAGE_TAG}
+    ports:
+      - target: 8080 # Container port
+        published: 8113 # Host port exposed on the nodes
+        protocol: tcp
+        mode: ingress
+    stop_grace_period: 30s
+    deploy:
+      # Keep at least two tasks so one can serve while the other updates.
+      replicas: ${APP_REPLICAS:-2}
+      endpoint_mode: vip
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 3
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: start-first
+        monitor: 30s
+        failure_action: rollback
+      rollback_config:
+        parallelism: 1
+        delay: 5s
+        order: stop-first
+      labels:
+        # Enable Service discovery for Traefik
+        - "traefik.enable=true"
+        # Define the service and port
+        - "traefik.http.services.rumah-sikum.loadbalancer.server.port=80"
+        # Define the router rule
+        - "traefik.http.routers.rumah-sikum.rule=Host(`swarm.localhost`) && PathPrefix(`/rumah-sikum`)"
+        # Link router to service
+        - "traefik.http.routers.rumah-sikum.service=rumah-sikum"
+        # Expose rumah-sikum on the HTTPS entrypoint
+        - "traefik.http.routers.rumah-sikum.entrypoints=websecure"
+        # Note: No path manipulation middleware - Next.js handles the basePath internally
+    networks:
+      - traefik_proxy_network
+
+networks:
+  traefik_proxy_network:
+    name: "traefik_proxy_network"
+    external: true
