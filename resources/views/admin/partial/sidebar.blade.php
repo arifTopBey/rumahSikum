@@ -214,12 +214,12 @@
                                     <p class="text-white">Semua Pesanan</p>
                                 </a>
                             </li>
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a href="{{ route('user.address') }}" class="nav-link">
                                     <i class="nav-icon bi bi-star-fill"></i>
                                     <p class="text-white">Reviews</p>
                                 </a>
-                            </li>
+                            </li> -->
                         </ul>
                         </li>
                     <li class="nav-item">
