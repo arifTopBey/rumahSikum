@@ -3,8 +3,8 @@
 @section('content')
 <div class="container-fluid px-5 bg-light pb-5">
     <div class="row pt-5 mb-4">
-        <div class="col-md-12 d-flex justify-content-between align-items-center">
-            <div>
+        <div class="col-md-12 d-flex flex-column flex-md-row justify-content-between align-items-center">
+            <div class="mb-1">
                 <h4 style="color: #a82282;" class="fw-800 mb-1">Daftar Pengajuan Mitra UMKM</h4>
                 {{-- Menggunakan total() dari pagination agar akurat secara keseluruhan --}}
                 <p class="text-muted small mb-0">Terdapat <b>{{ $vendorRequests->total() }}</b> pendaftar yang perlu diverifikasi.</p>

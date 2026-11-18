@@ -1,20 +1,28 @@
 <!--begin::Header-->
-<!-- <nav class="app-header navbar navbar-expand bg-body">
-        <div class="container-fluid">
+  <nav class="app-header navbar navbar-expand bg-body">
+    <div class="container-fluid">
+        <!-- Tombol Toggle Sidebar (Wajib ada agar muncul di HP) -->
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button">
+                    <i class="bi bi-list fs-4"></i>
+                </a>
+            </li>
+            <li class="nav-item d-none d-md-block">
+                <p class="fs-5 fw-semibold mb-0">DINAS KOPERASI DAN USAHA MIKRO KABUPATEN TANGERANG</p>
+            </li>
+        </ul>
 
-            <ul class="navbar-nav">
-
-                <li>
-                    <p class="fs-5 fw-semibold">DINAS KOPERASI DAN USAHA MIKRO KABUPATEN TANGERANG</p>
-                </li>
-
-            </ul>
-        </div>
-    </nav> -->
+        <!-- Judul ringkas khusus untuk tampilan mobile -->
+        <span class="navbar-brand fs-7 d-md-none fw-semibold text-truncate" style="max-width: 230px;">
+            DINAS KOPERASI TANGERANG
+        </span>
+    </div>
+</nav>
 <!--end::Header-->
 
 <!--begin::Sidebar-->
-<aside style="background: linear-gradient(to bottom, #a82282, #a82252);" class="app-sidebar shadow py-3"
+<aside style="background: linear-gradient(to bottom, #a82282, #a82252);  min-height: 100%;" class="app-sidebar shadow py-3"
     data-bs-theme="dark">
     <!--begin::Sidebar Brand-->
     <div class="sidebar-brand ">
@@ -444,6 +452,8 @@
                             </ul>
                         </li>
                     @endif
+
+                    <!-- elearning -->
                     <!-- <li class="nav-item {{ Request::is('admin/elearning*') ? 'menu-open' : '' }}">
                         <a href="#" class="nav-link {{ Request::is('admin/elearning*') ? 'active bg-black' : '' }}">
                             <i class="bi bi-backpack text-white"></i>
@@ -471,13 +481,7 @@
                             </li>
                         </ul>
                     </li> -->
-                   
 
-                   
-
-                   
-                   
-                  
                 @endif
 
 

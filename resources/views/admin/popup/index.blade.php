@@ -4,8 +4,8 @@
 <div class="container-fluid px-5 bg-light min-vh-100 pb-5" style="margin-top: 20px;">
 
     <div class="row pt-5 mb-4">
-        <div class="col-md-12 d-flex justify-content-between align-items-center">
-            <div>
+        <div class="col-md-12 d-flex flex-column flex-md-row justify-content-between align-items-center">
+            <div class="mb-2">
                 <h4 class="fw-800 text-dark mb-1">Kelola Pop-up Gambar</h4>
                 <p class="text-muted small mb-0">Atur banner promosi atau pengumuman yang muncul otomatis saat pengunjung membuka website.</p>
             </div>

@@ -79,10 +79,46 @@
         }
 
 
+/* Responsive Sidebar AdminLTE 4 */
+@media (max-width: 991.98px) {
+
+    .app-sidebar {
+        height: 100vh !important;
+        height: 100dvh !important;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    /* Brand / Logo */
+    .app-sidebar .sidebar-brand {
+        flex-shrink: 0;
+    }
+
+    /* Area menu sidebar */
+    .app-sidebar .sidebar-wrapper {
+        flex: 1 1 auto;
+        min-height: 0;
+        height: auto !important;
+        max-height: none;
+        overflow-y: auto !important;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Menu */
+    .app-sidebar .sidebar-menu {
+        padding-bottom: 20px;
+    }
+}
+
+
+
     </style>
 </head>
 
-<body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
+<!-- layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary -->
+<body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
     <!--begin::App Wrapper-->
     <div class="app-wrapper">
 
@@ -90,37 +126,17 @@
         @include('admin.partial.sidebar')
         <!--end::Sidebar-->
 
-        <!--begin::App Main-->
-        @yield('content')
-        <!--end::App Main-->
+        <main class="app-main">
+            <!--begin::App Main-->
+            @yield('content')
+            <!--end::App Main-->
+        </main>
 
     
-
-        <!-- <footer class="app-footer text-center py-3 ">
-
-            <strong class="text-center py-3">
-                Copyright Dinas Koperasi Dan Usaha Mikro Kabupaten Tangerang &copy; 2026&nbsp;
-            </strong>
-            All rights reserved.
-        </footer> -->
     </div>
     <!--end::App Wrapper-->
 
-    <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/browser/overlayscrollbars.browser.es6.min.js"
-        crossorigin="anonymous"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" crossorigin="anonymous">
-    </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script src="{{ asset('js/adminlte.js') }}" crossorigin="anonymous"></script>
-
-    <!-- chart -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
-    {{-- chart cdn --}}
+  
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -1441,6 +1457,61 @@
             });
         </script>
     @endif
+
+    <!-- <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/browser/overlayscrollbars.browser.es6.min.js"
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" crossorigin="anonymous">
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="{{ asset('js/adminlte.js') }}" crossorigin="anonymous"></script>
+
+   
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script> -->
+
+    
+    <!-- Required Plugins: OverlayScrollbars -->
+    <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/browser/overlayscrollbars.browser.es6.min.js" crossorigin="anonymous"></script>
+
+    <!-- Required Popper & Bootstrap 5 Bundle (Cukup muat 1 saja versi terbaru) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+    <!-- AdminLTE App -->
+    <script src="{{ asset('js/adminlte.js') }}" crossorigin="anonymous"></script>
+
+    <!-- Chart Plugins (Opsional) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+
+
+    {{-- chart cdn --}}
+
+
+    <script>
+    const SELECTOR_SIDEBAR_WRAPPER = ".sidebar-wrapper";
+    const Default = {
+        scrollbarTheme: "os-theme-light",
+        scrollbarAutoHide: "leave",
+        scrollbarClickScroll: true,
+    };
+    document.addEventListener("DOMContentLoaded", function () {
+        const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
+        if (sidebarWrapper && typeof OverlayScrollbarsGlobal?.OverlayScrollbars !== "undefined") {
+            OverlayScrollbarsGlobal.OverlayScrollbars.global({
+                scrollbars: {
+                    theme: Default.scrollbarTheme,
+                    autoHide: Default.scrollbarAutoHide,
+                    clickScroll: Default.scrollbarClickScroll,
+                },
+            });
+        }
+    });
+</script>
 </body>
 <!--end::Body-->
 
