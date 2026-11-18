@@ -79,6 +79,7 @@
         }
 
 
+
 /* Responsive Sidebar AdminLTE 4 */
 @media (max-width: 991.98px) {
 
@@ -119,13 +120,13 @@
 
 <!-- layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary -->
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+
     <!--begin::App Wrapper-->
     <div class="app-wrapper">
 
         <!--begin::Header-->
         @include('admin.partial.sidebar')
         <!--end::Sidebar-->
-
         <main class="app-main">
             <!--begin::App Main-->
             @yield('content')
@@ -137,7 +138,6 @@
     <!--end::App Wrapper-->
 
   
-
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const sidebarWrapper = document.querySelector(".sidebar-wrapper");
@@ -1458,6 +1458,7 @@
         </script>
     @endif
 
+
     <!-- <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/browser/overlayscrollbars.browser.es6.min.js"
         crossorigin="anonymous"></script>
 
@@ -1512,6 +1513,7 @@
         }
     });
 </script>
+
 </body>
 <!--end::Body-->
 

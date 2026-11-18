@@ -4,6 +4,7 @@
 <div class="container-fluid px-5 bg-light pb-5">
     <!-- Header Section -->
     <div class="row pt-5 mb-4">
+
         <div class="col-md-12 d-flex flex-column flex-md-row justify-content-between align-items-center">
             <div>
                 <h4 class="fw-800 text-primary mb-1">Manajemen Mitra UMKM</h4>
